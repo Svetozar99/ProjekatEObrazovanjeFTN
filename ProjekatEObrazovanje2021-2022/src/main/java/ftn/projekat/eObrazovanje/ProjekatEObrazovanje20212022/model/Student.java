@@ -18,12 +18,11 @@ public class Student extends Korisnik{
 	@Column(name = "brojIndeksa", nullable = false)
 	private String brojIndeksa;
 	
-<<<<<<< HEAD
+
 	@OneToMany(fetch = LAZY)
 	private Set<Predmet> listaPredmeta;
 	
-=======
->>>>>>> branch 'master' of https://github.com/Svetozar99/ProjekatEObrazovanjeFTN.git
+
 	@OneToMany(cascade={ALL}, fetch=LAZY, mappedBy="student")
 	private List<Dokument> dokumenti = new ArrayList<Dokument>();
 	
@@ -37,17 +36,9 @@ public class Student extends Korisnik{
 	private List<Predmet> predmeti = new ArrayList<Predmet>();
 	
 	public Student(Long id, String ime, String prezime, String korisnicko, String lozinka, KorisnikUloga ulogaKorisnika,
-<<<<<<< HEAD
-			String brojIndeksa, Set<Predmet> listaPredmeta) {
-=======
 			String brojIndeksa) {
->>>>>>> branch 'master' of https://github.com/Svetozar99/ProjekatEObrazovanjeFTN.git
 		super(id, ime, prezime, korisnicko, lozinka, ulogaKorisnika);
 		this.brojIndeksa = brojIndeksa;
-<<<<<<< HEAD
-		this.listaPredmeta = listaPredmeta;
-=======
->>>>>>> branch 'master' of https://github.com/Svetozar99/ProjekatEObrazovanjeFTN.git
 	}
 
 	public String getBrojIndeksa() {
@@ -58,17 +49,7 @@ public class Student extends Korisnik{
 		this.brojIndeksa = brojIndeksa;
 	}
 
-<<<<<<< HEAD
-	public Set<Predmet> getListaPredmeta() {
-		return listaPredmeta;
-	}
 
-	public void setListaPohadjanja(Set<Predmet> listaPredmeta) {
-		this.listaPredmeta = listaPredmeta;
-	}
-
-=======
->>>>>>> branch 'master' of https://github.com/Svetozar99/ProjekatEObrazovanjeFTN.git
 	public void dodajDokument(Dokument dokument) {
 		dokument.setStudent(this);
 	}
