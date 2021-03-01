@@ -19,7 +19,7 @@ public class Student extends Korisnik{
 	private String brojIndeksa;
 	
 	@OneToMany(fetch = LAZY)
-	private Set<Pohadjanje> listaPohadjanja;
+	private Set<Predmet> listaPredmeta;
 	
 	@OneToMany(cascade={ALL}, fetch=LAZY, mappedBy="student")
 	private List<Dokument> dokumenti = new ArrayList<Dokument>();
@@ -31,10 +31,10 @@ public class Student extends Korisnik{
 	private List<Polaganje> polaganja = new ArrayList<Polaganje>();
 
 	public Student(Long id, String ime, String prezime, String korisnicko, String lozinka, KorisnikUloga ulogaKorisnika,
-			String brojIndeksa, Set<Pohadjanje> listaPohadjanja) {
+			String brojIndeksa, Set<Predmet> listaPredmeta) {
 		super(id, ime, prezime, korisnicko, lozinka, ulogaKorisnika);
 		this.brojIndeksa = brojIndeksa;
-		this.listaPohadjanja = listaPohadjanja;
+		this.listaPredmeta = listaPredmeta;
 	}
 
 	public String getBrojIndeksa() {
@@ -45,12 +45,12 @@ public class Student extends Korisnik{
 		this.brojIndeksa = brojIndeksa;
 	}
 
-	public Set<Pohadjanje> getListaPohadjanja() {
-		return listaPohadjanja;
+	public Set<Predmet> getListaPredmeta() {
+		return listaPredmeta;
 	}
 
-	public void setListaPohadjanja(Set<Pohadjanje> listaPohadjanja) {
-		this.listaPohadjanja = listaPohadjanja;
+	public void setListaPohadjanja(Set<Predmet> listaPredmeta) {
+		this.listaPredmeta = listaPredmeta;
 	}
 
 	public void dodajDokument(Dokument dokument) {

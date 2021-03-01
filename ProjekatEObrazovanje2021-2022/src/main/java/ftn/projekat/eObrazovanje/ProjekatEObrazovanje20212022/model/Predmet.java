@@ -11,6 +11,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -24,22 +25,22 @@ public class Predmet extends JpaEntity {
 	@Column(name = "brojEspb", nullable = false)
 	private int brojEspb;
 	
-	@OneToMany(fetch = FetchType.LAZY)
-	private Set<Pohadjanje> listaPohadjanja;
+	@ManyToMany(fetch = FetchType.LAZY)
+	private Set<Student> listaStudenata;
 	
-	@OneToMany(fetch = FetchType.LAZY)
-	private Set<Predaje> listaPredavanja;
+	@ManyToMany(fetch = FetchType.LAZY)
+	private Set<Nastavnik> listaNastavnika;
 	
 	@OneToMany(cascade={ALL}, fetch=LAZY, mappedBy="predmet")
 	private List<Polaganje> polaganja = new ArrayList<Polaganje>();
 
-	public Predmet(Long id, String nazivPredmeta, int brojEspb, Set<Pohadjanje> listaPohadjanja,
-			Set<Predaje> listaPredavanja) {
+	public Predmet(Long id, String nazivPredmeta, int brojEspb, Set<Student> listaStudenata,
+			Set<Nastavnik> listaNastavnika) {
 		super(id);
 		this.nazivPredmeta = nazivPredmeta;
 		this.brojEspb = brojEspb;
-		this.listaPohadjanja = listaPohadjanja;
-		this.listaPredavanja = listaPredavanja;
+		this.listaStudenata = listaStudenata;
+		this.listaNastavnika = listaNastavnika;
 	}
 
 	public String getNazivPredmeta() {
@@ -58,20 +59,20 @@ public class Predmet extends JpaEntity {
 		this.brojEspb = brojEspb;
 	}
 
-	public Set<Pohadjanje> getListaPohadjanja() {
-		return listaPohadjanja;
+	public Set<Student> getListaStudenata() {
+		return listaStudenata;
 	}
 
-	public void setListaPohadjanja(Set<Pohadjanje> listaPohadjanja) {
-		this.listaPohadjanja = listaPohadjanja;
+	public void setListaStudenata(Set<Student> listaStudenata) {
+		this.listaStudenata = listaStudenata;
 	}
 
-	public Set<Predaje> getListaPredavanja() {
-		return listaPredavanja;
+	public Set<Nastavnik> getListaPredavanja() {
+		return listaNastavnika;
 	}
 
-	public void setListaPredavanja(Set<Predaje> listaPredavanja) {
-		this.listaPredavanja = listaPredavanja;
+	public void setListaPredavanja(Set<Nastavnik> listaNastavnika) {
+		this.listaNastavnika = listaNastavnika;
 	}
 
 	public List<Polaganje> getPolaganja() {
