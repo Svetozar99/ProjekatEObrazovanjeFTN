@@ -11,6 +11,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -25,20 +27,19 @@ public class Predmet extends JpaEntity {
 	private int brojEspb;
 	
 	@OneToMany(fetch = FetchType.LAZY)
-	private Set<Pohadjanje> listaPohadjanja;
-	
-	@OneToMany(fetch = FetchType.LAZY)
 	private Set<Predaje> listaPredavanja;
 	
 	@OneToMany(cascade={ALL}, fetch=LAZY, mappedBy="predmet")
 	private List<Polaganje> polaganja = new ArrayList<Polaganje>();
 
-	public Predmet(Long id, String nazivPredmeta, int brojEspb, Set<Pohadjanje> listaPohadjanja,
-			Set<Predaje> listaPredavanja) {
+	@ManyToOne
+	@JoinColumn(name="student_id", referencedColumnName="id", nullable=true)
+	private Student student;
+	
+	public Predmet(Long id, String nazivPredmeta, int brojEspb,Set<Predaje> listaPredavanja) {
 		super(id);
 		this.nazivPredmeta = nazivPredmeta;
 		this.brojEspb = brojEspb;
-		this.listaPohadjanja = listaPohadjanja;
 		this.listaPredavanja = listaPredavanja;
 	}
 
@@ -56,14 +57,6 @@ public class Predmet extends JpaEntity {
 
 	public void setBrojEspb(int brojEspb) {
 		this.brojEspb = brojEspb;
-	}
-
-	public Set<Pohadjanje> getListaPohadjanja() {
-		return listaPohadjanja;
-	}
-
-	public void setListaPohadjanja(Set<Pohadjanje> listaPohadjanja) {
-		this.listaPohadjanja = listaPohadjanja;
 	}
 
 	public Set<Predaje> getListaPredavanja() {
@@ -88,5 +81,15 @@ public class Predmet extends JpaEntity {
 	
 	public void obrisiPolaganje(Polaganje polaganje) {
 		polaganje.obrisiPredmet(this);
+	}
+	
+	public void setStudent(Student student) {
+		this.student = student;
+		student.getPredmeti().add(this);
+	}
+	
+	public void obrisiStudenta(Student student) {
+		this.student=null;
+		student.getPredmeti().remove(this);
 	}
 }

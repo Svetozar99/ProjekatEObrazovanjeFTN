@@ -18,9 +18,6 @@ public class Student extends Korisnik{
 	@Column(name = "brojIndeksa", nullable = false)
 	private String brojIndeksa;
 	
-	@OneToMany(fetch = LAZY)
-	private Set<Pohadjanje> listaPohadjanja;
-	
 	@OneToMany(cascade={ALL}, fetch=LAZY, mappedBy="student")
 	private List<Dokument> dokumenti = new ArrayList<Dokument>();
 	
@@ -30,11 +27,13 @@ public class Student extends Korisnik{
 	@OneToMany(cascade={ALL}, fetch=LAZY, mappedBy="student")
 	private List<Polaganje> polaganja = new ArrayList<Polaganje>();
 
+	@OneToMany(cascade={ALL}, fetch=LAZY, mappedBy="student")
+	private List<Predmet> predmeti = new ArrayList<Predmet>();
+	
 	public Student(Long id, String ime, String prezime, String korisnicko, String lozinka, KorisnikUloga ulogaKorisnika,
-			String brojIndeksa, Set<Pohadjanje> listaPohadjanja) {
+			String brojIndeksa) {
 		super(id, ime, prezime, korisnicko, lozinka, ulogaKorisnika);
 		this.brojIndeksa = brojIndeksa;
-		this.listaPohadjanja = listaPohadjanja;
 	}
 
 	public String getBrojIndeksa() {
@@ -43,14 +42,6 @@ public class Student extends Korisnik{
 
 	public void setBrojIndeksa(String brojIndeksa) {
 		this.brojIndeksa = brojIndeksa;
-	}
-
-	public Set<Pohadjanje> getListaPohadjanja() {
-		return listaPohadjanja;
-	}
-
-	public void setListaPohadjanja(Set<Pohadjanje> listaPohadjanja) {
-		this.listaPohadjanja = listaPohadjanja;
 	}
 
 	public void dodajDokument(Dokument dokument) {
@@ -100,4 +91,20 @@ public class Student extends Korisnik{
 	public void obrisiPolaganje(Polaganje polaganje) {
 		polaganje.obrisiStudenta(this);
 	}
+
+	public List<Predmet> getPredmeti() {
+		return predmeti;
+	}
+
+	public void setPredmeti(List<Predmet> predmeti) {
+		this.predmeti = predmeti;
+	}
+	
+	public void dodajPredmet(Predmet predmet) {
+		predmet.setStudent(this);
+	}
+	
+	public void obrisiPolaganje(Predmet predmet) {
+		predmet.obrisiStudenta(this);
+	} 
 }
