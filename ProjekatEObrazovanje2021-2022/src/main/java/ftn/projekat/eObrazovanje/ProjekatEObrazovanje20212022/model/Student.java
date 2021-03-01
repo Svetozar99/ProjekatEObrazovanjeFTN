@@ -1,7 +1,10 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
-
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.LAZY;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,43 +12,23 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "students")
-public class Student extends JpaEntity{
-
-	@Column(name = "ime", nullable = false)
-	private String ime;
-	
-	@Column(name = "prezime", nullable = false)
-	private String prezime;
+@Table(name = "studenti")
+public class Student extends Korisnik{
 	
 	@Column(name = "brojIndeksa", nullable = false)
 	private String brojIndeksa;
 	
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = LAZY)
 	private Set<Pohadjanje> listaPohadjanja;
+	
+	@OneToMany(cascade={ALL}, fetch=LAZY, mappedBy="student")
+	private List<Dokument> dokumenti = new ArrayList<Dokument>();
 
-	public Student(Long id, String ime, String prezime, String brojIndeksa, Set<Pohadjanje> listaPohadjanja) {
-		super(id);
-		this.ime = ime;
-		this.prezime = prezime;
+	public Student(Long id, String ime, String prezime, String korisnicko, String lozinka, KorisnikUloga ulogaKorisnika,
+			String brojIndeksa, Set<Pohadjanje> listaPohadjanja) {
+		super(id, ime, prezime, korisnicko, lozinka, ulogaKorisnika);
 		this.brojIndeksa = brojIndeksa;
 		this.listaPohadjanja = listaPohadjanja;
-	}
-
-	public String getIme() {
-		return ime;
-	}
-
-	public void setIme(String ime) {
-		this.ime = ime;
-	}
-
-	public String getPrezime() {
-		return prezime;
-	}
-
-	public void setPrezime(String prezime) {
-		this.prezime = prezime;
 	}
 
 	public String getBrojIndeksa() {
@@ -63,6 +46,22 @@ public class Student extends JpaEntity{
 	public void setListaPohadjanja(Set<Pohadjanje> listaPohadjanja) {
 		this.listaPohadjanja = listaPohadjanja;
 	}
-	
-	
+
+	public void dodajDokument(Dokument dokument) {
+		dokument.setStudent(this);
+		dokumenti.add(dokument);
+	}
+
+	public void obrisiDokument(Dokument dokument) {
+		dokument.setId(null);
+		dokumenti.remove(dokument);
+	}
+
+	public List<Dokument> getDokumenti() {
+		return dokumenti;
+	}
+
+	public void setDokumenti(List<Dokument> dokumenti) {
+		this.dokumenti = dokumenti;
+	}
 }
