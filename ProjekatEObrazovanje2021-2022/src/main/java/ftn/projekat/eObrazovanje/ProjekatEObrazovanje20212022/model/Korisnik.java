@@ -1,7 +1,9 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model;
 
 import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 
+@MappedSuperclass
 public abstract class Korisnik extends JpaEntity{
 	
 	@Column(name = "ime", nullable = false)

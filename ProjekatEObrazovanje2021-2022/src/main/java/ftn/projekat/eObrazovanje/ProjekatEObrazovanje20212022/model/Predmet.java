@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "predmet")
+@Table(name = "predmeti")
 public class Predmet extends JpaEntity {
 
 	@Column(name = "nazivPredmeta", nullable = false)

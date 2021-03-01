@@ -3,9 +3,13 @@ package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "uplate")
 public class Uplata extends JpaEntity {
 
 	@Column(name = "svrha_uplate", nullable = false)
