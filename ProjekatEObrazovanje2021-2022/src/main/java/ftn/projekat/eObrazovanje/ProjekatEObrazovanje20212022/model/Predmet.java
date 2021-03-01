@@ -11,7 +11,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+<<<<<<< HEAD
 import javax.persistence.ManyToMany;
+=======
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+>>>>>>> branch 'master' of https://github.com/Svetozar99/ProjekatEObrazovanjeFTN.git
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -25,22 +30,39 @@ public class Predmet extends JpaEntity {
 	@Column(name = "brojEspb", nullable = false)
 	private int brojEspb;
 	
+<<<<<<< HEAD
 	@ManyToMany(fetch = FetchType.LAZY)
 	private Set<Student> listaStudenata;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	private Set<Nastavnik> listaNastavnika;
+=======
+	@OneToMany(fetch = FetchType.LAZY)
+	private Set<Predaje> listaPredavanja;
+>>>>>>> branch 'master' of https://github.com/Svetozar99/ProjekatEObrazovanjeFTN.git
 	
 	@OneToMany(cascade={ALL}, fetch=LAZY, mappedBy="predmet")
 	private List<Polaganje> polaganja = new ArrayList<Polaganje>();
 
+<<<<<<< HEAD
 	public Predmet(Long id, String nazivPredmeta, int brojEspb, Set<Student> listaStudenata,
 			Set<Nastavnik> listaNastavnika) {
+=======
+	@ManyToOne
+	@JoinColumn(name="student_id", referencedColumnName="id", nullable=true)
+	private Student student;
+	
+	public Predmet(Long id, String nazivPredmeta, int brojEspb,Set<Predaje> listaPredavanja) {
+>>>>>>> branch 'master' of https://github.com/Svetozar99/ProjekatEObrazovanjeFTN.git
 		super(id);
 		this.nazivPredmeta = nazivPredmeta;
 		this.brojEspb = brojEspb;
+<<<<<<< HEAD
 		this.listaStudenata = listaStudenata;
 		this.listaNastavnika = listaNastavnika;
+=======
+		this.listaPredavanja = listaPredavanja;
+>>>>>>> branch 'master' of https://github.com/Svetozar99/ProjekatEObrazovanjeFTN.git
 	}
 
 	public String getNazivPredmeta() {
@@ -59,6 +81,7 @@ public class Predmet extends JpaEntity {
 		this.brojEspb = brojEspb;
 	}
 
+<<<<<<< HEAD
 	public Set<Student> getListaStudenata() {
 		return listaStudenata;
 	}
@@ -69,6 +92,10 @@ public class Predmet extends JpaEntity {
 
 	public Set<Nastavnik> getListaPredavanja() {
 		return listaNastavnika;
+=======
+	public Set<Predaje> getListaPredavanja() {
+		return listaPredavanja;
+>>>>>>> branch 'master' of https://github.com/Svetozar99/ProjekatEObrazovanjeFTN.git
 	}
 
 	public void setListaPredavanja(Set<Nastavnik> listaNastavnika) {
@@ -89,5 +116,15 @@ public class Predmet extends JpaEntity {
 	
 	public void obrisiPolaganje(Polaganje polaganje) {
 		polaganje.obrisiPredmet(this);
+	}
+	
+	public void setStudent(Student student) {
+		this.student = student;
+		student.getPredmeti().add(this);
+	}
+	
+	public void obrisiStudenta(Student student) {
+		this.student=null;
+		student.getPredmeti().remove(this);
 	}
 }
