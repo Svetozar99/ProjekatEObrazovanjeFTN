@@ -1,5 +1,10 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model;
 
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.LAZY;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -24,6 +29,9 @@ public class Predmet extends JpaEntity {
 	
 	@OneToMany(fetch = FetchType.LAZY)
 	private Set<Predaje> listaPredavanja;
+	
+	@OneToMany(cascade={ALL}, fetch=LAZY, mappedBy="predmet")
+	private List<Polaganje> polaganja = new ArrayList<Polaganje>();
 
 	public Predmet(Long id, String nazivPredmeta, int brojEspb, Set<Pohadjanje> listaPohadjanja,
 			Set<Predaje> listaPredavanja) {
@@ -65,6 +73,20 @@ public class Predmet extends JpaEntity {
 	public void setListaPredavanja(Set<Predaje> listaPredavanja) {
 		this.listaPredavanja = listaPredavanja;
 	}
+
+	public List<Polaganje> getPolaganja() {
+		return polaganja;
+	}
+
+	public void setPolaganja(List<Polaganje> polaganja) {
+		this.polaganja = polaganja;
+	}
 	
+	public void dodajPolaganje(Polaganje polaganje) {
+		polaganje.setPredmet(this);
+	}
 	
+	public void obrisiPolaganje(Polaganje polaganje) {
+		polaganje.obrisiPredmet(this);
+	}
 }

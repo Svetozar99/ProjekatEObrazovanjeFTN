@@ -23,6 +23,12 @@ public class Student extends Korisnik{
 	
 	@OneToMany(cascade={ALL}, fetch=LAZY, mappedBy="student")
 	private List<Dokument> dokumenti = new ArrayList<Dokument>();
+	
+	@OneToMany(cascade={ALL}, fetch=LAZY, mappedBy="student")
+	private List<Uplata> uplate = new ArrayList<Uplata>();
+	
+	@OneToMany(cascade={ALL}, fetch=LAZY, mappedBy="student")
+	private List<Polaganje> polaganja = new ArrayList<Polaganje>();
 
 	public Student(Long id, String ime, String prezime, String korisnicko, String lozinka, KorisnikUloga ulogaKorisnika,
 			String brojIndeksa, Set<Pohadjanje> listaPohadjanja) {
@@ -49,12 +55,10 @@ public class Student extends Korisnik{
 
 	public void dodajDokument(Dokument dokument) {
 		dokument.setStudent(this);
-		dokumenti.add(dokument);
 	}
 
 	public void obrisiDokument(Dokument dokument) {
-		dokument.setId(null);
-		dokumenti.remove(dokument);
+		dokument.obrisiStudenta(this);
 	}
 
 	public List<Dokument> getDokumenti() {
@@ -63,5 +67,37 @@ public class Student extends Korisnik{
 
 	public void setDokumenti(List<Dokument> dokumenti) {
 		this.dokumenti = dokumenti;
+	}
+
+	public List<Uplata> getUplate() {
+		return uplate;
+	}
+
+	public void setUplate(List<Uplata> uplate) {
+		this.uplate = uplate;
+	}
+	
+	public void dodajUplatu(Uplata uplata) {
+		uplata.setStudent(this);
+	}
+	
+	public void obrisiUplatu(Uplata uplata) {
+		uplata.obrisiStudenta(this);
+	}
+	
+	public List<Polaganje> getPolaganja() {
+		return polaganja;
+	}
+
+	public void setPolaganja(List<Polaganje> polaganja) {
+		this.polaganja = polaganja;
+	}
+	
+	public void dodajPolaganje(Polaganje polaganje) {
+		polaganje.setStudent(this);
+	}
+	
+	public void obrisiPolaganje(Polaganje polaganje) {
+		polaganje.obrisiStudenta(this);
 	}
 }

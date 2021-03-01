@@ -18,6 +18,13 @@ public class Dokument extends JpaEntity{
 	@JoinColumn(name="student_id", referencedColumnName="id", nullable=true)
 	private Student student;
 
+	public Dokument(Long id, String nazivDokumenta, Date datumIzdavanja, Student student) {
+		super(id);
+		this.nazivDokumenta = nazivDokumenta;
+		this.datumIzdavanja = datumIzdavanja;
+		this.student = student;
+	}
+
 	public String getNazivDokumenta() {
 		return nazivDokumenta;
 	}
