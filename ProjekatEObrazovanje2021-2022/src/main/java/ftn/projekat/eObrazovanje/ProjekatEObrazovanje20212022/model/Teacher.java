@@ -1,7 +1,13 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model;
 
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.LAZY;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,34 +20,19 @@ import javax.persistence.Table;
 @Table(name = "teachers")
 public class Teacher extends User {
 
-	@Column(name = "teacher_role")
-	private TeacherRole teacherRole;
-	
-	@ManyToMany(fetch = FetchType.LAZY)
-	private Set<CourseSpecification> listCourses;
+	@OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "teacher")
+	private List<Teaching> teching = new ArrayList<Teaching>();
 
-	public Teacher() {
+	public Teacher(List<Teaching> teching) {
 		super();
-	}
-	
-	public Teacher(Long id, String firstName, String lastName, String username, String password, UserRole role, TeacherRole roleTeacher) {
-		super(id, firstName, lastName, username, password, role);
-		this.teacherRole = roleTeacher;
+		this.teching = teching;
 	}
 
-	public TeacherRole getTeacherRole() {
-		return teacherRole;
+	public List<Teaching> getTeching() {
+		return teching;
 	}
 
-	public void setTeacherRole(TeacherRole teacherRole) {
-		this.teacherRole = teacherRole;
-	}
-
-	public Set<CourseSpecification> getListCourses() {
-		return listCourses;
-	}
-
-	public void setListCourses(Set<CourseSpecification> listCourses) {
-		this.listCourses = listCourses;
+	public void setTeching(List<Teaching> teching) {
+		this.teching = teching;
 	}
 }

@@ -11,6 +11,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -20,7 +23,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "course_specification")
 public class CourseSpecification extends JpaEntity {
-
+	
 	@Column(name = "title", nullable = false)
 	private String title;
 	
@@ -29,12 +32,16 @@ public class CourseSpecification extends JpaEntity {
 	
 	@Column(name = "code", nullable = false)
 	private String code;
+	
+	@OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "courseSpecification")
+	private List<CourseInstance> courseInstances = new ArrayList<CourseInstance>();
 
-	public CourseSpecification(Long id, String title, int ects, String code) {
+	public CourseSpecification(Long id, String title, int ects, String code, List<CourseInstance> courseInstances) {
 		super(id);
 		this.title = title;
 		this.ects = ects;
 		this.code = code;
+		this.courseInstances = courseInstances;
 	}
 
 	public String getTitle() {
@@ -60,6 +67,12 @@ public class CourseSpecification extends JpaEntity {
 	public void setCode(String code) {
 		this.code = code;
 	}
-	
-	
+
+	public List<CourseInstance> getCourseInstances() {
+		return courseInstances;
+	}
+
+	public void setCourseInstances(List<CourseInstance> courseInstances) {
+		this.courseInstances = courseInstances;
+	}
 }

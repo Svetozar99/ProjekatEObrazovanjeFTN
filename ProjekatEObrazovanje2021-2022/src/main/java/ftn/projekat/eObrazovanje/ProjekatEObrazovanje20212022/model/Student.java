@@ -12,97 +12,58 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "studenti")
+@Table(name = "students")
 public class Student extends User{
 	
-	@Column(name = "brojIndeksa", nullable = false)
-	private String brojIndeksa;
-	
-
-	@OneToMany(fetch = LAZY)
-	private Set<CourseSpecification> listaPredmeta;
-	
+	@Column(name = "card_number", nullable = false)
+	private String cardNumber;
 
 	@OneToMany(cascade={ALL}, fetch=LAZY, mappedBy="student")
-	private List<Dokument> dokumenti = new ArrayList<Dokument>();
+	private List<Enrollment> enrollments = new ArrayList<Enrollment>();
 	
 	@OneToMany(cascade={ALL}, fetch=LAZY, mappedBy="student")
-	private List<Uplata> uplate = new ArrayList<Uplata>();
+	private List<Payment> payments = new ArrayList<Payment>();
 	
 	@OneToMany(cascade={ALL}, fetch=LAZY, mappedBy="student")
-	private List<Enrollment> polaganja = new ArrayList<Enrollment>();
+	private List<Document> documents = new ArrayList<Document>();
 
-	@OneToMany(cascade={ALL}, fetch=LAZY, mappedBy="student")
-	private List<CourseSpecification> predmeti = new ArrayList<CourseSpecification>();
-	
-	public Student(Long id, String ime, String prezime, String korisnicko, String lozinka, UserRole ulogaKorisnika,
-			String brojIndeksa) {
-		super(id, ime, prezime, korisnicko, lozinka, ulogaKorisnika);
-		this.brojIndeksa = brojIndeksa;
-	}
-
-	public String getBrojIndeksa() {
-		return brojIndeksa;
+	public Student(String cardNumber, List<Enrollment> enrollments, List<Payment> payments, List<Document> documents) {
+		super();
+		this.cardNumber = cardNumber;
+		this.enrollments = enrollments;
+		this.payments = payments;
+		this.documents = documents;
 	}
 
-	public void setBrojIndeksa(String brojIndeksa) {
-		this.brojIndeksa = brojIndeksa;
+	public String getCardNumber() {
+		return cardNumber;
 	}
 
-
-	public void dodajDokument(Dokument dokument) {
-		dokument.setStudent(this);
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
 	}
 
-	public void obrisiDokument(Dokument dokument) {
-		dokument.obrisiStudenta(this);
+	public List<Enrollment> getEnrollments() {
+		return enrollments;
 	}
 
-	public List<Dokument> getDokumenti() {
-		return dokumenti;
+	public void setEnrollments(List<Enrollment> enrollments) {
+		this.enrollments = enrollments;
 	}
 
-	public void setDokumenti(List<Dokument> dokumenti) {
-		this.dokumenti = dokumenti;
+	public List<Payment> getPayments() {
+		return payments;
 	}
 
-	public List<Uplata> getUplate() {
-		return uplate;
+	public void setPayments(List<Payment> payments) {
+		this.payments = payments;
 	}
 
-	public void setUplate(List<Uplata> uplate) {
-		this.uplate = uplate;
-	}
-	
-	public void dodajUplatu(Uplata uplata) {
-		uplata.setStudent(this);
-	}
-	
-	public void obrisiUplatu(Uplata uplata) {
-		uplata.obrisiStudenta(this);
-	}
-	
-	public List<Enrollment> getPolaganja() {
-		return polaganja;
+	public List<Document> getDocuments() {
+		return documents;
 	}
 
-	public void setPolaganja(List<Enrollment> polaganja) {
-		this.polaganja = polaganja;
-	}
-	
-	public void dodajPolaganje(Enrollment polaganje) {
-		polaganje.setStudent(this);
-	}
-	
-	public void obrisiPolaganje(Enrollment polaganje) {
-		polaganje.obrisiStudenta(this);
-	}
-
-	public List<CourseSpecification> getPredmeti() {
-		return predmeti;
-	}
-
-	public void setPredmeti(List<CourseSpecification> predmeti) {
-		this.predmeti = predmeti;
+	public void setDocuments(List<Document> documents) {
+		this.documents = documents;
 	}
 }
