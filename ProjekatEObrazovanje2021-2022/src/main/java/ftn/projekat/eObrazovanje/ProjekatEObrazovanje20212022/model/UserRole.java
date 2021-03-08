@@ -1,8 +1,8 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model;
 
-public enum KorisnikUloga {
+public enum UserRole {
 
 	STUDENT,
-	NASTAVNIK,
+	TEACHER,
 	ADMINISTRATOR
 }

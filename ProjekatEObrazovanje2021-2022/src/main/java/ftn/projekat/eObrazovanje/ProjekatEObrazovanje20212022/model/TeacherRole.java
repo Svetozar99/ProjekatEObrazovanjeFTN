@@ -1,6 +1,6 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model;
 
-public enum UlogaNastavnika {
+public enum TeacherRole {
 
 	NASTAVNIK,
 	ASISTENT,

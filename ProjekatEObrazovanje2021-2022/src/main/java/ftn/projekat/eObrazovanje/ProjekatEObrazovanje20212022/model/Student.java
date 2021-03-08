@@ -13,14 +13,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "studenti")
-public class Student extends Korisnik{
+public class Student extends User{
 	
 	@Column(name = "brojIndeksa", nullable = false)
 	private String brojIndeksa;
 	
 
 	@OneToMany(fetch = LAZY)
-	private Set<Predmet> listaPredmeta;
+	private Set<CourseSpecification> listaPredmeta;
 	
 
 	@OneToMany(cascade={ALL}, fetch=LAZY, mappedBy="student")
@@ -30,12 +30,12 @@ public class Student extends Korisnik{
 	private List<Uplata> uplate = new ArrayList<Uplata>();
 	
 	@OneToMany(cascade={ALL}, fetch=LAZY, mappedBy="student")
-	private List<Polaganje> polaganja = new ArrayList<Polaganje>();
+	private List<Enrollment> polaganja = new ArrayList<Enrollment>();
 
 	@OneToMany(cascade={ALL}, fetch=LAZY, mappedBy="student")
-	private List<Predmet> predmeti = new ArrayList<Predmet>();
+	private List<CourseSpecification> predmeti = new ArrayList<CourseSpecification>();
 	
-	public Student(Long id, String ime, String prezime, String korisnicko, String lozinka, KorisnikUloga ulogaKorisnika,
+	public Student(Long id, String ime, String prezime, String korisnicko, String lozinka, UserRole ulogaKorisnika,
 			String brojIndeksa) {
 		super(id, ime, prezime, korisnicko, lozinka, ulogaKorisnika);
 		this.brojIndeksa = brojIndeksa;
@@ -82,35 +82,27 @@ public class Student extends Korisnik{
 		uplata.obrisiStudenta(this);
 	}
 	
-	public List<Polaganje> getPolaganja() {
+	public List<Enrollment> getPolaganja() {
 		return polaganja;
 	}
 
-	public void setPolaganja(List<Polaganje> polaganja) {
+	public void setPolaganja(List<Enrollment> polaganja) {
 		this.polaganja = polaganja;
 	}
 	
-	public void dodajPolaganje(Polaganje polaganje) {
+	public void dodajPolaganje(Enrollment polaganje) {
 		polaganje.setStudent(this);
 	}
 	
-	public void obrisiPolaganje(Polaganje polaganje) {
+	public void obrisiPolaganje(Enrollment polaganje) {
 		polaganje.obrisiStudenta(this);
 	}
 
-	public List<Predmet> getPredmeti() {
+	public List<CourseSpecification> getPredmeti() {
 		return predmeti;
 	}
 
-	public void setPredmeti(List<Predmet> predmeti) {
+	public void setPredmeti(List<CourseSpecification> predmeti) {
 		this.predmeti = predmeti;
 	}
-	
-	public void dodajPredmet(Predmet predmet) {
-		predmet.setStudent(this);
-	}
-	
-	public void obrisiPolaganje(Predmet predmet) {
-		predmet.obrisiStudenta(this);
-	} 
 }

@@ -4,11 +4,12 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "administratori")
-public class Administrator extends Korisnik {
+@Table(name = "administrators")
+public class Administrator extends User {
 
-	public Administrator(Long id, String ime, String prezime, String korisnicko, String lozinka,
-			KorisnikUloga ulogaKorisnika) {
-		super(id, ime, prezime, korisnicko, lozinka, ulogaKorisnika);
+	public Administrator(Long id, String firstName, String lastName, String username, String password, UserRole role) {
+		super(id, firstName, lastName, username, password, role);
 	}
+
+	
 }

@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "polaganja")
-public class Polaganje extends JpaEntity {
+public class Enrollment extends JpaEntity {
 
 	@Column(name = "naziv_nastavne_obaveze")
 	private String nazivNastavneObaveze;
@@ -22,9 +22,9 @@ public class Polaganje extends JpaEntity {
 	
 	@ManyToOne
 	@JoinColumn(name="predmet_id", referencedColumnName="id", nullable=true)
-	private Predmet predmet;
+	private CourseSpecification predmet;
 
-	public Polaganje(Long id, String nazivNastavneObaveze, String vremePolaganja, Student student, Predmet predmet) {
+	public Enrollment(Long id, String nazivNastavneObaveze, String vremePolaganja, Student student, CourseSpecification predmet) {
 		super(id);
 		this.nazivNastavneObaveze = nazivNastavneObaveze;
 		this.vremePolaganja = vremePolaganja;
@@ -62,17 +62,7 @@ public class Polaganje extends JpaEntity {
 		student.getPolaganja().remove(this);
 	}
 
-	public Predmet getPredmet() {
+	public CourseSpecification getPredmet() {
 		return predmet;
-	}
-
-	public void setPredmet(Predmet predmet) {
-		this.predmet = predmet;
-		predmet.getPolaganja().add(this);
-	}
-	
-	public void obrisiPredmet(Predmet predmet) {
-		this.predmet = null;
-		predmet.getPolaganja().remove(this);
 	}
 }
