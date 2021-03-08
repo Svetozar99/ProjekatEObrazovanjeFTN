@@ -27,8 +27,6 @@ public class Predmet extends JpaEntity {
 	@Column(name = "brojEspb", nullable = false)
 	private int brojEspb;
 	
-
-	
 	@OneToMany(cascade={ALL}, fetch=LAZY, mappedBy="predmet")
 	private List<Polaganje> polaganja = new ArrayList<Polaganje>();
 
