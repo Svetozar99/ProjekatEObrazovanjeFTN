@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.UserRole;
 
-public interface userRoleRepository extends JpaRepository<UserRole, Long> {
-	UserRole findOneById(Long id);
+public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
 	UserRole findOneByCode(String code);
 }
