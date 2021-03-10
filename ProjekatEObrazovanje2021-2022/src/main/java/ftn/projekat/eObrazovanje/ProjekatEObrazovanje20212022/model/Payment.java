@@ -1,11 +1,15 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,22 +28,27 @@ public class Payment extends JpaEntity {
 	@Column(name = "urgently", nullable = false)
 	private Boolean urgently;
 	
-	@Column(name = "type_payment", nullable = false)
-	private TypePayment typePayment;
+	@Column(name = "note", nullable = false)
+	private String note;
 	
 	@ManyToOne
-	@JoinColumn(name="student_id", referencedColumnName="id", nullable=false)
-	private Student student;
+	@JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
+	private Account account;
 
-	public Payment(Long id, String currency, Double amount, Date datePayment, Boolean urgently, TypePayment typePayment,
-			Student student) {
+	public Payment() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Payment(Long id, String currency, Double amount, Date datePayment, Boolean urgently, String note,
+			Account account) {
 		super(id);
 		this.currency = currency;
 		this.amount = amount;
 		this.datePayment = datePayment;
 		this.urgently = urgently;
-		this.typePayment = typePayment;
-		this.student = student;
+		this.note = note;
+		this.account = account;
 	}
 
 	public String getCurrency() {
@@ -74,19 +83,19 @@ public class Payment extends JpaEntity {
 		this.urgently = urgently;
 	}
 
-	public TypePayment getTypePayment() {
-		return typePayment;
+	public String getNote() {
+		return note;
 	}
 
-	public void setTypePayment(TypePayment typePayment) {
-		this.typePayment = typePayment;
+	public void setNote(String note) {
+		this.note = note;
 	}
 
-	public Student getStudent() {
-		return student;
+	public Account getAccount() {
+		return account;
 	}
 
-	public void setStudent(Student student) {
-		this.student = student;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 }

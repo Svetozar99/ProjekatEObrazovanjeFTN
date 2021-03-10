@@ -6,19 +6,18 @@ import static javax.persistence.FetchType.LAZY;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "enrollments")
 public class Enrollment extends JpaEntity {
-
-	@Column(name = "assessment")
-	private Integer assessment;
 	
 	@ManyToOne
 	@JoinColumn(name="student_id", referencedColumnName="id", nullable=false)
@@ -28,46 +27,53 @@ public class Enrollment extends JpaEntity {
 	@JoinColumn(name="course_instance_id", referencedColumnName="id", nullable=false)
 	private CourseInstance courseInstance;
 	
+	
 	@OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "enrollment")
-	private List<Test> tests = new ArrayList<Test>();
+	private List<Exam> exams = new ArrayList<Exam>();
 
-	public Enrollment(Long id, Integer assessment, Student student, CourseInstance courseInstance, List<Test> tests) {
+
+	public Enrollment() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+	public Enrollment(Long id, Student student, CourseInstance courseInstance, List<Exam> exams) {
 		super(id);
-		this.assessment = assessment;
 		this.student = student;
 		this.courseInstance = courseInstance;
-		this.tests = tests;
+		this.exams = exams;
 	}
 
-	public Integer getAssessment() {
-		return assessment;
-	}
-
-	public void setAssessment(Integer assessment) {
-		this.assessment = assessment;
-	}
 
 	public Student getStudent() {
 		return student;
 	}
 
+
 	public void setStudent(Student student) {
 		this.student = student;
 	}
+
 
 	public CourseInstance getCourseInstance() {
 		return courseInstance;
 	}
 
+
 	public void setCourseInstance(CourseInstance courseInstance) {
 		this.courseInstance = courseInstance;
 	}
 
-	public List<Test> getTests() {
-		return tests;
+
+	public List<Exam> getExams() {
+		return exams;
 	}
 
-	public void setTests(List<Test> tests) {
-		this.tests = tests;
+
+	public void setExams(List<Exam> exams) {
+		this.exams = exams;
 	}
+	
+	
 }

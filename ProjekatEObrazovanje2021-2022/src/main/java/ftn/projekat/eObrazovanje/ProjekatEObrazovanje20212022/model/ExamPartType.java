@@ -12,8 +12,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "user_role")
-public class UserRole extends JpaEntity{
+@Table(name = "exam_part_types")
+public class ExamPartType extends JpaEntity {
 
 	@Column(name = "name", nullable = false)
 	private String name;
@@ -21,18 +21,19 @@ public class UserRole extends JpaEntity{
 	@Column(name = "code", nullable = false)
 	private String code;
 	
-	@OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "role")
-	private List<User> users = new ArrayList<User>();
+	@OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "examPartType")
+	private List<ExamPart> examParts = new ArrayList<ExamPart>();
 
-	public UserRole() {
+	public ExamPartType() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public UserRole(Long id, String name, String code, List<User> users) {
+	public ExamPartType(Long id, String name, String code, List<ExamPart> examParts) {
 		super(id);
 		this.name = name;
 		this.code = code;
-		this.users = users;
+		this.examParts = examParts;
 	}
 
 	public String getName() {
@@ -51,11 +52,11 @@ public class UserRole extends JpaEntity{
 		this.code = code;
 	}
 
-	public List<User> getUsers() {
-		return users;
+	public List<ExamPart> getExamParts() {
+		return examParts;
 	}
 
-	public void setUsers(List<User> users) {
-		this.users = users;
+	public void setExamParts(List<ExamPart> examParts) {
+		this.examParts = examParts;
 	}
 }

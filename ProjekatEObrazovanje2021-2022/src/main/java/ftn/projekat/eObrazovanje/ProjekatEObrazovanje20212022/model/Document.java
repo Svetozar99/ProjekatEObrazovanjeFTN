@@ -18,7 +18,8 @@ public class Document extends JpaEntity{
 	@Column(name = "url", nullable = false)
 	private String url;
 	
-	@Column(name = "type_document", nullable = false)
+	@ManyToOne
+	@JoinColumn(name="type_document_id", referencedColumnName="id", nullable=false)
 	private TypeDocument typeDocument;
 	
 	@ManyToOne

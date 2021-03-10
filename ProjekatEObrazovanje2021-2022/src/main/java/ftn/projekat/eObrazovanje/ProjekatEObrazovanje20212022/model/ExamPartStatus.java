@@ -12,27 +12,28 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "user_role")
-public class UserRole extends JpaEntity{
+@Table(name = "exam_part_status")
+public class ExamPartStatus extends JpaEntity {
 
 	@Column(name = "name", nullable = false)
 	private String name;
 	
 	@Column(name = "code", nullable = false)
 	private String code;
-	
-	@OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "role")
-	private List<User> users = new ArrayList<User>();
 
-	public UserRole() {
+	@OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "examPartStatus")
+	private List<ExamPart> examParts = new ArrayList<ExamPart>();
+
+	public ExamPartStatus() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public UserRole(Long id, String name, String code, List<User> users) {
+	public ExamPartStatus(Long id, String name, String code, List<ExamPart> examParts) {
 		super(id);
 		this.name = name;
 		this.code = code;
-		this.users = users;
+		this.examParts = examParts;
 	}
 
 	public String getName() {
@@ -51,11 +52,12 @@ public class UserRole extends JpaEntity{
 		this.code = code;
 	}
 
-	public List<User> getUsers() {
-		return users;
+	public List<ExamPart> getExamParts() {
+		return examParts;
 	}
 
-	public void setUsers(List<User> users) {
-		this.users = users;
+	public void setExamParts(List<ExamPart> examParts) {
+		this.examParts = examParts;
 	}
+	
 }

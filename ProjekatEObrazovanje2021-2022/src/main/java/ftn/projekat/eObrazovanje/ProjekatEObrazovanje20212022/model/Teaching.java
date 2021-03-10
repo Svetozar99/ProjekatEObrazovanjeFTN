@@ -10,7 +10,8 @@ import javax.persistence.Table;
 @Table(name = "teachings")
 public class Teaching extends JpaEntity{
 
-	@Column(name = "teaching_type")
+	@ManyToOne
+	@JoinColumn(name = "teaching_type_id", referencedColumnName = "id", nullable = false)
 	private TeachingType teachingType;
 	
 	@ManyToOne
