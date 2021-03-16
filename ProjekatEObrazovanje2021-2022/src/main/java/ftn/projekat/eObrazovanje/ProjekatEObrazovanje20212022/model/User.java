@@ -17,10 +17,10 @@ import javax.persistence.Table;
 @Table(name = "users")
 public class User extends JpaEntity{
 	
-	@Column(name = "firstName", nullable = false)
+	@Column(name = "first_name", nullable = false)
 	private String firstName;
 	
-	@Column(name = "lastName", nullable = false)
+	@Column(name = "last_name", nullable = false)
 	private String lastName;
 	
 	@Column(name = "username", nullable = false)

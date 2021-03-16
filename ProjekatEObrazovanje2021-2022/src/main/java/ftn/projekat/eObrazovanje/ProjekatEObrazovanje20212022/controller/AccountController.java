@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,7 +45,7 @@ public class AccountController {
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<AccountDTO> getOneAccount(@PathParam("id") Long id){
+	public ResponseEntity<AccountDTO> getOneAccount(@PathVariable("id") Long id){
 		Account account = accountServiceInterface.findById(id);
 		
 		return new ResponseEntity<AccountDTO>(new AccountDTO(account), HttpStatus.OK);
@@ -64,7 +65,7 @@ public class AccountController {
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> deleteAccount(@PathParam("id") Long id){
+	public ResponseEntity<Void> deleteAccount(@PathVariable("id") Long id){
 		Account account = accountServiceInterface.findById(id);
 		if(account != null) {
 			accountServiceInterface.delete(id);
