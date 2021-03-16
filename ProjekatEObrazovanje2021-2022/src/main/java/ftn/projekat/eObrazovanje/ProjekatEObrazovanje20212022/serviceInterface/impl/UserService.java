@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.User;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.repository.UserRepository;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.UserServiceInterface;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.UserServiceI;
 
 @Service
-public class UserService implements UserServiceInterface {
+public class UserService implements UserServiceI {
 
 	@Autowired
 	UserRepository userRepository;

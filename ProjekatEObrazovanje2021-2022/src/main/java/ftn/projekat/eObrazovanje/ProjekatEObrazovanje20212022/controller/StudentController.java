@@ -3,7 +3,6 @@ package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,31 +11,30 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.AccountDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.StudentDTO;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Account;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Student;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.User;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.StudentServiceInterface;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.UserServiceInterface;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.StudentServiceI;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.UserServiceI;
 
 @RestController
 @RequestMapping(value = "api/student")
 public class StudentController {
 
 	@Autowired
-	private StudentServiceInterface studentServiceInterface;
+	private StudentServiceI studentService;
 	
 	@Autowired
-	private UserServiceInterface userServiceInterface;
+	private UserServiceI userService;
 	
 	@GetMapping
 	public ResponseEntity<List<StudentDTO>> getAllStudents(){
-		List<Student> students = studentServiceInterface.findAll();
+		List<Student> students = studentService.findAll();
 		
 		List<StudentDTO> dtos = new ArrayList<StudentDTO>();
 		
@@ -51,7 +49,7 @@ public class StudentController {
 		System.out.println("usao u f-ju");
 		
 		System.out.println(id + " student get id");
-		Student student = studentServiceInterface.findById(id);
+		Student student = studentService.findById(id);
 		
 		
 		
@@ -63,22 +61,34 @@ public class StudentController {
 		return new ResponseEntity<StudentDTO>(new StudentDTO(student), HttpStatus.OK);
 	}
 	
+	@PutMapping(value = "/{id}", consumes = "application/json")
+	public ResponseEntity<StudentDTO> updateStudent(@RequestBody StudentDTO studentDTO, @PathVariable("id") Long id){
+		User user = userService.findById(studentDTO.getUserDTO().getId());
+		Student student = studentService.findById(id);
+		if(student == null) {
+			return new ResponseEntity<StudentDTO>(HttpStatus.BAD_REQUEST);
+		}
+		student.setCardNumber(studentDTO.getCardNumber());
+		student.setUser(user);
+		return new ResponseEntity<StudentDTO>(new StudentDTO(student), HttpStatus.OK);
+	}
+	
 	@PostMapping
 	public ResponseEntity<StudentDTO> saveStudent(@RequestBody StudentDTO studentDTO){
-		User user = userServiceInterface.findById(studentDTO.getUserDTO().getId());
+		User user = userService.findById(studentDTO.getUserDTO().getId());
 		Student student = new Student();
 		student.setCardNumber(studentDTO.getCardNumber());
 		student.setUser(user);
-		student = studentServiceInterface.save(student);
+		student = studentService.save(student);
 		
 		return new ResponseEntity<StudentDTO>(new StudentDTO(student), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> deleteStudent(@PathVariable("id") Long id){
-		Student student = studentServiceInterface.findById(id);
+		Student student = studentService.findById(id);
 		if(student != null) {
-			studentServiceInterface.delete(id);
+			studentService.delete(id);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);

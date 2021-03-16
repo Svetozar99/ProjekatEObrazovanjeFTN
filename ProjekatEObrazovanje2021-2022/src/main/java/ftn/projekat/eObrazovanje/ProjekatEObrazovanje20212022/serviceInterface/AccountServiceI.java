@@ -4,7 +4,7 @@ import java.util.List;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Account;
 
-public interface AccountServiceInterface {
+public interface AccountServiceI {
 
 	public List<Account> findAll();
 	

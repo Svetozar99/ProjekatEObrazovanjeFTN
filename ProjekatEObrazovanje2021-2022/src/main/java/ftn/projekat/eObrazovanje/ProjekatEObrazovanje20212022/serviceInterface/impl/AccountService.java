@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Account;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.repository.AccountRepository;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.AccountServiceInterface;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.AccountServiceI;
 @Service
-public class AccountService implements AccountServiceInterface {
+public class AccountService implements AccountServiceI {
 
 	@Autowired
 	AccountRepository accountRepository;

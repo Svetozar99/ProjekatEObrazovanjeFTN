@@ -4,7 +4,7 @@ import java.util.List;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.User;
 
-public interface UserServiceInterface {
+public interface UserServiceI {
 
 	public List<User> findAll();
 	

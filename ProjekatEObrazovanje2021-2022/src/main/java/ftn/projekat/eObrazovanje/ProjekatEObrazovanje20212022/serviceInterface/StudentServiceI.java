@@ -4,7 +4,7 @@ import java.util.List;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Student;
 
-public interface StudentServiceInterface {
+public interface StudentServiceI {
 	
 	public List<Student> findAll();
 	

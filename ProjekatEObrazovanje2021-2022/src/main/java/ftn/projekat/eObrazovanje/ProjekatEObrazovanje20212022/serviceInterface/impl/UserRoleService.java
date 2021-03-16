@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.UserRole;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.repository.UserRoleRepository;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.UserRoleServiceInterface;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.UserRoleServiceI;
 
-public class UserRoleService implements UserRoleServiceInterface {
+public class UserRoleService implements UserRoleServiceI {
 
 	@Autowired
 	UserRoleRepository userRoleRepository;
