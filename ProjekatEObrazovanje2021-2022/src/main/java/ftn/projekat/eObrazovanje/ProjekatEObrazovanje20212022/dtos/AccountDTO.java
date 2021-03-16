@@ -4,27 +4,27 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Account;
 
 public class AccountDTO {
 	
-	public Long id;
+	private Long id;
 	
-	public Double amount;
+	private Double amount;
 	
-	public StudentDTO student;
+	private StudentDTO studentDTO;
 
 	public AccountDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public AccountDTO(Long id, Double amount, StudentDTO student) {
+	public AccountDTO(Long id, Double amount, StudentDTO studentDTO) {
 		super();
 		this.id = id;
 		this.amount = amount;
-		this.student = student;
+		this.studentDTO = studentDTO;
 	}
 
-//	public AccountDTO(Account account) {
-//		this(account.getId(), account.getAmount(), account.getStudent());
-//	}
+	public AccountDTO(Account account) {
+		this(account.getId(), account.getAmount(), new StudentDTO(account.getStudent()));
+	}
 	
 	public Long getId() {
 		return id;
@@ -42,12 +42,12 @@ public class AccountDTO {
 		this.amount = amount;
 	}
 
-	public StudentDTO getStudent() {
-		return student;
+	public StudentDTO getStudentDTO() {
+		return studentDTO;
 	}
 
-	public void setStudent(StudentDTO student) {
-		this.student = student;
+	public void setStudentDTO(StudentDTO studentDTO) {
+		this.studentDTO = studentDTO;
 	}
 
 	

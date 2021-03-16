@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.AccountDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Account;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Student;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.AccountServiceInterface;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.StudentServiceInterface;
 
 @RestController
 @RequestMapping(value = "api/account")
@@ -26,31 +28,40 @@ public class AccountController {
 	@Autowired
 	public AccountServiceInterface accountServiceInterface;
 	
-//	@GetMapping
-//	public ResponseEntity<List<AccountDTO>> getAllAccount(){
-//		List<Account> accounts = accountServiceInterface.findAll();
-//		
-//		List<AccountDTO> accountDTOs = new ArrayList<AccountDTO>();
-//		
-//		for (Account account : accounts) {
-//			accountDTOs.add(new AccountDTO(account));
-//		}
-//		return new ResponseEntity<List<AccountDTO>>(accountDTOs, HttpStatus.OK);
-//	}
+	@Autowired
+	public StudentServiceInterface studentServiceInterface;
 	
-//	@GetMapping(value = "/{id}")
-//	public ResponseEntity<AccountDTO> getOneAccount(@PathParam("id") Long id){
-//		Account account = accountServiceInterface.findById(id);
-//		
-//		return new ResponseEntity<AccountDTO>(new AccountDTO(account), HttpStatus.OK);
-//	}
+	@GetMapping
+	public ResponseEntity<List<AccountDTO>> getAllAccount(){
+		List<Account> accounts = accountServiceInterface.findAll();
+		
+		List<AccountDTO> accountDTOs = new ArrayList<AccountDTO>();
+		
+		for (Account account : accounts) {
+			accountDTOs.add(new AccountDTO(account));
+		}
+		return new ResponseEntity<List<AccountDTO>>(accountDTOs, HttpStatus.OK);
+	}
 	
-//	@PostMapping
-//	public ResponseEntity<AccountDTO> saveAccount(@RequestBody AccountDTO accountDTO){
-//		Account account = new Account();
-//		account.setAmount(accountDTO.getAmount());
-//		account.setStudent(accountDTO.getStudent());
-//	}
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<AccountDTO> getOneAccount(@PathParam("id") Long id){
+		Account account = accountServiceInterface.findById(id);
+		
+		return new ResponseEntity<AccountDTO>(new AccountDTO(account), HttpStatus.OK);
+	}
+	
+	@PostMapping
+	public ResponseEntity<AccountDTO> saveAccount(@RequestBody AccountDTO accountDTO){
+		Student student = studentServiceInterface.findById(accountDTO.getStudentDTO().getId());
+		
+		Account account = new Account();
+		account.setAmount(accountDTO.getAmount());
+		account.setStudent(student);
+		
+		account = accountServiceInterface.save(account);
+		
+		return new ResponseEntity<AccountDTO>(new AccountDTO(account), HttpStatus.OK);
+	}
 	
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> deleteAccount(@PathParam("id") Long id){
