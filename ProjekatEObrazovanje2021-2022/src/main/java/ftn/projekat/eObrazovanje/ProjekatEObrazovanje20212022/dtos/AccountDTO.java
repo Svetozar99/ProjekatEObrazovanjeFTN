@@ -22,9 +22,9 @@ public class AccountDTO {
 		this.student = student;
 	}
 
-	public AccountDTO(Account account) {
-		this(account.getId(), account.getAmount(), account.getStudent());
-	}
+//	public AccountDTO(Account account) {
+//		this(account.getId(), account.getAmount(), account.getStudent());
+//	}
 	
 	public Long getId() {
 		return id;

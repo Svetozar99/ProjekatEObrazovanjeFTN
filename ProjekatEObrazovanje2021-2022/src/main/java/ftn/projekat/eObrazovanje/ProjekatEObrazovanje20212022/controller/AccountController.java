@@ -26,31 +26,31 @@ public class AccountController {
 	@Autowired
 	public AccountServiceInterface accountServiceInterface;
 	
-	@GetMapping
-	public ResponseEntity<List<AccountDTO>> getAllAccount(){
-		List<Account> accounts = accountServiceInterface.findAll();
-		
-		List<AccountDTO> accountDTOs = new ArrayList<AccountDTO>();
-		
-		for (Account account : accounts) {
-			accountDTOs.add(new AccountDTO(account));
-		}
-		return new ResponseEntity<List<AccountDTO>>(accountDTOs, HttpStatus.OK);
-	}
+//	@GetMapping
+//	public ResponseEntity<List<AccountDTO>> getAllAccount(){
+//		List<Account> accounts = accountServiceInterface.findAll();
+//		
+//		List<AccountDTO> accountDTOs = new ArrayList<AccountDTO>();
+//		
+//		for (Account account : accounts) {
+//			accountDTOs.add(new AccountDTO(account));
+//		}
+//		return new ResponseEntity<List<AccountDTO>>(accountDTOs, HttpStatus.OK);
+//	}
 	
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<AccountDTO> getOneAccount(@PathParam("id") Long id){
-		Account account = accountServiceInterface.findById(id);
-		
-		return new ResponseEntity<AccountDTO>(new AccountDTO(account), HttpStatus.OK);
-	}
+//	@GetMapping(value = "/{id}")
+//	public ResponseEntity<AccountDTO> getOneAccount(@PathParam("id") Long id){
+//		Account account = accountServiceInterface.findById(id);
+//		
+//		return new ResponseEntity<AccountDTO>(new AccountDTO(account), HttpStatus.OK);
+//	}
 	
-	@PostMapping
-	public ResponseEntity<AccountDTO> saveAccount(@RequestBody AccountDTO accountDTO){
-		Account account = new Account();
-		account.setAmount(accountDTO.getAmount());
-		account.setStudent(accountDTO.getStudent());
-	}
+//	@PostMapping
+//	public ResponseEntity<AccountDTO> saveAccount(@RequestBody AccountDTO accountDTO){
+//		Account account = new Account();
+//		account.setAmount(accountDTO.getAmount());
+//		account.setStudent(accountDTO.getStudent());
+//	}
 	
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> deleteAccount(@PathParam("id") Long id){
