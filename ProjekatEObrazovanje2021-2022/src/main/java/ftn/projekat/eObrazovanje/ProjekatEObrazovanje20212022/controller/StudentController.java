@@ -70,6 +70,7 @@ public class StudentController {
 		}
 		student.setCardNumber(studentDTO.getCardNumber());
 		student.setUser(user);
+		studentService.save(student);
 		return new ResponseEntity<StudentDTO>(new StudentDTO(student), HttpStatus.OK);
 	}
 	

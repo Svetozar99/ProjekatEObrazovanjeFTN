@@ -62,6 +62,7 @@ public class AccountController {
 		}
 		acc.setAmount(accountDTO.getAmount());
 		acc.setStudent(student);
+		accountService.save(acc);
 		return new ResponseEntity<AccountDTO>(new AccountDTO(acc), HttpStatus.OK);
 	}
 	

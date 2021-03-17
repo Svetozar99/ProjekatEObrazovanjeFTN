@@ -59,6 +59,7 @@ public class AdministratorController {
 			return new ResponseEntity<AdministratorDTO>(HttpStatus.BAD_REQUEST);
 		}
 		admin.setUser(user);
+		adminService.save(admin);
 		return new ResponseEntity<AdministratorDTO>(new AdministratorDTO(admin), HttpStatus.OK);	
 	}
 	

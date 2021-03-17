@@ -59,6 +59,7 @@ public class TeacherController {
 			return new ResponseEntity<TeacherDTO>(HttpStatus.BAD_REQUEST);
 		}
 		teacher.setUser(user);
+		teacherService.save(teacher);
 		return new ResponseEntity<TeacherDTO>(new TeacherDTO(teacher), HttpStatus.OK);	
 	}
 	
