@@ -23,4 +23,6 @@ INSERT INTO course_instance(id, start_date, end_date, course_specification_id) V
 
 INSERT INTO teaching_type(id, name, code) VALUES(1, 'exercise', 'ex');
 
+INSERT INTO enrollments(id, student_id, course_instance_id) VALUES(1, 1, 1);
+
 INSERT INTO teachings(id, teaching_type_id, teacher_id, course_instance_id) VALUES(1, 1, 1, 1);
