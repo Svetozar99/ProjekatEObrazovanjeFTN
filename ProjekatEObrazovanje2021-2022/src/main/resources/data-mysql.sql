@@ -20,3 +20,7 @@ INSERT INTO ACCOUNTS(id, amount, student_id) VALUES(1, 12, 1);
 INSERT INTO course_specification(id, title, ects, code) VALUE(1, 'eObrazovanje', 7, 'eObr');
 
 INSERT INTO course_instance(id, start_date, end_date, course_specification_id) VALUES(1, '2020-02-10', '2021-07-07', 1);
+
+INSERT INTO teaching_type(id, name, code) VALUES(1, 'exercise', 'ex');
+
+INSERT INTO teachings(id, teaching_type_id, teacher_id, course_instance_id) VALUES(1, 1, 1, 1);

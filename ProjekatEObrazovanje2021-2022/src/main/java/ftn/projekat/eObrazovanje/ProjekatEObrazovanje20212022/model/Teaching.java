@@ -21,6 +21,12 @@ public class Teaching extends JpaEntity{
 	@JoinColumn(name = "course_instance_id", referencedColumnName = "id", nullable = false)
 	private CourseInstance courseInstance;
 
+	
+	public Teaching() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public Teaching(Long id, TeachingType teachingType, Teacher teacher, CourseInstance courseInstance) {
 		super(id);
 		this.teachingType = teachingType;
