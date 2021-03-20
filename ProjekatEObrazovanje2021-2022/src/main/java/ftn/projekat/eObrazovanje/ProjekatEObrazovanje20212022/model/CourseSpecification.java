@@ -35,6 +35,11 @@ public class CourseSpecification extends JpaEntity {
 	
 	@OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "courseSpecification")
 	private List<CourseInstance> courseInstances = new ArrayList<CourseInstance>();
+	
+	public CourseSpecification() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	public CourseSpecification(Long id, String title, int ects, String code, List<CourseInstance> courseInstances) {
 		super(id);

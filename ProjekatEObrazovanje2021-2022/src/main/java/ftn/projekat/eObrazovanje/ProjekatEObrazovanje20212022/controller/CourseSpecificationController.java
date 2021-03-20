@@ -1,0 +1,84 @@
+package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.CourseSpecificationDTO;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.CourseSpecification;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.impl.CourseSpecificationService;
+
+@RestController
+@RequestMapping(value = "api/course-specfication")
+public class CourseSpecificationController {
+
+	@Autowired
+	CourseSpecificationService coursSpecifServ;
+	
+	@GetMapping
+	public ResponseEntity<List<CourseSpecificationDTO>> getAllCourseSpecifications(){
+		List<CourseSpecification> csspecs = coursSpecifServ.findAll();
+		
+		List<CourseSpecificationDTO> cspecsDTO = new ArrayList<CourseSpecificationDTO>();
+		
+		for(CourseSpecification css : csspecs) {
+			cspecsDTO.add(new CourseSpecificationDTO(css));
+		}
+		
+		return new ResponseEntity<List<CourseSpecificationDTO>>(cspecsDTO, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/{id}", consumes = "application/json")
+	public ResponseEntity<CourseSpecificationDTO> getOneCourseSpecification(@PathVariable("id") Long id){
+		CourseSpecification cs = coursSpecifServ.findById(id);
+		
+		return new ResponseEntity<CourseSpecificationDTO>(new CourseSpecificationDTO(cs), HttpStatus.OK);
+	}
+	
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<CourseSpecificationDTO> updateCourseSpecification(@RequestBody CourseSpecificationDTO csDTO, @PathVariable("id") Long id){
+		CourseSpecification cs = coursSpecifServ.findById(id);
+		
+		if(cs == null) {
+			return new ResponseEntity<CourseSpecificationDTO>(HttpStatus.BAD_REQUEST);
+		}
+		cs.setTitle(csDTO.getTitle());
+		cs.setCode(csDTO.getCode());
+		cs.setEcts(csDTO.getEcts());
+		coursSpecifServ.save(cs);
+		return new ResponseEntity<CourseSpecificationDTO>(new CourseSpecificationDTO(cs), HttpStatus.OK);
+	}
+	
+	@PostMapping
+	public ResponseEntity<CourseSpecificationDTO> saveCourseSpecification(@RequestBody CourseSpecificationDTO csDTO){
+		CourseSpecification cs = new CourseSpecification();
+		cs.setTitle(csDTO.getTitle());
+		cs.setCode(csDTO.getCode());
+		cs.setEcts(csDTO.getEcts());
+		coursSpecifServ.save(cs);
+		
+		return new ResponseEntity<CourseSpecificationDTO>(new CourseSpecificationDTO(cs), HttpStatus.CREATED);
+	}
+	
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> deleteCourseSpecification(@PathVariable("id") Long id){
+		CourseSpecification cs = coursSpecifServ.findById(id);
+		
+		if(cs != null) {
+			coursSpecifServ.delete(id);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}
+		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+	}
+}

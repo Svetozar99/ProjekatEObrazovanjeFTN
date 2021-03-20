@@ -16,3 +16,5 @@ INSERT INTO administrators(id, user_id) VALUES(1, 2);
 INSERT INTO teachers(id, user_id) VALUES(1, 3);
 
 INSERT INTO ACCOUNTS(id, amount, student_id) VALUES(1, 12, 1);
+
+INSERT INTO course_specification(id, title, ects, code) VALUE(1, 'eObrazovanje', 7, 'eObr');

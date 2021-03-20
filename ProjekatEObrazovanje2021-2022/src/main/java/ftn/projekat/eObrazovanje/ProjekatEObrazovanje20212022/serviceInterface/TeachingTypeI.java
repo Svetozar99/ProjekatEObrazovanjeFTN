@@ -6,7 +6,7 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.TeachingType
 
 public interface TeachingTypeI {
 
-public List<TeachingType> findAll();
+	public List<TeachingType> findAll();
 	
 	public TeachingType findById(Long id);
 	
