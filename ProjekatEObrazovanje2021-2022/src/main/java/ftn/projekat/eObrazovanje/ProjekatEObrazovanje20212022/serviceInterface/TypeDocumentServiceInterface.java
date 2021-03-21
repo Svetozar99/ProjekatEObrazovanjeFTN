@@ -5,7 +5,7 @@ import java.util.List;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.TypeDocument;
 
 
-public interface DocumentTypeServiceInterface {
+public interface TypeDocumentServiceInterface {
 
 	public List<TypeDocument> findAll();
 	

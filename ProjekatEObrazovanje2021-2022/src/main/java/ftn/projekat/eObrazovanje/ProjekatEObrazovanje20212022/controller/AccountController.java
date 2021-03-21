@@ -53,12 +53,12 @@ public class AccountController {
 		return new ResponseEntity<AccountDTO>(new AccountDTO(account), HttpStatus.OK);
 	}
 	
-	@PutMapping(value = "/{id}", consumes = "application/json")
-	public ResponseEntity<AccountDTO> updateAccount(@RequestBody AccountDTO accountDTO, @PathVariable("id") Long id){
+	@PutMapping()
+	public ResponseEntity<AccountDTO> updateAccount(@RequestBody AccountDTO accountDTO){
 		
 		Student student = studentService.findById(accountDTO.getStudentDTO().getId());
 		
-		Account acc = accountService.findById(id);
+		Account acc = accountService.findById(accountDTO.getId());
 		if(acc == null) {
 			return new ResponseEntity<AccountDTO>(HttpStatus.NOT_FOUND);
 		}

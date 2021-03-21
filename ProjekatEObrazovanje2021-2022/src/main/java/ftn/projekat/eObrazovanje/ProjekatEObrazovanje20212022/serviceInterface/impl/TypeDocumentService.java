@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.TypeDocument;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.repository.TypeDocumentRepository;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.DocumentTypeServiceInterface;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.TypeDocumentServiceInterface;
 
 @Service
-public class TypeDocumentService implements DocumentTypeServiceInterface {
+public class TypeDocumentService implements TypeDocumentServiceInterface {
 
 	@Autowired
 	TypeDocumentRepository typeDocumentRepository;

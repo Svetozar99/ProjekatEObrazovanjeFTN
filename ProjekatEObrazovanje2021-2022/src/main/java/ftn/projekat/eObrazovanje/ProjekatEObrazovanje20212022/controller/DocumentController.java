@@ -22,7 +22,7 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Document;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Student;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.TypeDocument;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.DocumentServiceInterface;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.DocumentTypeServiceInterface;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.TypeDocumentServiceInterface;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.StudentServiceI;
 
 @RestController
@@ -36,7 +36,7 @@ public class DocumentController {
 	private StudentServiceI studentS;
 	
 	@Autowired
-	private DocumentTypeServiceInterface documentTypeS;
+	private TypeDocumentServiceInterface documentTypeS;
 	
 	@GetMapping
 	public ResponseEntity<List<DocumentDTO>> getAllDocuments(){

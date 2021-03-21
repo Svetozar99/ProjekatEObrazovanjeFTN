@@ -46,16 +46,16 @@ public class TeachingTypeController {
 		return new ResponseEntity<TeachingTypeDTO>(new TeachingTypeDTO(tt), HttpStatus.OK);
 	}
 	
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<TeachingTypeDTO> updateTeachingType(@RequestBody TeachingTypeDTO ttDTO, @PathVariable("id") Long id){
-		TeachingType tt = teachingTypeS.findById(id);
+	@PutMapping()
+	public ResponseEntity<TeachingTypeDTO> updateTeachingType(@RequestBody TeachingTypeDTO ttDTO){
+		TeachingType tt = teachingTypeS.findById(ttDTO.getId());
 		
 		if(tt == null) {
-			return new ResponseEntity<TeachingTypeDTO>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<TeachingTypeDTO>(HttpStatus.NOT_FOUND);
 		}
 		tt.setName(ttDTO.getName());
 		tt.setCode(ttDTO.getCode());
-		teachingTypeS.save(tt);
+		tt = teachingTypeS.save(tt);
 		return new ResponseEntity<TeachingTypeDTO>(new TeachingTypeDTO(tt), HttpStatus.OK);
 	}
 	
