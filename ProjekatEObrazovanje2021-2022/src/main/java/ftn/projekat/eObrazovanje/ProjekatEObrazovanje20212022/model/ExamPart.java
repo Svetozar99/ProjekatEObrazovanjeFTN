@@ -1,6 +1,6 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Table(name = "exam_parts")
 public class ExamPart extends JpaEntity {
 
-	@Column(name = "date", nullable = false)
+	@Column(name = "date_exam_part", nullable = false)
 	private Date date;
 	
 	@Column(name = "location", nullable = false)

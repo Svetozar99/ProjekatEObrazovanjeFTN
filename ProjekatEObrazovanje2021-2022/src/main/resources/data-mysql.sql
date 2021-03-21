@@ -32,3 +32,10 @@ INSERT INTO type_document(id, name, code) VALUES(1,'Diploma','dipl');
 INSERT INTO documents(id, title, url, type_document_id, student_id) VALUES(1, 'Document1', 'Url1', 1, 1);
 
 INSERT INTO exams(id, points, gradle, enrollment_id) VALUES(1, 92, 10, 1);
+
+INSERT INTO exam_part_types(id,name,code) VALUES (1,'Kolokvijum1','kolk');
+
+INSERT INTO exam_part_status(id,name,code) VALUES (1,'Polozio','p');
+
+INSERT INTO exam_parts(id, date_exam_part, location, points,exam_id,exam_part_type_id,exam_part_status_id) 
+VALUES(1, '2021-03-21', 'Location1', 30, 1, 1, 1);
