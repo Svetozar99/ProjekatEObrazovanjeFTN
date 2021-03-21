@@ -34,6 +34,11 @@ public class Document extends JpaEntity{
 		this.student = student;
 	}
 
+	public Document() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
 	public String getTitle() {
 		return title;
 	}

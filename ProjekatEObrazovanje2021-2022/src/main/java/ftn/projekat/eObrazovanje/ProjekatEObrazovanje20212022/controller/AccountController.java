@@ -47,7 +47,9 @@ public class AccountController {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<AccountDTO> getOneAccount(@PathVariable("id") Long id){
 		Account account = accountService.findById(id);
-		
+		if(account == null) {
+			return new ResponseEntity<AccountDTO>(HttpStatus.NOT_FOUND);
+		}
 		return new ResponseEntity<AccountDTO>(new AccountDTO(account), HttpStatus.OK);
 	}
 	
@@ -58,11 +60,11 @@ public class AccountController {
 		
 		Account acc = accountService.findById(id);
 		if(acc == null) {
-			return new ResponseEntity<AccountDTO>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<AccountDTO>(HttpStatus.NOT_FOUND);
 		}
 		acc.setAmount(accountDTO.getAmount());
 		acc.setStudent(student);
-		accountService.save(acc);
+		acc = accountService.save(acc);
 		return new ResponseEntity<AccountDTO>(new AccountDTO(acc), HttpStatus.OK);
 	}
 	
