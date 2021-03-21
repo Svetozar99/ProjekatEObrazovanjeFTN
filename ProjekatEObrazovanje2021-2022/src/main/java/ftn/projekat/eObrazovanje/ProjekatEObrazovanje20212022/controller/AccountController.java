@@ -27,10 +27,10 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.S
 public class AccountController {
 
 	@Autowired
-	public AccountServiceI accountService;
+	private AccountServiceI accountService;
 	
 	@Autowired
-	public StudentServiceI studentService;
+	private StudentServiceI studentService;
 	
 	@GetMapping
 	public ResponseEntity<List<AccountDTO>> getAllAccount(){

@@ -26,10 +26,10 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.U
 public class AdministratorController {
 
 	@Autowired
-	AdministratorServiceI adminService;
+	private AdministratorServiceI adminService;
 	
 	@Autowired
-	UserServiceI userService;
+	private UserServiceI userService;
 	
 	@GetMapping
 	public ResponseEntity<List<AdministratorDTO>> getAllAdministrators(){

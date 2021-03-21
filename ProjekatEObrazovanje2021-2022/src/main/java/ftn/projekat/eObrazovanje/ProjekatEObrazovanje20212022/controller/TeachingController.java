@@ -30,16 +30,16 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.T
 public class TeachingController {
 
 	@Autowired
-	TeachingServiceI tsi;
+	private TeachingServiceI tsi;
 	
 	@Autowired
-	TeachingTypeI tti;
+	private TeachingTypeI tti;
 	
 	@Autowired
-	TeacherServiceI ti;
+	private TeacherServiceI ti;
 	
 	@Autowired
-	CourseInstanceI ci;
+	private CourseInstanceI ci;
 	
 	@GetMapping
 	public ResponseEntity<List<TeachingDTO>> getAll(){

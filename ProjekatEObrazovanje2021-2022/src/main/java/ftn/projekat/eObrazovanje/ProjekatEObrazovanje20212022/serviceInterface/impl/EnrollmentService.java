@@ -22,7 +22,7 @@ public class EnrollmentService implements EnrollmentServiceI {
 	}
 
 	@Override
-	public Enrollment getOne(Long id) {
+	public Enrollment findById(Long id) {
 		// TODO Auto-generated method stub
 		return er.getOne(id);
 	}

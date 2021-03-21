@@ -28,13 +28,13 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.S
 public class EnrollmentController {
 
 	@Autowired
-	EnrollmentServiceI e;
+	private EnrollmentServiceI e;
 	
 	@Autowired
-	StudentServiceI s;
+	private StudentServiceI s;
 	
 	@Autowired
-	CourseInstanceI c;
+	private CourseInstanceI c;
 	
 	@GetMapping
 	public ResponseEntity<List<EnrollmentDTO>> getAll(){
@@ -50,7 +50,7 @@ public class EnrollmentController {
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<EnrollmentDTO> getOne(@PathVariable("id") Long id){
-		Enrollment enrollment = e.getOne(id);
+		Enrollment enrollment = e.findById(id);
 		
 		return new ResponseEntity<EnrollmentDTO>(new EnrollmentDTO(enrollment), HttpStatus.OK);
 	}
@@ -60,7 +60,7 @@ public class EnrollmentController {
 		Student student = s.findById(edto.getStudentDTO().getId());
 		CourseInstance cii = c.findById(edto.getCourseInstanceDTO().getId());
 		
-		Enrollment enr = e.getOne(id);
+		Enrollment enr = e.findById(id);
 		if(enr == null) {
 			return new ResponseEntity<EnrollmentDTO>(HttpStatus.BAD_REQUEST);
 		}
@@ -84,7 +84,7 @@ public class EnrollmentController {
 	
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
-		Enrollment enr = e.getOne(id);
+		Enrollment enr = e.findById(id);
 		if(enr != null) {
 			e.delete(id);
 			return new ResponseEntity<Void>(HttpStatus.OK);

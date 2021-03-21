@@ -26,10 +26,10 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.U
 public class TeacherController {
 
 	@Autowired
-	TeacherServiceI teacherService;
+	private TeacherServiceI teacherService;
 	
 	@Autowired
-	UserServiceI userService;
+	private UserServiceI userService;
 	
 	@GetMapping
 	public ResponseEntity<List<TeacherDTO>> getAllTeachers(){

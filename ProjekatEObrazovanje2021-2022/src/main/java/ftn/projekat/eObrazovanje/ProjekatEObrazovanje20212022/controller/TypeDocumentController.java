@@ -27,7 +27,7 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.T
 public class TypeDocumentController {
 	
 	@Autowired
-	TypeDocumentServiceInterface typeS;
+	private TypeDocumentServiceInterface typeS;
 	
 	@GetMapping
 	public ResponseEntity<List<TypeDocumentDTO>> getAllTypeDocuments(){

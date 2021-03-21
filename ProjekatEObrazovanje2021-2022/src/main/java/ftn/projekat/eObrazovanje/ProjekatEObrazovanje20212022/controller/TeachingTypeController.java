@@ -24,7 +24,7 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.T
 public class TeachingTypeController {
 
 	@Autowired
-	TeachingTypeI teachingTypeS;
+	private TeachingTypeI teachingTypeS;
 	
 	@GetMapping
 	public ResponseEntity<List<TeachingTypeDTO>> getAllTeachingTypes(){

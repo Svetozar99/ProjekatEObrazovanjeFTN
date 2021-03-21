@@ -8,7 +8,7 @@ public interface EnrollmentServiceI {
 
 	public List<Enrollment> findAll();
 	
-	public Enrollment getOne(Long id);
+	public Enrollment findById(Long id);
 	
 	public Enrollment save(Enrollment e);
 	

@@ -26,10 +26,10 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.C
 public class CourseInstanceController {
 
 	@Autowired
-	CourseInstanceI ci;
+	private CourseInstanceI ci;
 	
 	@Autowired
-	CourseSpecificationI cs;
+	private CourseSpecificationI cs;
 	
 	@GetMapping
 	public ResponseEntity<List<CourseInstanceDTO>> getAll(){

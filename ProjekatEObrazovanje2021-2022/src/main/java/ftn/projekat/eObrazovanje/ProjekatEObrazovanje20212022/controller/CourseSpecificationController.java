@@ -24,7 +24,7 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.i
 public class CourseSpecificationController {
 
 	@Autowired
-	CourseSpecificationService coursSpecifServ;
+	private CourseSpecificationService coursSpecifServ;
 	
 	@GetMapping
 	public ResponseEntity<List<CourseSpecificationDTO>> getAllCourseSpecifications(){
