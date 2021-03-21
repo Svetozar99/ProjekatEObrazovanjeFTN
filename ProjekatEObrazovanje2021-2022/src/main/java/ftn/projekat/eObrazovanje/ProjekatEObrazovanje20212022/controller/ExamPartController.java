@@ -102,7 +102,7 @@ public class ExamPartController {
 		
 		examPart = examPartS.save(examPart);
 			
-		return new ResponseEntity<ExamPartDTO>(new ExamPartDTO(examPart), HttpStatus.OK);
+		return new ResponseEntity<ExamPartDTO>(new ExamPartDTO(examPart), HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping(value = "/{id}")

@@ -81,7 +81,7 @@ public class ExamController {
 		
 		exam = examS.save(exam);
 		
-		return new ResponseEntity<ExamDTO>(new ExamDTO(exam), HttpStatus.OK);
+		return new ResponseEntity<ExamDTO>(new ExamDTO(exam), HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping(value = "/{id}")

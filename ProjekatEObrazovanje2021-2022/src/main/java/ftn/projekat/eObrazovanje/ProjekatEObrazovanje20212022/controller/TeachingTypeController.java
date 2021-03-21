@@ -39,10 +39,12 @@ public class TeachingTypeController {
 		return new ResponseEntity<List<TeachingTypeDTO>>(teachingTypesDTO, HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/{id}", consumes = "application/json")
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<TeachingTypeDTO> getOneTeachingType(@PathVariable("id") Long id){
 		TeachingType tt = teachingTypeS.findById(id);
-		
+		if(tt == null) {
+			return new ResponseEntity<TeachingTypeDTO>(HttpStatus.NOT_FOUND);
+		}
 		return new ResponseEntity<TeachingTypeDTO>(new TeachingTypeDTO(tt), HttpStatus.OK);
 	}
 	

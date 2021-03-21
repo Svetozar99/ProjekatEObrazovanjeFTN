@@ -61,12 +61,12 @@ public class StudentController {
 		return new ResponseEntity<StudentDTO>(new StudentDTO(student), HttpStatus.OK);
 	}
 	
-	@PutMapping(value = "/{id}", consumes = "application/json")
-	public ResponseEntity<StudentDTO> updateStudent(@RequestBody StudentDTO studentDTO, @PathVariable("id") Long id){
+	@PutMapping()
+	public ResponseEntity<StudentDTO> updateStudent(@RequestBody StudentDTO studentDTO){
 		User user = userService.findById(studentDTO.getUserDTO().getId());
-		Student student = studentService.findById(id);
+		Student student = studentService.findById(studentDTO.getId());
 		if(student == null) {
-			return new ResponseEntity<StudentDTO>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<StudentDTO>(HttpStatus.NOT_FOUND);
 		}
 		student.setCardNumber(studentDTO.getCardNumber());
 		student.setUser(user);
@@ -82,7 +82,7 @@ public class StudentController {
 		student.setUser(user);
 		student = studentService.save(student);
 		
-		return new ResponseEntity<StudentDTO>(new StudentDTO(student), HttpStatus.OK);
+		return new ResponseEntity<StudentDTO>(new StudentDTO(student), HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping(value = "/{id}")

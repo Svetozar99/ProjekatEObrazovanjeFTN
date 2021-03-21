@@ -46,17 +46,19 @@ public class AdministratorController {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<AdministratorDTO> getOneAdministrator(@PathVariable("id") Long id){
 		Administrator administrator = adminService.findById(id);
-		
+		if(administrator == null) {
+			return new ResponseEntity<AdministratorDTO>(HttpStatus.NOT_FOUND);
+		}
 		return new ResponseEntity<AdministratorDTO>(new AdministratorDTO(administrator), HttpStatus.OK);
 	}
 	
-	@PutMapping(value = "/{id}", consumes = "application/json")
-	public ResponseEntity<AdministratorDTO> updateAdministrator(@RequestBody AdministratorDTO administratorDTO, @PathVariable("id") Long id){
+	@PutMapping()
+	public ResponseEntity<AdministratorDTO> updateAdministrator(@RequestBody AdministratorDTO administratorDTO){
 		
 		User user = userService.findById(administratorDTO.getUserDTO().getId());
-		Administrator admin = adminService.findById(id);
+		Administrator admin = adminService.findById(administratorDTO.getId());
 		if(admin == null) {
-			return new ResponseEntity<AdministratorDTO>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<AdministratorDTO>(HttpStatus.NOT_FOUND);
 		}
 		admin.setUser(user);
 		adminService.save(admin);
@@ -70,7 +72,7 @@ public class AdministratorController {
 		admin.setUser(user);
 		admin = adminService.save(admin);
 		
-		return new ResponseEntity<AdministratorDTO>(new AdministratorDTO(admin), HttpStatus.OK);
+		return new ResponseEntity<AdministratorDTO>(new AdministratorDTO(admin), HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping(value = "/{id}")

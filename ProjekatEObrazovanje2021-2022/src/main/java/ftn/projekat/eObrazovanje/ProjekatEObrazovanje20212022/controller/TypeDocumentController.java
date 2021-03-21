@@ -42,10 +42,12 @@ public class TypeDocumentController {
 		return new ResponseEntity<List<TypeDocumentDTO>>(dtos, HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/{id}", consumes = "application/json")
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<TypeDocumentDTO> getOneTypeDocument(@PathVariable("id") Long id){
 		TypeDocument t = typeS.findById(id);
-		
+		if(t == null) {
+			return new ResponseEntity<TypeDocumentDTO>(HttpStatus.NOT_FOUND);
+		}
 		return new ResponseEntity<TypeDocumentDTO>(new TypeDocumentDTO(t), HttpStatus.OK);
 	}
 	

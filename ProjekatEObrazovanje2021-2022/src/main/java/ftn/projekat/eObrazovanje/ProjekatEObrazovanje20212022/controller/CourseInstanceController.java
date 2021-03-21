@@ -46,18 +46,20 @@ public class CourseInstanceController {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<CourseInstanceDTO> getOne(@PathVariable("id") Long id){
 		CourseInstance cis = ci.findById(id);
-		
+		if(cis == null) {
+			return new ResponseEntity<CourseInstanceDTO>(HttpStatus.NOT_FOUND);
+		}
 		return new ResponseEntity<CourseInstanceDTO>(new CourseInstanceDTO(cis), HttpStatus.OK);
 	}
 	
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<CourseInstanceDTO> update(@RequestBody CourseInstanceDTO cid ,@PathVariable("id") Long id){
+	@PutMapping()
+	public ResponseEntity<CourseInstanceDTO> update(@RequestBody CourseInstanceDTO cid){
 		CourseSpecification c = cs.findById(cid.getCourseSpecificationDTO().getId());
 		
-		CourseInstance cit = ci.findById(id);
+		CourseInstance cit = ci.findById(cid.getId());
 		
 		if(cit == null) {
-			return new ResponseEntity<CourseInstanceDTO>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<CourseInstanceDTO>(HttpStatus.NOT_FOUND);
 		}
 		cit.setStartDate(cid.getStartDate());
 		cit.setEndDate(cid.getEndDate());

@@ -78,7 +78,7 @@ public class AccountController {
 		
 		account = accountService.save(account);
 		
-		return new ResponseEntity<AccountDTO>(new AccountDTO(account), HttpStatus.OK);
+		return new ResponseEntity<AccountDTO>(new AccountDTO(account), HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping(value = "/{id}")

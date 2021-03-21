@@ -42,16 +42,18 @@ public class CourseSpecificationController {
 	@GetMapping(value = "/{id}", consumes = "application/json")
 	public ResponseEntity<CourseSpecificationDTO> getOneCourseSpecification(@PathVariable("id") Long id){
 		CourseSpecification cs = coursSpecifServ.findById(id);
-		
+		if(cs == null) {
+			return new ResponseEntity<CourseSpecificationDTO>(HttpStatus.NOT_FOUND);
+		}
 		return new ResponseEntity<CourseSpecificationDTO>(new CourseSpecificationDTO(cs), HttpStatus.OK);
 	}
 	
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<CourseSpecificationDTO> updateCourseSpecification(@RequestBody CourseSpecificationDTO csDTO, @PathVariable("id") Long id){
-		CourseSpecification cs = coursSpecifServ.findById(id);
+	@PutMapping()
+	public ResponseEntity<CourseSpecificationDTO> updateCourseSpecification(@RequestBody CourseSpecificationDTO csDTO){
+		CourseSpecification cs = coursSpecifServ.findById(csDTO.getId());
 		
 		if(cs == null) {
-			return new ResponseEntity<CourseSpecificationDTO>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<CourseSpecificationDTO>(HttpStatus.NOT_FOUND);
 		}
 		cs.setTitle(csDTO.getTitle());
 		cs.setCode(csDTO.getCode());

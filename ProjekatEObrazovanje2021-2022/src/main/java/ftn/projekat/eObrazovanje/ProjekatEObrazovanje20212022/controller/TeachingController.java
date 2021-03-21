@@ -56,27 +56,29 @@ public class TeachingController {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<TeachingDTO> getOne(@PathVariable("id") Long id){
 		Teaching t = tsi.getOne(id);
-		
+		if(t == null) {
+			return new ResponseEntity<TeachingDTO>(HttpStatus.NOT_FOUND);
+		}
 		return new ResponseEntity<TeachingDTO>(new TeachingDTO(t), HttpStatus.OK);
 	}
 	
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<TeachingDTO> update(@RequestBody TeachingDTO tdto,@PathVariable("id") Long id){
+	@PutMapping()
+	public ResponseEntity<TeachingDTO> update(@RequestBody TeachingDTO tdto){
 		TeachingType ttp = tti.findById(tdto.getTeachingTypeDTO().getId());
 		Teacher teacher = ti.findById(tdto.getTeacherDTO().getId());
 		CourseInstance couins = ci.findById(tdto.getCourseInstanceDTO().getId());
 		
-		Teaching t = tsi.getOne(id);
+		Teaching t = tsi.getOne(tdto.getId());
 		
 		if(t == null) {
-			return new ResponseEntity<TeachingDTO>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<TeachingDTO>(HttpStatus.NOT_FOUND);
 		}
 		
 		t.setTeacher(teacher);
 		t.setTeachingType(ttp);
 		t.setCourseInstance(couins);
 		t = tsi.save(t);
-		return new ResponseEntity<TeachingDTO>(new TeachingDTO(t), HttpStatus.CREATED);
+		return new ResponseEntity<TeachingDTO>(new TeachingDTO(t), HttpStatus.OK);
 	}
 	
 	@PostMapping

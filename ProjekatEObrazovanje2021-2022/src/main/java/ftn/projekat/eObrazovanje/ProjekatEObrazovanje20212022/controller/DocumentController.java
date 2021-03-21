@@ -59,7 +59,7 @@ public class DocumentController {
 		return new ResponseEntity<DocumentDTO>(new DocumentDTO(document), HttpStatus.OK);
 	}
 	
-	@PutMapping(consumes = "application/json")
+	@PutMapping()
 	public ResponseEntity<DocumentDTO> updateDocument(@RequestBody DocumentDTO dto){
 		
 		Student student = studentS.findById(dto.getStudentDTO().getId());
@@ -87,7 +87,7 @@ public class DocumentController {
 		document.setStudent(student);
 		document.setTypeDocument(typeDocument);
 		document = documentS.save(document);
-		return new ResponseEntity<DocumentDTO>(new DocumentDTO(document), HttpStatus.OK);
+		return new ResponseEntity<DocumentDTO>(new DocumentDTO(document), HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping(value = "/{id}")

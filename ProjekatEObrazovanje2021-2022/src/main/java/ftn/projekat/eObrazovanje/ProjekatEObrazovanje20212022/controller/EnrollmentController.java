@@ -51,18 +51,20 @@ public class EnrollmentController {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<EnrollmentDTO> getOne(@PathVariable("id") Long id){
 		Enrollment enrollment = e.findById(id);
-		
+		if(enrollment == null) {
+			return new ResponseEntity<EnrollmentDTO>(HttpStatus.NOT_FOUND);
+		}
 		return new ResponseEntity<EnrollmentDTO>(new EnrollmentDTO(enrollment), HttpStatus.OK);
 	}
 	
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<EnrollmentDTO> update(@RequestBody EnrollmentDTO edto, @PathVariable("id") Long id){
+	@PutMapping()
+	public ResponseEntity<EnrollmentDTO> update(@RequestBody EnrollmentDTO edto){
 		Student student = s.findById(edto.getStudentDTO().getId());
 		CourseInstance cii = c.findById(edto.getCourseInstanceDTO().getId());
 		
-		Enrollment enr = e.findById(id);
+		Enrollment enr = e.findById(edto.getId());
 		if(enr == null) {
-			return new ResponseEntity<EnrollmentDTO>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<EnrollmentDTO>(HttpStatus.NOT_FOUND);
 		}
 		enr.setStudent(student);
 		enr.setCourseInstance(cii);

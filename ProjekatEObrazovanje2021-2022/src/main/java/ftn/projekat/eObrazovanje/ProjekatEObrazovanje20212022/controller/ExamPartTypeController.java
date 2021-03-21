@@ -43,7 +43,7 @@ public class ExamPartTypeController {
 		return new ResponseEntity<List<ExamPartTypeDTO>>(dtos, HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/{id}", consumes = "application/json")
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<ExamPartTypeDTO> getOneTypeDocument(@PathVariable("id") Long id){
 		ExamPartType t = typeS.findById(id);
 		if(t == null) {

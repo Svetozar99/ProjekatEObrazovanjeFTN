@@ -46,17 +46,19 @@ public class TeacherController {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<TeacherDTO> getOneTeacher(@PathVariable("id") Long id){
 		Teacher teacher = teacherService.findById(id);
-		
+		if(teacher == null) {
+			return new ResponseEntity<TeacherDTO>(HttpStatus.NOT_FOUND);
+		}
 		return new ResponseEntity<TeacherDTO>(new TeacherDTO(teacher), HttpStatus.OK);
 	}
 	
-	@PutMapping(value = "/{id}", consumes = "application/json")
-	public ResponseEntity<TeacherDTO> updateTeacher(@RequestBody TeacherDTO teacherDTO, @PathVariable("id") Long id){
+	@PutMapping()
+	public ResponseEntity<TeacherDTO> updateTeacher(@RequestBody TeacherDTO teacherDTO){
 		
 		User user = userService.findById(teacherDTO.getUserDTO().getId());
-		Teacher teacher = teacherService.findById(id);
+		Teacher teacher = teacherService.findById(teacherDTO.getId());
 		if(teacher == null) {
-			return new ResponseEntity<TeacherDTO>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<TeacherDTO>(HttpStatus.NOT_FOUND);
 		}
 		teacher.setUser(user);
 		teacherService.save(teacher);
@@ -70,7 +72,7 @@ public class TeacherController {
 		teacher.setUser(user);
 		teacher = teacherService.save(teacher);
 		
-		return new ResponseEntity<TeacherDTO>(new TeacherDTO(teacher), HttpStatus.OK);
+		return new ResponseEntity<TeacherDTO>(new TeacherDTO(teacher), HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping(value = "/{id}")
