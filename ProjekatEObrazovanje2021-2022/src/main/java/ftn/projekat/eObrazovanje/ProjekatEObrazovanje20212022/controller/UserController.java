@@ -27,6 +27,7 @@ public class UserController {
 	@Autowired
 	TokenUtils tokenUtils;
 	
+	@SuppressWarnings("unused")
 	@RequestMapping(value = "/api/login", method = RequestMethod.POST)
 	public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
         try {

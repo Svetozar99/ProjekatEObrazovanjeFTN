@@ -3,8 +3,6 @@ package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos;
 import java.util.Date;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPart;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPartStatus;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPartType;
 
 public class ExamPartDTO {
 

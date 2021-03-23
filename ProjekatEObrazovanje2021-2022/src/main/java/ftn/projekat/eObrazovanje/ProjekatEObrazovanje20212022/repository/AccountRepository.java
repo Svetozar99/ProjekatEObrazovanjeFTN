@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Account;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Student;
 
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
