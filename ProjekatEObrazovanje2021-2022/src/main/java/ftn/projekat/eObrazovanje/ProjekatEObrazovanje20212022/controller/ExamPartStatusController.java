@@ -14,13 +14,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.ExamPartStatusDTO;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.ExamPartTypeDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPartStatus;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPartType;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamPartStatusServiceInterface;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamPartTypeServiceInterface;
 
 @RestController
 @RequestMapping(value = "api/exam-part-status")

@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.ExamDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.ExamPartDTO;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Enrollment;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Exam;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPart;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPartStatus;

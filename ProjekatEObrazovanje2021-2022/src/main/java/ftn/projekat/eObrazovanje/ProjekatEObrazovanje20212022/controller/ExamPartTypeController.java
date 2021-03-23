@@ -16,12 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.ExamPartTypeDTO;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.TeachingTypeDTO;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.TypeDocumentDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPartType;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.TypeDocument;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamPartTypeServiceInterface;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.TypeDocumentServiceInterface;
 
 @RestController
 @RequestMapping(value = "api/exam-part-type")

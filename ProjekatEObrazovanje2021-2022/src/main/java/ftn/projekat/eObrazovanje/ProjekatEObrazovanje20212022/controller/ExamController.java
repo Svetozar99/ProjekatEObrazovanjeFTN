@@ -17,16 +17,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.ExamDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Enrollment;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Exam;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Student;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.User;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.EnrollmentServiceI;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamServiceInterface;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.StudentServiceI;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.UserServiceI;
 
 @RestController
 @RequestMapping(value = "api/exam")
@@ -37,9 +34,6 @@ public class ExamController {
 	
 	@Autowired
 	private EnrollmentServiceI enrollmentS;
-	
-	@Autowired
-	private UserServiceI userService;
 	
 	@Autowired
 	private StudentServiceI studServ;
