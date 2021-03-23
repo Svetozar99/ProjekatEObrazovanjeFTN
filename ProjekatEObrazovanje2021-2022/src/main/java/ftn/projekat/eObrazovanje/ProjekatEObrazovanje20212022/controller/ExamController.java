@@ -93,4 +93,16 @@ public class ExamController {
 		}
 		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 	}
+	
+	@GetMapping(value = "/studnet/{cardNumber}")
+	public ResponseEntity<List<ExamDTO>> getAllExamsByStudent(@PathVariable("cardNumber") String cardNumber){
+		List<Exam> exams = examS.examPassedForStudent(cardNumber);
+		
+		List<ExamDTO> dtos = new ArrayList<ExamDTO>();
+		
+		for (Exam exam : exams) {
+			dtos.add(new ExamDTO(exam));
+		}
+		return new ResponseEntity<List<ExamDTO>>(dtos, HttpStatus.OK);
+	}
 }

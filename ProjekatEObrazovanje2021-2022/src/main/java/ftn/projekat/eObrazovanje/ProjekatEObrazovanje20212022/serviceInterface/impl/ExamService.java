@@ -38,4 +38,10 @@ public class ExamService implements ExamServiceInterface {
 		examRepository.deleteById(id);
 	}
 
+	@Override
+	public List<Exam> examPassedForStudent(String cardNum) {
+		// TODO Auto-generated method stub
+		return examRepository.findOneByEnrollment_student_cardNumber(cardNum);
+	}
+
 }

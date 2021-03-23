@@ -13,4 +13,6 @@ public interface ExamServiceInterface {
 	public Exam save(Exam exam);
 	
 	public void delete(Long id);
+	
+	public List<Exam> examPassedForStudent(String cardNum);
 }
