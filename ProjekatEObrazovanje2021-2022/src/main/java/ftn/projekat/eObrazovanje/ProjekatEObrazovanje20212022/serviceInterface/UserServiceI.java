@@ -13,5 +13,7 @@ public interface UserServiceI {
 	public User save(User user);
 	
 	public void delete(Long id);
+	
+	public User findByUsername(String username);
 }
 

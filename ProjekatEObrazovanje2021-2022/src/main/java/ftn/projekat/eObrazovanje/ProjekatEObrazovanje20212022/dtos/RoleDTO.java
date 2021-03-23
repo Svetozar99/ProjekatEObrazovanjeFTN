@@ -1,6 +1,6 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos;
 
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.UserRole;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Role;
 
 public class RoleDTO {
 
@@ -15,7 +15,7 @@ public class RoleDTO {
 		this.name = name;
 	}
 	
-	public RoleDTO(UserRole role) {
+	public RoleDTO(Role role) {
 		this(role.getId(),role.getCode(),role.getName());
 	}
 

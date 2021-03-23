@@ -1,11 +1,14 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,14 +18,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.AccountDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.ExamDTO;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Account;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Enrollment;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Exam;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Student;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.User;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.EnrollmentServiceI;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamServiceInterface;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.StudentServiceI;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.UserServiceI;
 
 @RestController
 @RequestMapping(value = "api/exam")
@@ -34,7 +38,14 @@ public class ExamController {
 	@Autowired
 	private EnrollmentServiceI enrollmentS;
 	
+	@Autowired
+	private UserServiceI userService;
+	
+	@Autowired
+	private StudentServiceI studServ;
+	
 	@GetMapping
+	@PreAuthorize("hasAnyRole('ROLE_STUDENT')")
 	public ResponseEntity<List<ExamDTO>> getAllExams(){
 		List<Exam> exams = examS.findAll();
 		
@@ -72,6 +83,7 @@ public class ExamController {
 	}
 	
 	@PostMapping
+//	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<ExamDTO> saveExam(@RequestBody ExamDTO dto){
 		Exam exam = new Exam();
 		Enrollment enrollment = enrollmentS.findById(dto.getEnrollmentDTO().getId());
@@ -94,7 +106,21 @@ public class ExamController {
 		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 	}
 	
-	@GetMapping(value = "/studnet/{cardNumber}")
+	
+	@GetMapping(value = "/my-exams")
+	public ResponseEntity<List<ExamDTO>> printWelcome(ModelMap model, Principal principal ) { 
+		String name = principal.getName(); //get logged in username
+		Student st = studServ.findByUser(name);
+		List<Exam> exams = examS.examPassedForStudent(st.getCardNumber());
+		List<ExamDTO> dtos = new ArrayList<ExamDTO>();
+		for (Exam exam : exams) {
+			dtos.add(new ExamDTO(exam));
+		}
+		return new ResponseEntity<List<ExamDTO>>(dtos, HttpStatus.OK);
+	}
+	
+	
+	@GetMapping(value = "/student/{cardNumber}")
 	public ResponseEntity<List<ExamDTO>> getAllExamsByStudent(@PathVariable("cardNumber") String cardNumber){
 		List<Exam> exams = examS.examPassedForStudent(cardNumber);
 		

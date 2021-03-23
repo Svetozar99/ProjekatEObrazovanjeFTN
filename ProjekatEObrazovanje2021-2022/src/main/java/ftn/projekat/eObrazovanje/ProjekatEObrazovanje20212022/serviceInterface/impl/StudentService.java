@@ -35,4 +35,10 @@ public class StudentService implements StudentServiceI {
 		studentRepository.deleteById(id);
 	}
 
+	@Override
+	public Student findByUser(String username) {
+		// TODO Auto-generated method stub
+		return studentRepository.findOneByUser_username(username);
+	}
+
 }

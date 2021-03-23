@@ -13,4 +13,6 @@ public interface StudentServiceI {
 	public Student save(Student student);
 	
 	public void delete(Long id);
+	
+	public Student findByUser(String username);
 }

@@ -2,15 +2,15 @@ package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface;
 
 import java.util.List;
 
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.UserRole;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Role;
 
 public interface UserRoleServiceI {
 	
-	public List<UserRole> findAll();
+	public List<Role> findAll();
 	
-	public UserRole findById(Long id);
+	public Role findById(Long id);
 	
-	public UserRole save(UserRole userRole);
+	public Role save(Role userRole);
 	
 	public void delete(Long id);
 }

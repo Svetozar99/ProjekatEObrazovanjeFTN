@@ -6,5 +6,5 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Student;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
 	Student findOneByCardNumber(String cardNumber);
-	Student findOneByUser_id(Long id);
+	Student findOneByUser_username(String username);
 }

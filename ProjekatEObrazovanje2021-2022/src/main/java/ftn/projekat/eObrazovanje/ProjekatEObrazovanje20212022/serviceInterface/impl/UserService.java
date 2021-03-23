@@ -34,4 +34,10 @@ public class UserService implements UserServiceI {
 	public void delete(Long id) {
 		userRepository.deleteById(id);
 	}
+
+	@Override
+	public User findByUsername(String username) {
+		// TODO Auto-generated method stub
+		return userRepository.findOneByUsername(username);
+	}
 }

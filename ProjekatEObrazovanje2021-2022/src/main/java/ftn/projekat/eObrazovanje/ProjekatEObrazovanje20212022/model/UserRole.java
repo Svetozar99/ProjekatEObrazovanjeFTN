@@ -1,61 +1,42 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model;
 
-import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.FetchType.LAZY;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "user_role")
 public class UserRole extends JpaEntity{
-
-	@Column(name = "name", nullable = false)
-	private String name;
 	
-	@Column(name = "code", nullable = false)
-	private String code;
+	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+	private User user;
 	
-	@OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "role")
-	private List<User> users = new ArrayList<User>();
+	@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+	@JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
+	private Role role;
 
-	public UserRole() {
-		super();
+
+	public User getUser() {
+		return user;
 	}
 
-	public UserRole(Long id, String name, String code, List<User> users) {
-		super(id);
-		this.name = name;
-		this.code = code;
-		this.users = users;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public String getName() {
-		return name;
+	public Role getRole() {
+		return role;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public List<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
+	public void setAuthority(Role role) {
+		this.role = role;
 	}
 }

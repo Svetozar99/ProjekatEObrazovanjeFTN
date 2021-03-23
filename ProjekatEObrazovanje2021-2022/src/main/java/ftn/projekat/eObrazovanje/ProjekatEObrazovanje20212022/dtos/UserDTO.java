@@ -9,24 +9,22 @@ public class UserDTO {
 	private String lastName;
 	private String userName;
 	private String password;
-	private RoleDTO roleDTO;
 	
 	public UserDTO() {
 		super();
 	}
 	
-	public UserDTO(Long id, String firstName, String lastName, String userName, String password, RoleDTO roleDTO) {
+	public UserDTO(Long id, String firstName, String lastName, String userName, String password) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.userName = userName;
 		this.password = password;
-		this.roleDTO = roleDTO;
 	}
 	
 	public UserDTO(User user) {
-		this(user.getId(),user.getFirstName(),user.getLastName(),user.getUsername(),user.getPassword(),new RoleDTO(user.getRole()));
+		this(user.getId(),user.getFirstName(),user.getLastName(),user.getUsername(),user.getPassword());
 	}
 	
 	public Long getId() {
@@ -59,12 +57,4 @@ public class UserDTO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public RoleDTO getRoleDTO() {
-		return roleDTO;
-	}
-	public void setRoleDTO(RoleDTO roleDTO) {
-		this.roleDTO = roleDTO;
-	}
-	
-	
 }

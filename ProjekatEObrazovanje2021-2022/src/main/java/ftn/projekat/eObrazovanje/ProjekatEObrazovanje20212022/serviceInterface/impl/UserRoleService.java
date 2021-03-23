@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.UserRole;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Role;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.repository.UserRoleRepository;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.UserRoleServiceI;
 
@@ -14,17 +14,17 @@ public class UserRoleService implements UserRoleServiceI {
 	UserRoleRepository userRoleRepository;
 	
 	@Override
-	public List<UserRole> findAll() {
+	public List<Role> findAll() {
 		return userRoleRepository.findAll();
 	}
 
 	@Override
-	public UserRole findById(Long id) {
+	public Role findById(Long id) {
 		return userRoleRepository.getOne(id);
 	}
 
 	@Override
-	public UserRole save(UserRole userRole) {
+	public Role save(Role userRole) {
 		return userRoleRepository.save(userRole);
 	}
 
