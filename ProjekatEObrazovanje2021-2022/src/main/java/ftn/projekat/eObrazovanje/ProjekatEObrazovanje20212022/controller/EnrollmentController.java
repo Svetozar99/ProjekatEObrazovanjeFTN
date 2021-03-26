@@ -1,11 +1,13 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -92,5 +94,20 @@ public class EnrollmentController {
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+	}
+	
+	@GetMapping(value = "/my-enrollments")
+	public ResponseEntity<List<EnrollmentDTO>> getMyEnrollments(ModelMap model, Principal principal){
+		String username = principal.getName();
+		Student student = s.findByUser(username);
+		
+		List<Enrollment> enrollments = student.getEnrollments();
+		
+		List<EnrollmentDTO> endto = new ArrayList<EnrollmentDTO>();
+		
+		for(Enrollment e: enrollments) {
+			endto.add(new EnrollmentDTO(e));
+		}
+		return new ResponseEntity<List<EnrollmentDTO>>(endto, HttpStatus.OK);
 	}
 }

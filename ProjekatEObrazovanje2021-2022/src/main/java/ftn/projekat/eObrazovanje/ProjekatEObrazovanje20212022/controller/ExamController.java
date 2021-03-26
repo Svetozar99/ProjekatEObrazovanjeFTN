@@ -102,7 +102,7 @@ public class ExamController {
 	
 	
 	@GetMapping(value = "/my-passed-exams")
-	public ResponseEntity<List<ExamDTO>> passedExams(ModelMap model, Principal principal ) { 
+	public ResponseEntity<List<ExamDTO>> passedExams(ModelMap model, Principal principal) { 
 		String name = principal.getName(); //get logged in username
 		Student st = studServ.findByUser(name);
 		List<Exam> exams = examS.examPassedForStudent(st.getCardNumber());
