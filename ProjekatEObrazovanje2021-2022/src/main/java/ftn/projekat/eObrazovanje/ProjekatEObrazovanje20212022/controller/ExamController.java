@@ -101,18 +101,44 @@ public class ExamController {
 	}
 	
 	
-	@GetMapping(value = "/my-exams")
-	public ResponseEntity<List<ExamDTO>> printWelcome(ModelMap model, Principal principal ) { 
+	@GetMapping(value = "/my-passed-exams")
+	public ResponseEntity<List<ExamDTO>> passedExams(ModelMap model, Principal principal ) { 
 		String name = principal.getName(); //get logged in username
 		Student st = studServ.findByUser(name);
 		List<Exam> exams = examS.examPassedForStudent(st.getCardNumber());
 		List<ExamDTO> dtos = new ArrayList<ExamDTO>();
 		for (Exam exam : exams) {
-			dtos.add(new ExamDTO(exam));
+			if(exam.getGradle() > 5)
+				dtos.add(new ExamDTO(exam));
 		}
 		return new ResponseEntity<List<ExamDTO>>(dtos, HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/my-registred-exams")
+	public ResponseEntity<List<ExamDTO>> registredExams(ModelMap model, Principal principal ) { 
+		String name = principal.getName(); //get logged in username
+		Student st = studServ.findByUser(name);
+		List<Exam> exams = examS.examPassedForStudent(st.getCardNumber());
+		List<ExamDTO> dtos = new ArrayList<ExamDTO>();
+		for (Exam exam : exams) {
+			if(exam.getGradle() == 0)
+				dtos.add(new ExamDTO(exam));
+		}
+		return new ResponseEntity<List<ExamDTO>>(dtos, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/my-false-exams")
+	public ResponseEntity<List<ExamDTO>> falsedExams(ModelMap model, Principal principal ) { 
+		String name = principal.getName(); //get logged in username
+		Student st = studServ.findByUser(name);
+		List<Exam> exams = examS.examPassedForStudent(st.getCardNumber());
+		List<ExamDTO> dtos = new ArrayList<ExamDTO>();
+		for (Exam exam : exams) {
+			if(exam.getGradle() <= 5)
+				dtos.add(new ExamDTO(exam));
+		}
+		return new ResponseEntity<List<ExamDTO>>(dtos, HttpStatus.OK);
+	}
 	
 	@GetMapping(value = "/student/{cardNumber}")
 	public ResponseEntity<List<ExamDTO>> getAllExamsByStudent(@PathVariable("cardNumber") String cardNumber){
@@ -124,5 +150,22 @@ public class ExamController {
 			dtos.add(new ExamDTO(exam));
 		}
 		return new ResponseEntity<List<ExamDTO>>(dtos, HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/register-exam")
+//	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
+	public ResponseEntity<ExamDTO> registerExam(@RequestBody ExamDTO dto, ModelMap model, Principal principal){
+		Exam exam = new Exam();
+		String username = principal.getName(); 
+		Enrollment enrollment = enrollmentS.findById(dto.getEnrollmentDTO().getId());
+		enrollment.setStudent(studServ.findByUser(username));
+		enrollment = enrollmentS.save(enrollment);
+		exam.setPoints(0);
+		exam.setGradle(0);
+		exam.setEnrollment(enrollment);
+		
+		exam = examS.save(exam);
+		
+		return new ResponseEntity<ExamDTO>(new ExamDTO(exam), HttpStatus.CREATED);
 	}
 }

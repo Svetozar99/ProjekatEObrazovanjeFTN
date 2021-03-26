@@ -43,6 +43,8 @@ INSERT INTO type_document(id, name, code) VALUES(1,'Diploma','dipl');
 
 INSERT INTO documents(id, title, url, type_document_id, student_id) VALUES(1, 'Document1', 'Url1', 1, 1);
 
+INSERT INTO exams(id, points, gradle, enrollment_id) VALUES(4, 44, 5, 3);
+INSERT INTO exams(id, points, gradle, enrollment_id) VALUES(5, 32, 5, 1);
 INSERT INTO exams(id, points, gradle, enrollment_id) VALUES(1, 92, 10, 1);
 INSERT INTO exams(id, points, gradle, enrollment_id) VALUES(2, 99, 10, 2);
 INSERT INTO exams(id, points, gradle, enrollment_id) VALUES(3, 51, 6, 3);
