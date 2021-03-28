@@ -1,5 +1,6 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,9 +36,21 @@ public class DocumentController {
 	@Autowired
 	private TypeDocumentServiceInterface documentTypeS;
 	
+//	@GetMapping
+//	public ResponseEntity<List<DocumentDTO>> getAllDocuments(){
+//		List<Document> documents = documentS.findAll();
+//		
+//		List<DocumentDTO> dtos = new ArrayList<DocumentDTO>();
+//		
+//		for (Document document : documents) {
+//			dtos.add(new DocumentDTO(document));
+//		}
+//		return new ResponseEntity<List<DocumentDTO>>(dtos, HttpStatus.OK);
+//	}
+	
 	@GetMapping
-	public ResponseEntity<List<DocumentDTO>> getAllDocuments(){
-		List<Document> documents = documentS.findAll();
+	public ResponseEntity<List<DocumentDTO>> getAllDocumentsByStudent(Principal principal){
+		List<Document> documents = documentS.findByUsername(principal.getName());
 		
 		List<DocumentDTO> dtos = new ArrayList<DocumentDTO>();
 		

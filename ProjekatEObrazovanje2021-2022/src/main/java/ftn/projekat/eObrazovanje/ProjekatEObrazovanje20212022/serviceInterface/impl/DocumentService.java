@@ -38,4 +38,10 @@ public class DocumentService implements DocumentServiceInterface {
 		documentRepository.deleteById(id);
 	}
 
+	@Override
+	public List<Document> findByUsername(String username) {
+		// TODO Auto-generated method stub
+		return documentRepository.findByStudent_user_username(username);
+	}
+
 }

@@ -13,4 +13,6 @@ public interface DocumentServiceInterface {
 	public Document save(Document document);
 	
 	public void delete(Long id);
+	
+	public List<Document> findByUsername(String username);
 }
