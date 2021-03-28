@@ -17,14 +17,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.ExamPartDTO;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Account;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Enrollment;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Exam;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPart;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPartStatus;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPartType;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Student;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.AccountServiceI;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.EnrollmentServiceI;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamPartServiceInterface;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamPartStatusServiceInterface;
@@ -54,6 +57,9 @@ public class ExamPartController {
 	
 	@Autowired
 	private StudentServiceI studServ;
+	
+	@Autowired
+	private AccountServiceI accSevice;
 	
 	@GetMapping
 	public ResponseEntity<List<ExamPartDTO>> getAllExamParts(){
@@ -142,31 +148,28 @@ public class ExamPartController {
 		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
 	}
 	
-//	@GetMapping(value = "/my-registred-exam-parts")
-//	public ResponseEntity<List<ExamPartDTO>> registredExamParts(ModelMap model, Principal principal ) { 
-//		String name = principal.getName(); //get logged in username
-//		Student st = studServ.findByUser(name);
-//		List<ExamPart> examparts = examPartS.examPartPassedForStudent(st.getCardNumber());
-//		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
-//		for (ExamPart exampart : examparts) {
-//			if(exampart.getWonPoints() == 0)
-//				dtos.add(new ExamPartDTO(exampart));
-//		}
-//		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
-//	}
-	
-//	@GetMapping(value = "/my-false-exam-parts")
-//	public ResponseEntity<List<ExamPartDTO>> falsedExamParts(ModelMap model, Principal principal ) { 
-//		String name = principal.getName(); //get logged in username
-//		Student st = studServ.findByUser(name);
-//		List<ExamPart> examparts = examPartS.examPartPassedForStudent(st.getCardNumber());
-//		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
-//		for (ExamPart exampart : examparts) {
-//			if(exampart.getWonPoints() < (exampart.getPoints()/2) + 1)
-//				dtos.add(new ExamPartDTO(exampart));
-//		}
-//		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
-//	}
+	@PutMapping(value = "register-exam-part/{id}/account/{acc-id}")
+	@PreAuthorize("hasAnyRole('ROLE_STUDENT')")
+	public ResponseEntity<ExamPartDTO> registerMyExamPart(@PathVariable("id") Long id,  @PathVariable("acc-id") Long accid){
+		ExamPart examPart = examPartS.findById(id);
+		ExamPartStatus examPartStatus = examPartStatusS.expsByCode("re");
+		if(examPart == null) {
+			return ResponseEntity.notFound().build();
+		}
+		Account acc = accSevice.findById(accid);
+		if(acc.getAmount() <= 0) {
+			throw new ResponseStatusException(
+			          HttpStatus.NOT_FOUND, "Nema dovoljno novca na računu");
+		}else {
+			Double amount = acc.getAmount() - 200;
+			acc.setAmount(amount);
+			acc = accSevice.save(acc);
+		}
+		examPart.setExamPartStatus(examPartStatus);		
+		examPart = examPartS.save(examPart);
+		
+		return new ResponseEntity<ExamPartDTO>(new ExamPartDTO(examPart), HttpStatus.OK);
+	}
 	
 	@PostMapping(value = "/register-exam-part")
 	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
