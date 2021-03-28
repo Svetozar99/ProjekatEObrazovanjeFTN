@@ -9,6 +9,7 @@ public class UserDTO {
 	private String lastName;
 	private String userName;
 	private String password;
+	private String role;
 	
 	public UserDTO() {
 		super();
@@ -57,4 +58,13 @@ public class UserDTO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+	
 }

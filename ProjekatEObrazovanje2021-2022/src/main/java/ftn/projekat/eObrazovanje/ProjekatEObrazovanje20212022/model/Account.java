@@ -30,7 +30,7 @@ public class Account extends JpaEntity {
 
 	public Account() {
 		super();
-		// TODO Auto-generated constructor stub
+		this.amount = 0.0;
 	}
 
 	public Account(Long id, Double amount, List<Payment> payments, Student student) {

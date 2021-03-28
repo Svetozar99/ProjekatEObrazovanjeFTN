@@ -34,4 +34,10 @@ public class AccountService implements AccountServiceI {
 		accountRepository.deleteById(id);
 	}
 
+	@Override
+	public List<Account> findByUsername(String username) {
+		// TODO Auto-generated method stub
+		return accountRepository.findByStudent_user_username(username);
+	}
+
 }

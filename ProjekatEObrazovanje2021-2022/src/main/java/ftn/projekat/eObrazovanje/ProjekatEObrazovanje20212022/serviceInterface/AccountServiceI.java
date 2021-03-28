@@ -13,4 +13,6 @@ public interface AccountServiceI {
 	public Account save(Account account);
 	
 	public void delete(Long id);
+	
+	public List<Account> findByUsername(String username);
 }

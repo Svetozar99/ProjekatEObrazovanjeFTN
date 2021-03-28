@@ -41,4 +41,10 @@ public class StudentService implements StudentServiceI {
 		return studentRepository.findOneByUser_username(username);
 	}
 
+	@Override
+	public Long maxId() {
+		// TODO Auto-generated method stub
+		return studentRepository.maxID();
+	}
+
 }

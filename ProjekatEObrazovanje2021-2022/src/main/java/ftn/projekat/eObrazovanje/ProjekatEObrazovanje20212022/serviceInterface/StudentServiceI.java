@@ -15,4 +15,6 @@ public interface StudentServiceI {
 	public void delete(Long id);
 	
 	public Student findByUser(String username);
+	
+	public Long maxId();
 }

@@ -1,12 +1,13 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.controller;
 
-import java.util.ArrayList;
+import java.security.Principal;
 import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,17 +33,17 @@ public class AccountController {
 	@Autowired
 	private StudentServiceI studentService;
 	
-	@GetMapping
-	public ResponseEntity<List<AccountDTO>> getAllAccount(){
-		List<Account> accounts = accountService.findAll();
-		
-		List<AccountDTO> accountDTOs = new ArrayList<AccountDTO>();
-		
-		for (Account account : accounts) {
-			accountDTOs.add(new AccountDTO(account));
-		}
-		return new ResponseEntity<List<AccountDTO>>(accountDTOs, HttpStatus.OK);
-	}
+//	@GetMapping
+//	public ResponseEntity<List<AccountDTO>> getAllAccount(){
+//		List<Account> accounts = accountService.findAll();
+//		
+//		List<AccountDTO> accountDTOs = new ArrayList<AccountDTO>();
+//		
+//		for (Account account : accounts) {
+//			accountDTOs.add(new AccountDTO(account));
+//		}
+//		return new ResponseEntity<List<AccountDTO>>(accountDTOs, HttpStatus.OK);
+//	}
 	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<AccountDTO> getOneAccount(@PathVariable("id") Long id){
@@ -51,6 +52,15 @@ public class AccountController {
 			return new ResponseEntity<AccountDTO>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<AccountDTO>(new AccountDTO(account), HttpStatus.OK);
+	}
+	
+	@GetMapping()
+	public ResponseEntity<AccountDTO> getAccountsByStudent(ModelMap model, Principal principal){
+		List<Account> accounts = accountService.findByUsername(principal.getName());
+		if(accounts.size() == 0) {
+			return new ResponseEntity<AccountDTO>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<AccountDTO>(new AccountDTO(accounts.get(0)), HttpStatus.OK);
 	}
 	
 	@PutMapping()
