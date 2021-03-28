@@ -13,4 +13,6 @@ public interface TeachingServiceI {
 	public Teaching save(Teaching te);
 	
 	public void delete(Long id);
+	
+	public List<Teaching> findByUsername(String username);
 }

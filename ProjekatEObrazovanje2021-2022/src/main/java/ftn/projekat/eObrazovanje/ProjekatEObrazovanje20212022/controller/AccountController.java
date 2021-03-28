@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,6 +46,7 @@ public class AccountController {
 //	}
 	
 	@GetMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<AccountDTO> getOneAccount(@PathVariable("id") Long id){
 		Account account = accountService.findById(id);
 		if(account == null) {
@@ -54,6 +56,7 @@ public class AccountController {
 	}
 	
 	@GetMapping()
+	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<AccountDTO> getAccountsByStudent(Principal principal){
 		List<Account> accounts = accountService.findByUsername(principal.getName());
 		if(accounts.size() == 0) {
@@ -63,6 +66,7 @@ public class AccountController {
 	}
 	
 	@PutMapping()
+	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<AccountDTO> updateAccount(@RequestBody AccountDTO accountDTO){
 		
 		Student student = studentService.findById(accountDTO.getStudentDTO().getId());
@@ -78,6 +82,7 @@ public class AccountController {
 	}
 	
 	@PostMapping
+	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<AccountDTO> saveAccount(@RequestBody AccountDTO accountDTO){
 		Student student = studentService.findById(accountDTO.getStudentDTO().getId());
 		
@@ -91,6 +96,7 @@ public class AccountController {
 	}
 	
 	@DeleteMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<Void> deleteAccount(@PathVariable("id") Long id){
 		Account account = accountService.findById(id);
 		if(account != null) {

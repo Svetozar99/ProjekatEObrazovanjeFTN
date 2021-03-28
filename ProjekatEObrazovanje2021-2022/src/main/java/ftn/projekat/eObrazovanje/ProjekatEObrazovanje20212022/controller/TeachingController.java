@@ -1,11 +1,13 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,9 +43,22 @@ public class TeachingController {
 	@Autowired
 	private CourseInstanceI ci;
 	
+//	@GetMapping
+//	public ResponseEntity<List<TeachingDTO>> getAll(){
+//		List<Teaching> teachings = tsi.findAll();
+//		
+//		List<TeachingDTO> teachingdto = new ArrayList<TeachingDTO>();
+//		
+//		for(Teaching t : teachings) {
+//			teachingdto.add(new TeachingDTO(t));
+//		}
+//		return new ResponseEntity<List<TeachingDTO>>(teachingdto, HttpStatus.OK);
+//	}
+	
 	@GetMapping
-	public ResponseEntity<List<TeachingDTO>> getAll(){
-		List<Teaching> teachings = tsi.findAll();
+	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
+	public ResponseEntity<List<TeachingDTO>> getAllByTeacher(Principal principal){
+		List<Teaching> teachings = tsi.findByUsername(principal.getName());
 		
 		List<TeachingDTO> teachingdto = new ArrayList<TeachingDTO>();
 		

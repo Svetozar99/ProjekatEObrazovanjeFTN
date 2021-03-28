@@ -37,4 +37,10 @@ public class TeachingService implements TeachingServiceI {
 		tr.deleteById(id);
 	}
 
+	@Override
+	public List<Teaching> findByUsername(String username) {
+		// TODO Auto-generated method stub
+		return tr.findByTeacher_user_username(username);
+	}
+
 }
