@@ -4,7 +4,6 @@ import java.util.List;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPart;
 
-
 public interface ExamPartServiceInterface {
 
 	public List<ExamPart> findAll();
@@ -14,4 +13,8 @@ public interface ExamPartServiceInterface {
 	public ExamPart save(ExamPart examPart);
 	
 	public void delete(Long id);
+	
+	public List<ExamPart> examPartPassedForStudent(String cardNumber);
+	
+	public List<ExamPart> findByCodeAndCardNum(String code, String cardNum);
 }

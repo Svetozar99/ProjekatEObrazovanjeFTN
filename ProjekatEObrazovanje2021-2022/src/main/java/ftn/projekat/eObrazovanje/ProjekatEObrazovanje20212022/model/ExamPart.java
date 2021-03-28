@@ -22,6 +22,9 @@ public class ExamPart extends JpaEntity {
 	@Column(name = "points", nullable = false)
 	private Integer points;
 	
+	@Column(name = "won_points")
+	private Integer wonPoints;
+	
 	@ManyToOne
 	@JoinColumn(name="exam_id", referencedColumnName="id", nullable=false)
 	private Exam exam;
@@ -38,17 +41,31 @@ public class ExamPart extends JpaEntity {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	public ExamPart(Long id, Date date, String location, Integer points, Exam exam, ExamPartType examPartType,
-			ExamPartStatus examPartStatus) {
+	
+	public ExamPart(Long id, Date date, String location, Integer points, Integer wonPoints, Exam exam,
+			ExamPartType examPartType, ExamPartStatus examPartStatus) {
 		super(id);
 		this.date = date;
 		this.location = location;
 		this.points = points;
+		this.wonPoints = wonPoints;
 		this.exam = exam;
 		this.examPartType = examPartType;
 		this.examPartStatus = examPartStatus;
 	}
+
+
+
+//	public ExamPart(Long id, Date date, String location, Integer points, Exam exam, ExamPartType examPartType,
+//			ExamPartStatus examPartStatus) {
+//		super(id);
+//		this.date = date;
+//		this.location = location;
+//		this.points = points;
+//		this.exam = exam;
+//		this.examPartType = examPartType;
+//		this.examPartStatus = examPartStatus;
+//	}
 
 	public Date getDate() {
 		return date;
@@ -96,5 +113,13 @@ public class ExamPart extends JpaEntity {
 
 	public void setExamPartStatus(ExamPartStatus examPartStatus) {
 		this.examPartStatus = examPartStatus;
+	}
+
+	public Integer getWonPoints() {
+		return wonPoints;
+	}
+
+	public void setWonPoints(Integer wonPoints) {
+		this.wonPoints = wonPoints;
 	}
 }

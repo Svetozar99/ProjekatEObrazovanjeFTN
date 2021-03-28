@@ -38,4 +38,16 @@ public class ExamPartService implements ExamPartServiceInterface {
 		examPartRepository.deleteById(id);
 	}
 
+	@Override
+	public List<ExamPart> examPartPassedForStudent(String cardNumber) {
+		// TODO Auto-generated method stub
+		return examPartRepository.findOneByExam_enrollment_student_cardNumber(cardNumber);
+	}
+
+	@Override
+	public List<ExamPart> findByCodeAndCardNum(String code, String cardNum) {
+		// TODO Auto-generated method stub
+		return examPartRepository.findByExamPartStatus_codeAndExam_enrollment_student_cardNumber(code, cardNum);
+	}
+
 }

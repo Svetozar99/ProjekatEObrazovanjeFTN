@@ -14,4 +14,6 @@ public interface ExamPartStatusServiceInterface {
 	public ExamPartStatus save(ExamPartStatus examPart);
 	
 	public void delete(Long id);
+	
+	public ExamPartStatus expsByCode(String code);
 }

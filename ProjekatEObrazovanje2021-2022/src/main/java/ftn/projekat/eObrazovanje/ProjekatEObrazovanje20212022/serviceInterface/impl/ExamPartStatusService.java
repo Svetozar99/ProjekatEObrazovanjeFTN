@@ -38,4 +38,10 @@ public class ExamPartStatusService implements ExamPartStatusServiceInterface {
 		repository.deleteById(id);
 	}
 
+	@Override
+	public ExamPartStatus expsByCode(String code) {
+		// TODO Auto-generated method stub
+		return repository.findOneByCode(code);
+	}
+
 }

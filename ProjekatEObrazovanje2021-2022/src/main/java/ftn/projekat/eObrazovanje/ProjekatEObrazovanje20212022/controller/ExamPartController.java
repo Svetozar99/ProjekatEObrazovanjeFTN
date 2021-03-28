@@ -1,11 +1,14 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,15 +17,20 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.ExamPartDTO;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Enrollment;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Exam;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPart;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPartStatus;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPartType;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Student;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.EnrollmentServiceI;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamPartServiceInterface;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamPartStatusServiceInterface;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamPartTypeServiceInterface;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamServiceInterface;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.StudentServiceI;
 
 @RestController
 @RequestMapping(value = "api/exam-part")
@@ -39,6 +47,13 @@ public class ExamPartController {
 	
 	@Autowired
 	private ExamPartStatusServiceInterface examPartStatusS;
+	
+
+	@Autowired
+	private EnrollmentServiceI enrollmentS;
+	
+	@Autowired
+	private StudentServiceI studServ;
 	
 	@GetMapping
 	public ResponseEntity<List<ExamPartDTO>> getAllExamParts(){
@@ -74,6 +89,7 @@ public class ExamPartController {
 		examPart.setDate(dto.getDate());
 		examPart.setLocation(dto.getLocation());
 		examPart.setPoints(dto.getPoints());
+		examPart.setWonPoints(dto.getWonPoints());
 		examPart.setExam(exam);
 		examPart.setExamPartType(examPartType);
 		examPart.setExamPartStatus(examPartStatus);
@@ -93,6 +109,7 @@ public class ExamPartController {
 		examPart.setDate(dto.getDate());
 		examPart.setLocation(dto.getLocation());
 		examPart.setPoints(dto.getPoints());
+		examPart.setWonPoints(0);
 		examPart.setExam(exam);
 		examPart.setExamPartType(examPartType);
 		examPart.setExamPartStatus(examPartStatus);
@@ -110,5 +127,75 @@ public class ExamPartController {
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+	}
+	
+	@GetMapping(value = "/my-exam-parts/{code}")
+	public ResponseEntity<List<ExamPartDTO>> passedExamParts(ModelMap model, Principal principal, @PathVariable("code") String code) {
+		String name = principal.getName(); //get logged in username
+		Student st = studServ.findByUser(name);
+//		ExamPartStatus eps = examPartStatusS.expsByCode(code);
+		List<ExamPart> examparts = examPartS.findByCodeAndCardNum(code, st.getCardNumber());
+		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
+		for (ExamPart exampart : examparts) {
+			dtos.add(new ExamPartDTO(exampart));
+		}
+		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
+	}
+	
+//	@GetMapping(value = "/my-registred-exam-parts")
+//	public ResponseEntity<List<ExamPartDTO>> registredExamParts(ModelMap model, Principal principal ) { 
+//		String name = principal.getName(); //get logged in username
+//		Student st = studServ.findByUser(name);
+//		List<ExamPart> examparts = examPartS.examPartPassedForStudent(st.getCardNumber());
+//		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
+//		for (ExamPart exampart : examparts) {
+//			if(exampart.getWonPoints() == 0)
+//				dtos.add(new ExamPartDTO(exampart));
+//		}
+//		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
+//	}
+	
+//	@GetMapping(value = "/my-false-exam-parts")
+//	public ResponseEntity<List<ExamPartDTO>> falsedExamParts(ModelMap model, Principal principal ) { 
+//		String name = principal.getName(); //get logged in username
+//		Student st = studServ.findByUser(name);
+//		List<ExamPart> examparts = examPartS.examPartPassedForStudent(st.getCardNumber());
+//		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
+//		for (ExamPart exampart : examparts) {
+//			if(exampart.getWonPoints() < (exampart.getPoints()/2) + 1)
+//				dtos.add(new ExamPartDTO(exampart));
+//		}
+//		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
+//	}
+	
+	@PostMapping(value = "/register-exam-part")
+	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
+	public ResponseEntity<List<ExamPartDTO>> registerExamPart(@RequestBody ExamPartDTO dto){
+		List<ExamPartDTO> expdto = new ArrayList<ExamPartDTO>();
+		
+//		String username = principal.getName(); 
+		Enrollment enrollment = enrollmentS.findById(dto.getExamDTO().getEnrollmentDTO().getId());
+		Exam exam = examS.findById(dto.getExamDTO().getId());
+		ExamPartType examPartType = examPartTypeS.findById(dto.getExamPartTypeDTO().getId());
+		ExamPartStatus exp = examPartStatusS.expsByCode("cr");
+		List<Enrollment> enrollments = enrollment.getCourseInstance().getEnrollments();
+		for(Enrollment e : enrollments) {
+			ExamPart exampart = new ExamPart();
+			Student st = e.getStudent();
+			enrollment.setStudent(st);
+			enrollment = enrollmentS.save(enrollment);
+			
+			exampart.setPoints(dto.getPoints());
+			exampart.setDate(dto.getDate());
+			exampart.setLocation(dto.getLocation());
+			exampart.setExam(exam);
+			exampart.setExamPartType(examPartType);
+			exampart.setExamPartStatus(exp);
+			
+			exampart = examPartS.save(exampart);
+			expdto.add(new ExamPartDTO(exampart));
+		}
+		
+		return new ResponseEntity<List<ExamPartDTO>>(expdto, HttpStatus.CREATED);
 	}
 }
