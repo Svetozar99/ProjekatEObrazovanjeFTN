@@ -10,7 +10,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +31,7 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.A
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.StudentServiceI;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.TeacherServiceI;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.UserServiceI;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.impl.UserDetailsServiceImpl;
 
 @RestController
 @RequestMapping(value = "/api")
@@ -41,7 +41,7 @@ public class UserController {
 	AuthenticationManager authenticationManager;
 	
 	@Autowired
-	private UserDetailsService userDetailsService;
+	private UserDetailsServiceImpl userDetailsService;
 	
 	@Autowired 
 	private UserServiceI userService;
@@ -113,5 +113,17 @@ public class UserController {
 		}
 		
 		return new ResponseEntity<UserDTO>(new UserDTO(user), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/change-password", method = RequestMethod.POST)
+	public ResponseEntity<?> changePassword(@RequestBody PasswordChanger passwordChanger) {
+		userDetailsService.changePassword(passwordChanger.oldPassword, passwordChanger.newPassword);
+		
+		return ResponseEntity.accepted().build();
+	}
+
+	static class PasswordChanger {
+		public String oldPassword;
+		public String newPassword;
 	}
 }
