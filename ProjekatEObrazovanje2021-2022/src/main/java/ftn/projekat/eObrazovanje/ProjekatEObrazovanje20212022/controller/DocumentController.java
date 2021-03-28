@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +37,7 @@ public class DocumentController {
 	
 	@Autowired
 	private TypeDocumentServiceInterface documentTypeS;
-	
+
 //	@GetMapping
 //	public ResponseEntity<List<DocumentDTO>> getAllDocuments(){
 //		List<Document> documents = documentS.findAll();
@@ -48,6 +49,9 @@ public class DocumentController {
 //		}
 //		return new ResponseEntity<List<DocumentDTO>>(dtos, HttpStatus.OK);
 //	}
+
+	@Autowired
+	private StudentServiceI studServ;
 	
 	@GetMapping
 	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
@@ -113,5 +117,22 @@ public class DocumentController {
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+	}
+	
+	@PostMapping(value = "/add-my-document/{doc}")
+	@PreAuthorize("hasAnyRole('ROLE_STUDENT')")
+	public ResponseEntity<DocumentDTO> saveMyDocument(ModelMap model, Principal principal, @RequestBody DocumentDTO dto, @PathVariable("doc") String doc){
+		String name = principal.getName(); //get logged in username
+		Student st = studServ.findByUser(name);
+		
+		TypeDocument typeDocument = documentTypeS.typeDocByCode(doc);
+		
+		Document document = new Document();
+		document.setTitle(dto.getTitle());
+		document.setUrl(dto.getUrl());
+		document.setStudent(st);
+		document.setTypeDocument(typeDocument);
+		document = documentS.save(document);
+		return new ResponseEntity<DocumentDTO>(new DocumentDTO(document), HttpStatus.CREATED);
 	}
 }

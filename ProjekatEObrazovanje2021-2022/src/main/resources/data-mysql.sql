@@ -23,7 +23,7 @@ INSERT INTO administrators(id, user_id) VALUES(1, 2);
 
 INSERT INTO teachers(id, user_id) VALUES(1, 3);
 
-INSERT INTO ACCOUNTS(id, amount, student_id) VALUES(1, 12, 1);
+INSERT INTO ACCOUNTS(id, amount, student_id) VALUES(1, 1000, 1);
 
 INSERT INTO course_specification(id, title, ects, code) VALUE(1, 'eObrazovanje', 7, 'eObr');
 INSERT INTO course_specification(id, title, ects, code) VALUE(2, 'eUprava', 6, 'eUpr');
@@ -39,7 +39,8 @@ INSERT INTO enrollments(id, student_id, course_instance_id) VALUES(3, 1, 2);
 
 INSERT INTO teachings(id, teaching_type_id, teacher_id, course_instance_id) VALUES(1, 1, 1, 1);
 
-INSERT INTO type_document(id, name, code) VALUES(1,'Diploma','dipl');
+INSERT INTO type_document(id, name, code) VALUES(1,'Diploma','di');
+INSERT INTO type_document(id, name, code) VALUES(2,'Form','fo');
 
 INSERT INTO documents(id, title, url, type_document_id, student_id) VALUES(1, 'Document1', 'Url1', 1, 1);
 
@@ -55,6 +56,7 @@ INSERT INTO exam_part_status(id,name,code) VALUES (1,'Passed','pa');
 INSERT INTO exam_part_status(id,name,code) VALUES (2,'Created','cr');
 INSERT INTO exam_part_status(id,name,code) VALUES (3,'False','fa');
 INSERT INTO exam_part_status(id,name,code) VALUES (4,'Canceled','ca');
+INSERT INTO exam_part_status(id,name,code) VALUES (5,'Registred','re');
 
 INSERT INTO exam_parts(id, date_exam_part, location, points,won_points,exam_id,exam_part_type_id,exam_part_status_id) 
 VALUES(1, '2021-03-21', 'Location1', 0,0, 1, 1, 2);

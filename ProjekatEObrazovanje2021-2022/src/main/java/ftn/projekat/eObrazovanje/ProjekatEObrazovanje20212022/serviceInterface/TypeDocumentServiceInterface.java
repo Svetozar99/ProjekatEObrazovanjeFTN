@@ -14,4 +14,6 @@ public interface TypeDocumentServiceInterface {
 	public TypeDocument save(TypeDocument typeDocument);
 	
 	public void delete(Long id);
+	
+	public TypeDocument typeDocByCode(String code);
 }
