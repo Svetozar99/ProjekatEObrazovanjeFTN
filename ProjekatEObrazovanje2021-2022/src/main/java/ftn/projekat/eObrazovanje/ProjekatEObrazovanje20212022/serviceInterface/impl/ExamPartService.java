@@ -50,4 +50,10 @@ public class ExamPartService implements ExamPartServiceInterface {
 		return examPartRepository.findByExamPartStatus_codeAndExam_enrollment_student_cardNumber(code, cardNum);
 	}
 
+	@Override
+	public List<ExamPart> findByCardNumAndCourse(String cardNum, Long id) {
+		// TODO Auto-generated method stub
+		return examPartRepository.findByExam_enrollment_student_cardNumberAndExam_enrollment_courseInstance_id(cardNum, id);
+	}
+
 }

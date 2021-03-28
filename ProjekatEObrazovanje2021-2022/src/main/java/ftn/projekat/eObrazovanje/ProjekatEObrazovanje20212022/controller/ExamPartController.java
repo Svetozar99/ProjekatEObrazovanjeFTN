@@ -24,12 +24,14 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPart;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPartStatus;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPartType;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Student;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Teacher;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.EnrollmentServiceI;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamPartServiceInterface;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamPartStatusServiceInterface;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamPartTypeServiceInterface;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamServiceInterface;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.StudentServiceI;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.TeacherServiceI;
 
 @RestController
 @RequestMapping(value = "api/exam-part")
@@ -37,6 +39,9 @@ public class ExamPartController {
 
 	@Autowired
 	private ExamPartServiceInterface examPartS;
+	
+	@Autowired
+	private TeacherServiceI teacherS;
 	
 	@Autowired
 	private ExamServiceInterface examS;
@@ -57,6 +62,18 @@ public class ExamPartController {
 	@GetMapping
 	public ResponseEntity<List<ExamPartDTO>> getAllExamParts(){
 		List<ExamPart> examParts = examPartS.findAll();
+		
+		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
+		
+		for (ExamPart examPart : examParts) {
+			dtos.add(new ExamPartDTO(examPart));
+		}
+		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/{courseId}/{cardNumber}")
+	public ResponseEntity<List<ExamPartDTO>> getAllForCardNumber(@PathVariable("courseId") Long courseId,@PathVariable("cardNumber") String cardNumber){
+		List<ExamPart> examParts = examPartS.findByCardNumAndCourse(cardNumber, courseId);
 		
 		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
 		

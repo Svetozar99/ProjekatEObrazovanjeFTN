@@ -38,4 +38,10 @@ public class TeacherService implements TeacherServiceI {
 		teacherRepos.deleteById(id);
 	}
 
+	@Override
+	public Teacher findByUsername(String username) {
+		// TODO Auto-generated method stub
+		return teacherRepos.findOneByUser_username(username);
+	}
+
 }

@@ -17,4 +17,6 @@ public interface ExamPartServiceInterface {
 	public List<ExamPart> examPartPassedForStudent(String cardNumber);
 	
 	public List<ExamPart> findByCodeAndCardNum(String code, String cardNum);
+	
+	public List<ExamPart> findByCardNumAndCourse(String cardNum,Long id);
 }
