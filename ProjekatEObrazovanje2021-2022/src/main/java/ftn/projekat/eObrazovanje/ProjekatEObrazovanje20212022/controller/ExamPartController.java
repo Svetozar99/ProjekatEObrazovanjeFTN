@@ -72,6 +72,18 @@ public class ExamPartController {
 		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/{courseId}/{cardNumber}")
+	public ResponseEntity<List<ExamPartDTO>> getAllForCardNumber(@PathVariable("courseId") Long courseId,@PathVariable("cardNumber") String cardNumber){
+		List<ExamPart> examParts = examPartS.findByCardNumAndCourse(cardNumber, courseId);
+		
+		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
+		
+		for (ExamPart examPart : examParts) {
+			dtos.add(new ExamPartDTO(examPart));
+		}
+		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<ExamPartDTO> getOneExamPart(@PathVariable("id") Long id){
 		ExamPart examPart = examPartS.findById(id);
