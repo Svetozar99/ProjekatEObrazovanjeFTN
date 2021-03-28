@@ -14,4 +14,6 @@ public interface PaymentServiceInterface {
 	public Payment save(Payment payment);
 	
 	public void delete(Long id);
+	
+	public List<Payment> findByUsername(String username);
 }

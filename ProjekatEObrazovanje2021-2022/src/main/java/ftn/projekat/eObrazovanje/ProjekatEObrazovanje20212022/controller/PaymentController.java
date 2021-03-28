@@ -1,5 +1,6 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,9 +31,22 @@ public class PaymentController {
 	@Autowired
 	private AccountServiceI accountS;
 	
+//	@GetMapping
+//	public ResponseEntity<List<PaymentDTO>> getAllPayments(){
+//		List<Payment> payments = paymentS.findAll();
+//		
+//		List<PaymentDTO> dtos = new ArrayList<PaymentDTO>();
+//		
+//		for(Payment p : payments) {
+//			dtos.add(new PaymentDTO(p));
+//		}
+//		
+//		return new ResponseEntity<List<PaymentDTO>>(dtos, HttpStatus.OK);
+//	}
+	
 	@GetMapping
-	public ResponseEntity<List<PaymentDTO>> getAllPayments(){
-		List<Payment> payments = paymentS.findAll();
+	public ResponseEntity<List<PaymentDTO>> getAllPaymentsByStudent(Principal principal){
+		List<Payment> payments = paymentS.findByUsername(principal.getName());
 		
 		List<PaymentDTO> dtos = new ArrayList<PaymentDTO>();
 		

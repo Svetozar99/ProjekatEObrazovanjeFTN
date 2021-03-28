@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -130,7 +129,7 @@ public class ExamPartController {
 	}
 	
 	@GetMapping(value = "/my-exam-parts/{code}")
-	public ResponseEntity<List<ExamPartDTO>> passedExamParts(ModelMap model, Principal principal, @PathVariable("code") String code) {
+	public ResponseEntity<List<ExamPartDTO>> passedExamParts(Principal principal, @PathVariable("code") String code) {
 		String name = principal.getName(); //get logged in username
 		Student st = studServ.findByUser(name);
 //		ExamPartStatus eps = examPartStatusS.expsByCode(code);

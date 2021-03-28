@@ -38,4 +38,10 @@ public class PaymentService implements PaymentServiceInterface {
 		repository.deleteById(id);
 	}
 
+	@Override
+	public List<Payment> findByUsername(String username) {
+		// TODO Auto-generated method stub
+		return repository.findByAccount_student_user_username(username);
+	}
+
 }
