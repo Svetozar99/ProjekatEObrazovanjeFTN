@@ -1,11 +1,13 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +36,10 @@ public class DocumentController {
 	
 	@Autowired
 	private TypeDocumentServiceInterface documentTypeS;
+	
+
+	@Autowired
+	private StudentServiceI studServ;
 	
 	@GetMapping
 	public ResponseEntity<List<DocumentDTO>> getAllDocuments(){
@@ -95,5 +101,21 @@ public class DocumentController {
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+	}
+	
+	@PostMapping(value = "/add-my-document/{doc}")
+	public ResponseEntity<DocumentDTO> saveMyDocument(ModelMap model, Principal principal, @RequestBody DocumentDTO dto, @PathVariable("doc") String doc){
+		String name = principal.getName(); //get logged in username
+		Student st = studServ.findByUser(name);
+		
+		TypeDocument typeDocument = documentTypeS.typeDocByCode(doc);
+		
+		Document document = new Document();
+		document.setTitle(dto.getTitle());
+		document.setUrl(dto.getUrl());
+		document.setStudent(st);
+		document.setTypeDocument(typeDocument);
+		document = documentS.save(document);
+		return new ResponseEntity<DocumentDTO>(new DocumentDTO(document), HttpStatus.CREATED);
 	}
 }

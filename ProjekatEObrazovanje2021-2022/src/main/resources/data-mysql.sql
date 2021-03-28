@@ -39,7 +39,8 @@ INSERT INTO enrollments(id, student_id, course_instance_id) VALUES(3, 1, 2);
 
 INSERT INTO teachings(id, teaching_type_id, teacher_id, course_instance_id) VALUES(1, 1, 1, 1);
 
-INSERT INTO type_document(id, name, code) VALUES(1,'Diploma','dipl');
+INSERT INTO type_document(id, name, code) VALUES(1,'Diploma','di');
+INSERT INTO type_document(id, name, code) VALUES(2,'Form','fo');
 
 INSERT INTO documents(id, title, url, type_document_id, student_id) VALUES(1, 'Document1', 'Url1', 1, 1);
 

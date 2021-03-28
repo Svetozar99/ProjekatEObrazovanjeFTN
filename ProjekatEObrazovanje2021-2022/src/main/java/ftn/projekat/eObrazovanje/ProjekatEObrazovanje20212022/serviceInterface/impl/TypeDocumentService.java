@@ -38,4 +38,10 @@ public class TypeDocumentService implements TypeDocumentServiceInterface {
 		typeDocumentRepository.deleteById(id);
 	}
 
+	@Override
+	public TypeDocument typeDocByCode(String code) {
+		// TODO Auto-generated method stub
+		return typeDocumentRepository.findOneByCode(code);
+	}
+
 }
