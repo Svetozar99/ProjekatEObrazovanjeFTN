@@ -8,12 +8,18 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.LoginDTO;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.UserDTO;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.User;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.security.TokenUtils;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.UserServiceI;
 
 @RestController
 public class UserController {
@@ -23,6 +29,8 @@ public class UserController {
 	
 	@Autowired
 	private UserDetailsService userDetailsService;
+	
+	@Autowired UserServiceI userService;
 	
 	@Autowired
 	TokenUtils tokenUtils;
@@ -39,5 +47,37 @@ public class UserController {
         } catch (Exception ex) {
             return new ResponseEntity<String>("Invalid login", HttpStatus.BAD_REQUEST);
         }
+	}
+	
+	// Endpoint za registraciju novog korisnika
+	@PostMapping("/signup")
+	public ResponseEntity<UserDTO> addUser(@RequestBody UserDTO dto, UriComponentsBuilder ucBuilder){
+		User existUser = this.userService.findByUsername(dto.getUserName());
+		if (existUser != null) {
+			r="E-mail already exists!";
+			result.put("result", "error");
+			result.put("r", r);
+			return ResponseEntity.badRequest().body(result);
+		}
+		if (!isValidEmailAddress(dto.getEmail())) {
+			r="E-mail address is not valid!";
+			result.put("result", "error");
+			result.put("r", r);
+			return ResponseEntity.badRequest().body(result);
+		}else {
+			r="You have successfully registered!";
+			User user = this.userServiceImpl.save(dto);
+			UserRequest u=new UserRequest(user);
+			createCertificate(u);
+			user.setCertificate("./data/"+u.getEmail()+".cer");
+			User user2=  this.userRepository.save(user);
+			System.out.println(user2.toString());
+			HttpHeaders headers = new HttpHeaders();
+			headers.setLocation(ucBuilder.path("/api/user/{userId}").buildAndExpand(user.getId()).toUri());
+			result.put("r", r);
+			result.put("result", "success");
+		}
+		
+		return ResponseEntity.accepted().body(result);
 	}
 }
