@@ -34,7 +34,6 @@ public class StudentController {
 	private UserServiceI userService;
 	
 	@GetMapping
-	@PreAuthorize("hasAnyRole('ROLE_TEACHER')")
 	public ResponseEntity<List<StudentDTO>> getAllStudents(){
 		List<Student> students = studentService.findAll();
 		
@@ -64,6 +63,7 @@ public class StudentController {
 	}
 	
 	@PutMapping()
+	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<StudentDTO> updateStudent(@RequestBody StudentDTO studentDTO){
 		User user = userService.findById(studentDTO.getUserDTO().getId());
 		Student student = studentService.findById(studentDTO.getId());
@@ -77,6 +77,7 @@ public class StudentController {
 	}
 	
 	@PostMapping
+	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR')")
 	public ResponseEntity<StudentDTO> saveStudent(@RequestBody StudentDTO studentDTO){
 		User user = userService.findById(studentDTO.getUserDTO().getId());
 		Student student = new Student();
@@ -88,6 +89,7 @@ public class StudentController {
 	}
 	
 	@DeleteMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR')")
 	public ResponseEntity<Void> deleteStudent(@PathVariable("id") Long id){
 		Student student = studentService.findById(id);
 		if(student != null) {

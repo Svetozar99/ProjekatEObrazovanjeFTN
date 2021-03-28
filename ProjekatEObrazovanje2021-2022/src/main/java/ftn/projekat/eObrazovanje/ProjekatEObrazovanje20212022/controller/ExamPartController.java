@@ -60,19 +60,8 @@ public class ExamPartController {
 	@Autowired
 	private AccountServiceI accSevice;
 	
-	@GetMapping
-	public ResponseEntity<List<ExamPartDTO>> getAllExamParts(){
-		List<ExamPart> examParts = examPartS.findAll();
-		
-		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
-		
-		for (ExamPart examPart : examParts) {
-			dtos.add(new ExamPartDTO(examPart));
-		}
-		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
-	}
-	
 	@GetMapping(value = "/{courseId}/{cardNumber}")
+	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<List<ExamPartDTO>> getAllForCardNumber(@PathVariable("courseId") Long courseId,@PathVariable("cardNumber") String cardNumber){
 		List<ExamPart> examParts = examPartS.findByCardNumAndCourse(cardNumber, courseId);
 		
@@ -84,7 +73,7 @@ public class ExamPartController {
 		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/{id}")
+	@GetMapping(value = "/{id}")//izmjeniti ovo kad dodje vrijeme
 	public ResponseEntity<ExamPartDTO> getOneExamPart(@PathVariable("id") Long id){
 		ExamPart examPart = examPartS.findById(id);
 		if(examPart == null) {
@@ -95,6 +84,7 @@ public class ExamPartController {
 	}
 	
 	@PutMapping()
+	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<ExamPartDTO> updateExamPart(@RequestBody ExamPartDTO dto){
 		ExamPart examPart = examPartS.findById(dto.getId());
 		Exam exam = examS.findById(dto.getExamDTO().getId());
@@ -116,27 +106,29 @@ public class ExamPartController {
 		return new ResponseEntity<ExamPartDTO>(new ExamPartDTO(examPart), HttpStatus.OK);
 	}
 	
-	@PostMapping
-	public ResponseEntity<ExamPartDTO> saveExamPart(@RequestBody ExamPartDTO dto){
-		ExamPart examPart = new ExamPart();
-		Exam exam = examS.findById(dto.getExamDTO().getId());
-		ExamPartType examPartType = examPartTypeS.findById(dto.getExamPartTypeDTO().getId());
-		ExamPartStatus examPartStatus = examPartStatusS.findById(dto.getStatusDTO().getId());
-		
-		examPart.setDate(dto.getDate());
-		examPart.setLocation(dto.getLocation());
-		examPart.setPoints(dto.getPoints());
-		examPart.setWonPoints(0);
-		examPart.setExam(exam);
-		examPart.setExamPartType(examPartType);
-		examPart.setExamPartStatus(examPartStatus);
-		
-		examPart = examPartS.save(examPart);
-			
-		return new ResponseEntity<ExamPartDTO>(new ExamPartDTO(examPart), HttpStatus.CREATED);
-	}
+//	@PostMapping
+//	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
+//	public ResponseEntity<ExamPartDTO> saveExamPart(@RequestBody ExamPartDTO dto){
+//		ExamPart examPart = new ExamPart();
+//		Exam exam = examS.findById(dto.getExamDTO().getId());
+//		ExamPartType examPartType = examPartTypeS.findById(dto.getExamPartTypeDTO().getId());
+//		ExamPartStatus examPartStatus = examPartStatusS.findById(dto.getStatusDTO().getId());
+//		
+//		examPart.setDate(dto.getDate());
+//		examPart.setLocation(dto.getLocation());
+//		examPart.setPoints(dto.getPoints());
+//		examPart.setWonPoints(0);
+//		examPart.setExam(exam);
+//		examPart.setExamPartType(examPartType);
+//		examPart.setExamPartStatus(examPartStatus);
+//		
+//		examPart = examPartS.save(examPart);
+//			
+//		return new ResponseEntity<ExamPartDTO>(new ExamPartDTO(examPart), HttpStatus.CREATED);
+//	}
 	
 	@DeleteMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR')")
 	public ResponseEntity<Void> deleteExamPart(@PathVariable("id") Long id){
 		ExamPart examPart = examPartS.findById(id);
 		if(examPart != null) {
@@ -147,6 +139,7 @@ public class ExamPartController {
 	}
 	
 	@GetMapping(value = "/my-exam-parts/{code}")
+	@PreAuthorize("hasAnyRole('ROLE_STUDENT')")
 	public ResponseEntity<List<ExamPartDTO>> passedExamParts(Principal principal, @PathVariable("code") String code) {
 		String name = principal.getName(); //get logged in username
 		Student st = studServ.findByUser(name);
@@ -205,6 +198,12 @@ public class ExamPartController {
 			exampart.setExam(exam);
 			exampart.setExamPartType(examPartType);
 			exampart.setExamPartStatus(exp);
+			if(exampart.getExamPartStatus().getCode().equals("pa")) {
+				Integer oldPoints = exampart.getExam().getPoints();
+				exampart.getExam().setPoints(oldPoints + dto.getWonPoints());
+				exampart.getExam().setGradle();
+				examS.save(exampart.getExam());
+			}
 			
 			exampart = examPartS.save(exampart);
 			expdto.add(new ExamPartDTO(exampart));

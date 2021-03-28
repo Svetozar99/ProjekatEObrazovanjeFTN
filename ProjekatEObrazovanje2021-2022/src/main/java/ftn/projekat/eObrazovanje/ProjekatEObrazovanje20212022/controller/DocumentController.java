@@ -67,6 +67,7 @@ public class DocumentController {
 	}
 	
 	@GetMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<DocumentDTO> getOneDocument(@PathVariable("id") Long id){
 		Document document = documentS.findById(id);
 		if(document == null) {
@@ -93,23 +94,8 @@ public class DocumentController {
 		return new ResponseEntity<DocumentDTO>(new DocumentDTO(document), HttpStatus.OK);
 	}
 	
-	@PostMapping
-	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
-	public ResponseEntity<DocumentDTO> saveDocument(@RequestBody DocumentDTO dto){
-		Student student = studentS.findById(dto.getStudentDTO().getId());
-		TypeDocument typeDocument = documentTypeS.findById(dto.getTypeDocumentDTO().getId());
-		
-		Document document = new Document();
-		document.setTitle(dto.getTitle());
-		document.setUrl(dto.getUrl());
-		document.setStudent(student);
-		document.setTypeDocument(typeDocument);
-		document = documentS.save(document);
-		return new ResponseEntity<DocumentDTO>(new DocumentDTO(document), HttpStatus.CREATED);
-	}
-	
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR')")
 	public ResponseEntity<Void> deleteDocument(@PathVariable("id") Long id){
 		Document document = documentS.findById(id);
 		if(document != null) {
@@ -119,13 +105,13 @@ public class DocumentController {
 		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 	}
 	
-	@PostMapping(value = "/add-my-document/{doc}")
+	@PostMapping()
 	@PreAuthorize("hasAnyRole('ROLE_STUDENT')")
-	public ResponseEntity<DocumentDTO> saveMyDocument(ModelMap model, Principal principal, @RequestBody DocumentDTO dto, @PathVariable("doc") String doc){
+	public ResponseEntity<DocumentDTO> saveMyDocument(Principal principal, @RequestBody DocumentDTO dto){
 		String name = principal.getName(); //get logged in username
 		Student st = studServ.findByUser(name);
 		
-		TypeDocument typeDocument = documentTypeS.typeDocByCode(doc);
+		TypeDocument typeDocument = documentTypeS.typeDocByCode(dto.getTypeDocumentDTO().getCode());
 		
 		Document document = new Document();
 		document.setTitle(dto.getTitle());

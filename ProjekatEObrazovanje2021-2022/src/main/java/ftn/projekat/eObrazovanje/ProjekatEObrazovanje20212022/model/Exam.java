@@ -32,6 +32,7 @@ public class Exam extends JpaEntity {
 
 	public Exam() {
 		super();
+		this.gradle = 5;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -55,8 +56,18 @@ public class Exam extends JpaEntity {
 		return gradle;
 	}
 
-	public void setGradle(Integer gradle) {
-		this.gradle = gradle;
+	public void setGradle() {
+		if(this.points >= 51 && this.points < 61) {
+			this.gradle = 6;
+		}else if(this.points >= 61 && this.points < 71) {
+			this.gradle = 7;
+		}else if(this.points >= 71 && this.points < 81) {
+			this.gradle = 8;
+		}else if(this.points >= 81 && this.points < 91) {
+			this.gradle = 9;
+		}else if(this.points >= 91 && this.points <= 100) {
+			this.gradle = 10;
+		}
 	}
 
 	public Enrollment getEnrollment() {

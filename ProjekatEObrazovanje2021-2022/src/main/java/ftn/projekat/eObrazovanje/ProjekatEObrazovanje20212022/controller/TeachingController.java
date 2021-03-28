@@ -43,18 +43,6 @@ public class TeachingController {
 	@Autowired
 	private CourseInstanceI ci;
 	
-//	@GetMapping
-//	public ResponseEntity<List<TeachingDTO>> getAll(){
-//		List<Teaching> teachings = tsi.findAll();
-//		
-//		List<TeachingDTO> teachingdto = new ArrayList<TeachingDTO>();
-//		
-//		for(Teaching t : teachings) {
-//			teachingdto.add(new TeachingDTO(t));
-//		}
-//		return new ResponseEntity<List<TeachingDTO>>(teachingdto, HttpStatus.OK);
-//	}
-	
 	@GetMapping
 	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<List<TeachingDTO>> getAllByTeacher(Principal principal){
@@ -78,6 +66,7 @@ public class TeachingController {
 	}
 	
 	@PutMapping()
+	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<TeachingDTO> update(@RequestBody TeachingDTO tdto){
 		TeachingType ttp = tti.findById(tdto.getTeachingTypeDTO().getId());
 		Teacher teacher = ti.findById(tdto.getTeacherDTO().getId());
@@ -97,6 +86,7 @@ public class TeachingController {
 	}
 	
 	@PostMapping
+	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR')")
 	public ResponseEntity<TeachingDTO> save(@RequestBody TeachingDTO tdto){
 		TeachingType ttp = tti.findById(tdto.getTeachingTypeDTO().getId());
 		Teacher teacher = ti.findById(tdto.getTeacherDTO().getId());
@@ -111,6 +101,7 @@ public class TeachingController {
 	}
 	
 	@DeleteMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR')")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		Teaching t = tsi.getOne(id);
 		if(t != null) {

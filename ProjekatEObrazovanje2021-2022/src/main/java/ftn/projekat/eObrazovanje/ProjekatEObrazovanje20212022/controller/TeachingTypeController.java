@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,6 +50,7 @@ public class TeachingTypeController {
 	}
 	
 	@PutMapping()
+	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR')")
 	public ResponseEntity<TeachingTypeDTO> updateTeachingType(@RequestBody TeachingTypeDTO ttDTO){
 		TeachingType tt = teachingTypeS.findById(ttDTO.getId());
 		
@@ -62,6 +64,7 @@ public class TeachingTypeController {
 	}
 	
 	@PostMapping
+	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR')")
 	public ResponseEntity<TeachingTypeDTO> saveTeachingType(@RequestBody TeachingTypeDTO ttDTO){
 		TeachingType tt = new TeachingType();
 		tt.setName(ttDTO.getName());
@@ -73,6 +76,7 @@ public class TeachingTypeController {
 	}
 	
 	@DeleteMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR')")
 	public ResponseEntity<Void> deleteTeachingType(@PathVariable("id") Long id){
 		TeachingType tt = teachingTypeS.findById(id);
 		

@@ -44,4 +44,10 @@ public class ExamService implements ExamServiceInterface {
 		return examRepository.findOneByEnrollment_student_cardNumber(cardNum);
 	}
 
+	@Override
+	public Exam examOneByUsernameAndId(String username, Long id) {
+		// TODO Auto-generated method stub
+		return examRepository.findOneByEnrollment_student_user_usernameAndId(username, id);
+	}
+
 }

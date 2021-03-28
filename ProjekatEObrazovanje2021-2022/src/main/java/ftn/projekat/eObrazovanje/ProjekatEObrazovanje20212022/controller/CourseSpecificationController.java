@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,6 +50,7 @@ public class CourseSpecificationController {
 	}
 	
 	@PutMapping()
+	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<CourseSpecificationDTO> updateCourseSpecification(@RequestBody CourseSpecificationDTO csDTO){
 		CourseSpecification cs = coursSpecifServ.findById(csDTO.getId());
 		
@@ -63,6 +65,7 @@ public class CourseSpecificationController {
 	}
 	
 	@PostMapping
+	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<CourseSpecificationDTO> saveCourseSpecification(@RequestBody CourseSpecificationDTO csDTO){
 		CourseSpecification cs = new CourseSpecification();
 		cs.setTitle(csDTO.getTitle());
@@ -74,6 +77,7 @@ public class CourseSpecificationController {
 	}
 	
 	@DeleteMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<Void> deleteCourseSpecification(@PathVariable("id") Long id){
 		CourseSpecification cs = coursSpecifServ.findById(id);
 		

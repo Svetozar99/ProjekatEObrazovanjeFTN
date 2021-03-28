@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,6 +49,7 @@ public class ExamPartStatusController {
 	}
 	
 	@PutMapping()
+	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR')")
 	public ResponseEntity<ExamPartStatusDTO> updateTypeDocument(@RequestBody ExamPartStatusDTO dto){
 		ExamPartStatus t = statusS.findById(dto.getId());
 		
@@ -61,6 +63,7 @@ public class ExamPartStatusController {
 	}
 	
 	@PostMapping
+	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR')")
 	public ResponseEntity<ExamPartStatusDTO> saveTypeDocument(@RequestBody ExamPartStatusDTO dto){
 		ExamPartStatus t = new ExamPartStatus();
 		t.setName(dto.getName());
@@ -72,6 +75,7 @@ public class ExamPartStatusController {
 	}
 	
 	@DeleteMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR')")
 	public ResponseEntity<Void> deleteTypeDocument(@PathVariable("id") Long id){
 		ExamPartStatus t = statusS.findById(id);
 		

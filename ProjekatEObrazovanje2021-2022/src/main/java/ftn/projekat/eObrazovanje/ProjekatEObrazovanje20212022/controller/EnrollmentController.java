@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,6 +61,7 @@ public class EnrollmentController {
 	}
 	
 	@PutMapping()
+	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<EnrollmentDTO> update(@RequestBody EnrollmentDTO edto){
 		Student student = s.findById(edto.getStudentDTO().getId());
 		CourseInstance cii = c.findById(edto.getCourseInstanceDTO().getId());
@@ -75,6 +77,7 @@ public class EnrollmentController {
 	}
 	
 	@PostMapping
+	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<EnrollmentDTO> add(@RequestBody EnrollmentDTO edto){
 		Student student = s.findById(edto.getStudentDTO().getId());
 		CourseInstance cii = c.findById(edto.getCourseInstanceDTO().getId());
@@ -87,6 +90,7 @@ public class EnrollmentController {
 	}
 	
 	@DeleteMapping(value = "/{id}")
+	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 		Enrollment enr = e.findById(id);
 		if(enr != null) {

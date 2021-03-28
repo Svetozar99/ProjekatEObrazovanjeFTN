@@ -15,4 +15,6 @@ public interface ExamServiceInterface {
 	public void delete(Long id);
 	
 	public List<Exam> examPassedForStudent(String cardNum);
+	
+	public Exam examOneByUsernameAndId(String username, Long id);
 }
