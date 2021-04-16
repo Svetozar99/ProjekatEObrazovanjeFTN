@@ -11,6 +11,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ExamsComponent } from './components/exams/exams.component';
 import { ExamDetailComponent } from './components/exam-detail/exam-detail.component';
+import { AccountComponent } from './components/account/account.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ExamDetailComponent } from './components/exam-detail/exam-detail.compon
     LoginComponent,
     RegisterComponent,
     ExamsComponent,
-    ExamDetailComponent
+    ExamDetailComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,
