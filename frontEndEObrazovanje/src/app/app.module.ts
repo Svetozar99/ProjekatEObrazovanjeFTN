@@ -15,6 +15,7 @@ import { AccountComponent } from './components/account/account.component';
 import { HomeComponent } from './components/home/home.component';
 import { UsersComponent } from './components/users/users.component';
 import { DocumentsComponent } from './components/documents/documents.component';
+import { TeachingsComponent } from './components/teachings/teachings.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { DocumentsComponent } from './components/documents/documents.component';
     AccountComponent,
     HomeComponent,
     UsersComponent,
-    DocumentsComponent
+    DocumentsComponent,
+    TeachingsComponent
   ],
   imports: [
     BrowserModule,
