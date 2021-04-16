@@ -1,5 +1,5 @@
 <div class="container">
-  <nav id="mainNavbar" class="navbar navbar-expand-sm navbar-light bg-light">
+  <nav id="mainNavbar" class="navbar navbar-expand-sm navbar-dark bg-dark">
     <div class="container-fluid">
       <a routerLink="/" class="navbar-brand">HOME</a>
       <button
@@ -21,17 +21,20 @@
         <!-- right nav menus -->
         <ul class="navbar-nav ml-auto">
           <li routerLinkActive="active" class="nav-item">
-            <a routerLink="/login" class="nav-link"> LOGIN </a>
+            <a routerLink="/login" class="nav-link"> Login </a>
           </li>
           <li routerLinkActive="active" class="nav-item">
-            <a routerLink="/register" class="nav-link"> REGISTER </a>
+            <a routerLink="/register" class="nav-link"> Register </a>
+          </li>
+          <li routerLinkActive="active" class="nav-item">
+            <a routerLink="/exams" class="nav-link"> Exams </a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
   
-  <div style="margin-top: 100px">
+  <div style="margin-top: 50px">
     <router-outlet></router-outlet>
   </div>
 </div>

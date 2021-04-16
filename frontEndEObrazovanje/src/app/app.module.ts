@@ -9,12 +9,16 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ExamsComponent } from './components/exams/exams.component';
+import { ExamDetailComponent } from './components/exam-detail/exam-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ExamsComponent,
+    ExamDetailComponent
   ],
   imports: [
     BrowserModule,
