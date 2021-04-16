@@ -14,6 +14,7 @@ import { ExamDetailComponent } from './components/exam-detail/exam-detail.compon
 import { AccountComponent } from './components/account/account.component';
 import { HomeComponent } from './components/home/home.component';
 import { UsersComponent } from './components/users/users.component';
+import { DocumentsComponent } from './components/documents/documents.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { UsersComponent } from './components/users/users.component';
     ExamDetailComponent,
     AccountComponent,
     HomeComponent,
-    UsersComponent
+    UsersComponent,
+    DocumentsComponent
   ],
   imports: [
     BrowserModule,
