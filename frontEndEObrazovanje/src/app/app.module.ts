@@ -19,6 +19,7 @@ import { TeachingsComponent } from './components/teachings/teachings.component';
 import { DocumentComponent } from './components/document/document.component';
 import { TeacherComponent } from './components/teacher/teacher.component';
 import { CourseInstanceComponent } from './components/course-instance/course-instance.component';
+import { AddExamComponent } from './components/add-exam/add-exam.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { CourseInstanceComponent } from './components/course-instance/course-ins
     TeachingsComponent,
     DocumentComponent,
     TeacherComponent,
-    CourseInstanceComponent
+    CourseInstanceComponent,
+    AddExamComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AccountComponent } from './components/account/account.component';
+import { AddExamComponent } from './components/add-exam/add-exam.component';
 import { CourseInstanceComponent } from './components/course-instance/course-instance.component';
 import { DocumentComponent } from './components/document/document.component';
 import { DocumentsComponent } from './components/documents/documents.component';
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'document', component: DocumentComponent },
   { path: 'teacher', component: TeacherComponent },
   { path: 'course-instance', component: CourseInstanceComponent },
+  { path: 'add-exam', component: AddExamComponent },
   { path: '**', redirectTo: '' }
 ];
 
