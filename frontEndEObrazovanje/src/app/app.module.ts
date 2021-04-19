@@ -20,6 +20,8 @@ import { DocumentComponent } from './components/document/document.component';
 import { TeacherComponent } from './components/teacher/teacher.component';
 import { CourseInstanceComponent } from './components/course-instance/course-instance.component';
 import { AddExamComponent } from './components/add-exam/add-exam.component';
+import { AddPaymentComponent } from './components/add-payment/add-payment.component';
+import { AddExamPartComponent } from './components/add-exam-part/add-exam-part.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { AddExamComponent } from './components/add-exam/add-exam.component';
     DocumentComponent,
     TeacherComponent,
     CourseInstanceComponent,
-    AddExamComponent
+    AddExamComponent,
+    AddPaymentComponent,
+    AddExamPartComponent
   ],
   imports: [
     BrowserModule,

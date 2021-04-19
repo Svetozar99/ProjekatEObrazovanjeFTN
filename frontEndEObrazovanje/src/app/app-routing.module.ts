@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AccountComponent } from './components/account/account.component';
+import { AddExamPartComponent } from './components/add-exam-part/add-exam-part.component';
 import { AddExamComponent } from './components/add-exam/add-exam.component';
+import { AddPaymentComponent } from './components/add-payment/add-payment.component';
 import { CourseInstanceComponent } from './components/course-instance/course-instance.component';
 import { DocumentComponent } from './components/document/document.component';
 import { DocumentsComponent } from './components/documents/documents.component';
@@ -28,6 +30,8 @@ const routes: Routes = [
   { path: 'teacher', component: TeacherComponent },
   { path: 'course-instance', component: CourseInstanceComponent },
   { path: 'add-exam', component: AddExamComponent },
+  { path: 'add-payment', component: AddPaymentComponent },
+  { path: 'add-exam-part', component: AddExamPartComponent },
   { path: '**', redirectTo: '' }
 ];
 
