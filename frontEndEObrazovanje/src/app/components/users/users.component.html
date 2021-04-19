@@ -8,16 +8,9 @@
                 <th class="text-center">Username</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td class="text-center">Svetozar</td>
-                <td class="text-center">Brborić</td>
-                <td class="text-center"><a routerLink="/">brboric99</a></td>
-            </tr>
-            <tr>
-                <td class="text-center">Dejan</td>
-                <td class="text-center">Rakin</td>
-                <td class="text-center"><a routerLink="/">rakin99</a></td>
+        <tbody >
+            <tr *ngFor="let u of users; let i = index; let odd = odd;">
+                <app-user-row [user]="u"></app-user-row>   
             </tr>
         </tbody>
     </table>
