@@ -1,13 +1,12 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "documents")
 public class Document extends JpaEntity{
@@ -34,6 +33,11 @@ public class Document extends JpaEntity{
 		this.student = student;
 	}
 
+	public Document() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
 	public String getTitle() {
 		return title;
 	}

@@ -9,14 +9,12 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "course_instance")
 public class CourseInstance extends JpaEntity{
@@ -28,7 +26,7 @@ public class CourseInstance extends JpaEntity{
 	private Date endDate;
 	
 	@ManyToOne
-	@JoinColumn(name = "course_instance_id", referencedColumnName = "id",  nullable = false)
+	@JoinColumn(name = "course_specification_id", referencedColumnName = "id",  nullable = false)
 	private CourseSpecification courseSpecification;
 	
 	@OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "courseInstance")
@@ -36,6 +34,11 @@ public class CourseInstance extends JpaEntity{
 	
 	@OneToMany(cascade = {ALL}, fetch = LAZY, mappedBy = "courseInstance")
 	private List<Enrollment> enrollments = new ArrayList<Enrollment>();
+	
+	public CourseInstance() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	public CourseInstance(Long id, Date startDate, Date endDate, CourseSpecification courseSpecification,
 			List<Teaching> teching, List<Enrollment> enrollments) {

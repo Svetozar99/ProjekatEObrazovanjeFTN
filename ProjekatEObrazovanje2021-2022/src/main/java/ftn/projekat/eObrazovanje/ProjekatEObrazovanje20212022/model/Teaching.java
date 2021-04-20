@@ -1,11 +1,11 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "teachings")
 public class Teaching extends JpaEntity{
@@ -21,6 +21,12 @@ public class Teaching extends JpaEntity{
 	@ManyToOne
 	@JoinColumn(name = "course_instance_id", referencedColumnName = "id", nullable = false)
 	private CourseInstance courseInstance;
+
+	
+	public Teaching() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	public Teaching(Long id, TeachingType teachingType, Teacher teacher, CourseInstance courseInstance) {
 		super(id);
