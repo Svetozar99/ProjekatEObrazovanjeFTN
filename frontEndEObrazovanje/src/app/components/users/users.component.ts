@@ -16,7 +16,7 @@ export class UsersComponent implements OnInit {
   subscription: Subscription;
 
   constructor(private userService: UserService, private router: Router) { 
-    this. subscription = userService.RegenerateData$.subscribe(() => 
+    this.subscription = userService.RegenerateData$.subscribe(() => 
       this.getUsers()
     );
   }
@@ -27,7 +27,10 @@ export class UsersComponent implements OnInit {
 
   getUsers(){
     this.userService.getUsers().subscribe(
-      response => this.users = response.body);
+      response => {
+        console.log(response)
+        this.users = response.body
+      });
   }
 
 }

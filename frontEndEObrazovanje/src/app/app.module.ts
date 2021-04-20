@@ -22,6 +22,7 @@ import { CourseInstanceComponent } from './components/course-instance/course-ins
 import { AddExamComponent } from './components/add-exam/add-exam.component';
 import { AddPaymentComponent } from './components/add-payment/add-payment.component';
 import { AddExamPartComponent } from './components/add-exam-part/add-exam-part.component';
+import { UserService } from './components/users/users.service';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,7 @@ import { AddExamPartComponent } from './components/add-exam-part/add-exam-part.c
     HttpClientModule,
     CommonModule
   ],
-  providers: [],
+  providers: [UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

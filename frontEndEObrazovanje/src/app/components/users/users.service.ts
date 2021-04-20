@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpResponse, HttpClient } from '@angular/common/http';
+import { HttpResponse, HttpClient, HttpHeaders } from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 
 import { User } from '../../model/user';
+import { LoginData } from 'src/app/model/loginData';
+import { JWT } from 'src/app/model/jwt';
 
 @Injectable()
 export class UserService {
     private usersUrl = 'api/users';
+    private loginUrl = 'api/login';
+
+    private jwt: JWT={value:''};
 
     constructor(private http: HttpClient) { }
 
@@ -19,13 +24,15 @@ export class UserService {
     }
 
     getUsers(): Observable<HttpResponse<User[]>> {
-        // var conf={
-        //     method: 'GET',
-        //     headers: { 'Content-Type': 'application/json',
-        //                 'X-Auth-Token':'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJicmJvcmljOTkiLCJjcmVhdGVkIjoxNjE4OTIzNjU2MjczLCJleHAiOjE2MTg5NDE2NTZ9.IF6a9XZbhtsVv-Q-s93U-QGvCVKlFlRvuyZlUeTCiC5MAazI0JtSz07JEHZi-UHO522IEV2l_PUxGqyuZ19YcA'},
-        //     observe: 'response'
-        //   };
-        return this.http.get<User[]>(this.usersUrl, {observe: 'response'});
+        var j = localStorage.getItem('jwt')
+        this.jwt = j==null ? {value:''}:{value:j};
+        console.log("jwt: "+JSON.stringify(this.jwt));
+        var headers = {'X-Auth-Token': this.jwt.value};
+        return this.http.get<User[]>(this.usersUrl, {observe: 'response',headers:headers});
+    }
+
+    login(loginData: LoginData): Observable<HttpResponse<JWT>> {
+        return this.http.post<JWT>(this.loginUrl, loginData, {observe: 'response'});
     }
 
 //    getStudent(id: number): Observable<HttpResponse<Student>> {

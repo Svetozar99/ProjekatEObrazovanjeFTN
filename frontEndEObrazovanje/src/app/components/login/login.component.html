@@ -2,12 +2,12 @@
     <h1>Wellcome!</h1>
     <div>
         <h4>Username</h4>
-        <input type="text" class="form-control col-2 d-inline">
+        <input type="text" class="form-control col-2 d-inline" [(ngModel)]="loginData.username">
     </div>
     <div>
         <h4>Password</h4>
-        <input type="password" class="form-control col-2 d-inline">
+        <input type="password" class="form-control col-2 d-inline" [(ngModel)]="loginData.password">
     </div>
-    <button type="button" class="btn btn-outline-primary mt-5 ml-10">Log in</button>
+    <button type="button" class="btn btn-outline-primary mt-5 ml-10" (click)="login()">Log in</button>
     <button type="button" class="btn btn-outline-secondary mt-5 ml-1">Register</button>
 </div>
