@@ -10,7 +10,9 @@
         </thead>
         <tbody >
             <tr *ngFor="let u of users; let i = index; let odd = odd;">
-                <app-user-row [user]="u"></app-user-row>   
+                <td class="text-center">{{u.firstName}}</td>
+                <td class="text-center">{{u.lastName}}</td>
+                <td class="text-center"><a routerLink="/">{{u.userName}}</a></td>   
             </tr>
         </tbody>
     </table>
