@@ -1,7 +1,9 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.controller;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.JwtDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.LoginDTO;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.StudentDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.UserDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Account;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Administrator;
@@ -66,15 +71,17 @@ public class UserController {
 	
 	@SuppressWarnings("unused")
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
+	public ResponseEntity<JwtDTO> login(@RequestBody LoginDTO loginDTO) {
+		System.out.println("\nLogin-------<<<<");
         try {
 			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
 					loginDTO.getUsername(), loginDTO.getPassword());
             Authentication authentication = authenticationManager.authenticate(token);
             UserDetails details = userDetailsService.loadUserByUsername(loginDTO.getUsername());
-            return new ResponseEntity<String>(tokenUtils.generateToken(details), HttpStatus.OK);
+            JwtDTO t = new JwtDTO(tokenUtils.generateToken(details));
+            return new ResponseEntity<JwtDTO>(t, HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<String>("Invalid login", HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(401).build();
         }
 	}
 	
@@ -125,5 +132,17 @@ public class UserController {
 	static class PasswordChanger {
 		public String oldPassword;
 		public String newPassword;
+	}
+	
+	@GetMapping(value = "/users")
+	public ResponseEntity<List<UserDTO>> getAllStudents(){
+		List<User> users = userService.findAll();
+		
+		List<UserDTO> dtos = new ArrayList<UserDTO>();
+		
+		for (User u : users) {
+			dtos.add(new UserDTO(u));
+		}
+		return new ResponseEntity<List<UserDTO>>(dtos, HttpStatus.OK);
 	}
 }
