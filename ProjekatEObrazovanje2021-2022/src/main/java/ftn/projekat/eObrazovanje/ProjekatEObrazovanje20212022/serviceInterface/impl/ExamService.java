@@ -41,7 +41,7 @@ public class ExamService implements ExamServiceInterface {
 	@Override
 	public List<Exam> examPassedForStudent(String cardNum) {
 		// TODO Auto-generated method stub
-		return examRepository.findOneByEnrollment_student_cardNumber(cardNum);
+		return examRepository.findByEnrollment_student_cardNumber(cardNum);
 	}
 
 	@Override

@@ -37,8 +37,28 @@ public class ExamController {
 	@Autowired
 	private StudentServiceI studServ;
 	
+	@GetMapping()
+	@PreAuthorize("hasAnyRole('ROLE_STUDENT')")
+	public ResponseEntity<List<ExamDTO>> getAll(Principal principal){
+		String name = principal.getName();
+		
+		Student s = studServ.findByUser(name);
+		
+		System.out.println("card number is - " + s.getCardNumber());
+		
+		List<Exam> exams = examS.examPassedForStudent(s.getCardNumber());
+		
+		List<ExamDTO> dtos = new ArrayList<ExamDTO>();
+		
+		for (Exam exam : exams) {
+			dtos.add(new ExamDTO(exam));
+		}
+		return new ResponseEntity<List<ExamDTO>>(dtos, HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<ExamDTO> getOneExam(Principal principal, @PathVariable("id") Long id){
+		System.out.println("uslooo!!");
 		String name = principal.getName();
 		
 		Exam exam = examS.examOneByUsernameAndId(name, id);
