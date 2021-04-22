@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,17 +27,21 @@ import org.springframework.web.util.UriComponentsBuilder;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.JwtDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.LoginDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.RoleDTO;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.StudentDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.UserDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Account;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Administrator;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Role;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Student;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Teacher;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.User;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.UserRole;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.security.TokenUtils;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.AccountServiceI;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.AdministratorServiceI;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.StudentServiceI;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.TeacherServiceI;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.UserRoleServiceI;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.UserServiceI;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.impl.UserDetailsServiceImpl;
 
@@ -69,6 +75,9 @@ public class UserController {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private UserRoleServiceI roleS;
 	
 	@SuppressWarnings("unused")
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -161,5 +170,46 @@ public class UserController {
 		}
 		
 		return new ResponseEntity<UserDTO>(new UserDTO(user), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "users/{id}/unassigned-roles")
+	public ResponseEntity<List<RoleDTO>> getRoles(@PathVariable("id") Long id){
+		User user = userService.findById(id);
+		if(user == null) {
+			System.out.println("user je null");
+			return new ResponseEntity<List<RoleDTO>>(HttpStatus.NOT_FOUND);
+		}
+		
+		List<RoleDTO> rolesDTO = new ArrayList<RoleDTO>();
+		List<Role> allRole= roleS.findAll();
+		for (Role role : allRole) {
+			for (UserRole userRole: user.getUserRoles()) {
+				if(!userRole.getRole().getCode().equals(role.getCode())) {
+					System.out.println("Rola: "+role.getName()+" ne postoji kod korisnika: "+user.getUsername());
+					rolesDTO.add(new RoleDTO(role));
+				}
+			}
+			
+		}
+		
+		return new ResponseEntity<List<RoleDTO>>(rolesDTO, HttpStatus.OK);
+	}
+	
+	@PutMapping()
+//	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
+	public ResponseEntity<UserDTO> updateStudent(@RequestBody UserDTO userDTO){
+		User user = userService.findById(userDTO.getId());
+		
+		if(user == null) {
+			return new ResponseEntity<UserDTO>(HttpStatus.NOT_FOUND);
+		}
+		user.setFirstName(userDTO.getFirstName());
+		user.setLastName(userDTO.getLastName());
+		user.setPassword(userDTO.getPssword());
+		user.setFirstName(userDTO.getFirstName());
+		
+		
+		
+		return ResponseEntity.accepted().build();
 	}
 }
