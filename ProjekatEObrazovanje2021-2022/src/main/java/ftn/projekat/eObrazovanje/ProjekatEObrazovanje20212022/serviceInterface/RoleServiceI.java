@@ -4,7 +4,7 @@ import java.util.List;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Role;
 
-public interface UserRoleServiceI {
+public interface RoleServiceI {
 	
 	public List<Role> findAll();
 	

@@ -20,6 +20,15 @@ public class UserRole extends JpaEntity{
 	@JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
 	private Role role;
 
+	public UserRole() {
+		super();
+	}
+	
+	public UserRole(User user,Role role) {
+		super();
+		this.user = user;
+		this.role=role;
+	}
 
 	public User getUser() {
 		return user;
