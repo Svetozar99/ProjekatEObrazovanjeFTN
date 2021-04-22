@@ -53,10 +53,11 @@ public class DocumentController {
 	private StudentServiceI studServ;
 	
 	@GetMapping
-	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
+//	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<List<DocumentDTO>> getAllDocumentsByStudent(Principal principal){
 		List<Document> documents = documentS.findByUsername(principal.getName());
 		
+		System.out.println("pozvalo seee!!");
 		List<DocumentDTO> dtos = new ArrayList<DocumentDTO>();
 		
 		for (Document document : documents) {
