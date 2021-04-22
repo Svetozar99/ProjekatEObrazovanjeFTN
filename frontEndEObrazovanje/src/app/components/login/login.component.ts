@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
   jwt: JWT | null={value:''};
 
   constructor(private userService: UserService) {
-    this.loginData = new LoginData('','');
+    this.loginData = new LoginData('rakin99','student1');
   }
 
   ngOnInit(): void {
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
         console.log("--Login--")
         this.jwt=res.body==null ? {value:''}:res.body;
         localStorage.setItem('jwt', this.jwt.value);
-        this.userService.announceChange();
+        // this.userService.announceChange();
       });
   }
 

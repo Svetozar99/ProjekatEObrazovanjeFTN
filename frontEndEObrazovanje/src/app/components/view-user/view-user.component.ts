@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { User } from 'src/app/model/user';
 import { UserService } from '../users/users.service';
-
+import { Location } from '@angular/common';
 import {switchMap} from 'rxjs/operators';
+import { Role } from 'src/app/model/role';
 
 @Component({
   selector: 'app-view-user',
@@ -14,17 +15,20 @@ export class ViewUserComponent implements OnInit {
 
   user: User;
   mode: string = '';
+  roleCode: string = '';
 
-  constructor(private userService: UserService, private route: ActivatedRoute) {
+  unassignedRoles: Role[] = [];
+
+  constructor(private userService: UserService, private route: ActivatedRoute,private location: Location) {
     this.user = new User({
       id:0,
       firstName:'',
       lastName:'',
       userName:'',
+      password:'',
       roles:[],
     });
-
-    this.mode = 'ADD'
+    this.mode = 'ADD';
   }
 
   ngOnInit() {
@@ -34,9 +38,46 @@ export class ViewUserComponent implements OnInit {
           this.userService.getUser(+params['id']))) // convert to number
         .subscribe(res => {
           this.user = res.body==null ? this.user:res.body;
+          this.userService.getUnassignedRoles(this.user.id==undefined ? 0:this.user.id).
+            subscribe(res =>{
+              this.unassignedRoles = [];
+              this.unassignedRoles = res.body==null ? []:res.body;
+            });
           }
         );
     } 
   }
 
+  removeRole(code:string) {
+    // console.log(code);
+    var r:Role[] = this.user.roles.filter(r => r.code===code)
+    this.user.roles=this.user.roles.filter(r => r.code!==code);
+    this.unassignedRoles.push(r[0]);
+    console.log(JSON.stringify(this.unassignedRoles));
+  }
+
+  assignRole() {
+    // console.log("Role: "+this.roleCode);
+    const r = this.unassignedRoles.filter(r => r.code===this.roleCode)[0];
+    if(r!==undefined){
+      this.user.roles.push(r);
+      this.unassignedRoles=this.unassignedRoles.filter(r => r.code!==this.roleCode);
+      console.log(JSON.stringify(this.unassignedRoles));
+    }else{
+      alert("Select role!")
+    }
+  }
+
+  edit() {
+    console.log(JSON.stringify(this.user))
+    this.userService.editUser(this.user)
+      .subscribe(() => {
+        // this.userService.announceChange();
+        this.goBack();
+      });
+  }
+
+  goBack(): void {
+    this.location.back();
+  }
 }

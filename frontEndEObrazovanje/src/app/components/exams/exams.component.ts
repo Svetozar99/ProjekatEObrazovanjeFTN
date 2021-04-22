@@ -13,7 +13,7 @@ import { ExamsService } from './exams.service'
 })
 export class ExamsComponent implements OnInit {
 
-  user: User = { id:0, firstName:"", lastName:"", userName:"", roles:[]};
+  user: User = { id:0, firstName:"", lastName:"", userName:"",password:"", roles:[]};
   exams: Exam[] | null = [];
 
   subscription: Subscription;

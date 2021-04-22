@@ -39,10 +39,27 @@ export class UserService {
     getUser(id: number): Observable<HttpResponse<User>> {
         var j = localStorage.getItem('jwt')
         this.jwt = j==null ? {value:''}:{value:j};
-        console.log("jwt: "+JSON.stringify(this.jwt));
+        // console.log("jwt: "+JSON.stringify(this.jwt));
         var headers = {'X-Auth-Token': this.jwt.value};
         const url = `${this.usersUrl}/${id}`;
         return this.http.get<User>(url, {observe: 'response',headers:headers});
+    }
+
+    getUnassignedRoles(id: number): Observable<HttpResponse<Role[]>> {
+        var j = localStorage.getItem('jwt')
+        this.jwt = j==null ? {value:''}:{value:j};
+        console.log("jwt: "+JSON.stringify(this.jwt));
+        var headers = {'X-Auth-Token': this.jwt.value};
+        const url = `${this.usersUrl}/${id}/unassigned-roles`;
+        return this.http.get<Role[]>(url, {observe: 'response',headers:headers});
+    }
+
+    editUser(user: User): Observable<HttpResponse<User>> {
+        var j = localStorage.getItem('jwt')
+        this.jwt = j==null ? {value:''}:{value:j};
+        // console.log("jwt: "+JSON.stringify(this.jwt));
+        var headers = {'X-Auth-Token': this.jwt.value};
+        return this.http.put<User>(this.usersUrl, user, {observe: 'response',headers:headers});
     }
 
 //     addStudent(student: Student): Observable<HttpResponse<Student>> {

@@ -1,27 +1,42 @@
 <div class="form-group text-center">
-    <h1>User</h1>
+  <h1>User</h1>
+  <div class="btn-group">
     <div class="mt-5">
-        <b>Firstname:</b>
-        <input type="text" class="form-control col-2 d-inline ml-2" [(ngModel)]="user.firstName">
+      <div>
+          <b>Firstname:</b>
+          <input type="text" class="form-control col-7 d-inline ml-2" [(ngModel)]="user.firstName">
+      </div>
+      <div class="mt-2 ml-50">
+          <b>Lastname:</b>
+          <input type="text" class="form-control col-7 d-inline ml-2" [(ngModel)]="user.lastName">
+      </div>
+      <div class="mt-2 ml-50">
+          <b>Username:</b>
+          <input type="text" readonly class="form-control col-7 d-inline ml-2" [(ngModel)]="user.userName">
+      </div>
     </div>
-    <div class="mt-2 ml-50">
-        <b>Lastname:</b>
-        <input type="text" class="form-control col-2 d-inline ml-2" [(ngModel)]="user.lastName">
-    </div>
-    <div class="mt-2 ml-50">
-        <b>Username:</b>
-        <input type="text" class="form-control col-2 d-inline ml-2" [(ngModel)]="user.userName">
-    </div>
-    <div *ngIf="user.id && user.roles.length > 0">
-        <div>
-            <h3>Roles</h3>
-        </div>
-        <table class="table table-bordered">
+    <div class="ml-5 mt-2">
+      <h4>Roles</h4>
+      <div *ngIf="user.id && user.roles.length > 0" class="ml-1">
+        <table class="table mx-auto">
           <tr *ngFor="let role of user.roles">
             <td>
               {{role.name}}
+              <button type="button" class="btn btn-danger btn-sm" (click)="removeRole(role.code)">X</button>
             </td>
           </tr>
         </table>
-      </div> 
+    </div>  
+      <div *ngIf="unassignedRoles.length > 0" class="btn-group">
+          <select class='form-control' [(ngModel)]="roleCode">
+            <option *ngFor="let role of unassignedRoles" value="{{role.code}}">{{role.name}}</option>
+          </select>
+            <button type="button" class="btn btn-primary" (click)="assignRole()">+</button>
+      </div>
+    </div>
+  </div>
+  <div class="mt-5">
+    <button type="button" class="btn btn-success" (click)="edit()">Save</button>
+    <button type="button" class="btn btn-warning ml-1" (click)="goBack()">Cancel</button>
+  </div>
 </div>
