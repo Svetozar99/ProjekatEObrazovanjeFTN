@@ -9,15 +9,10 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td class="text-center"><a routerLink="/exam-detail">Poslovna informatika</a></td>
-                <td class="text-center">8</td>
-                <td class="text-center">75</td>
-            </tr>
-            <tr>
-                <td class="text-center"><a routerLink="/exam-detail">Tehnologije i sistemi eObrazovanja</a></td>
-                <td class="text-center">/</td>
-                <td class="text-center">/</td>
+            <tr *ngFor="let e of exams; let i = index; let odd = odd;">
+                <td class="text-center"><a routerLink="/exam-detail">{{ e.enrollmentDTO.courseInstanceDTO.courseSpecificationDTO.title }}</a></td>
+                <td class="text-center">{{ e.gradle }}</td>
+                <td class="text-center">{{ e.points }}</td>
             </tr>
         </tbody>
         

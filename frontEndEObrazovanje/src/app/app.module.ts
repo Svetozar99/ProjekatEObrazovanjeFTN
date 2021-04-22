@@ -24,6 +24,7 @@ import { AddPaymentComponent } from './components/add-payment/add-payment.compon
 import { AddExamPartComponent } from './components/add-exam-part/add-exam-part.component';
 import { UserService } from './components/users/users.service';
 import { ViewUserComponent } from './components/view-user/view-user.component';
+import { ExamsService } from './components/exams/exams.service';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,7 @@ import { ViewUserComponent } from './components/view-user/view-user.component';
     HttpClientModule,
     CommonModule
   ],
-  providers: [UserService],
+  providers: [UserService, ExamsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
