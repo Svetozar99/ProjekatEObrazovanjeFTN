@@ -1,6 +1,10 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.User;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.UserRole;
 
 public class UserDTO {
 
@@ -9,23 +13,26 @@ public class UserDTO {
 	private String lastName;
 	private String userName;
 	private String password;
-	private String role;
+	private List<RoleDTO> roles = new ArrayList<RoleDTO>();
 	
 	public UserDTO() {
 		super();
 	}
 	
-	public UserDTO(Long id, String firstName, String lastName, String userName, String password) {
+	public UserDTO(Long id, String firstName, String lastName, String userName, String password,List<UserRole> roles) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.userName = userName;
 		this.password = password;
+		for (UserRole userRole : roles) {
+			this.roles.add(new RoleDTO(userRole.getRole()));
+		}
 	}
 	
 	public UserDTO(User user) {
-		this(user.getId(),user.getFirstName(),user.getLastName(),user.getUsername(),user.getPassword());
+		this(user.getId(),user.getFirstName(),user.getLastName(),user.getUsername(),user.getPassword(), user.getUserRoles());
 	}
 	
 	public Long getId() {
@@ -59,12 +66,11 @@ public class UserDTO {
 		this.password = password;
 	}
 
-	public String getRole() {
-		return role;
+	public List<RoleDTO> getRoles() {
+		return roles;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setRoles(List<RoleDTO> roles) {
+		this.roles = roles;
 	}
-	
 }

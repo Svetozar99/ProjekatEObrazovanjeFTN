@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.JwtDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.LoginDTO;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.StudentDTO;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.RoleDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.UserDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Account;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Administrator;
@@ -96,27 +97,29 @@ public class UserController {
 		user.setLastName(dto.getLastName());
 		user.setUsername(dto.getUserName());
 		user.setPassword(passwordEncoder.encode(dto.getPassword()));
-		if(dto.getRole().equals("st")) {
-			Student student = new Student();
-			Date date = new Date();
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(date);
-			String cardNumber = "S/"+studentS.maxId()+"-"+calendar.get(Calendar.YEAR);
-			student.setCardNumber(cardNumber);
-			student.setUser(user);
-			studentS.save(student);
-			
-			Account account = new Account();
-			account.setStudent(student);
-			accountS.save(account);
-		}else if(dto.getRole().equals("teach")) {
-			Teacher teacher = new Teacher();
-			teacher.setUser(user);
-			teachS.save(teacher);
-		}else if(dto.getRole().equals("admin")) {
-			Administrator admin = new Administrator();
-			admin.setUser(user);
-			adminS.save(admin);
+		for (RoleDTO roleDTO : dto.getRoles()) {
+			if(roleDTO.getCode().equals("st")) {
+				Student student = new Student();
+				Date date = new Date();
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(date);
+				String cardNumber = "S/"+studentS.maxId()+"-"+calendar.get(Calendar.YEAR);
+				student.setCardNumber(cardNumber);
+				student.setUser(user);
+				studentS.save(student);
+				
+				Account account = new Account();
+				account.setStudent(student);
+				accountS.save(account);
+			}else if(roleDTO.getCode().equals("teach")) {
+				Teacher teacher = new Teacher();
+				teacher.setUser(user);
+				teachS.save(teacher);
+			}else if(roleDTO.getCode().equals("admin")) {
+				Administrator admin = new Administrator();
+				admin.setUser(user);
+				adminS.save(admin);
+			}
 		}
 		
 		return new ResponseEntity<UserDTO>(new UserDTO(user), HttpStatus.OK);
@@ -144,5 +147,19 @@ public class UserController {
 			dtos.add(new UserDTO(u));
 		}
 		return new ResponseEntity<List<UserDTO>>(dtos, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "users/{id}")
+	public ResponseEntity<UserDTO> getOneUser(@PathVariable("id") Long id){
+		
+		System.out.println(id + " user get id");
+		User user = userService.findById(id);
+		
+		if(user == null) {
+			System.out.println("user je null");
+			return new ResponseEntity<UserDTO>(HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<UserDTO>(new UserDTO(user), HttpStatus.OK);
 	}
 }
