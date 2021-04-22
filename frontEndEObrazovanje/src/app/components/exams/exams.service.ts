@@ -1,6 +1,5 @@
 import { HttpClient, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { UseExistingWebDriver } from "protractor/built/driverProviders";
 import { Observable, Subject } from "rxjs";
 import { Exam } from "src/app/model/exam";
 import { JWT } from "src/app/model/jwt";
@@ -8,7 +7,6 @@ import { JWT } from "src/app/model/jwt";
 @Injectable()
 export class ExamsService{
     private examsUrl = 'api/exam';
-    private loginUrl = 'api/login';
 
     private jwt: JWT={value:''};
 

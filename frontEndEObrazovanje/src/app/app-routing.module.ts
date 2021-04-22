@@ -22,7 +22,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'exams/:id', component: ExamsComponent },
-  { path: 'exam-detail', component: ExamDetailComponent },
+  { path: 'exam-detail/:id', component: ExamDetailComponent },
   { path: 'account', component: AccountComponent },
   { path: 'users', component: UsersComponent },
   { path: 'documents', component: DocumentsComponent },

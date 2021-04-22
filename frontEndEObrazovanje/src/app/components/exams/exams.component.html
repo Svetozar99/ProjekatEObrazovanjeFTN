@@ -10,7 +10,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let e of exams; let i = index; let odd = odd;">
-                <td class="text-center"><a routerLink="/exam-detail">{{ e.enrollmentDTO.courseInstanceDTO.courseSpecificationDTO.title }}</a></td>
+                <td class="text-center"><button class="btn btn-link" (click)="gotToViewExam(e)">{{ e.enrollmentDTO.courseInstanceDTO.courseSpecificationDTO.title }}</button></td>
                 <td class="text-center">{{ e.gradle }}</td>
                 <td class="text-center">{{ e.points }}</td>
             </tr>

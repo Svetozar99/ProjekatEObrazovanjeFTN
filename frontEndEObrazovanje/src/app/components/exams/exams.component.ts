@@ -18,7 +18,7 @@ export class ExamsComponent implements OnInit {
 
   subscription: Subscription;
 
-  constructor(private examService:ExamsService, private route: ActivatedRoute) {
+  constructor(private examService:ExamsService, private router: Router, private route: ActivatedRoute) {
     this.subscription = examService.RegenerateData$.subscribe(() =>
     this.getStudentExams());
   }
@@ -30,9 +30,7 @@ export class ExamsComponent implements OnInit {
           this.examService.getStudentExams())) // convert to number
         .subscribe(res => {
           this.exams = res.body;
-          this.examService.getStudentExams().
-            subscribe(res =>
-            this.exams = res.body);
+
           }
         );
     } 
@@ -45,4 +43,7 @@ export class ExamsComponent implements OnInit {
       });
   }
 
+  gotToViewExam(exam: Exam):void{
+    this.router.navigate(['/exam-detail', exam.id]);
+  }
 }
