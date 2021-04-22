@@ -13,7 +13,7 @@ import { DocumentsService } from './documents.service';
 })
 export class DocumentsComponent implements OnInit {
 
-  user: User = { id:0, firstName:"", lastName:"", userName:"", roles:[]};
+  user: User = { id:0, firstName:"", lastName:"", userName:"",password:"", roles:[]};
   documentss : Documentt[] | null = [];
 
   subscription: Subscription;
