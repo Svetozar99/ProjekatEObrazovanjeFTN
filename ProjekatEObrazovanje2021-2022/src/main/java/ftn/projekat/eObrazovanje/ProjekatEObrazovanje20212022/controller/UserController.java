@@ -14,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,7 +42,8 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.A
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.AdministratorServiceI;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.StudentServiceI;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.TeacherServiceI;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.UserRoleServiceI;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.UserRoleServiceInterface;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.RoleServiceI;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.UserServiceI;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.impl.UserDetailsServiceImpl;
 
@@ -77,7 +79,10 @@ public class UserController {
 	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	private UserRoleServiceI roleS;
+	private RoleServiceI roleS;
+	
+	@Autowired
+	private UserRoleServiceInterface userRoleS;
 	
 	@SuppressWarnings("unused")
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -182,34 +187,59 @@ public class UserController {
 		
 		List<RoleDTO> rolesDTO = new ArrayList<RoleDTO>();
 		List<Role> allRole= roleS.findAll();
-		for (Role role : allRole) {
-			for (UserRole userRole: user.getUserRoles()) {
-				if(!userRole.getRole().getCode().equals(role.getCode())) {
-					System.out.println("Rola: "+role.getName()+" ne postoji kod korisnika: "+user.getUsername());
+		if(user.getUserRoles().size()>0) {
+			for (Role role : allRole) {
+				int isIn = 0;
+				for (UserRole userRole: user.getUserRoles()) {
+					if(!userRole.getRole().getCode().equals(role.getCode())) {
+						System.out.println("Rola: "+role.getName()+" ne postoji kod korisnika: "+user.getUsername());
+						isIn ++;
+					}
+				}
+				System.out.println("\nIs IN: "+isIn);
+				System.out.println("Size userRoles: "+user.getUserRoles().size());
+				if(isIn==user.getUserRoles().size()) {
+					System.out.println("Prosao\n");
 					rolesDTO.add(new RoleDTO(role));
 				}
 			}
-			
+		}else {
+			for (Role role : allRole) {
+				rolesDTO.add(new RoleDTO(role));
+			}
 		}
 		
 		return new ResponseEntity<List<RoleDTO>>(rolesDTO, HttpStatus.OK);
 	}
 	
-	@PutMapping()
-//	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
+	@PutMapping(value = "/users")
+	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
+	@Transactional
 	public ResponseEntity<UserDTO> updateStudent(@RequestBody UserDTO userDTO){
 		User user = userService.findById(userDTO.getId());
-		
+		System.out.println("\nFirst name: "+userDTO.getFirstName());
 		if(user == null) {
 			return new ResponseEntity<UserDTO>(HttpStatus.NOT_FOUND);
 		}
+		List<UserRole> userRoles = new ArrayList<UserRole>();
+//		for (UserRole userRole : user.getUserRoles()) {
+//			userRoleS.deleteUserRole(userRole);
+//		}
+		userRoleS.deleteByUser(user.getId());
+		for (RoleDTO roleDTO : userDTO.getRoles()) {
+			Role role = roleS.findById(roleDTO.getId());
+			UserRole userRole = new  UserRole();
+			userRole.setUser(user);
+			userRole.setAuthority(role);
+			userRoles.add(userRole);
+		}
 		user.setFirstName(userDTO.getFirstName());
 		user.setLastName(userDTO.getLastName());
-		user.setPassword(userDTO.getPssword());
-		user.setFirstName(userDTO.getFirstName());
+		user.setPassword(userDTO.getPassword());
+		user.setUserRoles(userRoles);
 		
+		userService.save(user);
 		
-		
-		return ResponseEntity.accepted().build();
+		return ResponseEntity.ok().build();
 	}
 }

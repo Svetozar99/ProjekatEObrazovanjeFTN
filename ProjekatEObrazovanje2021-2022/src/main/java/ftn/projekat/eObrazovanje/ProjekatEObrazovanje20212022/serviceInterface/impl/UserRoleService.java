@@ -3,34 +3,36 @@ package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Role;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.UserRole;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.repository.UserRoleRepository;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.UserRoleServiceI;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.UserRoleServiceInterface;
 
-public class UserRoleService implements UserRoleServiceI {
+@Service
+public class UserRoleService implements UserRoleServiceInterface{
 
 	@Autowired
-	UserRoleRepository userRoleRepository;
+	UserRoleRepository repository;
 	
 	@Override
-	public List<Role> findAll() {
-		return userRoleRepository.findAll();
+	public void deleteByUser(Long id) {
+		repository.deleteByUser_id(id);
 	}
 
 	@Override
-	public Role findById(Long id) {
-		return userRoleRepository.getOne(id);
+	public List<UserRole> findAllUserRole(Long id) {
+		return repository.findUserRoleByUser_id(id);
 	}
 
 	@Override
-	public Role save(Role userRole) {
-		return userRoleRepository.save(userRole);
+	public void deleteUserRole(UserRole userRole) {
+		repository.delete(userRole);
 	}
 
 	@Override
-	public void delete(Long id) {
-		userRoleRepository.deleteById(id);
+	public UserRole findUserRoleByUserAndRole(Long id, String code) {
+		return repository.findUserRoleByUser_idAndRole_code(id, code);
 	}
 
 }
