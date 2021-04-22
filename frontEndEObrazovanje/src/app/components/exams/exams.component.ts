@@ -30,9 +30,7 @@ export class ExamsComponent implements OnInit {
           this.examService.getStudentExams())) // convert to number
         .subscribe(res => {
           this.exams = res.body;
-          this.examService.getStudentExams().
-            subscribe(res =>
-            this.exams = res.body);
+
           }
         );
     } 
