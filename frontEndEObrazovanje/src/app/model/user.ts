@@ -1,9 +1,11 @@
+import { Role } from "./role";
+
 export class User{
     public id: number;
     public firstName: string;
     public lastName: string;
     public userName: string;
-    public role: string;
+    public roles: Role[];
 
     constructor(userCfg:User)
     {
@@ -11,6 +13,6 @@ export class User{
         this.firstName = userCfg.firstName;
         this.lastName = userCfg.lastName;
         this.userName = userCfg.userName;
-        this.role = userCfg.role;
+        this.roles = userCfg.roles;
     }
 }

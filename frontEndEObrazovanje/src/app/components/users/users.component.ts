@@ -33,4 +33,8 @@ export class UsersComponent implements OnInit {
       });
   }
 
+  goToViewUser(user: User): void {
+    this.router.navigate(['/view-user', user.id]);
+  }
+
 }

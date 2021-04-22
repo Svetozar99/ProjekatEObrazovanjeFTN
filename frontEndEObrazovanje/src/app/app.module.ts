@@ -23,6 +23,7 @@ import { AddExamComponent } from './components/add-exam/add-exam.component';
 import { AddPaymentComponent } from './components/add-payment/add-payment.component';
 import { AddExamPartComponent } from './components/add-exam-part/add-exam-part.component';
 import { UserService } from './components/users/users.service';
+import { ViewUserComponent } from './components/view-user/view-user.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { UserService } from './components/users/users.service';
     CourseInstanceComponent,
     AddExamComponent,
     AddPaymentComponent,
-    AddExamPartComponent
+    AddExamPartComponent,
+    ViewUserComponent
   ],
   imports: [
     BrowserModule,

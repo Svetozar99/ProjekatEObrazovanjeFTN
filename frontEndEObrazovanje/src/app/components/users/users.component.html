@@ -12,7 +12,7 @@
             <tr *ngFor="let u of users; let i = index; let odd = odd;">
                 <td class="text-center">{{u.firstName}}</td>
                 <td class="text-center">{{u.lastName}}</td>
-                <td class="text-center"><a routerLink="/">{{u.userName}}</a></td>   
+                <td class="text-center"><button class="btn btn-link" (click)="goToViewUser(u)">{{u.userName}}</button></td>   
             </tr>
         </tbody>
     </table>

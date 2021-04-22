@@ -1,0 +1,27 @@
+<div class="form-group text-center">
+    <h1>User</h1>
+    <div class="mt-5">
+        <b>Firstname:</b>
+        <input type="text" class="form-control col-2 d-inline ml-2" [(ngModel)]="user.firstName">
+    </div>
+    <div class="mt-2 ml-50">
+        <b>Lastname:</b>
+        <input type="text" class="form-control col-2 d-inline ml-2" [(ngModel)]="user.lastName">
+    </div>
+    <div class="mt-2 ml-50">
+        <b>Username:</b>
+        <input type="text" class="form-control col-2 d-inline ml-2" [(ngModel)]="user.userName">
+    </div>
+    <div *ngIf="user.id && user.roles.length > 0">
+        <div>
+            <h3>Roles</h3>
+        </div>
+        <table class="table table-bordered">
+          <tr *ngFor="let role of user.roles">
+            <td>
+              {{role.name}}
+            </td>
+          </tr>
+        </table>
+      </div> 
+</div>

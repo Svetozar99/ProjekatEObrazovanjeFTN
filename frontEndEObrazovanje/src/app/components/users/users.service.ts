@@ -5,6 +5,7 @@ import {Observable, Subject} from 'rxjs';
 import { User } from '../../model/user';
 import { LoginData } from 'src/app/model/loginData';
 import { JWT } from 'src/app/model/jwt';
+import { Role } from 'src/app/model/role';
 
 @Injectable()
 export class UserService {
@@ -26,7 +27,7 @@ export class UserService {
     getUsers(): Observable<HttpResponse<User[]>> {
         var j = localStorage.getItem('jwt')
         this.jwt = j==null ? {value:''}:{value:j};
-        console.log("jwt: "+JSON.stringify(this.jwt));
+        // console.log("jwt: "+JSON.stringify(this.jwt));
         var headers = {'X-Auth-Token': this.jwt.value};
         return this.http.get<User[]>(this.usersUrl, {observe: 'response',headers:headers});
     }
@@ -35,10 +36,14 @@ export class UserService {
         return this.http.post<JWT>(this.loginUrl, loginData, {observe: 'response'});
     }
 
-//    getStudent(id: number): Observable<HttpResponse<Student>> {
-//         const url = `${this.studentsUrl}/${id}`;
-//         return this.http.get<Student>(url, {observe: 'response'});
-//     }
+    getUser(id: number): Observable<HttpResponse<User>> {
+        var j = localStorage.getItem('jwt')
+        this.jwt = j==null ? {value:''}:{value:j};
+        console.log("jwt: "+JSON.stringify(this.jwt));
+        var headers = {'X-Auth-Token': this.jwt.value};
+        const url = `${this.usersUrl}/${id}`;
+        return this.http.get<User>(url, {observe: 'response',headers:headers});
+    }
 
 //     addStudent(student: Student): Observable<HttpResponse<Student>> {
 //         return this.http.post<Student>(this.studentsUrl, student, {observe: 'response'});
@@ -53,8 +58,8 @@ export class UserService {
 //         return this.http.delete<any>(url, {observe: 'response'});
 //     }
 
-//     getStudentEnrollments(studentId: number): Observable<HttpResponse<Enrollment[]>> {
-//         const url = `${this.studentsUrl}/${studentId}/courses`;
-//         return this.http.get<Enrollment[]>(url, {observe: 'response'});
-//     } 
+    // getUserRoles(userId: number): Observable<HttpResponse<Role[]>> {
+    //     const url = `${this.usersUrl}/${userId}/role`;
+    //     return this.http.get<Role[]>(url, {observe: 'response'});
+    // } 
 }

@@ -15,6 +15,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { TeacherComponent } from './components/teacher/teacher.component';
 import { TeachingsComponent } from './components/teachings/teachings.component';
 import { UsersComponent } from './components/users/users.component';
+import { ViewUserComponent } from './components/view-user/view-user.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -32,6 +33,7 @@ const routes: Routes = [
   { path: 'add-exam', component: AddExamComponent },
   { path: 'add-payment', component: AddPaymentComponent },
   { path: 'add-exam-part', component: AddExamPartComponent },
+  { path: 'view-user/:id', component: ViewUserComponent },
   { path: '**', redirectTo: '' }
 ];
 

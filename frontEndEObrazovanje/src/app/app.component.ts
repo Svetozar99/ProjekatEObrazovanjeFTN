@@ -8,4 +8,8 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'frontEndEObrazovanje';
   collapsed = true;	
+
+  logout(): void {
+    localStorage.removeItem('jwt');
+  }
 }
