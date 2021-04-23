@@ -35,4 +35,9 @@ public class RoleService implements RoleServiceI {
 		repository.deleteById(id);
 	}
 
+	@Override
+	public Role findByCode(String code) {
+		return repository.findOneByCode(code);
+	}
+
 }

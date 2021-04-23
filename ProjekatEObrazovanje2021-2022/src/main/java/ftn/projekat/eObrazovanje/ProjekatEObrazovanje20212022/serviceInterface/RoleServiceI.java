@@ -13,4 +13,6 @@ public interface RoleServiceI {
 	public Role save(Role userRole);
 	
 	public void delete(Long id);
+	
+	public Role findByCode(String code);
 }

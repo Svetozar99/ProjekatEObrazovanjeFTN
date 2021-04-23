@@ -103,6 +103,7 @@ public class UserController {
 	@PostMapping("/signup")
 	public ResponseEntity<UserDTO> addUser(@RequestBody UserDTO dto, UriComponentsBuilder ucBuilder){
 		User existUser = this.userService.findByUsername(dto.getUserName());
+		System.out.println("Metoda se pozvala");
 		if (existUser != null) {
 			return ResponseEntity.status(409).build();
 		}
@@ -111,7 +112,11 @@ public class UserController {
 		user.setLastName(dto.getLastName());
 		user.setUsername(dto.getUserName());
 		user.setPassword(passwordEncoder.encode(dto.getPassword()));
+		user = userService.save(user);
 		for (RoleDTO roleDTO : dto.getRoles()) {
+			Role r = roleS.findByCode(roleDTO.getCode());
+			UserRole userRole = new UserRole(user,r);
+			user.getUserRoles().add(userRole);
 			if(roleDTO.getCode().equals("st")) {
 				Student student = new Student();
 				Date date = new Date();
@@ -134,6 +139,7 @@ public class UserController {
 				admin.setUser(user);
 				adminS.save(admin);
 			}
+			user = userService.save(user);
 		}
 		
 		return new ResponseEntity<UserDTO>(new UserDTO(user), HttpStatus.OK);
@@ -177,17 +183,18 @@ public class UserController {
 		return new ResponseEntity<UserDTO>(new UserDTO(user), HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "users/{id}/unassigned-roles")
-	public ResponseEntity<List<RoleDTO>> getRoles(@PathVariable("id") Long id){
-		User user = userService.findById(id);
-		if(user == null) {
-			System.out.println("user je null");
-			return new ResponseEntity<List<RoleDTO>>(HttpStatus.NOT_FOUND);
-		}
+	@GetMapping(value = "users/{username}/unassigned-roles")
+	public ResponseEntity<List<RoleDTO>> getRoles(@PathVariable("username") String username){
+		User user = userService.findByUsername(username);
+//		if(user == null) {
+//			System.out.println("user je null");
+//			return new ResponseEntity<List<RoleDTO>>(HttpStatus.NOT_FOUND);
+//		}
 		
 		List<RoleDTO> rolesDTO = new ArrayList<RoleDTO>();
 		List<Role> allRole= roleS.findAll();
-		if(user.getUserRoles().size()>0) {
+		
+		if(user != null && user.getUserRoles().size()>0) {
 			for (Role role : allRole) {
 				int isIn = 0;
 				for (UserRole userRole: user.getUserRoles()) {
@@ -203,7 +210,7 @@ public class UserController {
 					rolesDTO.add(new RoleDTO(role));
 				}
 			}
-		}else {
+		}else if ((user == null) || user.getUserRoles().size()==0){
 			for (Role role : allRole) {
 				rolesDTO.add(new RoleDTO(role));
 			}
