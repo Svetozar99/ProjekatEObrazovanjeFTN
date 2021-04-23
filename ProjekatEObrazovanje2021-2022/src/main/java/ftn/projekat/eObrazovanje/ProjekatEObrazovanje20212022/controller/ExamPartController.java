@@ -60,16 +60,20 @@ public class ExamPartController {
 	@Autowired
 	private AccountServiceI accSevice;
 	
-	@GetMapping(value = "/{courseId}/{cardNumber}")
-	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
-	public ResponseEntity<List<ExamPartDTO>> getAllForCardNumber(@PathVariable("courseId") Long courseId,@PathVariable("cardNumber") String cardNumber){
-		List<ExamPart> examParts = examPartS.findByCardNumAndCourse(cardNumber, courseId);
+	@GetMapping(value = "/student/{courseId}")
+//	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
+	public ResponseEntity<List<ExamPartDTO>> getAllForCardNumber(@PathVariable("courseId") Long courseId,Principal principal){
+		System.out.println("pogodjena funkcija");
+		String name = principal.getName(); //get logged in username
+		Student st = studServ.findByUser(name);
+		List<ExamPart> examParts = examPartS.findByCardNumAndCourse(st.getCardNumber(), courseId);
 		
 		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
 		
 		for (ExamPart examPart : examParts) {
 			dtos.add(new ExamPartDTO(examPart));
 		}
+		System.out.println(examParts.size());
 		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
 	}
 	
