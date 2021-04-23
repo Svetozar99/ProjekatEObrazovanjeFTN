@@ -26,6 +26,7 @@ import { UserService } from './components/users/users.service';
 import { ViewUserComponent } from './components/view-user/view-user.component';
 import { ExamsService } from './components/exams/exams.service';
 import { DocumentsService } from './components/documents/documents.service';
+import { TeachingsService } from './components/teachings/teachings.service';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,7 @@ import { DocumentsService } from './components/documents/documents.service';
     HttpClientModule,
     CommonModule
   ],
-  providers: [UserService, ExamsService, DocumentsService, TeachingsComponent],
+  providers: [UserService, ExamsService, DocumentsService, TeachingsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

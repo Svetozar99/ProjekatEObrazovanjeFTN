@@ -25,13 +25,10 @@ export class TeachingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(this.route.snapshot){
-      this.route.params.pipe(switchMap((params: Params) => 
-      this.teachingService.getTeachings()))
+      this.teachingService.getTeachings()
       .subscribe(res => {
         this.teachings = res.body;
       });
-    }
   }
 
   getTeachings(){

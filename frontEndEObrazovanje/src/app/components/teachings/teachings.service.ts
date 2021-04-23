@@ -24,6 +24,7 @@ export class TeachingsService {
         var j = localStorage.getItem('jwt')
         this.jwt = j==null? {value:''}:{value:j};
 
+        console.log('token: ');
         var headers = {'X-Auth-Token':this.jwt.value};
         return this.http.get<Teaching[]>(this.teachingsUrl, {observe: 'response', headers:headers});
     }
