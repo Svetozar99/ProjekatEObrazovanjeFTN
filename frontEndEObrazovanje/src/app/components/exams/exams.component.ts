@@ -24,16 +24,11 @@ export class ExamsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.route.snapshot.params['id']) {
-      // fetch student if we edit the existing student
-      this.route.params.pipe(switchMap((params: Params) => 
-          this.examService.getStudentExams())) // convert to number
+        this.examService.getStudentExams()
         .subscribe(res => {
           this.exams = res.body;
-
           }
         );
-    } 
   }
 
   getStudentExams(){
