@@ -11,6 +11,7 @@ import { Role } from 'src/app/model/role';
 export class UserService {
     private usersUrl = 'api/users';
     private loginUrl = 'api/login';
+    private signUp = 'api/signup'
 
     private jwt: JWT={value:''};
 
@@ -45,12 +46,12 @@ export class UserService {
         return this.http.get<User>(url, {observe: 'response',headers:headers});
     }
 
-    getUnassignedRoles(id: number): Observable<HttpResponse<Role[]>> {
+    getUnassignedRoles(username: string): Observable<HttpResponse<Role[]>> {
         var j = localStorage.getItem('jwt')
         this.jwt = j==null ? {value:''}:{value:j};
         console.log("jwt: "+JSON.stringify(this.jwt));
         var headers = {'X-Auth-Token': this.jwt.value};
-        const url = `${this.usersUrl}/${id}/unassigned-roles`;
+        const url = `${this.usersUrl}/${username}/unassigned-roles`;
         return this.http.get<Role[]>(url, {observe: 'response',headers:headers});
     }
 
@@ -62,9 +63,13 @@ export class UserService {
         return this.http.put<User>(this.usersUrl, user, {observe: 'response',headers:headers});
     }
 
-//     addStudent(student: Student): Observable<HttpResponse<Student>> {
-//         return this.http.post<Student>(this.studentsUrl, student, {observe: 'response'});
-//     }
+    addUser(user: User): Observable<HttpResponse<User>> {
+        var j = localStorage.getItem('jwt')
+        this.jwt = j==null ? {value:''}:{value:j};
+        console.log("New user: "+JSON.stringify(user));
+        var headers = {'X-Auth-Token': this.jwt.value};
+        return this.http.post<User>(this.signUp, user, {observe: 'response',headers:headers});
+    }
 
 //     editStudent(student: Student): Observable<HttpResponse<Student>> {
 //         return this.http.put<Student>(this.studentsUrl, student, {observe: 'response'});

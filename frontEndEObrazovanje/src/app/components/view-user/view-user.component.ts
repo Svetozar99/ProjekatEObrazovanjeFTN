@@ -38,14 +38,32 @@ export class ViewUserComponent implements OnInit {
           this.userService.getUser(+params['id']))) // convert to number
         .subscribe(res => {
           this.user = res.body==null ? this.user:res.body;
-          this.userService.getUnassignedRoles(this.user.id==undefined ? 0:this.user.id).
+          this.userService.getUnassignedRoles(this.user.userName==undefined ? '':this.user.userName).
             subscribe(res =>{
               this.unassignedRoles = [];
               this.unassignedRoles = res.body==null ? []:res.body;
             });
           }
         );
-    } 
+    } else{
+      this.userService.getUnassignedRoles('newUser').
+            subscribe(res =>{
+              this.unassignedRoles = [];
+              this.unassignedRoles = res.body==null ? []:res.body;
+            });
+    }
+  }
+
+  save(): void {
+    this.mode == 'ADD' ? this.add() : this.edit();    
+  }
+
+  private add(): void {
+    this.userService.addUser(this.user)
+      .subscribe(res => {
+        // this.userService.announceChange();
+        this.goBack();
+      });
   }
 
   removeRole(code:string) {
@@ -57,10 +75,12 @@ export class ViewUserComponent implements OnInit {
   }
 
   assignRole() {
-    // console.log("Role: "+this.roleCode);
+    console.log("Role: "+this.roleCode);
     const r = this.unassignedRoles.filter(r => r.code===this.roleCode)[0];
     if(r!==undefined){
+      
       this.user.roles.push(r);
+      console.log("Razlicito od undefinided!: "+JSON.stringify(this.user.roles));
       this.unassignedRoles=this.unassignedRoles.filter(r => r.code!==this.roleCode);
       console.log(JSON.stringify(this.unassignedRoles));
     }else{

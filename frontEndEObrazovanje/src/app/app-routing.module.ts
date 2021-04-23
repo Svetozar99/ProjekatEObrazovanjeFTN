@@ -20,7 +20,7 @@ import { ViewUserComponent } from './components/view-user/view-user.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'addUser', component: ViewUserComponent },
   { path: 'exams', component: ExamsComponent },
   { path: 'exam-detail/:id', component: ExamDetailComponent },
   { path: 'account', component: AccountComponent },

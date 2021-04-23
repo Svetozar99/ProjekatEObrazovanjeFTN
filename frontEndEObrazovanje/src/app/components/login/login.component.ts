@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
         console.log("--Login--")
         this.jwt=res.body==null ? {value:''}:res.body;
         localStorage.setItem('jwt', this.jwt.value);
-        // this.userService.announceChange();
+        this.userService.announceChange();
       });
   }
 

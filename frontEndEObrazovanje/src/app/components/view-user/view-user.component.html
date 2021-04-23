@@ -12,12 +12,17 @@
       </div>
       <div class="mt-2 ml-50">
           <b>Username:</b>
-          <input type="text" readonly class="form-control col-7 d-inline ml-2" [(ngModel)]="user.userName">
+          <input type="text" *ngIf="mode === 'EDIT'" readonly class="form-control col-7 d-inline ml-2" [(ngModel)]="user.userName">
+          <input type="text" *ngIf="mode === 'ADD'" class="form-control col-7 d-inline ml-2" [(ngModel)]="user.userName">
       </div>
+      <div *ngIf="mode === 'ADD'" class="mt-2 ml-50">
+        <b>Password:</b>
+        <input type="password" class="form-control col-7 d-inline ml-2" [(ngModel)]="user.password">
+    </div>
     </div>
     <div class="ml-5 mt-2">
       <h4>Roles</h4>
-      <div *ngIf="user.id && user.roles.length > 0" class="ml-1">
+      <div *ngIf="user.roles.length > 0" class="ml-1">
         <table class="table mx-auto">
           <tr *ngFor="let role of user.roles">
             <td>
@@ -36,7 +41,7 @@
     </div>
   </div>
   <div class="mt-5">
-    <button type="button" class="btn btn-success" (click)="edit()">Save</button>
+    <button type="button" class="btn btn-success" (click)="save()">Save</button>
     <button type="button" class="btn btn-warning ml-1" (click)="goBack()">Cancel</button>
   </div>
 </div>
