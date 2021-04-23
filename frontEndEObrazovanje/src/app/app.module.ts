@@ -55,7 +55,7 @@ import { DocumentsService } from './components/documents/documents.service';
     HttpClientModule,
     CommonModule
   ],
-  providers: [UserService, ExamsService, DocumentsService],
+  providers: [UserService, ExamsService, DocumentsService, TeachingsComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -9,15 +9,10 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td class="text-center"><a routerLink="/teacher">Marko Marković</a></td>
-                <td class="text-center">exercise</td>
-                <td class="text-center"><a routerLink="/course-instance">XML Tehnologije</a></td>
-            </tr>
-            <tr>
-                <td class="text-center"><a routerLink="/teacher">Miroslav Zarić</a></td>
-                <td class="text-center">exercise</td>
-                <td class="text-center"><a routerLink="/course-instance">WEB Dizajn</a></td>
+            <tr *ngFor="let t of teachings; let i = index; let odd = odd;">
+                <td class="text-center"><button class="btn btn-link" (click)="goToViewUser(t.teacherDTO.userDTO)">{{t.teacherDTO.userDTO.firstName + " "+ t.teacherDTO.userDTO.lastName}}</button></td>
+                <td class="text-center">{{ t.teachingTypeDTO.name }}</td>
+                <td class="text-center"><button class="btn btn-link" (click)="goToViewUser(t.teacherDTO.userDTO)">{{t.courseInstanceDTO.courseSpecificationDTO.title}}</button></td>
             </tr>
         </tbody>
     </table>
