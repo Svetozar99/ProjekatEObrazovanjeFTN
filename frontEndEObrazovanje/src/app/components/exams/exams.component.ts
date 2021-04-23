@@ -39,6 +39,6 @@ export class ExamsComponent implements OnInit {
   }
 
   gotToViewExam(exam: Exam):void{
-    this.router.navigate(['/exam-detail', exam.id]);
+    this.router.navigate(['/exam-detail/student/', exam.id]);
   }
 }

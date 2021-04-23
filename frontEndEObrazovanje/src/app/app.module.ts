@@ -27,6 +27,7 @@ import { ViewUserComponent } from './components/view-user/view-user.component';
 import { ExamsService } from './components/exams/exams.service';
 import { DocumentsService } from './components/documents/documents.service';
 import { TeachingsService } from './components/teachings/teachings.service';
+import { ExamDetailService } from './components/exam-detail/exam-detail.service';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,7 @@ import { TeachingsService } from './components/teachings/teachings.service';
     HttpClientModule,
     CommonModule
   ],
-  providers: [UserService, ExamsService, DocumentsService, TeachingsService],
+  providers: [UserService, ExamsService, DocumentsService, TeachingsService, ExamDetailService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
