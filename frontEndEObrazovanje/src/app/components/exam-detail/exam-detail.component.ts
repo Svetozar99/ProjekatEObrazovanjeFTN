@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Exam } from 'src/app/model/exam';
+import { ExamDetail } from 'src/app/model/examDetail';
 import { ExamsService } from '../exams/exams.service';
+import { ExamDetailService } from './exam-detail.service';
 
 @Component({
   selector: 'app-exam-detail',
@@ -11,11 +14,16 @@ import { ExamsService } from '../exams/exams.service';
 })
 export class ExamDetailComponent implements OnInit {
 
+  title: String = "";
   exam: Exam;
+  examDetails: ExamDetail[] | null = [];
   mode: string = '';
 
-  constructor(private examService: ExamsService, private route: ActivatedRoute) { 
-    this.exam = new Exam({
+  // subscription: Subscription;
+
+
+  constructor(private examDetailService: ExamDetailService,private examService: ExamsService, private route: ActivatedRoute) { 
+    this.exam = {
       id:0,
       enrollmentDTO:{
         id:0,
@@ -34,19 +42,36 @@ export class ExamDetailComponent implements OnInit {
       },
       gradle:0,
       points:0
-    });
+    }
     this.mode = 'ADD'
   }
 
   ngOnInit() {
-    if(this.route.snapshot.params['id']){
+    if(this.route.snapshot.params['examId']){
       this.mode = 'EDIT';
-      this.route.params.pipe(switchMap((params: Params) => 
-        this.examService.getExam(+params['id'])))
+      this.route.params.pipe(switchMap((params: Params) =>
+      this.examService.getExam(+params['examId'])))
+      .subscribe(res =>{
+        this.exam = res.body==null ? this.exam:res.body;
+        console.log(JSON.stringify(this.exam));
+        this.examDetailService.getExamParts(this.exam.enrollmentDTO.courseInstanceDTO.id)
         .subscribe(res => {
-          this.exam = res.body==null ? this.exam:res.body;
+          this.examDetails = res.body==null ? this.examDetails:res.body;
+          
         });
+      }
+      );
+        
     }
+  }
+
+  getExamParts(courseId: number){
+    console.log('getExamParts...');
+    this.examDetailService.getExamParts(courseId).subscribe(
+      response => {
+        this.examDetails = response.body
+      }
+    );
   }
 
 }

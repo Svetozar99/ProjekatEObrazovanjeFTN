@@ -5,13 +5,13 @@
             <b>Course title:</b> <input type="text" readonly class="form-control ml-2" [(ngModel)]="exam.enrollmentDTO.courseInstanceDTO.courseSpecificationDTO.title">
         </div>
         <div class="w-10 ml-5">
-            <b>Gradle:</b> <input type="text" value="8" readonly class="form-control ml-2 col-6 text-center" [(ngModel)]="exam.gradle">
+            <b>Gradle:</b> <input type="text" readonly class="form-control ml-2 col-6 text-center" [(ngModel)]="exam.gradle">
         </div>
         <div class="w-10 ml-5">
-            <b>Ponts:</b> <input type="text" value="75" readonly class="form-control ml-2 col-6 text-center" [(ngModel)]="exam.points">
+            <b>Ponts:</b> <input type="text" readonly class="form-control ml-2 col-6 text-center" [(ngModel)]="exam.points">
         </div>
         <div class="w-10 ml-5">
-            <b>ECTS:</b> <input type="text" value="7" readonly class="form-control ml-2 col-6 text-center">
+            <b>ECTS:</b> <input type="text" readonly class="form-control ml-2 col-6 text-center" [(ngModel)]="exam.enrollmentDTO.courseInstanceDTO.courseSpecificationDTO.ects">
         </div>
     </div>
     <table class="table mx-auto w-75 mt-5">
@@ -26,21 +26,13 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td class="text-center">14-11-2020</td>
-                <td class="text-center">208</td>
-                <td class="text-center">40</td>
-                <td class="text-center">30</td>
-                <td class="text-center">Passed</td>
-                <td class="text-center">Colloquium</td>
-            </tr>
-            <tr>
-                <td class="text-center">25-02-2021</td>
-                <td class="text-center">309</td>
-                <td class="text-center">60</td>
-                <td class="text-center">45</td>
-                <td class="text-center">Passed</td>
-                <td class="text-center">Oral exam</td>
+            <tr *ngFor="let e of examDetails; let i = index; let odd = odd;">
+                <td class="text-center">{{ e.date }}</td>
+                <td class="text-center">{{ e.location }}</td>
+                <td class="text-center">{{ e.points }}</td>
+                <td class="text-center">{{ e.wonPoints }}</td>
+                <td class="text-center">{{ e.statusDTO.name }}</td>
+                <td class="text-center">{{ e.examPartTypeDTO.name }}</td>
             </tr>
         </tbody>
     </table>
