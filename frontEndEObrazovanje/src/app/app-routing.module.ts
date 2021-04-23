@@ -21,7 +21,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'exams/:id', component: ExamsComponent },
+  { path: 'exams', component: ExamsComponent },
   { path: 'exam-detail/:id', component: ExamDetailComponent },
   { path: 'account', component: AccountComponent },
   { path: 'users', component: UsersComponent },

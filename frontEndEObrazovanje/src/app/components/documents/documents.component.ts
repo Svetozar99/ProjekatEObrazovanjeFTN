@@ -23,18 +23,15 @@ export class DocumentsComponent implements OnInit {
     this.geStudentDocuments());
   }
 
-  ngOnInit():void {
-    if(this.route.snapshot.params['id']){
-      //
-      this.route.params.pipe(switchMap((params: Params) => 
-        this.documentsService.getStudentDocuments()))
+  ngOnInit():void { 
+        this.documentsService.getStudentDocuments()
         .subscribe(res => {
           this.documentss = res.body;
         });
-    }
   }
 
   geStudentDocuments(){
+    console.log("Get documents!");
     this.documentsService.getStudentDocuments().subscribe(
       response => {
         this.documentss = response.body;
