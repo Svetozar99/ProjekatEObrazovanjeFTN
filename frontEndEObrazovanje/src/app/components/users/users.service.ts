@@ -66,19 +66,18 @@ export class UserService {
     addUser(user: User): Observable<HttpResponse<User>> {
         var j = localStorage.getItem('jwt')
         this.jwt = j==null ? {value:''}:{value:j};
-        console.log("New user: "+JSON.stringify(user));
+        
         var headers = {'X-Auth-Token': this.jwt.value};
         return this.http.post<User>(this.signUp, user, {observe: 'response',headers:headers});
     }
 
-//     editStudent(student: Student): Observable<HttpResponse<Student>> {
-//         return this.http.put<Student>(this.studentsUrl, student, {observe: 'response'});
-//     }
-
-//     deleteStudent(studentId: number): Observable<HttpResponse<any>> {
-//         const url = `${this.studentsUrl}/${studentId}`;
-//         return this.http.delete<any>(url, {observe: 'response'});
-//     }
+    deleteUser(userId: number): Observable<HttpResponse<any>> {
+        var j = localStorage.getItem('jwt')
+        this.jwt = j==null ? {value:''}:{value:j};
+        var headers = {'X-Auth-Token': this.jwt.value};
+        const url = `${this.usersUrl}/${userId}`;
+        return this.http.delete<any>(url, {observe: 'response',headers:headers});
+    }
 
     // getUserRoles(userId: number): Observable<HttpResponse<Role[]>> {
     //     const url = `${this.usersUrl}/${userId}/role`;

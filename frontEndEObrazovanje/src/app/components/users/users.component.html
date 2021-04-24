@@ -6,13 +6,15 @@
                 <th class="text-center">Firstname</th>
                 <th class="text-center">Lastname</th>
                 <th class="text-center">Username</th>
+                <th></th>
             </tr>
         </thead>
         <tbody >
             <tr *ngFor="let u of users; let i = index; let odd = odd;">
                 <td class="text-center">{{u.firstName}}</td>
                 <td class="text-center">{{u.lastName}}</td>
-                <td class="text-center"><button class="btn btn-link" (click)="goToViewUser(u)">{{u.userName}}</button></td>   
+                <td class="text-center"><button class="btn btn-link" (click)="goToViewUser(u)">{{u.userName}}</button></td>
+                <td class="text-center"><button type="button" class="btn btn-danger btn-sm" (click)="deleteUser(u)">X</button></td> 
             </tr>
         </tbody>
     </table>
