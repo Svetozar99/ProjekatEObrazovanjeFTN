@@ -1,7 +1,7 @@
 <div class="container">
-  <nav id="mainNavbar" class="navbar navbar-expand-sm navbar-dark bg-dark">
+  <nav id="mainNavbar" class="navbar navbar-expand-sm navbar-dark bg-dark" *ngIf="loggedIn">
     <div class="container-fluid">
-      <a routerLink="/" class="navbar-brand">HOME</a>
+      <a routerLink="/home" class="navbar-brand">HOME</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -20,12 +20,6 @@
       >
         <!-- right nav menus -->
         <ul class="navbar-nav ml-auto">
-          <li routerLinkActive="active" class="nav-item">
-            <a routerLink="/login" class="nav-link"> Login </a>
-          </li>
-          <li routerLinkActive="active" class="nav-item">
-            <a routerLink="/register" class="nav-link"> Register </a>
-          </li>
           <li routerLinkActive="active" class="nav-item">
             <a routerLink="/users" class="nav-link"> Users </a>
           </li>

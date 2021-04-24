@@ -18,8 +18,9 @@ import { UsersComponent } from './components/users/users.component';
 import { ViewUserComponent } from './components/view-user/view-user.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'addUser', component: ViewUserComponent },
   { path: 'exams', component: ExamsComponent },
   { path: 'exam-detail/student/:examId', component: ExamDetailComponent },

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/model/user';
 import { Subscription } from 'rxjs';
 import { UserService } from './users.service';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-users',
@@ -11,14 +12,17 @@ import { UserService } from './users.service';
 })
 export class UsersComponent implements OnInit {
 
+  @Input() loggedIn:boolean;
+
   users: User[] | null = [];
 
   subscription: Subscription;
 
-  constructor(private userService: UserService, private router: Router) { 
+  constructor(private userService: UserService, private router: Router,app:AppComponent) { 
     this.subscription = userService.RegenerateData$.subscribe(() => 
       this.getUsers()
     );
+    this.loggedIn=app.loggedIn;
   }
 
   ngOnInit(): void {
@@ -26,6 +30,7 @@ export class UsersComponent implements OnInit {
   }
 
   getUsers(){
+    console.log("Logged in: "+this.loggedIn)
     this.userService.getUsers().subscribe(
       response => {
         console.log(response)

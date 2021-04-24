@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AppComponent } from 'src/app/app.component';
 import { JWT } from 'src/app/model/jwt';
 import { LoginData } from 'src/app/model/loginData';
 import { UserService } from '../users/users.service';
@@ -9,10 +11,11 @@ import { UserService } from '../users/users.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
   loginData: LoginData;
   jwt: JWT | null={value:''};
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService,private app:AppComponent,private router: Router) {
     this.loginData = new LoginData('rakin99','student1');
   }
 
@@ -25,7 +28,8 @@ export class LoginComponent implements OnInit {
         console.log("--Login--")
         this.jwt=res.body==null ? {value:''}:res.body;
         localStorage.setItem('jwt', this.jwt.value);
-        this.userService.announceChange();
+        this.app.loggedIn = true;
+        this.router.navigate(['/home']);
       });
   }
 
