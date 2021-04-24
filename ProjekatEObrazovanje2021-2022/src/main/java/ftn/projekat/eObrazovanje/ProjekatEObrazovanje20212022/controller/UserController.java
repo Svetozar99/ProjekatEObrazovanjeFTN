@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -248,5 +249,16 @@ public class UserController {
 		userService.save(user);
 		
 		return ResponseEntity.ok().build();
+	}
+	
+	@DeleteMapping(value = "users/{id}")
+//	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR')")
+	public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id){
+		User student = userService.findById(id);
+		if(student != null) {
+			userService.delete(id);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}
+		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 	}
 }
