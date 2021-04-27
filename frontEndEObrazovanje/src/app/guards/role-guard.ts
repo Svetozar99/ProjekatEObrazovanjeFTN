@@ -26,19 +26,19 @@ export class RoleGuard implements CanActivate{
 		}
 		const info = jwt.decodeToken(token);
 		console.log(JSON.stringify(info) + 'info');
-		// const roles: string[] = expectedRoles.split(' ', 2);
-        // console.log("Roles: "+JSON.stringify(roles));
+		const roles: string[] = expectedRoles.split('|', 2);
+        console.log("Roles: "+JSON.stringify(roles));
 
-		const roles: string[] = info.roles.split(" ");
-		roles.forEach(role => {
-			if(role==='ROLE_STUDENT'){
-				this.router.navigate(['/home']);
-			}
-		});
-		// if (roles.indexOf(info.roles[0].authority) === -1) {
-		// 	this.router.navigate(['/home']);
-		// 	return false;
-		// }
+		// const roles: string[] = info.roles.split(" ");
+		// roles.forEach(role => {
+		// 	if(role==='ROLE_STUDENT'){
+		// 		this.router.navigate(['/home']);
+		// 	}
+		// });
+		if (roles.indexOf(info.roles[0].authority) === -1) {
+			this.router.navigate(['/home']);
+			return false;
+		}
 		return true;
     }
 }
