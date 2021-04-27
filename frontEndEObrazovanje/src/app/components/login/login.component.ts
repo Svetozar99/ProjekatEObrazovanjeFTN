@@ -34,7 +34,6 @@ export class LoginComponent implements OnInit {
           }));
         localStorage.setItem('jwt', this.jwt.value);
         this.app.loggedIn = true;
-        this.router.navigate(['/home']);
       });
   }
 
@@ -43,7 +42,7 @@ export class LoginComponent implements OnInit {
     let decodedJwtJsonData = window.atob(jwtData);
     let decodedJwtData = JSON.parse(decodedJwtJsonData);
 
-    return [decodedJwtData.role];
+    return [decodedJwtData.roles];
   }
 
 
