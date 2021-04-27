@@ -4,8 +4,10 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -69,13 +71,13 @@ public class TokenUtils {
 	
 	public String generateToken(UserDetails userDetails) {
 		Map<String, Object> claims = new HashMap<String, Object>();
-		String roles = "";
+		List<String> roles = new ArrayList<String>();
 		claims.put("sub", userDetails.getUsername());
 		claims.put("created", new Date(System.currentTimeMillis()));
 		
 		for (GrantedAuthority r : userDetails.getAuthorities()) {
 			System.out.println("AUTHORITYYYY: " + r.getAuthority().toString());
-			roles += r.getAuthority().toString() + " ";
+			roles.add(r.getAuthority().toString());
 		};
 		
 		claims.put("roles", roles);
