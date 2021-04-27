@@ -8,8 +8,6 @@ import { Teaching } from "src/app/model/teaching";
 export class TeachingsService {
     private teachingsUrl = "api/teaching"
 
-    private jwt: JWT={value:''};
-
     constructor(private http: HttpClient){ }
 
     private RegenerateData = new Subject<void>();
@@ -21,11 +19,6 @@ export class TeachingsService {
     }
 
     getTeachings(): Observable<HttpResponse<Teaching[]>> {
-        var j = localStorage.getItem('jwt')
-        this.jwt = j==null? {value:''}:{value:j};
-
-        console.log('token: ');
-        var headers = {'X-Auth-Token':this.jwt.value};
-        return this.http.get<Teaching[]>(this.teachingsUrl, {observe: 'response', headers:headers});
+        return this.http.get<Teaching[]>(this.teachingsUrl, {observe: 'response'});
     }
 }

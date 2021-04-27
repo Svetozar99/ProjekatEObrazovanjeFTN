@@ -27,10 +27,24 @@ export class LoginComponent implements OnInit {
       .subscribe(res => {
         console.log("--Login--")
         this.jwt=res.body==null ? {value:''}:res.body;
+        localStorage.setItem('loggedUser', JSON.stringify({
+            username: this.loginData.username,
+            roles: this.getRoles(this.jwt.value),
+            token: this.jwt
+          }));
         localStorage.setItem('jwt', this.jwt.value);
         this.app.loggedIn = true;
         this.router.navigate(['/home']);
       });
   }
+
+  getRoles(token: string) {
+    let jwtData = token.split('.')[1];
+    let decodedJwtJsonData = window.atob(jwtData);
+    let decodedJwtData = JSON.parse(decodedJwtJsonData);
+
+    return [decodedJwtData.role];
+  }
+
 
 }

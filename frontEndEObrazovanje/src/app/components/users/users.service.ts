@@ -13,8 +13,6 @@ export class UserService {
     private loginUrl = 'api/login';
     private signUp = 'api/signup'
 
-    private jwt: JWT={value:''};
-
     constructor(private http: HttpClient) { }
 
     private RegenerateData = new Subject<void>();
@@ -26,11 +24,7 @@ export class UserService {
     }
 
     getUsers(): Observable<HttpResponse<User[]>> {
-        var j = localStorage.getItem('jwt')
-        this.jwt = j==null ? {value:''}:{value:j};
-        // console.log("jwt: "+JSON.stringify(this.jwt));
-        var headers = {'X-Auth-Token': this.jwt.value};
-        return this.http.get<User[]>(this.usersUrl, {observe: 'response',headers:headers});
+        return this.http.get<User[]>(this.usersUrl, {observe: 'response'});
     }
 
     login(loginData: LoginData): Observable<HttpResponse<JWT>> {
@@ -38,45 +32,27 @@ export class UserService {
     }
 
     getUser(id: number): Observable<HttpResponse<User>> {
-        var j = localStorage.getItem('jwt')
-        this.jwt = j==null ? {value:''}:{value:j};
         // console.log("jwt: "+JSON.stringify(this.jwt));
-        var headers = {'X-Auth-Token': this.jwt.value};
         const url = `${this.usersUrl}/${id}`;
-        return this.http.get<User>(url, {observe: 'response',headers:headers});
+        return this.http.get<User>(url, {observe: 'response'});
     }
 
     getUnassignedRoles(username: string): Observable<HttpResponse<Role[]>> {
-        var j = localStorage.getItem('jwt')
-        this.jwt = j==null ? {value:''}:{value:j};
-        console.log("jwt: "+JSON.stringify(this.jwt));
-        var headers = {'X-Auth-Token': this.jwt.value};
         const url = `${this.usersUrl}/${username}/unassigned-roles`;
-        return this.http.get<Role[]>(url, {observe: 'response',headers:headers});
+        return this.http.get<Role[]>(url, {observe: 'response'});
     }
 
     editUser(user: User): Observable<HttpResponse<User>> {
-        var j = localStorage.getItem('jwt')
-        this.jwt = j==null ? {value:''}:{value:j};
-        // console.log("jwt: "+JSON.stringify(this.jwt));
-        var headers = {'X-Auth-Token': this.jwt.value};
-        return this.http.put<User>(this.usersUrl, user, {observe: 'response',headers:headers});
+        return this.http.put<User>(this.usersUrl, user, {observe: 'response'});
     }
 
     addUser(user: User): Observable<HttpResponse<User>> {
-        var j = localStorage.getItem('jwt')
-        this.jwt = j==null ? {value:''}:{value:j};
-        
-        var headers = {'X-Auth-Token': this.jwt.value};
-        return this.http.post<User>(this.signUp, user, {observe: 'response',headers:headers});
+        return this.http.post<User>(this.signUp, user, {observe: 'response'});
     }
 
     deleteUser(userId: number): Observable<HttpResponse<any>> {
-        var j = localStorage.getItem('jwt')
-        this.jwt = j==null ? {value:''}:{value:j};
-        var headers = {'X-Auth-Token': this.jwt.value};
         const url = `${this.usersUrl}/${userId}`;
-        return this.http.delete<any>(url, {observe: 'response',headers:headers});
+        return this.http.delete<any>(url, {observe: 'response'});
     }
 
     // getUserRoles(userId: number): Observable<HttpResponse<Role[]>> {

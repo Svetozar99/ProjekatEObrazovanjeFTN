@@ -16,25 +16,27 @@ import { TeacherComponent } from './components/teacher/teacher.component';
 import { TeachingsComponent } from './components/teachings/teachings.component';
 import { UsersComponent } from './components/users/users.component';
 import { ViewUserComponent } from './components/view-user/view-user.component';
+import { LoginGuard } from './guards/login-guard';
+import { RoleGuard } from './guards/role-guard';
 
 const routes: Routes = [
-  { path: '', component: LoginComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'addUser', component: ViewUserComponent },
-  { path: 'exams', component: ExamsComponent },
-  { path: 'exam-detail/student/:examId', component: ExamDetailComponent },
-  { path: 'account', component: AccountComponent },
-  { path: 'users', component: UsersComponent },
-  { path: 'documents', component: DocumentsComponent },
-  { path: 'teachings', component: TeachingsComponent },
-  { path: 'document', component: DocumentComponent },
-  { path: 'teacher', component: TeacherComponent },
-  { path: 'course-instance', component: CourseInstanceComponent },
-  { path: 'add-exam', component: AddExamComponent },
-  { path: 'add-payment', component: AddPaymentComponent },
-  { path: 'add-exam-part', component: AddExamPartComponent },
-  { path: 'view-user/:id', component: ViewUserComponent },
+  { path: '', component: LoginComponent, canActivate: [RoleGuard] },
+  { path: 'login', component: LoginComponent, canActivate: [RoleGuard] },
+  { path: 'home', component: HomeComponent, canActivate: [RoleGuard]},
+  { path: 'addUser', component: ViewUserComponent, canActivate: [RoleGuard] },
+  { path: 'exams', component: ExamsComponent, canActivate: [RoleGuard] },
+  { path: 'exam-detail/student/:examId', component: ExamDetailComponent, canActivate: [RoleGuard] },
+  { path: 'account', component: AccountComponent, canActivate: [RoleGuard] },
+  { path: 'users', component: UsersComponent, canActivate: [RoleGuard] },
+  { path: 'documents', component: DocumentsComponent, canActivate: [RoleGuard] },
+  { path: 'teachings', component: TeachingsComponent, canActivate: [RoleGuard] },
+  { path: 'document', component: DocumentComponent, canActivate: [RoleGuard] },
+  { path: 'teacher', component: TeacherComponent, canActivate: [RoleGuard] },
+  { path: 'course-instance', component: CourseInstanceComponent, canActivate: [RoleGuard] },
+  { path: 'add-exam', component: AddExamComponent, canActivate: [RoleGuard] },
+  { path: 'add-payment', component: AddPaymentComponent, canActivate: [RoleGuard] },
+  { path: 'add-exam-part', component: AddExamPartComponent, canActivate: [RoleGuard] },
+  { path: 'view-user/:id', component: ViewUserComponent, canActivate: [RoleGuard] },
   { path: '**', redirectTo: '' }
 ];
 

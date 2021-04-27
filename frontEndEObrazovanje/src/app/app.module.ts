@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -28,6 +28,9 @@ import { ExamsService } from './components/exams/exams.service';
 import { DocumentsService } from './components/documents/documents.service';
 import { TeachingsService } from './components/teachings/teachings.service';
 import { ExamDetailService } from './components/exam-detail/exam-detail.service';
+import { TokenInterceptorService } from './services/token-interceptor.service';
+import { RoleGuard } from './guards/role-guard';
+import { LoginGuard } from './guards/login-guard';
 
 @NgModule({
   declarations: [
@@ -57,7 +60,12 @@ import { ExamDetailService } from './components/exam-detail/exam-detail.service'
     HttpClientModule,
     CommonModule
   ],
-  providers: [UserService, ExamsService, DocumentsService, TeachingsService, ExamDetailService],
+  providers: [UserService, ExamsService, DocumentsService, TeachingsService, ExamDetailService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
