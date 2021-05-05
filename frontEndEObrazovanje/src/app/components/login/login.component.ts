@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit {
   login(): void {
     this.userService.login(this.loginData)
       .subscribe(res => {
-        console.log("--Login--")
         this.jwt=res.body==null ? {value:''}:res.body;
         localStorage.setItem('loggedUser', JSON.stringify({
             username: this.loginData.username,

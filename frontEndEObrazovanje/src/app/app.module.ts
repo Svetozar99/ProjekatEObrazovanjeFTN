@@ -31,6 +31,8 @@ import { ExamDetailService } from './components/exam-detail/exam-detail.service'
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { RoleGuard } from './guards/role-guard';
 import { LoginGuard } from './guards/login-guard';
+import { AdminNavbarComponent } from './components/navbar/admin-navbar/admin-navbar.component';
+import { StudentNavbarComponent } from './components/navbar/student-navbar/student-navbar.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,9 @@ import { LoginGuard } from './guards/login-guard';
     AddExamComponent,
     AddPaymentComponent,
     AddExamPartComponent,
-    ViewUserComponent
+    ViewUserComponent,
+    AdminNavbarComponent,
+    StudentNavbarComponent
   ],
   imports: [
     BrowserModule,

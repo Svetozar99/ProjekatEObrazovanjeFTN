@@ -14,8 +14,8 @@ export class RoleGuard implements CanActivate{
 	) { }
 
     canActivate(route: ActivatedRouteSnapshot): boolean {
-        const expectedRoles: string = route.data.expectedRoles;
-		console.log("Route: "+route.url);
+        // const expectedRoles: string = route.data.expectedRoles;
+		console.log("Route: "+route);
 		const token = localStorage.getItem('loggedUser');
 		const jwt: JwtHelperService = new JwtHelperService();
 
@@ -28,13 +28,7 @@ export class RoleGuard implements CanActivate{
 
 		//const roles: string[] = expectedRoles.split('|', 2);
         //console.log("Roles: "+JSON.stringify(roles));
-		console.log(JSON.stringify(info.roles));
-		// roles.forEach(role => {
-		// 	if(role==='ROLE_STUDENT' && route.url.toString() === "users"){
-		// 		this.router.navigate(['/home']);
-		// 		return false;
-		// 	}
-		// });
+		// console.log(JSON.stringify(info.roles));
 		if (info.roles[0].authority.indexOf("ROLE_ADMINISTRATOR") === -1 && route.url.toString() === "users") {
 			this.router.navigate(['/home']);
 			return false;

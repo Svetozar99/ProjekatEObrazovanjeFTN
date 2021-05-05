@@ -8,6 +8,9 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  public role?: string = undefined;
+
   title = 'frontEndEObrazovanje';
   collapsed = true;	
 
@@ -15,20 +18,17 @@ export class AppComponent {
 
   constructor(private router: Router){}
 
-  logout(): void {
-    localStorage.removeItem('loggedUser');
-    this.router.navigate(['login']);
-  }
-
   checkRole() {
-    console.log("Checkrole!")
 		const item = localStorage.getItem('loggedUser');
-    console.log("Logged in: "+this.loggedIn)
 		if (!item) {
 			this.router.navigate(['login']);
       this.loggedIn = false;
 			return;
 		}
     this.loggedIn = true;
+
+    const jwt: JwtHelperService = new JwtHelperService();
+		this.role = jwt.decodeToken(item).roles[0].authority;
+    console.log(this.role)
 	}
 }
