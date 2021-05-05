@@ -20,7 +20,7 @@ import { LoginGuard } from './guards/login-guard';
 import { RoleGuard } from './guards/role-guard';
 
 const routes: Routes = [
-  { path: '', component: LoginComponent},
+  { path: '', component: HomeComponent, canActivate: [LoginGuard]},
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard]},
   { path: 'home', component: HomeComponent, canActivate: [RoleGuard]},
   { path: 'addUser', component: ViewUserComponent, canActivate: [RoleGuard] },

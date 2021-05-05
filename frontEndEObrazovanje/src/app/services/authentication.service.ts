@@ -22,7 +22,7 @@ export class AuthenticationService {
 	// }
 
 	isLoggedIn(): boolean {
-		if (!localStorage.getItem('jwt')) {
+		if (!localStorage.getItem('loggedUser')) {
 				return false;
 		}
 		return true;

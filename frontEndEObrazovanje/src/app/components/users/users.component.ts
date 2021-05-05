@@ -12,8 +12,6 @@ import { AppComponent } from 'src/app/app.component';
 })
 export class UsersComponent implements OnInit {
 
-  @Input() loggedIn:boolean;
-
   users: User[] | null = [];
 
   subscription: Subscription;
@@ -22,7 +20,6 @@ export class UsersComponent implements OnInit {
     this.subscription = userService.RegenerateData$.subscribe(() => 
       this.getUsers()
     );
-    this.loggedIn=app.loggedIn;
   }
 
   ngOnInit(): void {
@@ -30,7 +27,6 @@ export class UsersComponent implements OnInit {
   }
 
   getUsers(){
-    console.log("Logged in: "+this.loggedIn)
     this.userService.getUsers().subscribe(
       response => {
         console.log(response)

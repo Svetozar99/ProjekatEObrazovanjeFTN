@@ -32,8 +32,7 @@ export class LoginComponent implements OnInit {
             roles: this.getRoles(this.jwt.value),
             token: this.jwt
           }));
-        localStorage.setItem('jwt', this.jwt.value);
-        this.app.loggedIn = true;
+        this.router.navigate(['/home']);
       });
   }
 
@@ -41,8 +40,9 @@ export class LoginComponent implements OnInit {
     let jwtData = token.split('.')[1];
     let decodedJwtJsonData = window.atob(jwtData);
     let decodedJwtData = JSON.parse(decodedJwtJsonData);
+    console.log(JSON.stringify(decodedJwtData))
 
-    return [decodedJwtData.roles];
+    return [decodedJwtData.role];
   }
 
 
