@@ -71,13 +71,13 @@ public class TokenUtils {
 	
 	public String generateToken(UserDetails userDetails) {
 		Map<String, Object> claims = new HashMap<String, Object>();
-		List<String> roles = new ArrayList<String>();
+		List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
 		claims.put("sub", userDetails.getUsername());
 		claims.put("created", new Date(System.currentTimeMillis()));
 		
 		for (GrantedAuthority r : userDetails.getAuthorities()) {
 			System.out.println("AUTHORITYYYY: " + r.getAuthority().toString());
-			roles.add(r.getAuthority().toString());
+			roles.add(r);
 		};
 		
 		claims.put("roles", roles);
