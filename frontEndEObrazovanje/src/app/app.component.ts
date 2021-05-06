@@ -23,6 +23,7 @@ export class AppComponent {
 		if (!item) {
 			this.router.navigate(['login']);
       this.loggedIn = false;
+      this.role = undefined;
 			return;
 		}
     this.loggedIn = true;

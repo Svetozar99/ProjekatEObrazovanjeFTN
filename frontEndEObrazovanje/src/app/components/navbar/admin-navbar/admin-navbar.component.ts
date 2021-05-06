@@ -13,15 +13,12 @@ export class AdminNavbarComponent implements OnInit {
 
   @Input() collapsed:boolean;
 
-  @Input() loggedIn:boolean;
-
   constructor(private app:AppComponent, 
               private authenticationService: AuthenticationService,
 		          // private toastr: ToastrService,
 		          private router: Router
           ) {
     this.collapsed = app.collapsed;
-    this.loggedIn = app.loggedIn;
    }
 
   logout(): void {
