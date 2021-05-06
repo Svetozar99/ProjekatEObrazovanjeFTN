@@ -1,5 +1,6 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -179,6 +180,20 @@ public class UserController {
 		
 		System.out.println(id + " user get id");
 		User user = userService.findById(id);
+		
+		if(user == null) {
+			System.out.println("user je null");
+			return new ResponseEntity<UserDTO>(HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<UserDTO>(new UserDTO(user), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "users/loggedUser")
+	public ResponseEntity<UserDTO> getLoggedUser(Principal principal){
+		
+		System.out.println(principal.getName() + " user get id");
+		User user = userService.findByUsername(principal.getName());
 		
 		if(user == null) {
 			System.out.println("user je null");
