@@ -12,9 +12,7 @@ export class AppComponent {
   public role?: string = undefined;
 
   title = 'frontEndEObrazovanje';
-  collapsed = true;	
-
-  loggedIn = false;
+  collapsed = true;
 
   constructor(private router: Router){}
 
@@ -22,11 +20,9 @@ export class AppComponent {
 		const item = localStorage.getItem('loggedUser');
 		if (!item) {
 			this.router.navigate(['login']);
-      this.loggedIn = false;
       this.role = undefined;
 			return;
 		}
-    this.loggedIn = true;
 
     const jwt: JwtHelperService = new JwtHelperService();
 		this.role = jwt.decodeToken(item).roles[0].authority;

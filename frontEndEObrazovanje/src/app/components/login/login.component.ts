@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   jwt: JWT | null={value:''};
 
   constructor(private userService: UserService,private app:AppComponent,private router: Router) {
-    this.loginData = new LoginData('rakin99','student1');
+    this.loginData = new LoginData('milosevoic123','admin');
   }
 
   ngOnInit(): void {

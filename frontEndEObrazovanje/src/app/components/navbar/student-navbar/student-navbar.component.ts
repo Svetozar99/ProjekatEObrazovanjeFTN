@@ -26,7 +26,6 @@ export class StudentNavbarComponent implements OnInit {
       result => {
         localStorage.removeItem('loggedUser');
         // this.toastr.success(result);
-        this.app.loggedIn = false;
         this.router.navigate(['login']);
       },
       error => {

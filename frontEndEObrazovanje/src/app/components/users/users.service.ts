@@ -37,6 +37,11 @@ export class UserService {
         return this.http.get<User>(url, {observe: 'response'});
     }
 
+    getLoggedUser(): Observable<HttpResponse<User>> {
+        const url = `${this.usersUrl}/loggedUser`;
+        return this.http.get<User>(url, {observe: 'response'});
+    }
+
     getUnassignedRoles(username: string): Observable<HttpResponse<Role[]>> {
         const url = `${this.usersUrl}/${username}/unassigned-roles`;
         return this.http.get<Role[]>(url, {observe: 'response'});
