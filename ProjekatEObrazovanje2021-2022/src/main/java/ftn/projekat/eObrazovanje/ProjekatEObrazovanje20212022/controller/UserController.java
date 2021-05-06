@@ -266,12 +266,9 @@ public class UserController {
 		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 	}
 	
-	@GetMapping(
-            value = "/logOut",
-            produces = MediaType.TEXT_PLAIN_VALUE
-    )
+	@GetMapping(value = "/logOut", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> logoutUser() {
-
+		System.out.println("\n\nLOGoUT");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (!(auth instanceof AnonymousAuthenticationToken)){
@@ -281,6 +278,5 @@ public class UserController {
         } else {
             throw new BadRequestException("User is not authenticated!");
         }
-
     }
 }
