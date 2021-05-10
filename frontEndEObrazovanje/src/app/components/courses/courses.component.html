@@ -11,10 +11,9 @@
         </thead>
         <tbody >
             <tr *ngFor="let ci of coursesIntances; let i = index; let odd = odd;">
-                <td class="text-center">{{ci.courseSpecificationDTO.title}}</td>
+                <td class="text-center"><button class="btn btn-link" (click)="goToCourseInstance(ci)">{{ci.courseSpecificationDTO.title}}</button></td>
                 <td class="text-center">{{ci.startDate.toString().substring(0,10)}}</td>
                 <td class="text-center">{{ci.endDate.toString().substring(0,10)}}</td>
-                <!-- <td class="text-center"><button class="btn btn-link" (click)="goToViewUser(u)">{{u.userName}}</button></td> -->
                 <td class="text-center"><button type="button" class="btn btn-danger btn-sm" (click)="deleteCourseInstance(ci)">X</button></td> 
             </tr>
         </tbody>

@@ -1,18 +1,27 @@
 <div class="form-group text-center">
     <h1>Course instance</h1>
-    <div>
-        <b>Title:</b>
-        <input type="text" class="form-control col-2 d-inline ml-2" style="margin-right: 10%; margin-top: 2%;">
-        <b>ECTS:</b>
-        <input type="text" class="form-control col-2 d-inline ml-2">
+    <div class="mt-4">
+        <div *ngIf="coursesSpecifications.length > 0" class="col-2 d-inline mr-5">
+            <b>Course:</b>
+            <input (focus)="clear()" (focusout)="edit()" class='form-control col-2 ml-2 mb-3 d-inline' list="coursesSpecifications" [(ngModel)]="courseSpecificationCode" className='form-control form-control-sm col-10'/>
+            <datalist id='coursesSpecifications'>
+                <option *ngFor="let cs of coursesSpecifications" value="{{cs.code}}">{{cs.title}}</option>
+            </datalist>
+        </div> 
+        <div class="d-inline ml-4">
+            <b>ECTS:</b>
+            <input type="text" readonly class="form-control col-2 d-inline ml-2" [(ngModel)]="courseInstance.courseSpecificationDTO.ects">
+        </div>
     </div>
     <div>
         <b>Start:</b>
-        <input type="text" class="form-control col-2 d-inline ml-2" style="margin-right: 10%; margin-top: 2%;">
+        <input type="date" (focusout)="edit()" class="form-control col-2 d-inline ml-2" style="margin-right: 10%; margin-top: 2%;" [(ngModel)]="startDate">
         <b>End:</b>
-        <input type="text" class="form-control col-2 d-inline ml-2">
+        <input type="date" (focusout)="edit()" class="form-control col-2 d-inline ml-2" [(ngModel)]="endDate">
     </div>
-    
+    <!-- <div>
+        <button type="button" class="btn btn-primary btn-sm text-center" (click)="edit()">✓</button>
+    </div> -->
     <div class="main" style="padding-top: 7%;">
         <h4 class="ml-5">Students</h4>
         <table class="table mx-auto w-75">

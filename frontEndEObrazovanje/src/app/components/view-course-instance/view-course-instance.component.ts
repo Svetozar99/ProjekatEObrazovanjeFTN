@@ -15,7 +15,6 @@ export class ViewCourseInstanceComponent implements OnInit {
 
   courseInstance: CourseInstance;
   coursesSpecifications:CourseSpecification[] = [];
-  mode: string = '';
   courseSpecificationCode:string = '';
 
   constructor(private courseService: CoursesService, private route: ActivatedRoute,private location: Location) {
@@ -25,29 +24,28 @@ export class ViewCourseInstanceComponent implements OnInit {
       endDate:new Date(),
       courseSpecificationDTO:new CourseSpecification({id:0,title:'',ects:0,code:''})
     });
-    this.mode = 'ADD';
    }
 
   ngOnInit(): void {
-    if (this.route.snapshot.params['id']) {
-      this.mode = 'EDIT';
-      this.route.params.pipe(switchMap((params: Params) => 
-          this.courseService.getCourseInstance(+params['id']))) // convert to number
-        .subscribe(res => {
-          this.courseInstance = res.body==null ? this.courseInstance:res.body;
-          }
-        );
-    }else{
+    // if (this.route.snapshot.params['id']) {
+    //   this.mode = 'EDIT';
+    //   this.route.params.pipe(switchMap((params: Params) => 
+    //       this.courseService.getCourseInstance(+params['id']))) // convert to number
+    //     .subscribe(res => {
+    //       this.courseInstance = res.body==null ? this.courseInstance:res.body;
+    //       }
+    //     );
+    // }else{
       this.courseService.getCoursesSpecifications().
             subscribe(res =>{
               this.coursesSpecifications = [];
               this.coursesSpecifications = res.body==null ? []:res.body;
             });
-    }
+    // }
   }
 
   save(): void {
-    this.mode == 'ADD' ? this.add() : this.edit();    
+    this.add();    
   }
 
   private add(): void {
@@ -55,16 +53,6 @@ export class ViewCourseInstanceComponent implements OnInit {
     console.log(JSON.stringify(this.courseInstance))
     this.courseService.addCourseInstance(this.courseInstance)
       .subscribe(res => {
-        // this.userService.announceChange();
-        this.goBack();
-      });
-  }
-
-  edit() {
-    this.courseInstance.courseSpecificationDTO = this.coursesSpecifications.filter(cs =>cs.code===this.courseSpecificationCode)[0];
-    console.log(JSON.stringify(this.courseInstance))
-    this.courseService.editCourseInstance(this.courseInstance)
-      .subscribe(() => {
         // this.userService.announceChange();
         this.goBack();
       });
