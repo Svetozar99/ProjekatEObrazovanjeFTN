@@ -35,6 +35,7 @@ import { AdminNavbarComponent } from './components/navbar/admin-navbar/admin-nav
 import { StudentNavbarComponent } from './components/navbar/student-navbar/student-navbar.component';
 import { CoursesComponent } from './components/courses/courses.component';
 import { CoursesService } from './components/courses/courses.service';
+import { ViewCourseInstanceComponent } from './components/view-course-instance/view-course-instance.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { CoursesService } from './components/courses/courses.service';
     ViewUserComponent,
     AdminNavbarComponent,
     StudentNavbarComponent,
-    CoursesComponent
+    CoursesComponent,
+    ViewCourseInstanceComponent
   ],
   imports: [
     BrowserModule,

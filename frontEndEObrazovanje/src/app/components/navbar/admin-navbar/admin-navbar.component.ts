@@ -22,12 +22,11 @@ export class AdminNavbarComponent implements OnInit {
    }
 
   logout(): void {
-    this.router.navigate(['login']);
+    localStorage.removeItem('loggedUser');
     this.authenticationService.logout().subscribe(
 			result => {
-				localStorage.removeItem('loggedUser');
 				// this.toastr.success(result);
-				this.router.navigate(['login']);
+				// this.router.navigate(['login']);
 			},
 			error => {
 				// this.toastr.error(error.error);
