@@ -5,7 +5,7 @@ INSERT INTO role(id, name, code) VALUES(3, 'ROLE_TEACHER', 'teach');
 INSERT INTO USERS(id, first_name, last_name, username, password)--password: student2
 VALUES(1, 'Svetozar', 'Brboric', 'brboric99', '$2y$12$.deK12/GGYtlWVM6ymDEkO0rhXBIkyKTdwog3174yx6R/6FD4Y7V2');
 INSERT INTO USERS(id, first_name, last_name, username, password)--password: student1
-VALUES(4, 'Dejan', 'Rakin', 'rakin99', '$2y$12$ZoNyhqR41Or.XqMM.VhDI.4ADmgyI15X7F0wKa7mMsAYws4tFjbG.');
+VALUES(4, 'Dejan', 'Rakin', 'rakin99', '$2a$10$ICJS6CRYqX636bjUsKPQEenmASoFSycNdTKe78GEN9u2FINXSkHya');
 INSERT INTO USERS(id, first_name, last_name, username, password)--password: admin
 VALUES(2, 'Milos', 'Milosevic', 'milosevoic123', '$2y$12$/0/Hb9rthBfdtIFQ9xo5..7PIM59xYH6F4/WI5tFg1etygn5kajDa');
 INSERT INTO USERS(id, first_name, last_name, username, password)--password: teacher1

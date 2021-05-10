@@ -40,7 +40,7 @@ public class CourseSpecificationController {
 		return new ResponseEntity<List<CourseSpecificationDTO>>(cspecsDTO, HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/{id}", consumes = "application/json")
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<CourseSpecificationDTO> getOneCourseSpecification(@PathVariable("id") Long id){
 		CourseSpecification cs = coursSpecifServ.findById(id);
 		if(cs == null) {
