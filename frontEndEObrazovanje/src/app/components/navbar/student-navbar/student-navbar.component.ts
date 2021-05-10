@@ -22,13 +22,15 @@ export class StudentNavbarComponent implements OnInit {
 
   logout(): void {
     this.router.navigate(['login']);
+    localStorage.removeItem('loggedUser');
     this.authenticationService.logout().subscribe(
       result => {
-        localStorage.removeItem('loggedUser');
+          console.log('Uspesni logout!');
+        // localStorage.removeItem('loggedUser');
         // this.toastr.success(result);
-        this.router.navigate(['login']);
       },
       error => {
+        console.log('Doslo je do greske!')
         // this.toastr.error(error.error);
       }
     );

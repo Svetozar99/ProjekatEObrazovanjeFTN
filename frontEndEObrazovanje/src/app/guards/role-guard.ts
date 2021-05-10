@@ -32,6 +32,9 @@ export class RoleGuard implements CanActivate{
 		if (info.roles[0].authority.indexOf("ROLE_ADMINISTRATOR") === -1 && route.url.toString() === "users") {
 			this.router.navigate(['/home']);
 			return false;
+		}else if(info.roles[0].authority.indexOf("ROLE_ADMINISTRATOR") === -1 && route.url.toString() === "courses"){
+			this.router.navigate(['/home']);
+			return false;
 		}
 		return true;
     }

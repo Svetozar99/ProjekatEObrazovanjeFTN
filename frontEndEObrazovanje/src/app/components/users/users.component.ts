@@ -29,7 +29,7 @@ export class UsersComponent implements OnInit {
   getUsers(){
     this.userService.getUsers().subscribe(
       response => {
-        console.log(response)
+        // console.log(response)
         this.users = response.body
       });
   }

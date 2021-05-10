@@ -33,6 +33,8 @@ import { RoleGuard } from './guards/role-guard';
 import { LoginGuard } from './guards/login-guard';
 import { AdminNavbarComponent } from './components/navbar/admin-navbar/admin-navbar.component';
 import { StudentNavbarComponent } from './components/navbar/student-navbar/student-navbar.component';
+import { CoursesComponent } from './components/courses/courses.component';
+import { CoursesService } from './components/courses/courses.service';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,8 @@ import { StudentNavbarComponent } from './components/navbar/student-navbar/stude
     AddExamPartComponent,
     ViewUserComponent,
     AdminNavbarComponent,
-    StudentNavbarComponent
+    StudentNavbarComponent,
+    CoursesComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +67,7 @@ import { StudentNavbarComponent } from './components/navbar/student-navbar/stude
     HttpClientModule,
     CommonModule
   ],
-  providers: [UserService, ExamsService, DocumentsService, TeachingsService, ExamDetailService,
+  providers: [CoursesService, UserService, ExamsService, DocumentsService, TeachingsService, ExamDetailService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,

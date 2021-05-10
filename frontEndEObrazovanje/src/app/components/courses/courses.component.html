@@ -1,0 +1,25 @@
+<div class="main">
+    <h1 class="ml-5">Courses</h1>
+    <table class="table mx-auto w-75 mt-5">
+        <thead>
+            <tr>
+                <th class="text-center">Title</th>
+                <th class="text-center">Start date</th>
+                <th class="text-center">End date</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody >
+            <tr *ngFor="let ci of coursesIntances; let i = index; let odd = odd;">
+                <td class="text-center">{{ci.courseSpecificationDTO.title}}</td>
+                <td class="text-center">{{ci.startDate.toString().substring(0,10)}}</td>
+                <td class="text-center">{{ci.endDate.toString().substring(0,10)}}</td>
+                <!-- <td class="text-center"><button class="btn btn-link" (click)="goToViewUser(u)">{{u.userName}}</button></td> -->
+                <td class="text-center"><button type="button" class="btn btn-danger btn-sm" (click)="deleteCourseInstance(ci)">X</button></td> 
+            </tr>
+        </tbody>
+    </table>
+    <div class="ml-5" style="float: right; margin-right: 15%;">
+        <a class="btn btn-outline-primary mt-3 ml-5" routerLink="/addUser" role="button">Add</a>
+    </div>
+</div>

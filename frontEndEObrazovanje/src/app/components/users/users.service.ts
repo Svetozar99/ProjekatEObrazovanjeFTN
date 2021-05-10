@@ -11,7 +11,7 @@ import { Role } from 'src/app/model/role';
 export class UserService {
     private usersUrl = 'api/users';
     private loginUrl = 'api/login';
-    private signUp = 'api/signup'
+    private signUp = 'api/signup';
 
     constructor(private http: HttpClient) { }
 
