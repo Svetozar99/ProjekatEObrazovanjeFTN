@@ -22,9 +22,15 @@
           <li routerLinkActive="active" class="nav-item">
             <a routerLink="/users" class="nav-link"> Users </a>
           </li>
-          <li routerLinkActive="active" class="nav-item">
-            <a routerLink="/courses" class="nav-link"> Courses </a>
-          </li>
+          <li routerLinkActive="active" class="nav-item dropdown">
+            <div class="dropdown">
+              <button class="dropbtn bg-dark nav-link"> Courses </button>
+              <div class="dropdown-content">
+                <a routerLink="/courses">Instances</a>
+                <a href="courses-specifications">Specifications</a>
+              </div>
+            </div>
+         </li>
           <li routerLinkActive="active" class="nav-item">
             <a routerLink="/bs" class="nav-link" (click)="logout()"> Logout </a>
         </li>

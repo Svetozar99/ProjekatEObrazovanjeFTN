@@ -5,6 +5,7 @@ import { AddExamPartComponent } from './components/add-exam-part/add-exam-part.c
 import { AddExamComponent } from './components/add-exam/add-exam.component';
 import { AddPaymentComponent } from './components/add-payment/add-payment.component';
 import { CourseInstanceComponent } from './components/course-instance/course-instance.component';
+import { CoursesSpecificationsComponent } from './components/courses-specifications/courses-specifications.component';
 import { CoursesComponent } from './components/courses/courses.component';
 import { DocumentComponent } from './components/document/document.component';
 import { DocumentsComponent } from './components/documents/documents.component';
@@ -41,6 +42,7 @@ const routes: Routes = [
   { path: 'view-user/:id', component: ViewUserComponent, canActivate: [RoleGuard] },
   { path: 'courses', component: CoursesComponent, canActivate: [RoleGuard] },
   { path: 'add-course-instance', component: ViewCourseInstanceComponent, canActivate: [RoleGuard] },
+  { path: 'courses-specifications', component: CoursesSpecificationsComponent, canActivate: [RoleGuard] },
   { path: '**', redirectTo: '' }
 ];
 

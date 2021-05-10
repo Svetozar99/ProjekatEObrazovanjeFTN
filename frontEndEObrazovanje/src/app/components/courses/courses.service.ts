@@ -48,4 +48,9 @@ export class CoursesService {
     const url = `${this.coursesInstanceUrl}/${courseInstanceId}`;
     return this.http.delete<any>(url, {observe: 'response'});
   }
+
+  deleteCourseSpecification(courseSpecificationId: number): Observable<HttpResponse<any>> {
+    const url = `${this.coursesSpecificationUrl}/${courseSpecificationId}`;
+    return this.http.delete<any>(url, {observe: 'response'});
+  }
 }
