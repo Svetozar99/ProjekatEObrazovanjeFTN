@@ -36,13 +36,26 @@ export class CoursesService {
     return this.http.get<CourseInstance>(url, {observe: 'response'});
   }
 
+  getCourseSpecification(id: number): Observable<HttpResponse<CourseSpecification>> {
+    const url = `${this.coursesSpecificationUrl}/${id}`;
+    return this.http.get<CourseSpecification>(url, {observe: 'response'});
+  }
+
   editCourseInstance(courseInstance: CourseInstance): Observable<HttpResponse<CourseInstance>> {
     return this.http.put<CourseInstance>(this.coursesInstanceUrl, courseInstance, {observe: 'response'});
+  }
+
+  editCourseSpecification(courseSpecification: CourseSpecification): Observable<HttpResponse<CourseSpecification>> {
+    return this.http.put<CourseSpecification>(this.coursesSpecificationUrl, courseSpecification, {observe: 'response'});
   }
 
   addCourseInstance(courseInstance: CourseInstance): Observable<HttpResponse<CourseInstance>> {
       return this.http.post<CourseInstance>(this.coursesInstanceUrl, courseInstance, {observe: 'response'});
   }
+
+  addCourseSpecification(courseSpecification: CourseSpecification): Observable<HttpResponse<CourseSpecification>> {
+    return this.http.post<CourseSpecification>(this.coursesSpecificationUrl, courseSpecification, {observe: 'response'});
+}
 
   deleteCourseInstance(courseInstanceId: number): Observable<HttpResponse<any>> {
     const url = `${this.coursesInstanceUrl}/${courseInstanceId}`;

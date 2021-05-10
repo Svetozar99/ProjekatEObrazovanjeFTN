@@ -37,6 +37,7 @@ import { CoursesComponent } from './components/courses/courses.component';
 import { CoursesService } from './components/courses/courses.service';
 import { ViewCourseInstanceComponent } from './components/view-course-instance/view-course-instance.component';
 import { CoursesSpecificationsComponent } from './components/courses-specifications/courses-specifications.component';
+import { ViewCourseSpecificationComponent } from './components/view-course-specification/view-course-specification.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { CoursesSpecificationsComponent } from './components/courses-specificati
     StudentNavbarComponent,
     CoursesComponent,
     ViewCourseInstanceComponent,
-    CoursesSpecificationsComponent
+    CoursesSpecificationsComponent,
+    ViewCourseSpecificationComponent
   ],
   imports: [
     BrowserModule,

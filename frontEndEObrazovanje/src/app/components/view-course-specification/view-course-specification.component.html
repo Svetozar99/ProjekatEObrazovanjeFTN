@@ -1,0 +1,25 @@
+<div class="form-group text-center">
+    <h1>Course specification</h1>
+    <div class="btn-group">
+      <div class="mt-4 text-center">
+        <div class="ml-5 mt-2">
+            <div>
+                <b>Title:</b>
+                <input type="input" class="form-control col-8 d-inline ml-2" [(ngModel)]="courseSpecification.title">
+            </div>
+            <div class="mt-2 ml-50">
+                <b>ECTS:</b>
+                <input type="input" class="form-control col-7 d-inline ml-2" [(ngModel)]="courseSpecification.ects">
+            </div>
+            <div class="mt-2 ml-50">
+                <b>Code:</b>
+                <input type="input" class="form-control col-7 d-inline ml-2" [(ngModel)]="courseSpecification.code">
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-5">
+      <button type="button" class="btn btn-success" (click)="save()">Save</button>
+      <button type="button" class="btn btn-warning ml-1" (click)="goBack()">Cancel</button>
+    </div>
+  </div>

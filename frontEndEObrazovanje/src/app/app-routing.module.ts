@@ -18,6 +18,7 @@ import { TeacherComponent } from './components/teacher/teacher.component';
 import { TeachingsComponent } from './components/teachings/teachings.component';
 import { UsersComponent } from './components/users/users.component';
 import { ViewCourseInstanceComponent } from './components/view-course-instance/view-course-instance.component';
+import { ViewCourseSpecificationComponent } from './components/view-course-specification/view-course-specification.component';
 import { ViewUserComponent } from './components/view-user/view-user.component';
 import { LoginGuard } from './guards/login-guard';
 import { RoleGuard } from './guards/role-guard';
@@ -43,6 +44,8 @@ const routes: Routes = [
   { path: 'courses', component: CoursesComponent, canActivate: [RoleGuard] },
   { path: 'add-course-instance', component: ViewCourseInstanceComponent, canActivate: [RoleGuard] },
   { path: 'courses-specifications', component: CoursesSpecificationsComponent, canActivate: [RoleGuard] },
+  { path: 'add-course-specification', component: ViewCourseSpecificationComponent, canActivate: [RoleGuard] },
+  { path: 'view-course-specification/:id', component: ViewCourseSpecificationComponent, canActivate: [RoleGuard] },
   { path: '**', redirectTo: '' }
 ];
 

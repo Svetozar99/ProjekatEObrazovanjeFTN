@@ -16,7 +16,7 @@ export class UsersComponent implements OnInit {
 
   subscription: Subscription;
 
-  constructor(private userService: UserService, private router: Router,app:AppComponent) { 
+  constructor(private userService: UserService, private router: Router) { 
     this.subscription = userService.RegenerateData$.subscribe(() => 
       this.getUsers()
     );

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CourseSpecification } from 'src/app/model/courseSpecification';
 import { CoursesService } from '../courses/courses.service';
@@ -14,7 +15,7 @@ export class CoursesSpecificationsComponent implements OnInit {
 
   subscription: Subscription;
 
-  constructor(private courseService: CoursesService) {
+  constructor(private courseService: CoursesService,private router: Router) {
     this.subscription = courseService.RegenerateData$.subscribe(() => 
       this.getCoursesSpecifications()
     );
@@ -37,6 +38,10 @@ export class CoursesSpecificationsComponent implements OnInit {
     this.courseService.deleteCourseSpecification(courseSpecification.id==undefined ? 0:courseSpecification.id).subscribe(
       () => this.getCoursesSpecifications()
     );
+  }
+
+  goToViewCourseSpecification(courseSpecification: CourseSpecification): void {
+    this.router.navigate(['/view-course-specification', courseSpecification.id]);
   }
 
 }

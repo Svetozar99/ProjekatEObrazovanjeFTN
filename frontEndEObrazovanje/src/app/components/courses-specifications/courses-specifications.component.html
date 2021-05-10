@@ -1,5 +1,5 @@
 <div class="main">
-    <h1 class="ml-5">Courses specification</h1>
+    <h1 class="ml-5">Courses specifications</h1>
     <table class="table mx-auto w-75 mt-5">
         <thead>
             <tr>
@@ -11,7 +11,7 @@
         </thead>
         <tbody >
             <tr *ngFor="let cs of coursesSpecifications; let i = index; let odd = odd;">
-                <td class="text-center">{{cs.title}}</td>
+                <td class="text-center"><button class="btn btn-link" (click)="goToViewCourseSpecification(cs)">{{cs.title}}</button></td>
                 <td class="text-center">{{cs.ects}}</td>
                 <td class="text-center">{{cs.code}}</td>
                 <!-- <td class="text-center"><button class="btn btn-link" (click)="goToViewUser(u)">{{u.userName}}</button></td> -->
@@ -20,6 +20,6 @@
         </tbody>
     </table>
     <div class="ml-5" style="float: right; margin-right: 15%;">
-        <a class="btn btn-outline-primary mt-3 ml-5" routerLink="/add-course-instance" role="button">Add</a>
+        <a class="btn btn-outline-primary mt-3 ml-5" routerLink="/add-course-specification" role="button">Add</a>
     </div>
 </div>
