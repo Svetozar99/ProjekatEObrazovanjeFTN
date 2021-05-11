@@ -9,4 +9,5 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Administrato
 public interface AdministratorRepository extends JpaRepository<Administrator, Long> {
 
 	List<Administrator> findByUser_id(Long id);
+	Administrator findOneByUser_username(String username);
 }

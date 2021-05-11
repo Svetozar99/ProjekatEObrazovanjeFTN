@@ -35,4 +35,9 @@ public class AdministratorService implements AdministratorServiceI {
 		administratorRepository.deleteById(id);
 	}
 
+	@Override
+	public Administrator findByUser(String username) {
+		return administratorRepository.findOneByUser_username(username);
+	}
+
 }

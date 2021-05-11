@@ -262,26 +262,35 @@ public class UserController {
 			UserRole userRole = new UserRole(user,r);
 			user.getUserRoles().add(userRole);
 			if(roleDTO.getCode().equals("st")) {
-				Student student = new Student();
-				Date date = new Date();
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(date);
-				String cardNumber = "S/"+studentS.maxId()+"-"+calendar.get(Calendar.YEAR);
-				student.setCardNumber(cardNumber);
-				student.setUser(user);
-				studentS.save(student);
-				
-				Account account = new Account();
-				account.setStudent(student);
-				accountS.save(account);
+				Student student = studentS.findByUser(user.getUsername());
+				if(student==null) {
+					student = new Student();
+					Date date = new Date();
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(date);
+					String cardNumber = "S/"+studentS.maxId()+"-"+calendar.get(Calendar.YEAR);
+					student.setCardNumber(cardNumber);
+					student.setUser(user);
+					studentS.save(student);
+					
+					Account account = new Account();
+					account.setStudent(student);
+					accountS.save(account);
+				}
 			}else if(roleDTO.getCode().equals("teach")) {
-				Teacher teacher = new Teacher();
-				teacher.setUser(user);
-				teachS.save(teacher);
+				Teacher teacher = teachS.findByUsername(user.getUsername());
+				if(teacher==null) {
+					teacher = new Teacher();
+					teacher.setUser(user);
+					teachS.save(teacher);
+				}
 			}else if(roleDTO.getCode().equals("admin")) {
-				Administrator admin = new Administrator();
-				admin.setUser(user);
-				adminS.save(admin);
+				Administrator admin = adminS.findByUser(user.getUsername());
+				if(admin==null) {
+					admin = new Administrator();
+					admin.setUser(user);
+					adminS.save(admin);
+				}
 			}
 			user = userService.save(user);
 		}
