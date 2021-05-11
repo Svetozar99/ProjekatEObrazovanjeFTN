@@ -17,4 +17,6 @@ public interface StudentServiceI {
 	public Student findByUser(String username);
 	
 	public Long maxId();
+	
+	List<Student> findByCourseInstance(Long idCourseInstance);
 }

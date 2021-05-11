@@ -47,4 +47,9 @@ public class StudentService implements StudentServiceI {
 		return studentRepository.maxID();
 	}
 
+	@Override
+	public List<Student> findByCourseInstance(Long idCourseInstance) {
+		return studentRepository.findByCourseInstance(idCourseInstance);
+	}
+
 }

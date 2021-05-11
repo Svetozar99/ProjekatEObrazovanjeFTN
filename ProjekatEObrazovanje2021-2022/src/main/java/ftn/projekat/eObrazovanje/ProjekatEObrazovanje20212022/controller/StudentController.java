@@ -45,6 +45,23 @@ public class StudentController {
 		return new ResponseEntity<List<StudentDTO>>(dtos, HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "course-instance/{id}")
+	public ResponseEntity<List<StudentDTO>> getStudentsByCourseInstance(@PathVariable("id") Long idCourseInstance){
+		System.out.println("usao u f-ju");
+		
+		System.out.println(idCourseInstance + "idCourseInstance");
+		List<Student> students = studentService.findByCourseInstance(idCourseInstance);
+		
+		List<StudentDTO> dtos = new ArrayList<StudentDTO>();
+		
+		for (Student s : students) {
+			System.out.println("\nIndeks: "+s.getCardNumber());
+			dtos.add(new StudentDTO(s));
+		}
+		
+		return new ResponseEntity<List<StudentDTO>>(dtos, HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "{id}")
 	public ResponseEntity<StudentDTO> getOneStudent(@PathVariable("id") Long id){
 		System.out.println("usao u f-ju");
