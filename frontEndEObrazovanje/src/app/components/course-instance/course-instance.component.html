@@ -19,10 +19,7 @@
         <b>End:</b>
         <input type="date" (focusout)="edit()" class="form-control col-2 d-inline ml-2" [(ngModel)]="endDate">
     </div>
-    <!-- <div>
-        <button type="button" class="btn btn-primary btn-sm text-center" (click)="edit()">✓</button>
-    </div> -->
-    <div class="main" style="padding-top: 7%;">
+    <div class="main" style="padding-top: 7%;" *ngIf="students.length > 0">
         <h4 class="ml-5">Students</h4>
         <table class="table mx-auto w-75">
             <thead>
@@ -33,15 +30,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="text-center"><a routerLink="/">SF-21-2018</a></td>
-                    <td class="text-center">Svetozar</td>
-                    <td class="text-center">Brborić</td>
-                </tr>
-                <tr>
-                    <td class="text-center"><a routerLink="/document">SF-27-2018</a></td>
-                    <td class="text-center">Dejan</td>
-                    <td class="text-center">Rakin</td>
+                <tr *ngFor="let s of students">
+                    <td class="text-center"><a routerLink="/">{{s.cardNumber}}</a></td>
+                    <td class="text-center">{{s.userDTO.firstName}}</td>
+                    <td class="text-center">{{s.userDTO.lastName}}</td>
                 </tr>
             </tbody>
         </table>

@@ -4,7 +4,9 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { CourseInstance } from 'src/app/model/courseInstance';
 import { CourseSpecification } from 'src/app/model/courseSpecification';
+import { Student } from 'src/app/model/student';
 import { CoursesService } from '../courses/courses.service';
+import { UserService } from '../users/users.service';
 
 @Component({
   selector: 'app-course-instance',
@@ -18,8 +20,9 @@ export class CourseInstanceComponent implements OnInit {
   startDate:string='';
   endDate:string='';
   courseSpecificationCode:string = '';
+  students:Student[] = [];
 
-  constructor(private courseService:CoursesService, private route: ActivatedRoute,private location: Location) {
+  constructor(private courseService:CoursesService, private userService:UserService,private route: ActivatedRoute,private location: Location) {
     this.courseInstance = new CourseInstance({
       id:0,
       startDate:new Date(),
@@ -36,25 +39,30 @@ export class CourseInstanceComponent implements OnInit {
         this.startDate = new Date(this.courseInstance.startDate).toISOString().substring(0, 10);
         this.endDate = new Date(this.courseInstance.endDate).toISOString().substring(0, 10);
         this.courseSpecificationCode = this.courseInstance.courseSpecificationDTO.code;
-        // this.userService.getUnassignedRoles(this.user.userName==undefined ? '':this.user.userName).
-        //   subscribe(res =>{
-        //     this.unassignedRoles = [];
-        //     this.unassignedRoles = res.body==null ? []:res.body;
-        //   });
+        this.userService.getStudents(this.courseInstance).
+          subscribe(res =>{
+            this.students = [];
+            this.students = res.body==null ? []:res.body;
+            console.log('Students: '+JSON.stringify(this.students))
+            this.courseService.getCoursesSpecifications().
+              subscribe(res =>{
+                this.coursesSpecifications = [];
+                this.coursesSpecifications = res.body==null ? []:res.body;
+              });
+          });
         }
       );
-    this.courseService.getCoursesSpecifications().
-          subscribe(res =>{
-            this.coursesSpecifications = [];
-            this.coursesSpecifications = res.body==null ? []:res.body;
-          });
   }
 
   edit() {
-    this.courseInstance.courseSpecificationDTO=this.coursesSpecifications.filter(cs=>cs.code===this.courseSpecificationCode)[0];
-    this.courseInstance.startDate=new Date(this.startDate);
-    this.courseInstance.endDate=new Date(this.endDate);
-    this.courseService.editCourseInstance(this.courseInstance).subscribe();
+    if(this.courseSpecificationCode===''){
+      alert('--Choose a course specification--')
+    }else{
+      this.courseInstance.courseSpecificationDTO=this.coursesSpecifications.filter(cs=>cs.code===this.courseSpecificationCode)[0];
+      this.courseInstance.startDate=new Date(this.startDate);
+      this.courseInstance.endDate=new Date(this.endDate);
+      this.courseService.editCourseInstance(this.courseInstance).subscribe();
+    }
   }
 
   clear(){
