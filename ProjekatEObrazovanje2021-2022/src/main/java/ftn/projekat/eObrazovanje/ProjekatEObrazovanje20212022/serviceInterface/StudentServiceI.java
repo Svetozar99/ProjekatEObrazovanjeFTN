@@ -19,4 +19,6 @@ public interface StudentServiceI {
 	public Long maxId();
 	
 	List<Student> findByCourseInstance(Long idCourseInstance);
+	
+	List<Student> findOtherStudents(Long idCourseInstance);
 }

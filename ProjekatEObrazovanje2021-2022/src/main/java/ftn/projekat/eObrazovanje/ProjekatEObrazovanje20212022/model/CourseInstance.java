@@ -89,4 +89,10 @@ public class CourseInstance extends JpaEntity{
 	public void setEnrollments(List<Enrollment> enrollments) {
 		this.enrollments = enrollments;
 	}
+
+	@Override
+	public String toString() {
+		return "CourseInstance [startDate=" + startDate + ", endDate=" + endDate + ", courseSpecification="
+				+ courseSpecification + ", teching=" + teching + ", enrollments=" + enrollments + "]";
+	}
 }

@@ -39,4 +39,9 @@ public class EnrollmentService implements EnrollmentServiceI {
 		er.deleteById(id);
 	}
 
+	@Override
+	public Enrollment findByCourseInstanceAndStudent(Long idCourseInstance, String cardNumber) {
+		return er.findByCourseInstance_idAndStudent_cardNumber(idCourseInstance, cardNumber);
+	}
+
 }

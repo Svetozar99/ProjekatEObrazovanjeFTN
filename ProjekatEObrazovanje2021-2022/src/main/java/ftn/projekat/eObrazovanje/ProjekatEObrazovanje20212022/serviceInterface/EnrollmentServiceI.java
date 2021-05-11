@@ -13,4 +13,6 @@ public interface EnrollmentServiceI {
 	public Enrollment save(Enrollment e);
 	
 	public void delete(Long id);
+	
+	public Enrollment findByCourseInstanceAndStudent(Long idCourseInstance,String cardNumber);
 }

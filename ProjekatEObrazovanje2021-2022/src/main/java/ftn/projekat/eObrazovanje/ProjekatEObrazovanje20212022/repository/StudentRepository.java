@@ -17,6 +17,11 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 			"where course_instance_id=:idCourseInstance)", nativeQuery = true)
 	List<Student> findByCourseInstance(@Param("idCourseInstance") Long idCourseInstance);
 	
+	@Query(value = "SELECT * FROM eobrazovanje.students\r\n" + 
+			"where id not in (SELECT student_id FROM eobrazovanje.enrollments\r\n" + 
+			"where course_instance_id=:idCourseInstance)", nativeQuery = true)
+	List<Student> findOtherStudents(@Param("idCourseInstance") Long idCourseInstance);
+	
 	@Query("SELECT max(id) FROM Student")
 	Long maxID();
 }

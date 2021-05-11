@@ -52,4 +52,9 @@ public class StudentService implements StudentServiceI {
 		return studentRepository.findByCourseInstance(idCourseInstance);
 	}
 
+	@Override
+	public List<Student> findOtherStudents(Long idCourseInstance) {
+		return studentRepository.findOtherStudents(idCourseInstance);
+	}
+
 }

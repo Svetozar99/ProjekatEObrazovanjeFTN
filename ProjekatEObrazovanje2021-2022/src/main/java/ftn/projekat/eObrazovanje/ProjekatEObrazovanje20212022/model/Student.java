@@ -86,4 +86,12 @@ public class Student extends JpaEntity{
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	@Override
+	public String toString() {
+		return "Student [cardNumber=" + cardNumber + ", accounts=" + accounts + ", enrollments=" + enrollments
+				+ ", documents=" + documents + ", user=" + user + "]";
+	}
+	
+	
 }

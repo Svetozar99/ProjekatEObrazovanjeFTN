@@ -81,7 +81,6 @@ public class EnrollmentController {
 	public ResponseEntity<EnrollmentDTO> add(@RequestBody EnrollmentDTO edto){
 		Student student = s.findById(edto.getStudentDTO().getId());
 		CourseInstance cii = c.findById(edto.getCourseInstanceDTO().getId());
-		
 		Enrollment enr = new Enrollment();
 		enr.setStudent(student);
 		enr.setCourseInstance(cii);
@@ -89,12 +88,11 @@ public class EnrollmentController {
 		return new ResponseEntity<EnrollmentDTO>(new EnrollmentDTO(enr), HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
-	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
-		Enrollment enr = e.findById(id);
+	@DeleteMapping(value = "/{idCourseInstance}/{cardNumber}")
+	public ResponseEntity<Void> delete(@PathVariable("idCourseInstance") Long idCourseInstance,@PathVariable("cardNumber") String cardNumber){
+		Enrollment enr = e.findByCourseInstanceAndStudent(idCourseInstance, cardNumber);
 		if(enr != null) {
-			e.delete(id);
+			e.delete(enr.getId());
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
