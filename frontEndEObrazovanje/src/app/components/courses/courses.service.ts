@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { CourseInstance } from 'src/app/model/courseInstance';
 import { CourseSpecification } from 'src/app/model/courseSpecification';
+import { Enrollment } from 'src/app/model/enrollment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ export class CoursesService {
   private coursesInstanceUrl = 'api/course-instance';
 
   private coursesSpecificationUrl = 'api/course-specfication';
+
+  private enrolmentUrl = 'api/enrollment';
 
   constructor(private http: HttpClient) { }
 
@@ -55,7 +58,16 @@ export class CoursesService {
 
   addCourseSpecification(courseSpecification: CourseSpecification): Observable<HttpResponse<CourseSpecification>> {
     return this.http.post<CourseSpecification>(this.coursesSpecificationUrl, courseSpecification, {observe: 'response'});
-}
+  }
+
+  addEnrollment(enrolment: Enrollment): Observable<HttpResponse<Enrollment>> {
+    return this.http.post<Enrollment>(this.enrolmentUrl, enrolment, {observe: 'response'});
+  }
+
+  deleteEnrollment(enrolment: Enrollment): Observable<HttpResponse<Enrollment>> {
+    const url = `${this.enrolmentUrl}/${enrolment.courseInstanceDTO.id}/${enrolment.studentDTO.cardNumber}`
+    return this.http.delete<Enrollment>(url, {observe: 'response'});
+  }
 
   deleteCourseInstance(courseInstanceId: number): Observable<HttpResponse<any>> {
     const url = `${this.coursesInstanceUrl}/${courseInstanceId}`;

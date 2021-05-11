@@ -3,7 +3,11 @@
     <div class="mt-4">
         <div *ngIf="coursesSpecifications.length > 0" class="col-2 d-inline mr-5">
             <b>Course:</b>
-            <input (focus)="clear()" (focusout)="edit()" class='form-control col-2 ml-2 mb-3 d-inline' list="coursesSpecifications" [(ngModel)]="courseSpecificationCode" className='form-control form-control-sm col-10'/>
+            <input *ngIf="editInstance!=true" class='form-control col-2 ml-2 mb-3 d-inline' readonly list="coursesSpecifications" [(ngModel)]="courseSpecificationCode" className='form-control form-control-sm col-10'/>
+            <input *ngIf="editInstance" class='form-control col-2 ml-2 mb-3 d-inline' list="coursesSpecifications" [(ngModel)]="courseSpecificationCode" className='form-control form-control-sm col-10'/>
+            <button type="button" class="ml-1 btn-primary rounded" *ngIf="!editInstance" (click)="edit()">🖉</button>
+            <button type="button" class="ml-1 btn-primary rounded" *ngIf="editInstance" (click)="submit()">✓</button>
+            <button type="button" class="ml-1 btn-primary rounded" *ngIf="editInstance" (click)="cancel()">X</button>
             <datalist id='coursesSpecifications'>
                 <option *ngFor="let cs of coursesSpecifications" value="{{cs.code}}">{{cs.title}}</option>
             </datalist>
@@ -15,9 +19,9 @@
     </div>
     <div>
         <b>Start:</b>
-        <input type="date" (focusout)="edit()" class="form-control col-2 d-inline ml-2" style="margin-right: 10%; margin-top: 2%;" [(ngModel)]="startDate">
+        <input type="date" (focusout)="submit()" class="form-control col-2 d-inline ml-2" style="margin-right: 10%; margin-top: 2%;" [(ngModel)]="startDate">
         <b>End:</b>
-        <input type="date" (focusout)="edit()" class="form-control col-2 d-inline ml-2" [(ngModel)]="endDate">
+        <input type="date" (focusout)="submit()" class="form-control col-2 d-inline ml-2" [(ngModel)]="endDate">
     </div>
     <div class="main" style="padding-top: 7%;" *ngIf="students.length > 0">
         <h4 class="ml-5">Students</h4>
@@ -27,6 +31,7 @@
                     <th class="text-center">Card number</th>
                     <th class="text-center">Firstname</th>
                     <th class="text-center">Lastname</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -34,6 +39,16 @@
                     <td class="text-center"><a routerLink="/">{{s.cardNumber}}</a></td>
                     <td class="text-center">{{s.userDTO.firstName}}</td>
                     <td class="text-center">{{s.userDTO.lastName}}</td>
+                    <td class="text-center"><button type="button" class="btn btn-danger btn-sm" (click)="removeStudent(s)">X</button></td>
+                </tr>
+                <tr *ngIf="otherStudents.length > 0">
+                    <td colspan="4">
+                        <input class='form-control col-4 ml-2 mb-3 d-inline' list="otherStudents" [(ngModel)]="studentCardNumber" className='form-control form-control-sm col-10'/>
+                        <datalist id='otherStudents'>
+                            <option *ngFor="let s of otherStudents" value="{{s.cardNumber}}">{{s.userDTO.firstName}} {{s.userDTO.lastName}}</option>
+                        </datalist>
+                        <button type="button" class="ml-1 btn-primary rounded" (click)="addStudent()">Add student</button>
+                    </td>
                 </tr>
             </tbody>
         </table>

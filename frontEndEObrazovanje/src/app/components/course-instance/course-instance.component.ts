@@ -4,6 +4,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { CourseInstance } from 'src/app/model/courseInstance';
 import { CourseSpecification } from 'src/app/model/courseSpecification';
+import { Enrollment } from 'src/app/model/enrollment';
 import { Student } from 'src/app/model/student';
 import { CoursesService } from '../courses/courses.service';
 import { UserService } from '../users/users.service';
@@ -21,6 +22,10 @@ export class CourseInstanceComponent implements OnInit {
   endDate:string='';
   courseSpecificationCode:string = '';
   students:Student[] = [];
+  studentCardNumber:string = '';
+  otherStudents:Student[] = [];
+  editInstance:boolean=false;
+  enrollment:Enrollment;
 
   constructor(private courseService:CoursesService, private userService:UserService,private route: ActivatedRoute,private location: Location) {
     this.courseInstance = new CourseInstance({
@@ -28,6 +33,28 @@ export class CourseInstanceComponent implements OnInit {
       startDate:new Date(),
       endDate:new Date(),
       courseSpecificationDTO: new CourseSpecification({id:0,title:'',ects:0,code:''})
+    });
+    this.courseService.getCoursesSpecifications().subscribe(res =>
+      {
+        this.coursesSpecifications = [];
+        this.coursesSpecifications = res.body==null ? []:res.body;
+      });
+    this.enrollment=new Enrollment(
+      {
+        id:0,
+        studentDTO:{
+          id:0,
+          cardNumber:'',
+          userDTO:{
+            id:0,
+            firstName:'',
+            lastName:'',
+            userName:'',
+            password:'',
+            roles:[]
+          }
+        },
+        courseInstanceDTO:this.courseInstance
     });
    }
 
@@ -39,25 +66,16 @@ export class CourseInstanceComponent implements OnInit {
         this.startDate = new Date(this.courseInstance.startDate).toISOString().substring(0, 10);
         this.endDate = new Date(this.courseInstance.endDate).toISOString().substring(0, 10);
         this.courseSpecificationCode = this.courseInstance.courseSpecificationDTO.code;
-        this.userService.getStudents(this.courseInstance).
-          subscribe(res =>{
-            this.students = [];
-            this.students = res.body==null ? []:res.body;
-            console.log('Students: '+JSON.stringify(this.students))
-            this.courseService.getCoursesSpecifications().
-              subscribe(res =>{
-                this.coursesSpecifications = [];
-                this.coursesSpecifications = res.body==null ? []:res.body;
-              });
-          });
+        this.getStudents(this.courseInstance);
         }
       );
   }
 
-  edit() {
+  submit() {
     if(this.courseSpecificationCode===''){
       alert('--Choose a course specification--')
     }else{
+      this.editInstance = false;
       this.courseInstance.courseSpecificationDTO=this.coursesSpecifications.filter(cs=>cs.code===this.courseSpecificationCode)[0];
       this.courseInstance.startDate=new Date(this.startDate);
       this.courseInstance.endDate=new Date(this.endDate);
@@ -65,8 +83,40 @@ export class CourseInstanceComponent implements OnInit {
     }
   }
 
-  clear(){
+  cancel(){
+    this.editInstance = false;
+    this.courseSpecificationCode=this.courseInstance.courseSpecificationDTO.code;
+  }
+
+  edit(){
+    this.editInstance = true;
     this.courseSpecificationCode='';
+  }
+
+  addStudent(){
+    console.log("Student cardNubmer: "+this.studentCardNumber);
+    this.enrollment.studentDTO = this.otherStudents.filter(s=>this.studentCardNumber===s.cardNumber)[0];
+    this.enrollment.courseInstanceDTO = this.courseInstance;
+    this.courseService.addEnrollment(this.enrollment).subscribe(() => this.getStudents(this.courseInstance));
+  }
+
+  removeStudent(student:Student){
+    var enrollment = new Enrollment({id:0,studentDTO:student,courseInstanceDTO:this.courseInstance});
+    this.courseService.deleteEnrollment(enrollment).subscribe(()=>this.getStudents(this.courseInstance));
+  }
+
+  getStudents(courseInstance:CourseInstance){
+    this.userService.getCourseInstanceStudents(courseInstance).
+      subscribe(res =>{
+        this.students = [];
+        this.students = res.body==null ? []:res.body;
+        this.userService.getCourseInstanceOtherStudents(courseInstance).
+          subscribe(res =>{
+            this.otherStudents = [];
+            this.otherStudents = res.body==null ? []:res.body;
+            console.log('Other students: '+JSON.stringify(this.students));
+          });
+      });
   }
 
 }

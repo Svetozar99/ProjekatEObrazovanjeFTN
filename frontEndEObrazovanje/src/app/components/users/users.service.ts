@@ -30,8 +30,13 @@ export class UserService {
         return this.http.get<User[]>(this.usersUrl, {observe: 'response'});
     }
 
-    getStudents(courseInstance:CourseInstance): Observable<HttpResponse<Student[]>> {
+    getCourseInstanceStudents(courseInstance:CourseInstance): Observable<HttpResponse<Student[]>> {
         const url = `${this.studentURL}/${courseInstance.id}`
+        return this.http.get<Student[]>(url, {observe: 'response'});
+    }
+
+    getCourseInstanceOtherStudents(courseInstance:CourseInstance): Observable<HttpResponse<Student[]>> {
+        const url = `${this.studentURL}/other-students/${courseInstance.id}`
         return this.http.get<Student[]>(url, {observe: 'response'});
     }
 

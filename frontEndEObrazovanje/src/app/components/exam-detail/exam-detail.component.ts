@@ -27,7 +27,18 @@ export class ExamDetailComponent implements OnInit {
       id:0,
       enrollmentDTO:{
         id:0,
-        studentDTO:'',
+        studentDTO:{
+          id:0,
+          cardNumber:'',
+          userDTO:{
+            id:0,
+            firstName:'',
+            lastName:'',
+            userName:'',
+            password:'',
+            roles:[]
+          }
+        },
         courseInstanceDTO:{
           id:0,
           startDate:new Date(),
