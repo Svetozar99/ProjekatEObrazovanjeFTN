@@ -126,26 +126,30 @@ public class ExamPartController {
 		return new ResponseEntity<ExamPartDTO>(new ExamPartDTO(examPart), HttpStatus.OK);
 	}
 	
-//	@PostMapping
-//	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
-//	public ResponseEntity<ExamPartDTO> saveExamPart(@RequestBody ExamPartDTO dto){
-//		ExamPart examPart = new ExamPart();
-//		Exam exam = examS.findById(dto.getExamDTO().getId());
-//		ExamPartType examPartType = examPartTypeS.findById(dto.getExamPartTypeDTO().getId());
-//		ExamPartStatus examPartStatus = examPartStatusS.findById(dto.getStatusDTO().getId());
-//		
-//		examPart.setDate(dto.getDate());
-//		examPart.setLocation(dto.getLocation());
-//		examPart.setPoints(dto.getPoints());
-//		examPart.setWonPoints(0);
-//		examPart.setExam(exam);
-//		examPart.setExamPartType(examPartType);
-//		examPart.setExamPartStatus(examPartStatus);
-//		
-//		examPart = examPartS.save(examPart);
-//			
-//		return new ResponseEntity<ExamPartDTO>(new ExamPartDTO(examPart), HttpStatus.CREATED);
-//	}
+	@PostMapping
+	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
+	public ResponseEntity<List<ExamPartDTO>> saveExamPart(@RequestBody ExamPartDTO dto){
+		System.out.println("\n---->Save exam part<------\n");
+		List<Exam> exams = examS.findByCourseInstance(dto.getExamDTO().getEnrollmentDTO().getCourseInstanceDTO().getId());
+		ExamPartType examPartType = examPartTypeS.findByCode(dto.getExamPartTypeDTO().getCode());
+		ExamPartStatus examPartStatus = examPartStatusS.expsByCode("cr");
+		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
+		for (Exam exam : exams) {
+			ExamPart examPart = new ExamPart();
+			examPart.setDate(dto.getDate());
+			examPart.setLocation(dto.getLocation());
+			examPart.setPoints(dto.getPoints());
+			examPart.setWonPoints(0);
+			examPart.setExam(exam);
+			examPart.setExamPartType(examPartType);
+			examPart.setExamPartStatus(examPartStatus);
+			
+			examPart = examPartS.save(examPart);
+			dtos.add(new ExamPartDTO(examPart));
+		}
+			
+		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.CREATED);
+	}
 	
 	@DeleteMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR')")

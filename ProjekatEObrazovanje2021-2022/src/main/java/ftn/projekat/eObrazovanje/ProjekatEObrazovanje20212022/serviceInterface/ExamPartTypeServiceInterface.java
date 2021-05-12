@@ -10,6 +10,8 @@ public interface ExamPartTypeServiceInterface {
 	
 	public ExamPartType findById(Long id);
 	
+	public ExamPartType findByCode(String code);
+	
 	public ExamPartType save(ExamPartType examPart);
 	
 	public void delete(Long id);

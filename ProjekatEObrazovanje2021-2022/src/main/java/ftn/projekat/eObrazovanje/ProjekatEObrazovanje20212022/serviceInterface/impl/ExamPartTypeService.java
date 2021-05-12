@@ -38,4 +38,9 @@ public class ExamPartTypeService implements ExamPartTypeServiceInterface {
 		repository.deleteById(id);
 	}
 
+	@Override
+	public ExamPartType findByCode(String code) {
+		return repository.findOneByCode(code);
+	}
+
 }

@@ -44,9 +44,9 @@ INSERT INTO type_document(id, name, code) VALUES(2,'Form','fo');
 
 INSERT INTO documents(id, title, url, type_document_id, student_id) VALUES(1, 'Document1', 'Url1', 1, 1);
 
-INSERT INTO exams(id, points, gradle, enrollment_id) VALUES(4, 0, 0, 3);
-INSERT INTO exams(id, points, gradle, enrollment_id) VALUES(1, 0, 0, 1);
-INSERT INTO exams(id, points, gradle, enrollment_id) VALUES(2, 0, 0, 2);
+INSERT INTO exams(id, points, gradle, enrollment_id) VALUES(4, 30, 0, 3);
+INSERT INTO exams(id, points, gradle, enrollment_id) VALUES(1, 40, 0, 1);
+INSERT INTO exams(id, points, gradle, enrollment_id) VALUES(2, 35, 0, 2);
 
 INSERT INTO exam_part_types(id,name,code) VALUES (1,'Kolokvijum1','kolk');
 
@@ -57,7 +57,7 @@ INSERT INTO exam_part_status(id,name,code) VALUES (4,'Canceled','ca');
 INSERT INTO exam_part_status(id,name,code) VALUES (5,'Registred','re');
 
 INSERT INTO exam_parts(id, date_exam_part, location, points,won_points,exam_id,exam_part_type_id,exam_part_status_id) 
-VALUES(1, '2021-03-21', 'Location1', 0,0, 1, 1, 2);
+VALUES(1, '2021-03-21 1:15:00', 'Location1', 0,0, 1, 1, 2);
 INSERT INTO exam_parts(id, date_exam_part, location, points,won_points,exam_id,exam_part_type_id,exam_part_status_id) 
 VALUES(2, '2021-03-21', 'Location2', 0,0, 2, 1, 2);
 INSERT INTO exam_parts(id, date_exam_part, location, points, won_points,exam_id,exam_part_type_id,exam_part_status_id) 
