@@ -16,5 +16,7 @@ public interface ExamServiceInterface {
 	
 	public List<Exam> examPassedForStudent(String cardNum);
 	
+	public List<Exam> findByCourseInstance(Long courseId);
+	
 	public Exam examOneByUsernameAndId(String username, Long id);
 }

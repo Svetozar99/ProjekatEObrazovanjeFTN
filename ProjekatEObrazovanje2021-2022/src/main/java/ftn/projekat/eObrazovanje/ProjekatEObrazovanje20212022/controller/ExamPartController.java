@@ -63,7 +63,7 @@ public class ExamPartController {
 	@GetMapping(value = "/student/{courseId}")
 //	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<List<ExamPartDTO>> getAllForCardNumber(@PathVariable("courseId") Long courseId,Principal principal){
-		System.out.println("pogodjena funkcija");
+		System.out.println("\nZa studenta");
 		String name = principal.getName(); //get logged in username
 		Student st = studServ.findByUser(name);
 		List<ExamPart> examParts = examPartS.findByCardNumAndCourse(st.getCardNumber(), courseId);
@@ -77,9 +77,25 @@ public class ExamPartController {
 		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/course-instance/{courseId}")
+	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
+	public ResponseEntity<List<ExamPartDTO>> getAllForCourseInstance(@PathVariable("courseId") Long courseId){
+		System.out.println("\nGet all parts for ADMINISTRATOR");
+		List<ExamPart> examParts = examPartS.findByCourseInstance(courseId,(long)1);
+		
+		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
+		
+		for (ExamPart examPart : examParts) {
+			dtos.add(new ExamPartDTO(examPart));
+		}
+		System.out.println(examParts.size());
+		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "/{id}")//izmjeniti ovo kad dodje vrijeme
 	public ResponseEntity<ExamPartDTO> getOneExamPart(@PathVariable("id") Long id){
 		ExamPart examPart = examPartS.findById(id);
+		System.out.println("\nZa administratora");
 		if(examPart == null) {
 			return new ResponseEntity<ExamPartDTO>(HttpStatus.NOT_FOUND);
 		}

@@ -50,4 +50,9 @@ public class ExamService implements ExamServiceInterface {
 		return examRepository.findOneByEnrollment_student_user_usernameAndId(username, id);
 	}
 
+	@Override
+	public List<Exam> findByCourseInstance(Long courseId) {
+		return examRepository.findByEnrollment_courseInstance_id(courseId);
+	}
+
 }

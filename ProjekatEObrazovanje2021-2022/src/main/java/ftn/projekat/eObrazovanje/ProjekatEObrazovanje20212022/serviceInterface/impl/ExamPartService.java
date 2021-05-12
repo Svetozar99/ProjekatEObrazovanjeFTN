@@ -56,4 +56,9 @@ public class ExamPartService implements ExamPartServiceInterface {
 		return examPartRepository.findByExam_enrollment_student_cardNumberAndExam_enrollment_courseInstance_id(cardNum, id);
 	}
 
+	@Override
+	public List<ExamPart> findByCourseInstance(Long courseId,Long examId) {
+		return examPartRepository.findByExam_enrollment_courseInstance_idAndExam_id(courseId,examId);
+	}
+
 }

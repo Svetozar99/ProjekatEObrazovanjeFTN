@@ -56,12 +56,25 @@ public class ExamController {
 		return new ResponseEntity<List<ExamDTO>>(dtos, HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<ExamDTO> getOneExam(Principal principal, @PathVariable("id") Long id){
-		System.out.println("uslooo!!");
-		String name = principal.getName();
+	@GetMapping(value = "/all-exams")
+	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR')")
+	public ResponseEntity<List<ExamDTO>> getAll(){
 		
-		Exam exam = examS.examOneByUsernameAndId(name, id);
+		List<Exam> exams = examS.findAll();
+		
+		List<ExamDTO> dtos = new ArrayList<ExamDTO>();
+		
+		for (Exam exam : exams) {
+			dtos.add(new ExamDTO(exam));
+		}
+		return new ResponseEntity<List<ExamDTO>>(dtos, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<ExamDTO> getOneExam(@PathVariable("id") Long id){
+		System.out.println("uslooo!!");
+		
+		Exam exam = examS.findById(id);
 		if(exam == null) {
 			return new ResponseEntity<ExamDTO>(HttpStatus.NOT_FOUND);
 		}

@@ -19,4 +19,6 @@ public interface ExamPartServiceInterface {
 	public List<ExamPart> findByCodeAndCardNum(String code, String cardNum);
 	
 	public List<ExamPart> findByCardNumAndCourse(String cardNum,Long id);
+	
+	public List<ExamPart> findByCourseInstance(Long courseId,Long examId);
 }
