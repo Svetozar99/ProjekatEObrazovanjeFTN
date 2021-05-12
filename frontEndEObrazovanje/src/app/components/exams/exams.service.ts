@@ -28,22 +28,18 @@ export class ExamsService{
     //     return this.http.get<Exam[]>(this.examsUrl, {observe:'response', headers:headers});
     // }
 
-    getStudentExams(): Observable<HttpResponse<Exam[]>> {
-        var j = localStorage.getItem('jwt')
-        this.jwt = j==null? {value:''}:{value:j};
-
-        var headers = {'X-Auth-Token':this.jwt.value};
-
-        // const url = `${this.examsUrl}`;
-        return this.http.get<Exam[]>(this.examsUrl, {observe: 'response', headers:headers});
-    } 
+    getExams(role:string): Observable<HttpResponse<Exam[]>> {
+        var url = '';
+        if(role==='ROLE_STUDENT'){
+            url = this.examsUrl;
+        }else if(role==='ROLE_ADMINISTRATOR'){
+            url = `${this.examsUrl}/all-exams`;
+        }
+        return this.http.get<Exam[]>(url, {observe: 'response'});
+    }
 
     getExam(id: number): Observable<HttpResponse<Exam>> {
-        var j = localStorage.getItem('jwt')
-        this.jwt = j==null ? {value:''}:{value:j};
-
-        var headers = {'X-Auth-Token': this.jwt.value};
         const url = `${this.examsUrl}/${id}`;
-        return this.http.get<Exam>(url, {observe: 'response', headers:headers});
+        return this.http.get<Exam>(url, {observe: 'response'});
     }
 }

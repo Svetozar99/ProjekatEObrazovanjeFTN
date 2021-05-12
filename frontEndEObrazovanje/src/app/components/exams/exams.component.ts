@@ -6,7 +6,7 @@ import { switchMap } from 'rxjs/operators';
 import { AppComponent } from 'src/app/app.component';
 import { Exam } from 'src/app/model/exam';
 import { User } from 'src/app/model/user';
-import { ExamsService } from './exams.service'
+import { ExamsService } from './exams.service';
 
 @Component({
   selector: 'app-exams',
@@ -18,26 +18,23 @@ export class ExamsComponent implements OnInit {
   // user: string | null = localStorage.getItem('loggedUser');
   exams: Exam[] | null = [];
 
-  public role?: string = undefined;
+  public role: string = '';
   subscription: Subscription;
 
 
   constructor(private examService:ExamsService, private router: Router, private route: ActivatedRoute, app: AppComponent) {
+    this.role = app.role == undefined ? this.role:app.role;
     this.subscription = examService.RegenerateData$.subscribe(() =>
-    this.getStudentExams());
-    this.role = app.role;
+    this.getExams());
   }
 
   ngOnInit(): void {
-        this.examService.getStudentExams()
-        .subscribe(res => {
-          this.exams = res.body;
-          }
-        );
+    this.getExams();
+    
   }
 
-  getStudentExams(){
-    this.examService.getStudentExams().subscribe(
+  getExams(){
+    this.examService.getExams(this.role).subscribe(
       response => {
         this.exams = response.body
       });

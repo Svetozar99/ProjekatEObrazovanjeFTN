@@ -6,7 +6,7 @@ import { JWT } from "src/app/model/jwt";
 
 @Injectable()
 export class ExamDetailService{
-    private examDetailUrl = 'api/exam-part/student';
+    private examDetailUrl = 'api/exam-part';
 
     private jwt: JWT={value:''};
 
@@ -20,13 +20,14 @@ export class ExamDetailService{
         this.RegenerateData.next();
     }
 
-    getExamParts(courseId: number): Observable<HttpResponse<ExamDetail[]>>{
-        var j = localStorage.getItem('jwt');
-        this.jwt = j==null? {value:''}:{value:j};
-
-        var headers = {'X-Auth-Token':this.jwt.value};
-        const url = `${this.examDetailUrl}/${courseId}`;
-        return this.http.get<ExamDetail[]>(url, {observe: 'response', headers:headers});
+    getExamParts(courseId: number,role:string|undefined): Observable<HttpResponse<ExamDetail[]>>{
+        var url = ``;
+        if(role==='ROLE_ADMINISTRATOR'){
+            url = `${this.examDetailUrl}/course-instance/${courseId}`;
+        }else if(role === 'ROLE_STUDENT'){
+            url = `${this.examDetailUrl}/student/${courseId}`;
+        }
+        return this.http.get<ExamDetail[]>(url, {observe: 'response'});
     }
     
 }

@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { CourseInstance } from 'src/app/model/courseInstance';
 import { CourseSpecification } from 'src/app/model/courseSpecification';
@@ -27,7 +27,7 @@ export class CourseInstanceComponent implements OnInit {
   editInstance:boolean=false;
   enrollment:Enrollment;
 
-  constructor(private courseService:CoursesService, private userService:UserService,private route: ActivatedRoute,private location: Location) {
+  constructor(private courseService:CoursesService, private userService:UserService,private route: ActivatedRoute,private router: Router) {
     this.courseInstance = new CourseInstance({
       id:0,
       startDate:new Date(),
@@ -117,6 +117,10 @@ export class CourseInstanceComponent implements OnInit {
             console.log('Other students: '+JSON.stringify(this.students));
           });
       });
+  }
+
+  gotToExamParts():void{
+    this.router.navigate(['course-instance/exam-parts/', this.courseInstance.id]);
   }
 
 }

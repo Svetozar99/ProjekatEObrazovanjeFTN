@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { AppComponent } from 'src/app/app.component';
 import { Exam } from 'src/app/model/exam';
 import { ExamDetail } from 'src/app/model/examDetail';
 import { ExamsService } from '../exams/exams.service';
@@ -18,11 +19,12 @@ export class ExamDetailComponent implements OnInit {
   exam: Exam;
   examDetails: ExamDetail[] | null = [];
   mode: string = '';
+  role?: string = undefined;
 
   // subscription: Subscription;
 
 
-  constructor(private examDetailService: ExamDetailService,private examService: ExamsService, private route: ActivatedRoute) { 
+  constructor(private examDetailService: ExamDetailService,private examService: ExamsService, private route: ActivatedRoute,private app:AppComponent) { 
     this.exam = {
       id:0,
       enrollmentDTO:{
@@ -54,7 +56,8 @@ export class ExamDetailComponent implements OnInit {
       gradle:0,
       points:0
     }
-    this.mode = 'ADD'
+    this.mode = 'ADD';
+    this.role = app.role;
   }
 
   ngOnInit() {
@@ -64,22 +67,26 @@ export class ExamDetailComponent implements OnInit {
       this.examService.getExam(+params['examId'])))
       .subscribe(res =>{
         this.exam = res.body==null ? this.exam:res.body;
-        console.log(JSON.stringify(this.exam));
-        this.examDetailService.getExamParts(this.exam.enrollmentDTO.courseInstanceDTO.id)
-        .subscribe(res => {
-          this.examDetails = res.body==null ? this.examDetails:res.body;
-          
-        });
+          this.getExamParts(this.exam.enrollmentDTO.courseInstanceDTO.id);
       }
       );
-        
+    }else if(this.route.snapshot.params['courseId']){
+      this.route.params.pipe(switchMap((params: Params) =>
+      this.examDetailService.getExamParts(+params['courseId'],this.role)))
+      .subscribe(res =>{
+        // console.log('Exam details: '+JSON.stringify(res.body))
+        this.examDetails = res.body;
+      }
+      );
     }
+    console.log("Izlazim iz ngInit")
   }
 
   getExamParts(courseId: number){
-    console.log('getExamParts...');
-    this.examDetailService.getExamParts(courseId).subscribe(
+    // console.log('getExamParts...');
+    this.examDetailService.getExamParts(courseId,this.role).subscribe(
       response => {
+        // console.log('Exam details: '+JSON.stringify(response.body));
         this.examDetails = response.body
       }
     );

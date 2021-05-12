@@ -1,5 +1,8 @@
 <div class="form-group text-center">
-    <h1>Course instance</h1>
+    <div class="text-right">
+        <button type="button" class="btn mr-5 btn-outline-dark" (click)="gotToExamParts()">Exam parts</button>
+    </div>
+    <h1 class="d-inline mr-5">Course instance</h1>
     <div class="mt-4">
         <div *ngIf="coursesSpecifications.length > 0" class="col-2 d-inline mr-5">
             <b>Course:</b>
