@@ -107,11 +107,8 @@ public class EnrollmentController {
 		List<ExamPart> examParts = examPartS.findByCourseInstance(cii.getId());
 		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
 		
-		long maxId = 0;
+		
 		for (ExamPart examPart : examParts) {
-			if(Long.parseLong(examPart.getCode().split("-")[1])>maxId) {
-				maxId = Long.parseLong(examPart.getCode().split("-")[1]);
-			}
 			if(!examPartS.isIn(examPart, dtos)) {
 				dtos.add(new ExamPartDTO(examPart));
 			}
@@ -129,11 +126,11 @@ public class EnrollmentController {
 			examPart.setDate(examPartDTO.getDate());
 			examPart.setLocation(examPartDTO.getLocation());
 			examPart.setPoints(examPartDTO.getPoints());
+			examPart.setWonPoints(0);
 			examPart.setExam(exam);
 			examPart.setExamPartType(examPartType);
 			examPart.setExamPartStatus(examPartStatus);
-			maxId++;
-			examPart.setCode(cii.getId()+"-"+maxId);
+			examPart.setCode(examPartDTO.getCode());
 			examPartS.save(examPart);
 		}
 		
