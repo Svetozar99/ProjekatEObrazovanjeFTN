@@ -28,7 +28,7 @@ public class ExamPartTypeController {
 	private ExamPartTypeServiceInterface typeS;
 	
 	@GetMapping
-	public ResponseEntity<List<ExamPartTypeDTO>> getAllTypeDocuments(){
+	public ResponseEntity<List<ExamPartTypeDTO>> getAllExamPartType(){
 		List<ExamPartType> types = typeS.findAll();
 		
 		List<ExamPartTypeDTO> dtos = new ArrayList<ExamPartTypeDTO>();

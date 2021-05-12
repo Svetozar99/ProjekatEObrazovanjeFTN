@@ -19,11 +19,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.EnrollmentDTO;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.ExamPartDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.CourseInstance;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Enrollment;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Exam;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPart;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPartStatus;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPartType;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Student;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.CourseInstanceI;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.EnrollmentServiceI;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamPartServiceInterface;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamPartStatusServiceInterface;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamPartTypeServiceInterface;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamServiceInterface;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.StudentServiceI;
 
 @RestController
@@ -34,10 +43,22 @@ public class EnrollmentController {
 	private EnrollmentServiceI e;
 	
 	@Autowired
+	private ExamPartServiceInterface examPartS;
+	
+	@Autowired
 	private StudentServiceI s;
 	
 	@Autowired
 	private CourseInstanceI c;
+	
+	@Autowired
+	private ExamPartTypeServiceInterface examPartTypeS;
+	
+	@Autowired
+	private ExamPartStatusServiceInterface examPartStatusS;
+	
+	@Autowired
+	private ExamServiceInterface examS;
 	
 	@GetMapping
 	public ResponseEntity<List<EnrollmentDTO>> getAll(){
@@ -82,9 +103,40 @@ public class EnrollmentController {
 		Student student = s.findById(edto.getStudentDTO().getId());
 		CourseInstance cii = c.findById(edto.getCourseInstanceDTO().getId());
 		Enrollment enr = new Enrollment();
+		
+		List<ExamPart> examParts = examPartS.findByCourseInstance(cii.getId());
+		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
+		
+		long maxId = 0;
+		for (ExamPart examPart : examParts) {
+			if(Long.parseLong(examPart.getCode().split("-")[1])>maxId) {
+				maxId = Long.parseLong(examPart.getCode().split("-")[1]);
+			}
+			if(!examPartS.isIn(examPart, dtos)) {
+				dtos.add(new ExamPartDTO(examPart));
+			}
+		}
 		enr.setStudent(student);
 		enr.setCourseInstance(cii);
 		enr = e.save(enr);
+		Exam exam = new Exam();
+		exam.setEnrollment(enr);
+		exam = examS.save(exam);
+		for (ExamPartDTO examPartDTO : dtos) {
+			ExamPartType examPartType = examPartTypeS.findById(examPartDTO.getExamPartTypeDTO().getId());
+			ExamPartStatus examPartStatus = examPartStatusS.expsByCode("cr");
+			ExamPart examPart = new ExamPart();
+			examPart.setDate(examPartDTO.getDate());
+			examPart.setLocation(examPartDTO.getLocation());
+			examPart.setPoints(examPartDTO.getPoints());
+			examPart.setExam(exam);
+			examPart.setExamPartType(examPartType);
+			examPart.setExamPartStatus(examPartStatus);
+			maxId++;
+			examPart.setCode(cii.getId()+"-"+maxId);
+			examPartS.save(examPart);
+		}
+		
 		return new ResponseEntity<EnrollmentDTO>(new EnrollmentDTO(enr), HttpStatus.CREATED);
 	}
 	

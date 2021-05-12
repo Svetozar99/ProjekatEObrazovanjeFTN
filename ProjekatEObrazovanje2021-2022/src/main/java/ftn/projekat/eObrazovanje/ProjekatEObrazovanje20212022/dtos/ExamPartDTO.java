@@ -11,12 +11,13 @@ public class ExamPartDTO {
 	private String location;
 	private Integer points;
 	private Integer wonPoints;
+	private String code;
 	private ExamDTO examDTO;
 	private ExamPartTypeDTO examPartTypeDTO;
 	private ExamPartStatusDTO statusDTO;
 	
 	public ExamPartDTO(Long id, Date date, String location, Integer points, Integer wonPoints, ExamDTO examDTO,
-			ExamPartTypeDTO examPartTypeDTO, ExamPartStatusDTO statusDTO) {
+			ExamPartTypeDTO examPartTypeDTO, ExamPartStatusDTO statusDTO,String code) {
 		super();
 		this.id = id;
 		this.date = date;
@@ -26,6 +27,7 @@ public class ExamPartDTO {
 		this.examDTO = examDTO;
 		this.examPartTypeDTO = examPartTypeDTO;
 		this.statusDTO = statusDTO;
+		this.code = code;
 	}
 
 	public ExamPartDTO() {
@@ -35,7 +37,7 @@ public class ExamPartDTO {
 	
 	public ExamPartDTO(ExamPart e) {
 		this(e.getId(),e.getDate(),e.getLocation(),e.getPoints(),e.getWonPoints(),new ExamDTO(e.getExam()),
-				new ExamPartTypeDTO(e.getExamPartType()),new ExamPartStatusDTO(e.getExamPartStatus()));
+				new ExamPartTypeDTO(e.getExamPartType()),new ExamPartStatusDTO(e.getExamPartStatus()),e.getCode());
 	}
 
 	
@@ -102,5 +104,13 @@ public class ExamPartDTO {
 
 	public void setWonPoints(Integer wonPoints) {
 		this.wonPoints = wonPoints;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 }

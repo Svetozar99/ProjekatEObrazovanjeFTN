@@ -81,12 +81,14 @@ public class ExamPartController {
 	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<List<ExamPartDTO>> getAllForCourseInstance(@PathVariable("courseId") Long courseId){
 		System.out.println("\nGet all parts for ADMINISTRATOR");
-		List<ExamPart> examParts = examPartS.findByCourseInstance(courseId,(long)1);
+		List<ExamPart> examParts = examPartS.findByCourseInstance(courseId);
 		
 		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
 		
 		for (ExamPart examPart : examParts) {
-			dtos.add(new ExamPartDTO(examPart));
+			if(!examPartS.isIn(examPart,dtos)) {
+				dtos.add(new ExamPartDTO(examPart));
+			}
 		}
 		System.out.println(examParts.size());
 		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
@@ -134,6 +136,9 @@ public class ExamPartController {
 		ExamPartType examPartType = examPartTypeS.findByCode(dto.getExamPartTypeDTO().getCode());
 		ExamPartStatus examPartStatus = examPartStatusS.expsByCode("cr");
 		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
+		System.out.println("Max id je: "+examPartS.maxId());
+		long maxId = examPartS.maxId()+1;
+		String code = dto.getExamDTO().getEnrollmentDTO().getCourseInstanceDTO().getId()+"-"+maxId;
 		for (Exam exam : exams) {
 			ExamPart examPart = new ExamPart();
 			examPart.setDate(dto.getDate());
@@ -143,6 +148,7 @@ public class ExamPartController {
 			examPart.setExam(exam);
 			examPart.setExamPartType(examPartType);
 			examPart.setExamPartStatus(examPartStatus);
+			examPart.setCode(code);
 			
 			examPart = examPartS.save(examPart);
 			dtos.add(new ExamPartDTO(examPart));

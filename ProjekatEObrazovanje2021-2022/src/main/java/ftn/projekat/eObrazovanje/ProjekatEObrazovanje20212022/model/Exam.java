@@ -31,9 +31,9 @@ public class Exam extends JpaEntity {
 	private List<ExamPart> examParts = new ArrayList<ExamPart>();
 
 	public Exam() {
-		super();
-		this.gradle = 5;
-		// TODO Auto-generated constructor stub
+		this.points = 0;
+		this.gradle = 0;
+		this.enrollment = new Enrollment();
 	}
 
 	public Exam(Long id, Integer points, Integer gradle, Enrollment enrollment, List<ExamPart> examParts) {

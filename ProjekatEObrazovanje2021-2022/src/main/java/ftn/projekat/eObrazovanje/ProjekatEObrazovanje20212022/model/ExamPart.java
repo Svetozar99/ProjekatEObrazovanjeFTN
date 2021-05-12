@@ -25,6 +25,9 @@ public class ExamPart extends JpaEntity {
 	@Column(name = "won_points")
 	private Integer wonPoints;
 	
+	@Column(name = "code")
+	private String code;
+	
 	@ManyToOne
 	@JoinColumn(name="exam_id", referencedColumnName="id", nullable=false)
 	private Exam exam;
@@ -121,5 +124,13 @@ public class ExamPart extends JpaEntity {
 
 	public void setWonPoints(Integer wonPoints) {
 		this.wonPoints = wonPoints;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 }

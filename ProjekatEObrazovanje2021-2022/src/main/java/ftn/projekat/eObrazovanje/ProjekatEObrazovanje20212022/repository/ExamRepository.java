@@ -14,5 +14,7 @@ public interface ExamRepository extends JpaRepository<Exam, Long> {
 	
 	List<Exam> findByEnrollment_courseInstance_id(Long courseId);
 	
+	Exam findOneByEnrollment_courseInstance_id(Long courseId);
+	
 	Exam findOneByEnrollment_student_user_usernameAndId(String username, Long id);
 }

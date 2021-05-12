@@ -2,6 +2,7 @@ package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface;
 
 import java.util.List;
 
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.ExamPartDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPart;
 
 public interface ExamPartServiceInterface {
@@ -20,5 +21,9 @@ public interface ExamPartServiceInterface {
 	
 	public List<ExamPart> findByCardNumAndCourse(String cardNum,Long id);
 	
-	public List<ExamPart> findByCourseInstance(Long courseId,Long examId);
+	public List<ExamPart> findByCourseInstance(Long courseId);
+	
+	public long maxId();
+	
+	public boolean isIn(ExamPart examPart,List<ExamPartDTO> dtos);
 }

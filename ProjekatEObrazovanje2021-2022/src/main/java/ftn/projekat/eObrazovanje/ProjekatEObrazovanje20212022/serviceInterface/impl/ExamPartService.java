@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.ExamPartDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPart;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.repository.ExamPartRepository;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamPartServiceInterface;
@@ -57,8 +58,23 @@ public class ExamPartService implements ExamPartServiceInterface {
 	}
 
 	@Override
-	public List<ExamPart> findByCourseInstance(Long courseId,Long examId) {
-		return examPartRepository.findByExam_enrollment_courseInstance_idAndExam_id(courseId,examId);
+	public List<ExamPart> findByCourseInstance(Long courseId) {
+		return examPartRepository.findByExam_enrollment_courseInstance_id(courseId);
+	}
+
+	@Override
+	public long maxId() {
+		return examPartRepository.maxId();
+	}
+	
+	@Override
+	public boolean isIn(ExamPart examPart,List<ExamPartDTO> dtos) {
+		for (ExamPartDTO examPartDTO : dtos) {
+			if(examPart.getCode().equals(examPartDTO.getCode())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
