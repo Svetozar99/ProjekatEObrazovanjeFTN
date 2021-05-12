@@ -1,3 +1,4 @@
+import { splitAtColon } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -20,6 +21,7 @@ export class ExamDetailComponent implements OnInit {
   examDetails: ExamDetail[] | null = [];
   mode: string = '';
   role?: string = undefined;
+  courseId:number = 0;
 
   // subscription: Subscription;
 
@@ -79,7 +81,6 @@ export class ExamDetailComponent implements OnInit {
       }
       );
     }
-    console.log("Izlazim iz ngInit")
   }
 
   getExamParts(courseId: number){
@@ -90,6 +91,17 @@ export class ExamDetailComponent implements OnInit {
         this.examDetails = response.body
       }
     );
+  }
+
+  dateToString(date:Date):Date{
+    // console.log('Date: '+date);
+    var d = new Date(date);
+    d.setHours(d.getHours()-1);
+    // console.log(JSON.stringify(d.getHours()))
+    // var dateString = new Date(date).toISOString();
+    // var pos=dateString.indexOf('T');
+    // var s=dateString.substring(0,pos)+' '+dateString.substring(pos+1,dateString.length-5);
+    return d;
   }
 
 }

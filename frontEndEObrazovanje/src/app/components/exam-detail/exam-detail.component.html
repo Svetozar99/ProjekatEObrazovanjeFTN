@@ -28,13 +28,15 @@
         </thead>
         <tbody>
             <tr *ngFor="let e of examDetails; let i = index; let odd = odd;">
-                <td class="text-center">{{ e.date }}</td>
+                <td class="text-center">{{ dateToString(e.date) | date:'short'}}</td>
                 <td class="text-center">{{ e.location }}</td>
                 <td class="text-center">{{ e.points }}</td>
                 <td class="text-center">{{ e.wonPoints }}</td>
                 <td class="text-center">{{ e.statusDTO.name }}</td>
                 <td class="text-center">{{ e.examPartTypeDTO.name }}</td>
             </tr>
+            <!-- <input type='datetime-local' (focusout)='prikazi()' [(ngModel)]="newkiDate"/>
+            <p>{{newkiDate | date:'short'}}</p> -->
         </tbody>
     </table>
     <div *ngIf="role === 'ROLE_ADMINISTRATOR'" class="ml-5" style="float: right; margin-right: 15%;">

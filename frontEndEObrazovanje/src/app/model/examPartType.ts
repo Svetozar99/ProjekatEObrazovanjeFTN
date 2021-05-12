@@ -1,7 +1,7 @@
 export class ExamPartType{
     public id: number;
     public name: string;
-	public code: number;
+	public code: string;
 
     constructor(examPartTypeCfg:ExamPartType)
     {

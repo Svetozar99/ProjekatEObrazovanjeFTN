@@ -63,6 +63,7 @@ export class CourseInstanceComponent implements OnInit {
         this.courseService.getCourseInstance(+params['id']))) // convert to number
       .subscribe(res => {
         this.courseInstance = res.body==null ? this.courseInstance:res.body;
+        console.log('courseInstance: '+JSON.stringify(this.courseInstance));
         this.startDate = new Date(this.courseInstance.startDate).toISOString().substring(0, 10);
         this.endDate = new Date(this.courseInstance.endDate).toISOString().substring(0, 10);
         this.courseSpecificationCode = this.courseInstance.courseSpecificationDTO.code;
@@ -94,7 +95,7 @@ export class CourseInstanceComponent implements OnInit {
   }
 
   addStudent(){
-    console.log("Student cardNubmer: "+this.studentCardNumber);
+    // console.log("Student cardNubmer: "+this.studentCardNumber);
     this.enrollment.studentDTO = this.otherStudents.filter(s=>this.studentCardNumber===s.cardNumber)[0];
     this.enrollment.courseInstanceDTO = this.courseInstance;
     this.courseService.addEnrollment(this.enrollment).subscribe(() => this.getStudents(this.courseInstance));
@@ -114,7 +115,7 @@ export class CourseInstanceComponent implements OnInit {
           subscribe(res =>{
             this.otherStudents = [];
             this.otherStudents = res.body==null ? []:res.body;
-            console.log('Other students: '+JSON.stringify(this.students));
+            // console.log('Other students: '+JSON.stringify(this.students));
           });
       });
   }
