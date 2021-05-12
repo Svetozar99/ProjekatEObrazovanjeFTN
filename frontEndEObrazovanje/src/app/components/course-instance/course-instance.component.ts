@@ -36,7 +36,6 @@ export class CourseInstanceComponent implements OnInit {
     });
     this.courseService.getCoursesSpecifications().subscribe(res =>
       {
-        this.coursesSpecifications = [];
         this.coursesSpecifications = res.body==null ? []:res.body;
       });
     this.enrollment=new Enrollment(
@@ -63,7 +62,7 @@ export class CourseInstanceComponent implements OnInit {
         this.courseService.getCourseInstance(+params['id']))) // convert to number
       .subscribe(res => {
         this.courseInstance = res.body==null ? this.courseInstance:res.body;
-        console.log('courseInstance: '+JSON.stringify(this.courseInstance));
+        // console.log('courseInstance: '+JSON.stringify(this.courseInstance));
         this.startDate = new Date(this.courseInstance.startDate).toISOString().substring(0, 10);
         this.endDate = new Date(this.courseInstance.endDate).toISOString().substring(0, 10);
         this.courseSpecificationCode = this.courseInstance.courseSpecificationDTO.code;

@@ -21,18 +21,18 @@
                 <th class="text-center">Date</th>
                 <th class="text-center">Location</th>
                 <th class="text-center">Points</th>
-                <th class="text-center">Won points</th>
-                <th class="text-center">Status</th>
+                <th *ngIf="role === 'ROLE_STUDENT'" class="text-center">Won points</th>
+                <th *ngIf="role === 'ROLE_STUDENT'" class="text-center">Status</th>
                 <th class="text-center">Type</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let e of examDetails; let i = index; let odd = odd;">
-                <td class="text-center">{{ dateToString(e.date) | date:'short'}}</td>
+                <td class="text-center">{{ dateToString(e.date) | date:'medium'}}</td>
                 <td class="text-center">{{ e.location }}</td>
                 <td class="text-center">{{ e.points }}</td>
-                <td class="text-center">{{ e.wonPoints }}</td>
-                <td class="text-center">{{ e.statusDTO.name }}</td>
+                <td *ngIf="role === 'ROLE_STUDENT'" class="text-center">{{ e.wonPoints }}</td>
+                <td *ngIf="role === 'ROLE_STUDENT'" class="text-center">{{ e.statusDTO.name }}</td>
                 <td class="text-center">{{ e.examPartTypeDTO.name }}</td>
             </tr>
             <!-- <input type='datetime-local' (focusout)='prikazi()' [(ngModel)]="newkiDate"/>

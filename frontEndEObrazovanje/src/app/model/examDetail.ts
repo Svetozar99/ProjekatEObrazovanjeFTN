@@ -7,6 +7,7 @@ export class ExamDetail{
     public location: String;
     public points: number;
     public wonPoints: number;
+    public code:string;
     public examDTO: Exam;
     public examPartTypeDTO: ExamPartType;
     public statusDTO: ExamPartStatus;
@@ -17,7 +18,8 @@ export class ExamDetail{
         this.date= examDetailCfg.date;
         this.location = examDetailCfg.location;
         this.points = examDetailCfg.points;
-        this.wonPoints= examDetailCfg.wonPoints;
+        this.wonPoints = examDetailCfg.wonPoints;
+        this.code = examDetailCfg.code;
         this.examDTO = examDetailCfg.examDTO;
         this.examPartTypeDTO= examDetailCfg.examPartTypeDTO;
         this.statusDTO = examDetailCfg.statusDTO;

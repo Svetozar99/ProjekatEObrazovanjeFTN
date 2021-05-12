@@ -36,6 +36,7 @@ import { CoursesService } from './components/courses/courses.service';
 import { ViewCourseInstanceComponent } from './components/view-course-instance/view-course-instance.component';
 import { CoursesSpecificationsComponent } from './components/courses-specifications/courses-specifications.component';
 import { ViewCourseSpecificationComponent } from './components/view-course-specification/view-course-specification.component';
+import { ExamPartTypeService } from './services/exam-part-type.service';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,7 @@ import { ViewCourseSpecificationComponent } from './components/view-course-speci
     HttpClientModule,
     CommonModule
   ],
-  providers: [CourseInstanceComponent, CoursesService, UserService, ExamsService, DocumentsService, TeachingsService, ExamDetailService,
+  providers: [ExamPartTypeService, CoursesService, UserService, ExamsService, DocumentsService, TeachingsService, ExamDetailService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,

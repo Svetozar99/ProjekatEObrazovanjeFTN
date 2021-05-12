@@ -17,12 +17,11 @@
     <div class="mt-2 ml-4">
         <b>Type:</b>
         <select class="form-control col-2 d-inline ml-2" [(ngModel)]="typeCode">
-            <option value="">--Select type--</option>
-            <option value="">Oral exam</option>
-            <option value="kolk">Colloquium</option>
+            <option *ngFor="let type of examPartTypes" value="{{type.code}}">{{type.name}}</option>
         </select>
     </div>
     <div class="ml-5">
-        <button type="button" class="btn btn-outline-primary mt-3 ml-5" (click)='add()'>Save</button>
+        <button type="button" class="btn btn-outline-success mt-3 ml-5" (click)='add()'>Save</button>
+        <button type="button" class="btn btn-outline-warning mt-3 ml-1" (click)='goBack()'>Cancel</button>
     </div>
 </div>

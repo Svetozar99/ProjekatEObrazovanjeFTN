@@ -9,6 +9,7 @@ import { ExamPartStatus } from 'src/app/model/examPartStatus';
 import { ExamPartType } from 'src/app/model/examPartType';
 import { Student } from 'src/app/model/student';
 import { User } from 'src/app/model/user';
+import { ExamPartTypeService } from 'src/app/services/exam-part-type.service';
 import { ExamDetailService } from '../exam-detail/exam-detail.service';
 
 @Component({
@@ -20,8 +21,9 @@ export class AddExamPartComponent implements OnInit {
 
   examDetail:ExamDetail;
   typeCode:string = '';
+  examPartTypes:ExamPartType[] = [];
 
-  constructor(private examDetailService:ExamDetailService,private location: Location) {
+  constructor(private examDetailService:ExamDetailService,private location: Location,private examPartTypeService:ExamPartTypeService) {
     this.examDetail=new ExamDetail(
       {
         id:0,
@@ -29,6 +31,7 @@ export class AddExamPartComponent implements OnInit {
         location:'',
         points:0,
         wonPoints:0,
+        code:'',
         examDTO:new Exam({
           id:0,
           enrollmentDTO:new Enrollment({
@@ -72,13 +75,17 @@ export class AddExamPartComponent implements OnInit {
         })
       }
     )
+    this.examPartTypeService.getExamPartType().subscribe(res=>{
+      this.examPartTypes=res.body===null ? []:res.body;
+    });
    }
 
   ngOnInit(): void {
   }
 
   add(): void {
-    this.examDetail.examPartTypeDTO.code=this.typeCode;
+    console.log(JSON.stringify(this.examPartTypes))
+    this.examDetail.examPartTypeDTO=this.examPartTypes.filter(t=>this.typeCode===t.code)[0];
     this.examDetail.examDTO.enrollmentDTO.courseInstanceDTO.id=this.examDetailService.getCourseId();
     console.log('ADD: '+JSON.stringify(this.examDetail));
     this.examDetailService.addExamPart(this.examDetail)
