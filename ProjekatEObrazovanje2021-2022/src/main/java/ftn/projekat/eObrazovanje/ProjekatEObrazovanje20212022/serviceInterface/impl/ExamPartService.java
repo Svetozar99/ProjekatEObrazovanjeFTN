@@ -21,6 +21,12 @@ public class ExamPartService implements ExamPartServiceInterface {
 		// TODO Auto-generated method stub
 		return examPartRepository.findAll();
 	}
+	
+	@Override
+	public List<ExamPart> findByCode(String code) {
+		// TODO Auto-generated method stub
+		return examPartRepository.findByCode(code);
+	}
 
 	@Override
 	public ExamPart findById(Long id) {

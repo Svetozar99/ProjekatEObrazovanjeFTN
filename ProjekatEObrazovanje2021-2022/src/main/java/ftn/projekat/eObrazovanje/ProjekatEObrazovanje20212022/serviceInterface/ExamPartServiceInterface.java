@@ -9,6 +9,8 @@ public interface ExamPartServiceInterface {
 
 	public List<ExamPart> findAll();
 	
+	public List<ExamPart> findByCode(String code);
+	
 	public ExamPart findById(Long id);
 	
 	public ExamPart save(ExamPart examPart);

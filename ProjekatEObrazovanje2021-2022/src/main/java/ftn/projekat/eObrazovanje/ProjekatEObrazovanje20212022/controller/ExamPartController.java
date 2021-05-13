@@ -107,25 +107,25 @@ public class ExamPartController {
 	
 	@PutMapping()
 	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
-	public ResponseEntity<ExamPartDTO> updateExamPart(@RequestBody ExamPartDTO dto){
-		ExamPart examPart = examPartS.findById(dto.getId());
-		Exam exam = examS.findById(dto.getExamDTO().getId());
-		ExamPartType examPartType = examPartTypeS.findById(dto.getExamPartTypeDTO().getId());
-		ExamPartStatus examPartStatus = examPartStatusS.findById(dto.getStatusDTO().getId());
-		if(examPart == null) {
+	public ResponseEntity<List<ExamPartDTO>> updateExamPart(@RequestBody ExamPartDTO dto){
+		List<ExamPart> examParts = examPartS.findByCode(dto.getCode());
+		
+		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
+		if(examParts.size() == 0) {
 			return ResponseEntity.notFound().build();
 		}
-		examPart.setDate(dto.getDate());
-		examPart.setLocation(dto.getLocation());
-		examPart.setPoints(dto.getPoints());
-		examPart.setWonPoints(dto.getWonPoints());
-		examPart.setExam(exam);
-		examPart.setExamPartType(examPartType);
-		examPart.setExamPartStatus(examPartStatus);
+		for (ExamPart examPart : examParts) {
+			ExamPartType examPartType = examPartTypeS.findById(dto.getExamPartTypeDTO().getId());
+			examPart.setDate(dto.getDate());
+			examPart.setLocation(dto.getLocation());
+			examPart.setPoints(dto.getPoints());
+			examPart.setExamPartType(examPartType);
+			
+			examPart = examPartS.save(examPart);
+			dtos.add(new ExamPartDTO(examPart));
+		}
 		
-		examPart = examPartS.save(examPart);
-		
-		return new ResponseEntity<ExamPartDTO>(new ExamPartDTO(examPart), HttpStatus.OK);
+		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
 	}
 	
 	@PostMapping
