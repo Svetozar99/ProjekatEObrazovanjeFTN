@@ -1,36 +1,36 @@
-import { splitAtColon } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { AppComponent } from 'src/app/app.component';
 import { Exam } from 'src/app/model/exam';
 import { ExamPart } from 'src/app/model/examPart';
+import { Student } from 'src/app/model/student';
+import { User } from 'src/app/model/user';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { ExamPartService } from '../exam-detail/exam-detail.service';
 import { ExamsService } from '../exams/exams.service';
-import { ExamPartService } from './exam-detail.service';
+import { UserService } from '../users/users.service';
 
 @Component({
-  selector: 'app-exam-detail',
-  templateUrl: './exam-detail.component.html',
-  styleUrls: ['./exam-detail.component.css']
+  selector: 'app-student-exam-detail',
+  templateUrl: './student-exam-detail.component.html',
+  styleUrls: ['./student-exam-detail.component.css']
 })
-export class ExamDetailComponent implements OnInit {
+export class StudentExamDetailComponent implements OnInit {
 
-  title: String = "";
   exam: Exam;
-  examDetails: ExamPart[] = [];
-  mode: string = '';
+  examParts: ExamPart[] = [];
   role?: string = undefined;
-  courseId:number = 0;
+  student:Student;
+  editGradle:boolean=false;
 
   constructor(
-      private examDetailService: ExamPartService,
-      private examService: ExamsService, 
-      private route: ActivatedRoute,
-      private authenticationService:AuthenticationService,
-      private router: Router
-    ) { 
+    private route: ActivatedRoute,
+    private router: Router,
+    private authenticationService:AuthenticationService,
+    private examService:ExamsService,
+    private examPartService:ExamPartService
+    ) 
+  {
     this.exam = {
       id:0,
       enrollmentDTO:{
@@ -63,35 +63,31 @@ export class ExamDetailComponent implements OnInit {
       points:0
     }
     this.role = this.authenticationService.getRole();
-  }
+    this.student=new Student({
+      id:0,
+      cardNumber:'',
+      userDTO:new User({
+        id:0,
+        firstName:'',
+        lastName:'',
+        userName:'',
+        password:'',
+        roles:[],
+      })
+    })
+   }
 
-  ngOnInit() {
-    if(this.route.snapshot.params['examId']){
+  ngOnInit(): void {
+    if(this.route.snapshot.params['cardNumber']){
       this.route.params.pipe(switchMap((params: Params) =>
-      this.examService.getExam(+params['examId'])))
+      this.examPartService.getExamPartsForStudent(+params['courseId'],params['cardNumber'])))
       .subscribe(res =>{
-        this.exam = res.body==null ? this.exam:res.body;
-        this.getExamParts(this.exam.enrollmentDTO.courseInstanceDTO.id);
-      }
-      );
-    }else if(this.route.snapshot.params['courseId']){
-      this.route.params.pipe(switchMap((params: Params) =>
-      this.examDetailService.getExamParts(+params['courseId'],this.role)))
-      .subscribe(res =>{
-        this.examDetails = res.body == null ? this.examDetails:res.body;
+        this.examParts = res.body==null ? this.examParts:res.body;
+        this.student = this.examParts[0].examDTO.enrollmentDTO.studentDTO;
+        this.exam = this.examParts[0].examDTO;
       }
       );
     }
-  }
-
-  getExamParts(courseId: number){
-    // console.log('getExamParts...');
-    this.examDetailService.getExamParts(courseId,this.role).subscribe(
-      response => {
-        // console.log('Exam details: '+JSON.stringify(response.body));
-        this.examDetails = response.body == null ? this.examDetails:response.body;
-      }
-    );
   }
 
   dateToString(date:Date):Date{
@@ -107,5 +103,19 @@ export class ExamDetailComponent implements OnInit {
 
   goToExamPart(examPart: ExamPart): void {
     this.router.navigate(['/add-exam-part', examPart.id]);
+  }
+
+  edit(){
+    this.editGradle = true;
+  }
+
+  submit(){
+    this.examService.editExam(this.exam).subscribe(()=>{
+      this.editGradle = false;
+    });
+  }
+
+  cancel(){
+    this.editGradle = false;
   }
 }

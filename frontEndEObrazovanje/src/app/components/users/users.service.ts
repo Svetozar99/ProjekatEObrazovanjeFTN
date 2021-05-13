@@ -14,7 +14,7 @@ export class UserService {
     private usersUrl = 'api/users';
     private loginUrl = 'api/login';
     private signUp = 'api/signup';
-    private studentURL = 'api/student/course-instance'
+    private studentURL = 'api/student'
 
     constructor(private http: HttpClient) { }
 
@@ -31,12 +31,12 @@ export class UserService {
     }
 
     getCourseInstanceStudents(courseInstance:CourseInstance): Observable<HttpResponse<Student[]>> {
-        const url = `${this.studentURL}/${courseInstance.id}`
+        const url = `${this.studentURL}/course-instance/${courseInstance.id}`
         return this.http.get<Student[]>(url, {observe: 'response'});
     }
 
     getCourseInstanceOtherStudents(courseInstance:CourseInstance): Observable<HttpResponse<Student[]>> {
-        const url = `${this.studentURL}/other-students/${courseInstance.id}`
+        const url = `${this.studentURL}/course-instance/other-students/${courseInstance.id}`
         return this.http.get<Student[]>(url, {observe: 'response'});
     }
 
@@ -47,6 +47,11 @@ export class UserService {
     getUser(id: number): Observable<HttpResponse<User>> {
         const url = `${this.usersUrl}/${id}`;
         return this.http.get<User>(url, {observe: 'response'});
+    }
+
+    getStudent(cardNumber: string): Observable<HttpResponse<Student>> {
+        const url = `${this.studentURL}/${cardNumber}`;
+        return this.http.get<Student>(url, {observe: 'response'});
     }
 
     getLoggedUser(): Observable<HttpResponse<User>> {

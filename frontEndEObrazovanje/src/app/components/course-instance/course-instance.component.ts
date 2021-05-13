@@ -123,4 +123,10 @@ export class CourseInstanceComponent implements OnInit {
     this.router.navigate(['course-instance/exam-parts/', this.courseInstance.id]);
   }
 
+  goToStudentDetail(cardNubmer:string):void{
+    console.log("CardNumber: "+cardNubmer);
+    console.log("Course id: "+this.courseInstance.id)
+    this.router.navigate(['student-exam-detail/', this.courseInstance.id,cardNubmer]);
+  }
+
 }

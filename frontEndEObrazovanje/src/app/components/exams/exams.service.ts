@@ -8,8 +8,6 @@ import { JWT } from "src/app/model/jwt";
 export class ExamsService{
     private examsUrl = 'api/exam';
 
-    private jwt: JWT={value:''};
-
     constructor(private http: HttpClient) { }
 
     private RegenerateData = new Subject<void>();
@@ -41,5 +39,9 @@ export class ExamsService{
     getExam(id: number): Observable<HttpResponse<Exam>> {
         const url = `${this.examsUrl}/${id}`;
         return this.http.get<Exam>(url, {observe: 'response'});
+    }
+
+    editExam(exam: Exam): Observable<HttpResponse<Exam>> {
+        return this.http.put<Exam>(this.examsUrl, exam, {observe: 'response'});
     }
 }

@@ -29,6 +29,12 @@ export class ExamPartService{
         }
         return this.http.get<ExamPart[]>(url, {observe: 'response'});
     }
+
+    getExamPartsForStudent(courseId:number,cardNumber: string): Observable<HttpResponse<ExamPart[]>>{
+        console.log('getExamPartsForStudent...')
+        var url = `${this.examDetailUrl}/${courseId}/${cardNumber}`;
+        return this.http.get<ExamPart[]>(url, {observe: 'response'});
+    }
     
     addExamPart(examPart: ExamPart): Observable<HttpResponse<ExamPart>> {
         return this.http.post<ExamPart>(this.examDetailUrl, examPart, {observe: 'response'});
