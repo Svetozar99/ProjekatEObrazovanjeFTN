@@ -6,6 +6,7 @@ import { switchMap } from 'rxjs/operators';
 import { AppComponent } from 'src/app/app.component';
 import { Exam } from 'src/app/model/exam';
 import { User } from 'src/app/model/user';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ExamsService } from './exams.service';
 
 @Component({
@@ -16,14 +17,14 @@ import { ExamsService } from './exams.service';
 export class ExamsComponent implements OnInit {
 
   // user: string | null = localStorage.getItem('loggedUser');
-  exams: Exam[] | null = [];
+  exams: Exam[] = [];
 
   public role: string = '';
   subscription: Subscription;
 
 
-  constructor(private examService:ExamsService, private router: Router, private route: ActivatedRoute, app: AppComponent) {
-    this.role = app.role == undefined ? this.role:app.role;
+  constructor(private examService:ExamsService, private router: Router, private route: ActivatedRoute,private authenticationService: AuthenticationService) {
+    this.role = this.authenticationService.getRole();
     this.subscription = examService.RegenerateData$.subscribe(() =>
     this.getExams());
   }
@@ -36,7 +37,7 @@ export class ExamsComponent implements OnInit {
   getExams(){
     this.examService.getExams(this.role).subscribe(
       response => {
-        this.exams = response.body
+        this.exams = response.body == null ? this.exams:response.body;
       });
   }
 

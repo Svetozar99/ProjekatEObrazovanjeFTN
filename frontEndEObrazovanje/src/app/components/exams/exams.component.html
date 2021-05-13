@@ -1,6 +1,7 @@
 <div class="main">
-    <h1 class="ml-5">Exams</h1>
-    <table class="table mx-auto w-75 mt-5">
+    <h1 *ngIf="exams.length > 0" class="ml-5">Exams</h1>
+    <h3 *ngIf="exams.length == 0" class="ml-5">You have no exams!</h3>
+    <table class="table mx-auto w-75 mt-5" *ngIf="exams.length > 0">
         <thead>
             <tr>
                 <th class="text-center">Title</th>
@@ -17,7 +18,7 @@
         </tbody>
         
     </table> 
-    <div *ngIf="role !== 'ROLE_STUDENT'" class="ml-5" style="float: right; margin-right: 15%;">
+    <!-- <div *ngIf="role !== 'ROLE_STUDENT'" class="ml-5" style="float: right; margin-right: 15%;">
         <a class="btn btn-outline-primary mt-3 ml-5" routerLink="/add-exam" role="button">Add</a>
-    </div>
+    </div> -->
 </div>

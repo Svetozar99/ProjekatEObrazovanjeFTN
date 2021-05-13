@@ -19,6 +19,7 @@ export class ExamPartService{
     }
 
     getExamParts(courseId: number,role:string|undefined): Observable<HttpResponse<ExamPart[]>>{
+        console.log("Get exam parts!"+role)
         var url = ``;
         this.courseId = courseId;
         if(role==='ROLE_ADMINISTRATOR'){

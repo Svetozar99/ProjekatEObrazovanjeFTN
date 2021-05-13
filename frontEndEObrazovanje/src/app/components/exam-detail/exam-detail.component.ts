@@ -6,6 +6,7 @@ import { switchMap } from 'rxjs/operators';
 import { AppComponent } from 'src/app/app.component';
 import { Exam } from 'src/app/model/exam';
 import { ExamPart } from 'src/app/model/examPart';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ExamsService } from '../exams/exams.service';
 import { ExamPartService } from './exam-detail.service';
 
@@ -18,7 +19,7 @@ export class ExamDetailComponent implements OnInit {
 
   title: String = "";
   exam: Exam;
-  examDetails: ExamPart[] | null = [];
+  examDetails: ExamPart[] = [];
   mode: string = '';
   role?: string = undefined;
   courseId:number = 0;
@@ -27,7 +28,7 @@ export class ExamDetailComponent implements OnInit {
       private examDetailService: ExamPartService,
       private examService: ExamsService, 
       private route: ActivatedRoute,
-      private app:AppComponent,
+      private authenticationService:AuthenticationService,
       private router: Router
     ) { 
     this.exam = {
@@ -61,24 +62,24 @@ export class ExamDetailComponent implements OnInit {
       gradle:0,
       points:0
     }
-    this.role = app.role;
+    this.role = this.authenticationService.getRole();
   }
 
   ngOnInit() {
+    console.log("Ng init: "+this.route)
     if(this.route.snapshot.params['examId']){
       this.route.params.pipe(switchMap((params: Params) =>
       this.examService.getExam(+params['examId'])))
       .subscribe(res =>{
         this.exam = res.body==null ? this.exam:res.body;
-          this.getExamParts(this.exam.enrollmentDTO.courseInstanceDTO.id);
+        this.getExamParts(this.exam.enrollmentDTO.courseInstanceDTO.id);
       }
       );
     }else if(this.route.snapshot.params['courseId']){
       this.route.params.pipe(switchMap((params: Params) =>
       this.examDetailService.getExamParts(+params['courseId'],this.role)))
       .subscribe(res =>{
-        // console.log('Exam details: '+JSON.stringify(res.body))
-        this.examDetails = res.body;
+        this.examDetails = res.body == null ? this.examDetails:res.body;
       }
       );
     }
@@ -89,7 +90,7 @@ export class ExamDetailComponent implements OnInit {
     this.examDetailService.getExamParts(courseId,this.role).subscribe(
       response => {
         // console.log('Exam details: '+JSON.stringify(response.body));
-        this.examDetails = response.body
+        this.examDetails = response.body == null ? this.examDetails:response.body;
       }
     );
   }
@@ -108,5 +109,4 @@ export class ExamDetailComponent implements OnInit {
   goToExamPart(examPart: ExamPart): void {
     this.router.navigate(['/add-exam-part', examPart.id]);
   }
-
 }

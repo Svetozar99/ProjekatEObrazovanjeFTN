@@ -37,6 +37,7 @@ import { CoursesSpecificationsComponent } from './components/courses-specificati
 import { ViewCourseSpecificationComponent } from './components/view-course-specification/view-course-specification.component';
 import { ExamPartTypeService } from './services/exam-part-type.service';
 import { ExamPartService } from './components/exam-detail/exam-detail.service';
+import { StudentComponent } from './components/student/student.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { ExamPartService } from './components/exam-detail/exam-detail.service';
     CoursesComponent,
     ViewCourseInstanceComponent,
     CoursesSpecificationsComponent,
-    ViewCourseSpecificationComponent
+    ViewCourseSpecificationComponent,
+    StudentComponent
   ],
   imports: [
     BrowserModule,

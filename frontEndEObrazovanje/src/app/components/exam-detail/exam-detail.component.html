@@ -39,7 +39,7 @@
             </tr>
         </tbody>
     </table>
-    <div *ngIf="role === 'ROLE_ADMINISTRATOR'" class="ml-5" style="float: right; margin-right: 15%;">
+    <div *ngIf="role !== 'ROLE_STUDENT'" class="ml-5" style="float: right; margin-right: 15%;">
         <a class="btn btn-outline-primary mt-3 ml-5" routerLink="/add-exam-part" role="button">Add</a>
     </div>
 </div>

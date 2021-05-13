@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { AuthenticationService } from './services/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,7 @@ export class AppComponent {
   title = 'frontEndEObrazovanje';
   collapsed = true;
 
-  constructor(private router: Router){}
+  constructor(private router: Router,private authenticationService:AuthenticationService){}
 
   checkRole() {
 		const item = localStorage.getItem('loggedUser');

@@ -1,5 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -10,7 +12,8 @@ export class AuthenticationService {
   private headers = new HttpHeaders({'Content-Type': 'application/json'});
 
 	constructor(
-		private http: HttpClient
+		private http: HttpClient,
+		private router: Router
 	) { }
 
 	login(auth: any): Observable<any> {
@@ -26,5 +29,18 @@ export class AuthenticationService {
 				return false;
 		}
 		return true;
+	}
+
+	getRole():string{
+		const item = localStorage.getItem('loggedUser');
+		if (!item) {
+			this.router.navigate(['login']);
+			return '';
+		}
+
+		const jwt: JwtHelperService = new JwtHelperService();
+		var	role = jwt.decodeToken(item).roles[0].authority;
+		console.log(role)
+		return role;
 	}
 }
