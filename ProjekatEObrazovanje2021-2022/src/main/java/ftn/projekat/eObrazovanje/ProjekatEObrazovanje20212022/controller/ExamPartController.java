@@ -122,7 +122,7 @@ public class ExamPartController {
 	
 	@PutMapping()
 	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
-	public ResponseEntity<List<ExamPartDTO>> updateExamPart(@RequestBody ExamPartDTO dto){
+	public ResponseEntity<List<ExamPartDTO>> updateExamParts(@RequestBody ExamPartDTO dto){
 		List<ExamPart> examParts = examPartS.findByCode(dto.getCode());
 		
 		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
@@ -139,6 +139,25 @@ public class ExamPartController {
 			examPart = examPartS.save(examPart);
 			dtos.add(new ExamPartDTO(examPart));
 		}
+		
+		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
+	}
+	
+	@PutMapping(value = "/one-exam-part")
+	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
+	public ResponseEntity<List<ExamPartDTO>> updateExamPart(@RequestBody ExamPartDTO dto){
+		System.out.println("\nAzuriram examPart");
+		ExamPart examPart = examPartS.findById(dto.getId());
+		ExamPartStatus examPartStatus = examPartStatusS.expsByCode(dto.getStatusDTO().getCode());
+		
+		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
+		if(examPart == null) {
+			return ResponseEntity.notFound().build();
+		}
+		examPart.setExamPartStatus(examPartStatus);
+		examPart.setWonPoints(dto.getWonPoints());
+		
+		examPart = examPartS.save(examPart);
 		
 		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
 	}

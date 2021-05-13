@@ -58,10 +58,10 @@ INSERT INTO exam_part_status(id,name,code) VALUES (4,'Canceled','ca');
 INSERT INTO exam_part_status(id,name,code) VALUES (5,'Registred','re');
 
 INSERT INTO exam_parts(id, date_exam_part, location, points,won_points,exam_id,exam_part_type_id,exam_part_status_id,code) 
-VALUES(1, '2021-03-21 13:15:00', 'Location1', 30,25, 1, 1, 2,'1-1');
+VALUES(1, '2021-03-21 13:15:00', 'Location1', 30,0, 1, 1, 2,'1-1');
 
 INSERT INTO exam_parts(id, date_exam_part, location, points,won_points,exam_id,exam_part_type_id,exam_part_status_id,code) 
-VALUES(4, '2021-03-30 13:15:00', 'Location2', 30,25, 1, 1, 2,'4-1');
+VALUES(4, '2021-03-30 13:15:00', 'Location2', 30,0, 1, 1, 2,'4-1');
 
 INSERT INTO exam_parts(id, date_exam_part, location, points,won_points,exam_id,exam_part_type_id,exam_part_status_id,code) 
 VALUES(2, '2021-03-21 13:15:00', 'Location1', 35,0, 2, 1, 2,'1-1');
