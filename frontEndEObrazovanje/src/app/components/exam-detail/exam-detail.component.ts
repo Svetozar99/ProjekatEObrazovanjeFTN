@@ -1,13 +1,13 @@
 import { splitAtColon } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AppComponent } from 'src/app/app.component';
 import { Exam } from 'src/app/model/exam';
-import { ExamDetail } from 'src/app/model/examDetail';
+import { ExamPart } from 'src/app/model/examPart';
 import { ExamsService } from '../exams/exams.service';
-import { ExamDetailService } from './exam-detail.service';
+import { ExamPartService } from './exam-detail.service';
 
 @Component({
   selector: 'app-exam-detail',
@@ -18,15 +18,18 @@ export class ExamDetailComponent implements OnInit {
 
   title: String = "";
   exam: Exam;
-  examDetails: ExamDetail[] | null = [];
+  examDetails: ExamPart[] | null = [];
   mode: string = '';
   role?: string = undefined;
   courseId:number = 0;
 
-  // subscription: Subscription;
-
-
-  constructor(private examDetailService: ExamDetailService,private examService: ExamsService, private route: ActivatedRoute,private app:AppComponent) { 
+  constructor(
+      private examDetailService: ExamPartService,
+      private examService: ExamsService, 
+      private route: ActivatedRoute,
+      private app:AppComponent,
+      private router: Router
+    ) { 
     this.exam = {
       id:0,
       enrollmentDTO:{
@@ -58,13 +61,11 @@ export class ExamDetailComponent implements OnInit {
       gradle:0,
       points:0
     }
-    this.mode = 'ADD';
     this.role = app.role;
   }
 
   ngOnInit() {
     if(this.route.snapshot.params['examId']){
-      this.mode = 'EDIT';
       this.route.params.pipe(switchMap((params: Params) =>
       this.examService.getExam(+params['examId'])))
       .subscribe(res =>{
@@ -102,6 +103,10 @@ export class ExamDetailComponent implements OnInit {
     // var pos=dateString.indexOf('T');
     // var s=dateString.substring(0,pos)+' '+dateString.substring(pos+1,dateString.length-5);
     return d;
+  }
+
+  goToExamPart(examPart: ExamPart): void {
+    this.router.navigate(['/add-exam-part', examPart.id]);
   }
 
 }

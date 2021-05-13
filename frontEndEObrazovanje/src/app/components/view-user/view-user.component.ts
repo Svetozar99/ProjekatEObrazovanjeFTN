@@ -19,7 +19,11 @@ export class ViewUserComponent implements OnInit {
 
   unassignedRoles: Role[] = [];
 
-  constructor(private userService: UserService, private route: ActivatedRoute,private location: Location) {
+  constructor(
+      private userService: UserService, 
+      private route: ActivatedRoute,
+      private location: Location) 
+  {
     this.user = new User({
       id:0,
       firstName:'',

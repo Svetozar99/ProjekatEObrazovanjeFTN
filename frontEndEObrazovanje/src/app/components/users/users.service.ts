@@ -45,7 +45,6 @@ export class UserService {
     }
 
     getUser(id: number): Observable<HttpResponse<User>> {
-        // console.log("jwt: "+JSON.stringify(this.jwt));
         const url = `${this.usersUrl}/${id}`;
         return this.http.get<User>(url, {observe: 'response'});
     }

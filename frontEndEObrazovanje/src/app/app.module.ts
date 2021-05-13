@@ -27,7 +27,6 @@ import { ViewUserComponent } from './components/view-user/view-user.component';
 import { ExamsService } from './components/exams/exams.service';
 import { DocumentsService } from './components/documents/documents.service';
 import { TeachingsService } from './components/teachings/teachings.service';
-import { ExamDetailService } from './components/exam-detail/exam-detail.service';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { AdminNavbarComponent } from './components/navbar/admin-navbar/admin-navbar.component';
 import { StudentNavbarComponent } from './components/navbar/student-navbar/student-navbar.component';
@@ -37,6 +36,7 @@ import { ViewCourseInstanceComponent } from './components/view-course-instance/v
 import { CoursesSpecificationsComponent } from './components/courses-specifications/courses-specifications.component';
 import { ViewCourseSpecificationComponent } from './components/view-course-specification/view-course-specification.component';
 import { ExamPartTypeService } from './services/exam-part-type.service';
+import { ExamPartService } from './components/exam-detail/exam-detail.service';
 
 @NgModule({
   declarations: [
@@ -72,7 +72,7 @@ import { ExamPartTypeService } from './services/exam-part-type.service';
     HttpClientModule,
     CommonModule
   ],
-  providers: [ExamPartTypeService, CoursesService, UserService, ExamsService, DocumentsService, TeachingsService, ExamDetailService,
+  providers: [ExamPartTypeService, CoursesService, UserService, ExamsService, DocumentsService, TeachingsService, ExamPartService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,

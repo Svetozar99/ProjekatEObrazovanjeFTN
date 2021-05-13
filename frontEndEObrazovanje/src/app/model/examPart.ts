@@ -1,7 +1,7 @@
 import { Exam } from "./exam";
 import { ExamPartType } from "./examPartType";
 import { ExamPartStatus } from "./examPartStatus";
-export class ExamDetail{
+export class ExamPart{
     public id: number;
     public date: Date;
     public location: String;
@@ -12,7 +12,7 @@ export class ExamDetail{
     public examPartTypeDTO: ExamPartType;
     public statusDTO: ExamPartStatus;
 
-    constructor(examDetailCfg:ExamDetail)
+    constructor(examDetailCfg:ExamPart)
     {
         this.id = examDetailCfg.id;
         this.date= examDetailCfg.date;
