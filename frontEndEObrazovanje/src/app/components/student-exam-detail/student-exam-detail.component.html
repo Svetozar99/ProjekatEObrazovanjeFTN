@@ -22,7 +22,7 @@
             <b>ECTS:</b> <input type="text" readonly class="form-control ml-2 col-6 text-center" [(ngModel)]="exam.enrollmentDTO.courseInstanceDTO.courseSpecificationDTO.ects">
         </div>
     </div>
-    <table class="table mx-auto w-75 mt-5">
+    <table class="table mx-auto w-90 mt-5">
         <thead>
             <tr>
                 <th class="text-center">Date</th>
@@ -39,10 +39,20 @@
                 <td class="text-center">{{ dateToString(e.date) | date:'medium'}}</td>
                 <td class="text-center">{{ e.location }}</td>
                 <td class="text-center">{{ e.points }}</td>
-                <td class="text-center">{{ e.wonPoints }}</td>
-                <td class="text-center">{{ e.statusDTO.name }}</td>
+                <td class="text-center" *ngIf="!isIn(e.id)">{{ e.wonPoints }}</td>
+                <td class="text-center w-15" *ngIf="isIn(e.id)"><input [(ngModel)]="examPart.wonPoints" type="text" class="form-control col-5 text-center d-inline-block" value="{{ e.wonPoints }}"></td>
+                <td class="text-center" *ngIf="!isIn(e.id)">{{ e.statusDTO.name }}</td>
+                <td class="text-center w-20" *ngIf="isIn(e.id)">
+                    <select class="form-control text-center col-8 d-inline-block" [(ngModel)]="examPart.statusDTO.code">
+                        <option *ngFor="let s of examPartStatuss" value="{{s.code}}">{{s.name}}</option>
+                    </select>
+                </td>
                 <td class="text-center">{{ e.examPartTypeDTO.name }}</td>
-                <td><button *ngIf="role === 'ROLE_ADMINISTRATOR'" type="button" class="ml-1 btn-primary rounded" (click)="goToExamPart(e)">🖉</button></td>
+                <td>
+                    <button type="button" class="ml-1 btn-primary rounded" *ngIf="!isIn(e.id)" (click)="editExamPart(e)">🖉</button>
+                    <button type="button" class="ml-1 btn-primary rounded" *ngIf="isIn(e.id)" (click)="submitExamPart()">✓</button>
+                    <button type="button" class="ml-1 btn-primary rounded" *ngIf="isIn(e.id)" (click)="cancelExamPart()">X</button>
+                </td>
             </tr>
         </tbody>
     </table>

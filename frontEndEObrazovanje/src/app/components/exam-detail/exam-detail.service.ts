@@ -41,7 +41,8 @@ export class ExamPartService{
     }
 
     editExamPart(examPart: ExamPart): Observable<HttpResponse<ExamPart>> {
-        return this.http.put<ExamPart>(this.examDetailUrl, examPart, {observe: 'response'});
+        const url = `${this.examDetailUrl}/one-exam-part`
+        return this.http.put<ExamPart>(url, examPart, {observe: 'response'});
     }
 
     getExamPart(id: number): Observable<HttpResponse<ExamPart>> {
