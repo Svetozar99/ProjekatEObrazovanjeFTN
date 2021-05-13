@@ -77,6 +77,21 @@ public class ExamPartController {
 		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/{courseId}/{cardNumber}")
+//	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
+	public ResponseEntity<List<ExamPartDTO>> getAllForCardNumber(@PathVariable("courseId") Long courseId,@PathVariable("cardNumber") String cardNumber){
+		System.out.println("\nZa odredjenog studenta");
+		List<ExamPart> examParts = examPartS.findByCardNumAndCourse(cardNumber, courseId);
+		
+		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
+		
+		for (ExamPart examPart : examParts) {
+			dtos.add(new ExamPartDTO(examPart));
+		}
+		System.out.println(examParts.size());
+		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "/course-instance/{courseId}")
 	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<List<ExamPartDTO>> getAllForCourseInstance(@PathVariable("courseId") Long courseId){
@@ -136,7 +151,6 @@ public class ExamPartController {
 		ExamPartType examPartType = examPartTypeS.findByCode(dto.getExamPartTypeDTO().getCode());
 		ExamPartStatus examPartStatus = examPartStatusS.expsByCode("cr");
 		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
-		System.out.println("Max id je: "+examPartS.maxId());
 		long maxId = examPartS.maxId()+1;
 		String code = dto.getExamDTO().getEnrollmentDTO().getCourseInstanceDTO().getId()+"-"+maxId;
 		for (Exam exam : exams) {
@@ -228,14 +242,13 @@ public class ExamPartController {
 			exampart.setExam(exam);
 			exampart.setExamPartType(examPartType);
 			exampart.setExamPartStatus(exp);
+			exampart = examPartS.save(exampart);
+			exam.getExamParts().add(exampart);
 			if(exampart.getExamPartStatus().getCode().equals("pa")) {
-				Integer oldPoints = exampart.getExam().getPoints();
-				exampart.getExam().setPoints(oldPoints + dto.getWonPoints());
-				exampart.getExam().setGradle();
+				exampart.getExam().setPoints();
 				examS.save(exampart.getExam());
 			}
 			
-			exampart = examPartS.save(exampart);
 			expdto.add(new ExamPartDTO(exampart));
 		}
 		

@@ -128,7 +128,7 @@ public class UserController {
 				Date date = new Date();
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(date);
-				String cardNumber = "S/"+studentS.maxId()+"-"+calendar.get(Calendar.YEAR);
+				String cardNumber = "S-"+studentS.maxId()+"-"+calendar.get(Calendar.YEAR);
 				student.setCardNumber(cardNumber);
 				student.setUser(user);
 				studentS.save(student);
@@ -268,7 +268,7 @@ public class UserController {
 					Date date = new Date();
 					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(date);
-					String cardNumber = "S/"+studentS.maxId()+"-"+calendar.get(Calendar.YEAR);
+					String cardNumber = "S-"+studentS.maxId()+"-"+calendar.get(Calendar.YEAR);
 					student.setCardNumber(cardNumber);
 					student.setUser(user);
 					studentS.save(student);

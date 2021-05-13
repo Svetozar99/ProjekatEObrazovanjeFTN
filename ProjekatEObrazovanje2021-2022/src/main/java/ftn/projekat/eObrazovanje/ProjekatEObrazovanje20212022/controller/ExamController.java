@@ -84,14 +84,13 @@ public class ExamController {
 	@PutMapping()
 	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<ExamDTO> updateExam(@RequestBody ExamDTO dto){
+		System.out.println("\nAzuriram exam\n");
 		Exam exam = examS.findById(dto.getId());
-		Enrollment enrollment = enrollmentS.findById(dto.getEnrollmentDTO().getId());
 		if(exam == null) {
 			return ResponseEntity.notFound().build();
 		}
-		exam.setPoints(dto.getPoints());
-		exam.setGradle();
-		exam.setEnrollment(enrollment);
+		exam.setPoints();
+		exam.setGradle(dto.getGradle());
 		
 		exam = examS.save(exam);
 		
@@ -103,8 +102,8 @@ public class ExamController {
 	public ResponseEntity<ExamDTO> saveExam(@RequestBody ExamDTO dto){
 		Exam exam = new Exam();
 		Enrollment enrollment = enrollmentS.findById(dto.getEnrollmentDTO().getId());
-		exam.setPoints(dto.getPoints());
-		exam.setGradle();
+		exam.setPoints();
+		exam.setGradle(dto.getGradle());
 		exam.setEnrollment(enrollment);
 		
 		exam = examS.save(exam);
@@ -167,8 +166,8 @@ public class ExamController {
 		Enrollment enrollment = enrollmentS.findById(dto.getEnrollmentDTO().getId());
 		enrollment.setStudent(studServ.findByUser(username));
 		enrollment = enrollmentS.save(enrollment);
-		exam.setPoints(0);
-		exam.setGradle();
+		exam.setPoints();
+		exam.setGradle(dto.getGradle());
 		exam.setEnrollment(enrollment);
 		
 		exam = examS.save(exam);

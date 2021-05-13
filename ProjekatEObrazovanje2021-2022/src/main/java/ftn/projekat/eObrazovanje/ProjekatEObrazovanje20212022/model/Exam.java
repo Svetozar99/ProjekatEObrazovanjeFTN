@@ -45,29 +45,35 @@ public class Exam extends JpaEntity {
 	}
 
 	public Integer getPoints() {
-		return points;
+		int p = 0;
+		for (ExamPart examPart : this.examParts) {
+			p = p+examPart.getWonPoints();
+		}
+		return p;
 	}
 
-	public void setPoints(Integer points) {
-		this.points = points;
+	public void setPoints() {
+		this.points = this.getPoints();
 	}
 
 	public Integer getGradle() {
+//		int p = this.getPoints();
+//		if(p >= 51 && p < 61) {
+//			this.gradle = 6;
+//		}else if(p >= 61 && p < 71) {
+//			this.gradle = 7;
+//		}else if(p >= 71 && p < 81) {
+//			this.gradle = 8;
+//		}else if(p >= 81 && p < 91) {
+//			this.gradle = 9;
+//		}else if(p >= 91 && p <= 100) {
+//			this.gradle = 10;
+//		}
 		return gradle;
 	}
 
-	public void setGradle() {
-		if(this.points >= 51 && this.points < 61) {
-			this.gradle = 6;
-		}else if(this.points >= 61 && this.points < 71) {
-			this.gradle = 7;
-		}else if(this.points >= 71 && this.points < 81) {
-			this.gradle = 8;
-		}else if(this.points >= 81 && this.points < 91) {
-			this.gradle = 9;
-		}else if(this.points >= 91 && this.points <= 100) {
-			this.gradle = 10;
-		}
+	public void setGradle(int gradle) {
+		this.gradle = gradle;
 	}
 
 	public Enrollment getEnrollment() {
