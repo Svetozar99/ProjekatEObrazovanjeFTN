@@ -113,8 +113,6 @@ export class ExamDetailComponent implements OnInit {
 
   checkValue(examDetail:ExamPart){
     examDetail.statusDTO.code = examDetail.statusDTO.code === 'cr' ? 're':'cr';
-    this.examDetailService.registeUnregisterExamPart(examDetail).subscribe(res=>{
-      console.log(JSON.stringify(res.body))
-    })
+    this.examDetailService.registeUnregisterExamPart(examDetail).subscribe();
   }
 }

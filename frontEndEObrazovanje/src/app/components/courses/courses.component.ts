@@ -44,4 +44,10 @@ export class CoursesComponent implements OnInit {
     this.router.navigate(['/course-instance', courseInstance.id]);
   }
 
+  dateToString(date:Date):Date{
+    var d = new Date(date);
+    d.setHours(d.getHours()-1);
+    return d;
+  }
+
 }

@@ -1,9 +1,9 @@
-export class TypeDocumentt{
+export class TypeDocument{
     public id: number;
     public name: string;
     public code: string;
 
-    constructor(typeDocumentCfg: TypeDocumentt)
+    constructor(typeDocumentCfg: TypeDocument)
     {
         this.id = typeDocumentCfg.id;
         this.name= typeDocumentCfg.name;

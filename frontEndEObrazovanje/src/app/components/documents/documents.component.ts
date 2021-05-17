@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { Documentt } from 'src/app/model/document';
+import { Document } from 'src/app/model/document';
 import { User } from 'src/app/model/user';
 import { DocumentsService } from './documents.service';
 
@@ -14,7 +14,7 @@ import { DocumentsService } from './documents.service';
 export class DocumentsComponent implements OnInit {
 
   user: User = { id:0, firstName:"", lastName:"", userName:"",password:"", roles:[]};
-  documentss : Documentt[] | null = [];
+  documentss : Document[] | null = [];
 
   subscription: Subscription;
 
@@ -38,7 +38,7 @@ export class DocumentsComponent implements OnInit {
       });
   }
 
-  goToViewDocument(doc: Documentt): void{
+  goToViewDocument(doc: Document): void{
     this.router.navigate(['/document', doc.id]);
   }
 }

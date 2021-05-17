@@ -42,6 +42,9 @@ import { ExamPartStatusService } from './services/exam-part-status.service';
 import { AccountService } from './components/account/account.service';
 import { PaymentComponent } from './components/payment/payment.component';
 import { PaymentService } from './components/payment/payment.service';
+import { DocumentService } from './components/document/document.service';
+import { AngularFileUploaderModule } from 'angular-file-uploader';
+import { DocumentTypeService } from './services/document-type.service';
 
 @NgModule({
   declarations: [
@@ -72,6 +75,7 @@ import { PaymentService } from './components/payment/payment.service';
     PaymentComponent,
   ],
   imports: [
+    AngularFileUploaderModule,
     BrowserModule,
     AppRoutingModule,
     NgbModule,
@@ -79,7 +83,7 @@ import { PaymentService } from './components/payment/payment.service';
     HttpClientModule,
     CommonModule
   ],
-  providers: [ExamPartStatusService, ExamPartTypeService, CoursesService, UserService, ExamsService, DocumentsService, TeachingsService,AccountService, PaymentService, ExamPartService,
+  providers: [DocumentTypeService,DocumentService,ExamPartStatusService, ExamPartTypeService, CoursesService, UserService, ExamsService, DocumentsService, TeachingsService,AccountService, PaymentService, ExamPartService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,

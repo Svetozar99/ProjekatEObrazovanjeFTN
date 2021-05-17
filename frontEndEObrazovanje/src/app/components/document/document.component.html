@@ -2,18 +2,21 @@
     <h1>Document</h1>
     <div class="mt-5">
         <b>Title:</b>
-        <input type="text" class="form-control col-2 d-inline ml-2">
-    </div>
-    <div class="mt-2 ml-50">
-        <b>URL:</b>
-        <input type="text" class="form-control col-2 d-inline ml-2">
+        <input type="text" [(ngModel)]="document.title" class="form-control col-2 d-inline ml-2">
     </div>
     <div class="mt-2 ml-50">
         <b>Type:</b>
-        <input type="text" class="form-control col-2 d-inline ml-2">
+        <!-- <input type="text" [(ngModel)]="document.typeDocumentDTO.code" class="form-control col-2 d-inline ml-2"> -->
+        <select class="form-control col-2 d-inline ml-2" [(ngModel)]="document.typeDocumentDTO.code">
+            <option *ngFor="let t of documentTypes;" value="{{t.code}}">{{t.name}}</option>
+        </select>
+    </div>
+    <div class="mt-2 ml-50">
+        <input type="file" class="form-control col-3 d-inline"
+            (change)="onFileSelected($event)">
     </div>
     <div class="ml-5">
-        <button type="button" class="btn btn-outline-primary mt-3 ml-5">SAVE</button>
+        <button type="button" class="btn btn-outline-primary mt-3 ml-5" (click)="submitDocument()">SAVE</button>
         <button type="button" class="btn btn-outline-warning mt-3 ml-1">EDIT</button>
         <button type="button" class="btn btn-outline-danger mt-3 ml-1">DELETE</button>
     </div>

@@ -1,14 +1,14 @@
 import { Student } from "./student";
-import { TypeDocumentt } from "./typeDocument";
+import { TypeDocument } from "./typeDocument";
 
-export class Documentt{
+export class Document{
     public id: number;
     public title: string;
     public url: string;
-    public typeDocumentDTO: TypeDocumentt;
+    public typeDocumentDTO: TypeDocument;
     public studentDTO: Student;
 
-    constructor(documentCfg: Documentt)
+    constructor(documentCfg: Document)
     {
         this.id = documentCfg.id;
         this.title= documentCfg.title;
