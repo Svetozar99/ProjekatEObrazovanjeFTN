@@ -215,20 +215,26 @@ public class ExamPartController {
 		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
 	}
 	
-	@PutMapping(value = "register-exam-part/{id}/account/{acc-id}")
+	@PutMapping(value = "register-unregister-exam-part")
 	@PreAuthorize("hasAnyRole('ROLE_STUDENT')")
-	public ResponseEntity<ExamPartDTO> registerMyExamPart(@PathVariable("id") Long id,  @PathVariable("acc-id") Long accid){
-		ExamPart examPart = examPartS.findById(id);
-		ExamPartStatus examPartStatus = examPartStatusS.expsByCode("re");
+	public ResponseEntity<ExamPartDTO> registerMyExamPart(@RequestBody ExamPartDTO dto,Principal principal){
+		ExamPart examPart = examPartS.findById(dto.getId());
+		ExamPartStatus examPartStatus = examPartStatusS.expsByCode(dto.getStatusDTO().getCode());
 		if(examPart == null) {
 			return ResponseEntity.notFound().build();
 		}
-		Account acc = accSevice.findById(accid);
-		if(acc.getAmount() <= 0) {
-			throw new ResponseStatusException(
-			          HttpStatus.NOT_FOUND, "Nema dovoljno novca na računu");
+		Account acc = accSevice.findByUsername(principal.getName()).get(0);
+		if(examPartStatus.getCode().equals("re")) {
+			if(acc.getAmount() <= 0) {
+				throw new ResponseStatusException(
+						HttpStatus.NOT_FOUND, "Nema dovoljno novca na računu");
+			}else {
+				Double amount = acc.getAmount() - 200;
+				acc.setAmount(amount);
+				acc = accSevice.save(acc);
+			}
 		}else {
-			Double amount = acc.getAmount() - 200;
+			Double amount = acc.getAmount() + 200;
 			acc.setAmount(amount);
 			acc = accSevice.save(acc);
 		}
@@ -238,39 +244,39 @@ public class ExamPartController {
 		return new ResponseEntity<ExamPartDTO>(new ExamPartDTO(examPart), HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/register-exam-part")
-	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
-	public ResponseEntity<List<ExamPartDTO>> registerExamPart(@RequestBody ExamPartDTO dto){
-		List<ExamPartDTO> expdto = new ArrayList<ExamPartDTO>();
-		
-//		String username = principal.getName(); 
-		Enrollment enrollment = enrollmentS.findById(dto.getExamDTO().getEnrollmentDTO().getId());
-		Exam exam = examS.findById(dto.getExamDTO().getId());
-		ExamPartType examPartType = examPartTypeS.findById(dto.getExamPartTypeDTO().getId());
-		ExamPartStatus exp = examPartStatusS.expsByCode("cr");
-		List<Enrollment> enrollments = enrollment.getCourseInstance().getEnrollments();
-		for(Enrollment e : enrollments) {
-			ExamPart exampart = new ExamPart();
-			Student st = e.getStudent();
-			enrollment.setStudent(st);
-			enrollment = enrollmentS.save(enrollment);
-			
-			exampart.setPoints(dto.getPoints());
-			exampart.setDate(dto.getDate());
-			exampart.setLocation(dto.getLocation());
-			exampart.setExam(exam);
-			exampart.setExamPartType(examPartType);
-			exampart.setExamPartStatus(exp);
-			exampart = examPartS.save(exampart);
-			exam.getExamParts().add(exampart);
-			if(exampart.getExamPartStatus().getCode().equals("pa")) {
-				exampart.getExam().setPoints();
-				examS.save(exampart.getExam());
-			}
-			
-			expdto.add(new ExamPartDTO(exampart));
-		}
-		
-		return new ResponseEntity<List<ExamPartDTO>>(expdto, HttpStatus.CREATED);
-	}
+//	@PostMapping(value = "/register-exam-part")
+//	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
+//	public ResponseEntity<List<ExamPartDTO>> registerExamPart(@RequestBody ExamPartDTO dto){
+//		List<ExamPartDTO> expdto = new ArrayList<ExamPartDTO>();
+//		
+////		String username = principal.getName(); 
+//		Enrollment enrollment = enrollmentS.findById(dto.getExamDTO().getEnrollmentDTO().getId());
+//		Exam exam = examS.findById(dto.getExamDTO().getId());
+//		ExamPartType examPartType = examPartTypeS.findById(dto.getExamPartTypeDTO().getId());
+//		ExamPartStatus exp = examPartStatusS.expsByCode("cr");
+//		List<Enrollment> enrollments = enrollment.getCourseInstance().getEnrollments();
+//		for(Enrollment e : enrollments) {
+//			ExamPart exampart = new ExamPart();
+//			Student st = e.getStudent();
+//			enrollment.setStudent(st);
+//			enrollment = enrollmentS.save(enrollment);
+//			
+//			exampart.setPoints(dto.getPoints());
+//			exampart.setDate(dto.getDate());
+//			exampart.setLocation(dto.getLocation());
+//			exampart.setExam(exam);
+//			exampart.setExamPartType(examPartType);
+//			exampart.setExamPartStatus(exp);
+//			exampart = examPartS.save(exampart);
+//			exam.getExamParts().add(exampart);
+//			if(exampart.getExamPartStatus().getCode().equals("pa")) {
+//				exampart.getExam().setPoints();
+//				examS.save(exampart.getExam());
+//			}
+//			
+//			expdto.add(new ExamPartDTO(exampart));
+//		}
+//		
+//		return new ResponseEntity<List<ExamPartDTO>>(expdto, HttpStatus.CREATED);
+//	}
 }
