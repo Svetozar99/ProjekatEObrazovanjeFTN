@@ -33,7 +33,9 @@
                 <td class="text-center">{{ e.location }}</td>
                 <td class="text-center">{{ e.points }}</td>
                 <td *ngIf="role === 'ROLE_STUDENT'" class="text-center">{{ e.wonPoints }}</td>
-                <td *ngIf="role === 'ROLE_STUDENT'" class="text-center">{{ e.statusDTO.name }}</td>
+                <td *ngIf="role === 'ROLE_STUDENT' && isChecked(e.id)==='cr'" class="text-center"><input type="checkbox" (change)="checkValue(e)"></td>
+                <td *ngIf="role === 'ROLE_STUDENT' && isChecked(e.id)==='re'" class="text-center"><input type="checkbox" checked (change)="checkValue(e)"></td>
+                <td *ngIf="role === 'ROLE_STUDENT' && isChecked(e.id)!=='re' && isChecked(e.id)!=='cr'" class="text-center">{{ e.statusDTO.name }}</td>
                 <td class="text-center">{{ e.examPartTypeDTO.name }}</td>
                 <td><button *ngIf="role === 'ROLE_ADMINISTRATOR'" type="button" class="ml-1 btn-primary rounded" (click)="goToExamPart(e)">🖉</button></td>
             </tr>

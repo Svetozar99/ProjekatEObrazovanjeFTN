@@ -1,9 +1,6 @@
-import { splitAtColon } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { AppComponent } from 'src/app/app.component';
 import { Exam } from 'src/app/model/exam';
 import { ExamPart } from 'src/app/model/examPart';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -107,5 +104,17 @@ export class ExamDetailComponent implements OnInit {
 
   goToExamPart(examPart: ExamPart): void {
     this.router.navigate(['/add-exam-part', examPart.id]);
+  }
+
+  isChecked(id:number):string{
+    var status = this.examDetails.filter(ed=>ed.id===id)[0].statusDTO.code;
+    return status;
+  }
+
+  checkValue(examDetail:ExamPart){
+    examDetail.statusDTO.code = examDetail.statusDTO.code === 'cr' ? 're':'cr';
+    this.examDetailService.registeUnregisterExamPart(examDetail).subscribe(res=>{
+      console.log(JSON.stringify(res.body))
+    })
   }
 }
