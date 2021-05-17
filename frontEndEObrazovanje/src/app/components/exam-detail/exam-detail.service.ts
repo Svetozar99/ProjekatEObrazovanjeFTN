@@ -45,6 +45,11 @@ export class ExamPartService{
         return this.http.put<ExamPart>(url, examPart, {observe: 'response'});
     }
 
+    registeUnregisterExamPart(examPart: ExamPart): Observable<HttpResponse<ExamPart>> {
+        const url = `${this.examDetailUrl}/register-unregister-exam-part`
+        return this.http.put<ExamPart>(url, examPart, {observe: 'response'});
+    }
+
     getExamPart(id: number): Observable<HttpResponse<ExamPart>> {
         const url = `${this.examDetailUrl}/${id}`;
         return this.http.get<ExamPart>(url, {observe: 'response'});
