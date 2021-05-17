@@ -1,5 +1,7 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Document;
 
 public class DocumentDTO {
