@@ -39,6 +39,9 @@ import { ExamPartTypeService } from './services/exam-part-type.service';
 import { ExamPartService } from './components/exam-detail/exam-detail.service';
 import { StudentExamDetailComponent } from './components/student-exam-detail/student-exam-detail.component';
 import { ExamPartStatusService } from './services/exam-part-status.service';
+import { AccountService } from './components/account/account.service';
+import { PaymentComponent } from './components/payment/payment.component';
+import { PaymentService } from './components/payment/payment.service';
 
 @NgModule({
   declarations: [
@@ -66,6 +69,7 @@ import { ExamPartStatusService } from './services/exam-part-status.service';
     CoursesSpecificationsComponent,
     ViewCourseSpecificationComponent,
     StudentExamDetailComponent,
+    PaymentComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,7 +79,7 @@ import { ExamPartStatusService } from './services/exam-part-status.service';
     HttpClientModule,
     CommonModule
   ],
-  providers: [ExamPartStatusService, ExamPartTypeService, CoursesService, UserService, ExamsService, DocumentsService, TeachingsService, ExamPartService,
+  providers: [ExamPartStatusService, ExamPartTypeService, CoursesService, UserService, ExamsService, DocumentsService, TeachingsService,AccountService, PaymentService, ExamPartService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,

@@ -2,7 +2,7 @@
     <h1 class="ml-5">Account</h1>
     <div class="ml-125">
         <b>Amount:</b>
-        <input type="text" class="form-control col-2 d-inline ml-2 mt-2" readonly>
+        <input type="text" class="form-control col-2 d-inline ml-2 mt-2" readonly [(ngModel)]="account.amount">
     </div>
     <h4 class="text-center mt-2">List of payments</h4>
     <table class="table mx-auto w-75 mt-2">
@@ -14,15 +14,10 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td class="text-center">15-01-2021</td>
-                <td class="text-center">2000</td>
-                <td class="text-center">Overa semestra</td>
-            </tr>
-            <tr>
-                <td class="text-center">20-01-2021</td>
-                <td class="text-center">1500</td>
-                <td class="text-center">Prijava ispita</td>
+            <tr *ngFor="let p of account.payments;">
+                <td class="text-center">{{ dateToString(p.date) | date:'mediumDate' }}</td>
+                <td class="text-center">{{ p.amount }}</td>
+                <td class="text-center">{{ p.note }}</td>
             </tr>
         </tbody>
         
