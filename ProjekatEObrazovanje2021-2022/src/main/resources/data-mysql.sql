@@ -24,6 +24,7 @@ INSERT INTO administrators(id, user_id) VALUES(1, 2);
 INSERT INTO teachers(id, user_id) VALUES(1, 3);
 
 INSERT INTO ACCOUNTS(id, amount, student_id) VALUES(1, 1000, 1);
+INSERT INTO ACCOUNTS(id, amount, student_id) VALUES(2, 500, 2);
 
 INSERT INTO course_specification(id, title, ects, code) VALUE(1, 'eObrazovanje', 7, 'eObr');
 INSERT INTO course_specification(id, title, ects, code) VALUE(2, 'eUprava', 6, 'eUpr');
