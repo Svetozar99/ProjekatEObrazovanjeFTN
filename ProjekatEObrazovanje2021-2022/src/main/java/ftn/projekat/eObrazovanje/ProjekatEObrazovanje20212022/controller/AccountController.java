@@ -45,10 +45,10 @@ public class AccountController {
 //		return new ResponseEntity<List<AccountDTO>>(accountDTOs, HttpStatus.OK);
 //	}
 	
-	@GetMapping(value = "/{id}")
+	@GetMapping(value = "/one-account")
 	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
-	public ResponseEntity<AccountDTO> getOneAccount(@PathVariable("id") Long id){
-		Account account = accountService.findById(id);
+	public ResponseEntity<AccountDTO> getOneAccount(Principal principal){
+		Account account = accountService.findByUsername(principal.getName()).get(0);
 		if(account == null) {
 			return new ResponseEntity<AccountDTO>(HttpStatus.NOT_FOUND);
 		}

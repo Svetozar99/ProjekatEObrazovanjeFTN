@@ -69,4 +69,4 @@ INSERT INTO exam_parts(id, date_exam_part, location, points, won_points,exam_id,
 VALUES(3, '2021-03-21 13:17:00', 'Location2', 15,10, 4, 1, 3,'2-1');
 
 INSERT INTO payments(id, currency, amount, date_payment, urgently, note, account_id)
-VALUES (id, 'din', 2000, '2021-03-21', 0, 'Overa semestra', 1)
+VALUES (id, 'din', 3000, '2021-03-21', 0, 'Overa semestra', 1)
