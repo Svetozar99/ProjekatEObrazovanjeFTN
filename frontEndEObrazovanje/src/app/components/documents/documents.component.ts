@@ -14,7 +14,7 @@ import { DocumentsService } from './documents.service';
 export class DocumentsComponent implements OnInit {
 
   user: User = { id:0, firstName:"", lastName:"", userName:"",password:"", roles:[]};
-  documentss : Document[] | null = [];
+  documents : Document[] | null = [];
 
   subscription: Subscription;
 
@@ -26,7 +26,7 @@ export class DocumentsComponent implements OnInit {
   ngOnInit():void { 
         this.documentsService.getStudentDocuments()
         .subscribe(res => {
-          this.documentss = res.body;
+          this.documents = res.body;
         });
   }
 
@@ -34,8 +34,15 @@ export class DocumentsComponent implements OnInit {
     console.log("Get documents!");
     this.documentsService.getStudentDocuments().subscribe(
       response => {
-        this.documentss = response.body;
+        this.documents = response.body;
       });
+  }
+
+  deleteDocument(document: Document): void {
+    console.log("Brisem: "+JSON.stringify(document));
+    this.documentsService.deleteDocument(document.id).subscribe(
+      () => this.geStudentDocuments()
+    );
   }
 
   goToViewDocument(doc: Document): void{

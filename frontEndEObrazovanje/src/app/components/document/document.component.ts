@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Document } from 'src/app/model/document';
 import { Student } from 'src/app/model/student';
@@ -5,7 +6,7 @@ import { TypeDocument } from 'src/app/model/typeDocument';
 import { Url } from 'src/app/model/url';
 import { User } from 'src/app/model/user';
 import { DocumentTypeService } from 'src/app/services/document-type.service';
-import { DocumentService } from './document.service';
+import { DocumentsService } from '../documents/documents.service';
 
 @Component({
   selector: 'app-document',
@@ -19,7 +20,7 @@ export class DocumentComponent implements OnInit {
   document: Document;
   documentTypes:TypeDocument[] = [];
 
-  constructor(private documentService:DocumentService,private documentTypeService:DocumentTypeService) {
+  constructor(private documentsService:DocumentsService,private documentTypeService:DocumentTypeService,private location: Location) {
     this.fileToUpload = new File(new Array<Blob>(), "Mock.zip", { type: 'application/zip' });
     this.document = new Document(
       {
@@ -66,13 +67,18 @@ export class DocumentComponent implements OnInit {
 
       formData.append("file", this.fileToUpload);
 
-      this.documentService.addFile(formData).subscribe(res=>{
+      this.documentsService.addFile(formData).subscribe(res=>{
         const url:Url = res.body == null ? new Url({url:''}):res.body;
         this.document.url = url.url;
         console.log("Document: "+JSON.stringify(this.document))
-        this.documentService.addDocument(this.document).subscribe();
+        this.documentsService.addDocument(this.document).subscribe(()=>{
+          this.goBack();
+        });
       });
-  }
+    }
   }
 
+  goBack(): void {
+    this.location.back();
+  }
 }
