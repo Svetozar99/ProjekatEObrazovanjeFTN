@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { CourseInstance } from 'src/app/model/courseInstance';
 import { CourseSpecification } from 'src/app/model/courseSpecification';
 import { Enrollment } from 'src/app/model/enrollment';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class CoursesService {
 
   private enrolmentUrl = 'api/enrollment';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private authS:AuthenticationService) { }
 
   private RegenerateData = new Subject<void>();
 
@@ -27,7 +28,13 @@ export class CoursesService {
   }
 
   getCoursesInstances():Observable<HttpResponse<CourseInstance[]>> {
-    return this.http.get<CourseInstance[]>(this.coursesInstanceUrl, {observe: 'response'});
+    var url = '';
+    if(this.authS.getRole()==='ROLE_ADMINISTRATOR'){
+      url = this.coursesInstanceUrl;
+    }else if(this.authS.getRole()==='ROLE_TEACHER'){
+      url = `${this.coursesInstanceUrl}/teacher`
+    }
+    return this.http.get<CourseInstance[]>(url, {observe: 'response'});
   }
 
   getCoursesSpecifications():Observable<HttpResponse<CourseSpecification[]>> {

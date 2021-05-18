@@ -37,7 +37,7 @@
                 <td *ngIf="role === 'ROLE_STUDENT' && isChecked(e.id)==='re'" class="text-center"><input type="checkbox" checked (change)="checkValue(e)"></td>
                 <td *ngIf="role === 'ROLE_STUDENT' && isChecked(e.id)!=='re' && isChecked(e.id)!=='cr'" class="text-center">{{ e.statusDTO.name }}</td>
                 <td class="text-center">{{ e.examPartTypeDTO.name }}</td>
-                <td><button *ngIf="role === 'ROLE_ADMINISTRATOR'" type="button" class="ml-1 btn-primary rounded" (click)="goToExamPart(e)">🖉</button></td>
+                <td><button *ngIf="role === 'ROLE_ADMINISTRATOR' || role === 'ROLE_TEACHER'" type="button" class="ml-1 btn-primary rounded" (click)="goToExamPart(e)">🖉</button></td>
             </tr>
         </tbody>
     </table>

@@ -22,7 +22,7 @@ export class ExamPartService{
         console.log("Get exam parts!"+role)
         var url = ``;
         this.courseId = courseId;
-        if(role==='ROLE_ADMINISTRATOR'){
+        if(role==='ROLE_ADMINISTRATOR' || role==='ROLE_TEACHER'){
             url = `${this.examDetailUrl}/course-instance/${courseId}`;
         }else if(role === 'ROLE_STUDENT'){
             url = `${this.examDetailUrl}/student/${courseId}`;

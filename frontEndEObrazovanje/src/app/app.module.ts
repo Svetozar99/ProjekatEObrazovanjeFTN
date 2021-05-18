@@ -43,10 +43,14 @@ import { AccountService } from './components/account/account.service';
 import { PaymentComponent } from './components/payment/payment.component';
 import { PaymentService } from './components/payment/payment.service';
 import { DocumentTypeService } from './services/document-type.service';
+<<<<<<< HEAD
 import { StudentComponent } from './components/student/student.component';
 import { StudentService } from './components/student/student.service';
 import { StudentDetailComponent } from './components/student-detail/student-detail.component';
 import { DocumentsStudentComponent } from './components/documents-student/documents-student.component';
+=======
+import { TeacherNavbarComponent } from './components/navbar/teacher-navbar/teacher-navbar.component';
+>>>>>>> cd1f46a945090e44a7591c909e8a9319f7ac243d
 
 @NgModule({
   declarations: [
@@ -75,9 +79,13 @@ import { DocumentsStudentComponent } from './components/documents-student/docume
     ViewCourseSpecificationComponent,
     StudentExamDetailComponent,
     PaymentComponent,
+<<<<<<< HEAD
     StudentComponent,
     StudentDetailComponent,
     DocumentsStudentComponent
+=======
+    TeacherNavbarComponent,
+>>>>>>> cd1f46a945090e44a7591c909e8a9319f7ac243d
   ],
   imports: [
     BrowserModule,
