@@ -102,7 +102,7 @@ public class DocumentController {
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_STUDENT')")
 	public ResponseEntity<Void> deleteDocument(@PathVariable("id") Long id){
 		Document document = documentS.findById(id);
 		if(document != null) {
