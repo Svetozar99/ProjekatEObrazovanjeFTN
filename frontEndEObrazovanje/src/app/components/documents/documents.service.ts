@@ -4,12 +4,15 @@ import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { Document } from "src/app/model/document";
 import { Url } from "src/app/model/url";
+import { AuthenticationService } from "src/app/services/authentication.service";
 
 @Injectable()
 export class DocumentsService {
     private documentUrl = 'api/document';
 
-    constructor(private http: HttpClient){ }
+    constructor(private http: HttpClient, private auths: AuthenticationService){
+        
+    }
 
     private RegenerateData = new Subject<void>();
 
@@ -19,9 +22,14 @@ export class DocumentsService {
         this.RegenerateData.next();
     }
 
-    getStudentDocuments(): Observable<HttpResponse<Document[]>>{
-
-        return this.http.get<Document[]>(this.documentUrl, {observe: 'response'});
+    getStudentDocuments(username:string): Observable<HttpResponse<Document[]>>{
+        var url = '';
+        if(this.auths.getRole() === 'ROLE_ADMINISTRATOR'){
+            url = `${this.documentUrl}/for-student/${username}`;
+        }else if(this.auths.getRole() === 'ROLE_STUDENT'){
+            url = this.documentUrl;
+        }
+        return this.http.get<Document[]>(url, {observe: 'response'});
     }
 
     getDocument(id: number): Observable<HttpResponse<Document>>{

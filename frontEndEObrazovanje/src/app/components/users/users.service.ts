@@ -9,6 +9,7 @@ import { Role } from 'src/app/model/role';
 import { CourseInstance } from 'src/app/model/courseInstance';
 import { Student } from 'src/app/model/student';
 import { Teacher } from 'src/app/model/teacher';
+import { ChangePass } from 'src/app/model/changePass';
 
 @Injectable()
 export class UserService {
@@ -55,8 +56,8 @@ export class UserService {
         return this.http.get<User>(url, {observe: 'response'});
     }
 
-    getStudent(cardNumber: string): Observable<HttpResponse<Student>> {
-        const url = `${this.studentURL}/${cardNumber}`;
+    getStudent(id: number): Observable<HttpResponse<Student>> {
+        const url = `${this.studentURL}/${id}`;
         return this.http.get<Student>(url, {observe: 'response'});
     }
 
@@ -83,6 +84,10 @@ export class UserService {
         return this.http.delete<any>(url, {observe: 'response'});
     }
 
+    changePass(changePass: ChangePass): Observable<HttpResponse<User>>{
+        const url = `api/change-password`;
+        return this.http.post<User>(url, changePass, {observe: 'response'});
+    }
     // getUserRoles(userId: number): Observable<HttpResponse<Role[]>> {
     //     const url = `${this.usersUrl}/${userId}/role`;
     //     return this.http.get<Role[]>(url, {observe: 'response'});
