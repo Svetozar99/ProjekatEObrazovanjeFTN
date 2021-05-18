@@ -21,4 +21,8 @@ export class PaymentService {
     getAccountPayments(): Observable<HttpResponse<Payment[]>> {
         return this.http.get<Payment[]>(this.paymentsUrl, {observe: 'response'});
     }
+
+    addAccountPayment(payment: Payment): Observable<HttpResponse<Payment>>{
+        return this.http.post<Payment>(this.paymentsUrl, payment, {observe:'response'});
+    }
 }

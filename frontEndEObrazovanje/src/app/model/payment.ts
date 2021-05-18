@@ -1,3 +1,5 @@
+import { Account } from "./accounts";
+
 export class Payment{
     public id?:number;
     public currency: string;

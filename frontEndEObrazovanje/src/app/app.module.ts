@@ -42,7 +42,6 @@ import { ExamPartStatusService } from './services/exam-part-status.service';
 import { AccountService } from './components/account/account.service';
 import { PaymentComponent } from './components/payment/payment.component';
 import { PaymentService } from './components/payment/payment.service';
-import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { DocumentTypeService } from './services/document-type.service';
 
 @NgModule({
@@ -74,7 +73,6 @@ import { DocumentTypeService } from './services/document-type.service';
     PaymentComponent,
   ],
   imports: [
-    AngularFileUploaderModule,
     BrowserModule,
     AppRoutingModule,
     NgbModule,
