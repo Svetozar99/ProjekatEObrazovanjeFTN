@@ -38,4 +38,10 @@ public class CourseInstanceService implements CourseInstanceI {
 		cir.deleteById(id);
 	}
 
+	@Override
+	public List<CourseInstance> findByTeacher(String username) {
+		// TODO Auto-generated method stub
+		return cir.findByTeacher(username);
+	}
+
 }

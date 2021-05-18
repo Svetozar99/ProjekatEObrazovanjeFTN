@@ -1,5 +1,6 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,18 @@ public class CourseInstanceController {
 	@GetMapping
 	public ResponseEntity<List<CourseInstanceDTO>> getAll(){
 		List<CourseInstance> cis = ci.getAll();
+		
+		List<CourseInstanceDTO> cisdto = new ArrayList<CourseInstanceDTO>();
+		
+		for(CourseInstance ci : cis) {
+			cisdto.add(new CourseInstanceDTO(ci));
+		}
+		return new ResponseEntity<List<CourseInstanceDTO>>(cisdto, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/teacher")
+	public ResponseEntity<List<CourseInstanceDTO>> getAllByTeacher(Principal principal){
+		List<CourseInstance> cis = ci.findByTeacher(principal.getName());
 		
 		List<CourseInstanceDTO> cisdto = new ArrayList<CourseInstanceDTO>();
 		
