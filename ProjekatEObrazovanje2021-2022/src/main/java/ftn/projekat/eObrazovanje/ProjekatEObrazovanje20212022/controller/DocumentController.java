@@ -1,12 +1,19 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.ModelMap;
@@ -146,4 +153,18 @@ public class DocumentController {
         return new ResponseEntity<UrlDTO>(new UrlDTO(url), HttpStatus.OK);
 
     }
+	
+	@PostMapping(value = "/download")
+    public  ResponseEntity<Resource> downloadDocument(@RequestParam("url") String url) throws IOException {
+        File file = new File(url);
+        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+//        headers.add("Pragma", "no-cache");
+//        headers.add("Expires", "0");
+        InputStreamResource  resource  = new InputStreamResource (new FileInputStream(file));
+
+        return ResponseEntity.ok().headers(headers).contentLength(file.length())
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(resource);
+        }
 }
