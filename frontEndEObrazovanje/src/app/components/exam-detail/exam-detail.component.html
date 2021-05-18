@@ -18,6 +18,7 @@
     <table class="table mx-auto w-75 mt-5">
         <thead>
             <tr>
+                <th class="text-center" *ngIf="teacherExamPart">Course</th>
                 <th class="text-center">Date</th>
                 <th class="text-center">Location</th>
                 <th class="text-center">Points</th>
@@ -29,6 +30,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let e of examDetails; let i = index; let odd = odd;">
+                <td class="text-center" *ngIf="teacherExamPart">{{ e.examDTO.enrollmentDTO.courseInstanceDTO.courseSpecificationDTO.title }}</td>
                 <td class="text-center">{{ dateToString(e.date) | date:'medium'}}</td>
                 <td class="text-center">{{ e.location }}</td>
                 <td class="text-center">{{ e.points }}</td>

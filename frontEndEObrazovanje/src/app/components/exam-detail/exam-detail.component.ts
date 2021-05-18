@@ -20,6 +20,7 @@ export class ExamDetailComponent implements OnInit {
   mode: string = '';
   role?: string = undefined;
   courseId:number = 0;
+  teacherExamPart:boolean = false;
 
   constructor(
       private examDetailService: ExamPartService,
@@ -79,6 +80,7 @@ export class ExamDetailComponent implements OnInit {
       }
       );
     }else if(this.route.snapshot.params['teacherId']){
+      this.teacherExamPart = true;
       this.examDetailService.getExamPartsForTeacher().subscribe(res =>{
         this.examDetails = res.body == null ? this.examDetails:res.body;
       });
