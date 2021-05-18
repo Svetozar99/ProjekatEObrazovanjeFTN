@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.ChangePassDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.JwtDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.LoginDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.RoleDTO;
@@ -152,16 +153,17 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/change-password", method = RequestMethod.POST)
-	public ResponseEntity<?> changePassword(@RequestBody PasswordChanger passwordChanger) {
-		userDetailsService.changePassword(passwordChanger.oldPassword, passwordChanger.newPassword);
+	public ResponseEntity<UserDTO> changePassword(@RequestBody ChangePassDTO passwordChanger) {
+		System.out.println(passwordChanger.toString() + "pwd changer");
+		userDetailsService.changePassword(passwordChanger.getOldPass(), passwordChanger.getNewPass());
 		
-		return ResponseEntity.accepted().build();
+		User u = userService.findByUsername(passwordChanger.getUserName());
+		u.setFirstName(passwordChanger.getFirstName());
+		u.setLastName(passwordChanger.getLastName());
+		u = userService.save(u);
+		return new ResponseEntity<UserDTO>(new UserDTO(u), HttpStatus.OK);
 	}
 
-	static class PasswordChanger {
-		public String oldPassword;
-		public String newPassword;
-	}
 	
 	@GetMapping(value = "/users")
 	public ResponseEntity<List<UserDTO>> getAllStudents(){

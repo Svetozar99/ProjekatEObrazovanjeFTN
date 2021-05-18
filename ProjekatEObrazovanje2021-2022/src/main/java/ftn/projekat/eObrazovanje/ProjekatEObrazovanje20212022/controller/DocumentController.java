@@ -80,6 +80,21 @@ public class DocumentController {
 		return new ResponseEntity<List<DocumentDTO>>(dtos, HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/for-student/{username}")
+//	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
+	public ResponseEntity<List<DocumentDTO>> getAllDocumentsByStudent1(@PathVariable("username") String username){
+		List<Document> documents = documentS.findByUsername(username);
+		System.out.println(username + "ovo je usernem proslijedjeni");
+		
+		System.out.println("pozvalo seee ovo 1!!");
+		List<DocumentDTO> dtos = new ArrayList<DocumentDTO>();
+		
+		for (Document document : documents) {
+			dtos.add(new DocumentDTO(document));
+		}
+		return new ResponseEntity<List<DocumentDTO>>(dtos, HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<DocumentDTO> getOneDocument(@PathVariable("id") Long id){
