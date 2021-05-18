@@ -83,4 +83,10 @@ public class ExamPartService implements ExamPartServiceInterface {
 		return false;
 	}
 
+	@Override
+	public List<ExamPart> findByTeacher(String username) {
+		// TODO Auto-generated method stub
+		return examPartRepository.findByTeacher(username);
+	}
+
 }

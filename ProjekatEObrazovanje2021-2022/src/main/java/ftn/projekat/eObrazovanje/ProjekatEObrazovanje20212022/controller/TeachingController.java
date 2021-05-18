@@ -90,7 +90,9 @@ public class TeachingController {
 	public ResponseEntity<TeachingDTO> save(@RequestBody TeachingDTO tdto){
 		System.out.println("\nSave teaching");
 		Teaching teaching = tsi.findByCourseInstance(tdto.getCourseInstanceDTO().getId());
-		tsi.delete(teaching.getId());
+		if(teaching!=null) {
+			tsi.delete(teaching.getId());
+		}
 		TeachingType ttp = tti.findOneByCode("lec");
 		Teacher teacher = ti.findById(tdto.getTeacherDTO().getId());
 		CourseInstance couins = ci.findById(tdto.getCourseInstanceDTO().getId());

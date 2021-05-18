@@ -109,6 +109,23 @@ public class ExamPartController {
 		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/teacher")
+	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
+	public ResponseEntity<List<ExamPartDTO>> getAllForTeacher(Principal principal){
+		System.out.println("\nGet all parts for ADMINISTRATOR");
+		List<ExamPart> examParts = examPartS.findByTeacher(principal.getName());
+		
+		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
+		
+		for (ExamPart examPart : examParts) {
+			if(!examPartS.isIn(examPart,dtos)) {
+				dtos.add(new ExamPartDTO(examPart));
+			}
+		}
+		System.out.println(examParts.size());
+		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "/{id}")//izmjeniti ovo kad dodje vrijeme
 	public ResponseEntity<ExamPartDTO> getOneExamPart(@PathVariable("id") Long id){
 		ExamPart examPart = examPartS.findById(id);

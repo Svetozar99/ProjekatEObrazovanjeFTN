@@ -2,6 +2,8 @@ package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface;
 
 import java.util.List;
 
+import org.springframework.data.repository.query.Param;
+
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.ExamPartDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPart;
 
@@ -26,6 +28,8 @@ public interface ExamPartServiceInterface {
 	public List<ExamPart> findByCourseInstance(Long courseId);
 	
 	public long maxId();
+	
+	List<ExamPart>  findByTeacher(String username);
 	
 	public boolean isIn(ExamPart examPart,List<ExamPartDTO> dtos);
 }

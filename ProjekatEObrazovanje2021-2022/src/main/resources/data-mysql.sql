@@ -61,12 +61,9 @@ INSERT INTO exam_parts(id, date_exam_part, location, points,won_points,exam_id,e
 VALUES(1, '2021-03-21 13:15:00', 'Location1', 30,0, 1, 1, 2,'1-1');
 
 INSERT INTO exam_parts(id, date_exam_part, location, points,won_points,exam_id,exam_part_type_id,exam_part_status_id,code) 
-VALUES(4, '2021-03-30 13:15:00', 'Location2', 30,0, 1, 1, 2,'4-1');
-
-INSERT INTO exam_parts(id, date_exam_part, location, points,won_points,exam_id,exam_part_type_id,exam_part_status_id,code) 
-VALUES(2, '2021-03-21 13:15:00', 'Location1', 35,0, 2, 1, 2,'1-1');
+VALUES(2, '2021-03-21 13:15:00', 'Location1', 30,0, 2, 1, 2,'1-1');
 INSERT INTO exam_parts(id, date_exam_part, location, points, won_points,exam_id,exam_part_type_id,exam_part_status_id,code) 
-VALUES(3, '2021-03-21 13:17:00', 'Location2', 15,10, 4, 1, 3,'2-1');
+VALUES(3, '2021-03-21 13:17:00', 'Location2', 15,0, 4, 1, 3,'2-1');
 
 INSERT INTO payments(id, currency, amount, date_payment, urgently, note, account_id)
 VALUES (id, 'RSD', 3000, '2021-03-21', 0, 'Overa semestra', 1)
