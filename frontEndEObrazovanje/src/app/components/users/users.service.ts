@@ -8,6 +8,7 @@ import { JWT } from 'src/app/model/jwt';
 import { Role } from 'src/app/model/role';
 import { CourseInstance } from 'src/app/model/courseInstance';
 import { Student } from 'src/app/model/student';
+import { Teacher } from 'src/app/model/teacher';
 
 @Injectable()
 export class UserService {
@@ -15,6 +16,7 @@ export class UserService {
     private loginUrl = 'api/login';
     private signUp = 'api/signup';
     private studentURL = 'api/student'
+    private teacherUrl = 'api/teacher'
 
     constructor(private http: HttpClient) { }
 
@@ -28,6 +30,10 @@ export class UserService {
 
     getUsers(): Observable<HttpResponse<User[]>> {
         return this.http.get<User[]>(this.usersUrl, {observe: 'response'});
+    }
+
+    getTeachers(): Observable<HttpResponse<Teacher[]>> {
+        return this.http.get<Teacher[]>(this.teacherUrl, {observe: 'response'});
     }
 
     getCourseInstanceStudents(courseInstance:CourseInstance): Observable<HttpResponse<Student[]>> {

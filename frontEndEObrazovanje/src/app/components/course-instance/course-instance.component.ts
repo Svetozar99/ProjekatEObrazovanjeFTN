@@ -6,6 +6,7 @@ import { CourseInstance } from 'src/app/model/courseInstance';
 import { CourseSpecification } from 'src/app/model/courseSpecification';
 import { Enrollment } from 'src/app/model/enrollment';
 import { Student } from 'src/app/model/student';
+import { Teacher } from 'src/app/model/teacher';
 import { CoursesService } from '../courses/courses.service';
 import { UserService } from '../users/users.service';
 
@@ -26,6 +27,8 @@ export class CourseInstanceComponent implements OnInit {
   otherStudents:Student[] = [];
   editInstance:boolean=false;
   enrollment:Enrollment;
+  teachers: Teacher[] = [];
+  teacherUsername:string = '';
 
   constructor(private courseService:CoursesService, private userService:UserService,private route: ActivatedRoute,private router: Router) {
     this.courseInstance = new CourseInstance({
@@ -37,6 +40,10 @@ export class CourseInstanceComponent implements OnInit {
     this.courseService.getCoursesSpecifications().subscribe(res =>
       {
         this.coursesSpecifications = res.body==null ? []:res.body;
+      });
+    this.userService.getTeachers().subscribe(res =>
+      {
+        this.teachers = res.body==null ? []:res.body;
       });
     this.enrollment=new Enrollment(
       {
