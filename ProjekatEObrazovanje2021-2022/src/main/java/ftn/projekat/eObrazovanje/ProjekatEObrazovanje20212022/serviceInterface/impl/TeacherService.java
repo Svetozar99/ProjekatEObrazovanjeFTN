@@ -44,4 +44,10 @@ public class TeacherService implements TeacherServiceI {
 		return teacherRepos.findOneByUser_username(username);
 	}
 
+	@Override
+	public Teacher findByCourse(Long courseId) {
+		// TODO Auto-generated method stub
+		return teacherRepos.findByCourse(courseId);
+	}
+
 }

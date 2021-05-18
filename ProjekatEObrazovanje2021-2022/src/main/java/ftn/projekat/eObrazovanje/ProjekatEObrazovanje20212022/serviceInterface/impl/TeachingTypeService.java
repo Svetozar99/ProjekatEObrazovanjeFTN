@@ -39,4 +39,10 @@ public class TeachingTypeService implements TeachingTypeI {
 		teachingTypeRepos.deleteById(id);
 	}
 
+	@Override
+	public TeachingType findOneByCode(String code) {
+		// TODO Auto-generated method stub
+		return teachingTypeRepos.findOneByCode(code);
+	}
+
 }

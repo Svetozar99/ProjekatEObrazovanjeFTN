@@ -53,6 +53,15 @@ public class TeacherController {
 		return new ResponseEntity<TeacherDTO>(new TeacherDTO(teacher), HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/course-instance/{courseId}")
+	public ResponseEntity<TeacherDTO> getOneTeacherByCourse(@PathVariable("courseId") Long courseId){
+		Teacher teacher = teacherService.findByCourse(courseId);
+		if(teacher == null) {
+			return new ResponseEntity<TeacherDTO>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<TeacherDTO>(new TeacherDTO(teacher), HttpStatus.OK);
+	}
+	
 	@PutMapping()
 	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<TeacherDTO> updateTeacher(@RequestBody TeacherDTO teacherDTO){

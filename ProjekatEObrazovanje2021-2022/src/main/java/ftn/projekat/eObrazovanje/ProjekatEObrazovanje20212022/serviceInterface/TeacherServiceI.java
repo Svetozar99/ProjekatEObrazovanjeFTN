@@ -2,6 +2,7 @@ package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface;
 
 import java.util.List;
 
+
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Teacher;
 
 public interface TeacherServiceI {
@@ -15,4 +16,6 @@ public interface TeacherServiceI {
 	public void delete(Long id);
 	
 	public Teacher findByUsername(String username);
+	
+	public Teacher findByCourse(Long courseId);
 }
