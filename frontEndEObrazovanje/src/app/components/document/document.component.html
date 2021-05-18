@@ -2,7 +2,7 @@
     <h1>Document</h1>
     <div class="mt-5">
         <b>Title:</b>
-        <input type="text" [(ngModel)]="document.title" class="form-control col-2 d-inline ml-2">
+        <input type="text" readonly [(ngModel)]="document.title" class="form-control col-3 d-inline ml-2">
     </div>
     <div class="mt-2 ml-50">
         <b>Type:</b>
@@ -16,9 +16,7 @@
             (change)="onFileSelected($event)">
     </div>
     <div class="ml-5">
-        <button type="button" *ngIf="document.id === 0" class="btn btn-outline-primary mt-3 ml-5" (click)="submitDocument()">SAVE</button>
-        <button type="button" *ngIf="document.id !== 0" class="btn btn-outline-warning mt-3 ml-1">EDIT</button>
-        <button type="button" *ngIf="document.id !== 0" class="btn btn-outline-danger mt-3 ml-1">DELETE</button>
+        <button type="button" class="btn btn-outline-primary mt-3 ml-5" (click)="submitDocument()">SAVE</button>
         <button type="button" class="btn btn-outline-primary mt-3 ml-1" (click)="goBack()">CANCEL</button>
     </div>
 </div>
