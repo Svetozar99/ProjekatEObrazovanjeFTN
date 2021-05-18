@@ -7,6 +7,9 @@ import { CourseSpecification } from 'src/app/model/courseSpecification';
 import { Enrollment } from 'src/app/model/enrollment';
 import { Student } from 'src/app/model/student';
 import { Teacher } from 'src/app/model/teacher';
+import { Teaching } from 'src/app/model/teaching';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { TeachingService } from 'src/app/services/teaching.service';
 import { CoursesService } from '../courses/courses.service';
 import { UserService } from '../users/users.service';
 
@@ -26,42 +29,65 @@ export class CourseInstanceComponent implements OnInit {
   studentCardNumber:string = '';
   otherStudents:Student[] = [];
   editInstance:boolean=false;
+  editTeacher:boolean=false;
   enrollment:Enrollment;
   teachers: Teacher[] = [];
   teacherUsername:string = '';
+  teacher:Teacher;
+  role:string = '';
 
-  constructor(private courseService:CoursesService, private userService:UserService,private route: ActivatedRoute,private router: Router) {
-    this.courseInstance = new CourseInstance({
-      id:0,
-      startDate:new Date(),
-      endDate:new Date(),
-      courseSpecificationDTO: new CourseSpecification({id:0,title:'',ects:0,code:''})
-    });
-    this.courseService.getCoursesSpecifications().subscribe(res =>
-      {
-        this.coursesSpecifications = res.body==null ? []:res.body;
-      });
-    this.userService.getTeachers().subscribe(res =>
-      {
-        this.teachers = res.body==null ? []:res.body;
-      });
-    this.enrollment=new Enrollment(
-      {
+  constructor(
+    private courseService:CoursesService, 
+    private userService:UserService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private authS:AuthenticationService,
+    private teachingService:TeachingService) 
+    {
+      this.role = this.authS.getRole();
+      this.courseInstance = new CourseInstance({
         id:0,
-        studentDTO:{
+        startDate:new Date(),
+        endDate:new Date(),
+        courseSpecificationDTO: new CourseSpecification({id:0,title:'',ects:0,code:''})
+      });
+      this.courseService.getCoursesSpecifications().subscribe(res =>
+        {
+          this.coursesSpecifications = res.body==null ? []:res.body;
+        });
+      this.userService.getTeachers().subscribe(res =>
+        {
+          this.teachers = res.body==null ? []:res.body;
+        });
+      this.enrollment=new Enrollment(
+        {
           id:0,
-          cardNumber:'',
-          userDTO:{
+          studentDTO:{
             id:0,
-            firstName:'',
-            lastName:'',
-            userName:'',
-            password:'',
-            roles:[]
-          }
-        },
-        courseInstanceDTO:this.courseInstance
-    });
+            cardNumber:'',
+            userDTO:{
+              id:0,
+              firstName:'',
+              lastName:'',
+              userName:'',
+              password:'',
+              roles:[]
+            }
+          },
+          courseInstanceDTO:this.courseInstance
+      });
+      this.teacher = new Teacher(
+        {
+          id:0,
+          userDTO:{
+                  id:0,
+                  firstName:'',
+                  lastName:'',
+                  userName:'',
+                  password:'',
+                  roles:[]
+                }
+      })
    }
 
   ngOnInit(): void {
@@ -74,6 +100,7 @@ export class CourseInstanceComponent implements OnInit {
         this.endDate = new Date(this.courseInstance.endDate).toISOString().substring(0, 10);
         this.courseSpecificationCode = this.courseInstance.courseSpecificationDTO.code;
         this.getStudents(this.courseInstance);
+        this.getTeacher();
         }
       );
   }
@@ -90,14 +117,37 @@ export class CourseInstanceComponent implements OnInit {
     }
   }
 
+  teacherSubmit() {
+    if(this.teacherUsername===''){
+      alert('--Choose a teacher--')
+    }else{
+      this.editTeacher = false;
+      this.teacher=this.teachers.filter(t=>t.userDTO.userName===this.teacherUsername)[0];
+      const teching:Teaching = new Teaching({id:0,teachingTypeDTO:{id:0,name:'',code:0},teacherDTO:this.teacher,courseInstanceDTO:this.courseInstance})
+      this.teachingService.addTeaching(teching).subscribe(res=>{
+        console.log(JSON.stringify(res.body))
+      })
+    }
+  }
+
   cancel(){
     this.editInstance = false;
     this.courseSpecificationCode=this.courseInstance.courseSpecificationDTO.code;
   }
 
+  teacherCancel(){
+    this.editTeacher = false;
+    this.teacherUsername=this.teacher.userDTO.userName;
+  }
+
   edit(){
     this.editInstance = true;
     this.courseSpecificationCode='';
+  }
+
+  teacherEdit(){
+    this.editTeacher = true;
+    this.teacherUsername='';
   }
 
   addStudent(){
@@ -110,6 +160,15 @@ export class CourseInstanceComponent implements OnInit {
   removeStudent(student:Student){
     var enrollment = new Enrollment({id:0,studentDTO:student,courseInstanceDTO:this.courseInstance});
     this.courseService.deleteEnrollment(enrollment).subscribe(()=>this.getStudents(this.courseInstance));
+  }
+
+  getTeacher(){
+    console.log("Get teacher!")
+    this.userService.getCourseInstanceTeacher(this.courseInstance).subscribe(res =>{
+      console.log(JSON.stringify(res.body));
+      this.teacher = res.body == null ? this.teacher:res.body;
+      this.teacherUsername = this.teacher.userDTO.userName;
+    })
   }
 
   getStudents(courseInstance:CourseInstance){

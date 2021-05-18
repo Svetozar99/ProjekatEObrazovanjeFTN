@@ -7,7 +7,7 @@
         <div *ngIf="coursesSpecifications.length > 0" class="col-2 d-inline mr-5">
             <b>Course:</b>
             <input *ngIf="editInstance!=true" class='form-control col-2 ml-2 mb-3 d-inline' readonly list="coursesSpecifications" [(ngModel)]="courseSpecificationCode"/>
-            <input *ngIf="editInstance" class='form-control col-2 ml-2 mb-3 d-inline' list="coursesSpecifications" [(ngModel)]="courseSpecificationCode" className='form-control form-control-sm col-10'/>
+            <input *ngIf="editInstance" class='form-control col-2 ml-2 mb-3 d-inline' list="coursesSpecifications" [(ngModel)]="courseSpecificationCode"/>
             <button type="button" class="ml-1 btn-primary rounded" *ngIf="!editInstance" (click)="edit()">🖉</button>
             <button type="button" class="ml-1 btn-primary rounded" *ngIf="editInstance" (click)="submit()">✓</button>
             <button type="button" class="ml-1 btn-primary rounded" *ngIf="editInstance" (click)="cancel()">X</button>
@@ -26,12 +26,16 @@
         <b>End:</b>
         <input type="date" (focusout)="submit()" class="form-control col-2 d-inline ml-2" [(ngModel)]="endDate">
     </div>
-    <div class="mt-2">
-        <input class='form-control col-3 ml-2 mb-3 d-inline' list="teachers" [(ngModel)]="studentCardNumber"/>
+    <div class="mt-3" *ngIf="role==='ROLE_ADMINISTRATOR'">
+        <b>Teacher: </b>
+        <input *ngIf="editTeacher!=true" class='form-control col-2 ml-2 mb-3 d-inline' readonly list="teachers" [(ngModel)]="teacherUsername"/>
+        <input *ngIf="editTeacher" class='form-control col-2 ml-2 mb-3 d-inline' list="teachers" [(ngModel)]="teacherUsername"/>
+        <button type="button" class="ml-1 btn-primary rounded" *ngIf="!editTeacher" (click)="teacherEdit()">🖉</button>
+        <button type="button" class="ml-1 btn-primary rounded" *ngIf="editTeacher" (click)="teacherSubmit()">✓</button>
+        <button type="button" class="ml-1 btn-primary rounded" *ngIf="editTeacher" (click)="teacherCancel()">X</button>
         <datalist id='teachers'>
             <option *ngFor="let t of teachers" value="{{t.userDTO.userName}}">{{t.userDTO.firstName}} {{t.userDTO.lastName}}</option>
         </datalist>
-        <button type="button" class="ml-1 btn-primary rounded" (click)="addStudent()">Set up a teacher</button>
     </div>
     <div class="main" style="padding-top: 7%;" *ngIf="students.length > 0">
         <h4 class="ml-5">Students</h4>
