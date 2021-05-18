@@ -87,7 +87,8 @@ public class PaymentController {
 		p.setDatePayment(dto.getDate());
 		p.setNote(dto.getNote());
 		p.setUrgently(dto.getUrgently());
-		
+		account.setAmount(account.getAmount() + p.getAmount());
+		accountS.save(account);
 		p = paymentS.save(p);
 		
 		return new ResponseEntity<PaymentDTO>(new PaymentDTO(p), HttpStatus.CREATED);

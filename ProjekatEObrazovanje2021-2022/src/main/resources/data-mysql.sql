@@ -43,8 +43,6 @@ INSERT INTO teachings(id, teaching_type_id, teacher_id, course_instance_id) VALU
 INSERT INTO type_document(id, name, code) VALUES(1,'Diploma','di');
 INSERT INTO type_document(id, name, code) VALUES(2,'Form','fo');
 
-INSERT INTO documents(id, title, url, type_document_id, student_id) VALUES(1, 'Document1', 'Url1', 1, 1);
-
 INSERT INTO exams(id, points, gradle, enrollment_id) VALUES(4, 0, 0, 3);
 INSERT INTO exams(id, points, gradle, enrollment_id) VALUES(1, 0, 0, 1);
 INSERT INTO exams(id, points, gradle, enrollment_id) VALUES(2, 0, 0, 2);
@@ -70,4 +68,4 @@ INSERT INTO exam_parts(id, date_exam_part, location, points, won_points,exam_id,
 VALUES(3, '2021-03-21 13:17:00', 'Location2', 15,10, 4, 1, 3,'2-1');
 
 INSERT INTO payments(id, currency, amount, date_payment, urgently, note, account_id)
-VALUES (id, 'din', 3000, '2021-03-21', 0, 'Overa semestra', 1)
+VALUES (id, 'RSD', 3000, '2021-03-21', 0, 'Overa semestra', 1)
