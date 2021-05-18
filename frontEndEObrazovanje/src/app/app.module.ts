@@ -43,6 +43,7 @@ import { AccountService } from './components/account/account.service';
 import { PaymentComponent } from './components/payment/payment.component';
 import { PaymentService } from './components/payment/payment.service';
 import { DocumentTypeService } from './services/document-type.service';
+import { TeacherNavbarComponent } from './components/navbar/teacher-navbar/teacher-navbar.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { DocumentTypeService } from './services/document-type.service';
     ViewCourseSpecificationComponent,
     StudentExamDetailComponent,
     PaymentComponent,
+    TeacherNavbarComponent,
   ],
   imports: [
     BrowserModule,
