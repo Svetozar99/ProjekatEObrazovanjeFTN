@@ -30,6 +30,11 @@ export class ExamPartService{
         return this.http.get<ExamPart[]>(url, {observe: 'response'});
     }
 
+    getExamPartsForTeacher(): Observable<HttpResponse<ExamPart[]>>{
+        var url = `${this.examDetailUrl}/teacher`;
+        return this.http.get<ExamPart[]>(url, {observe: 'response'});
+    }
+
     getExamPartsForStudent(courseId:number,cardNumber: string): Observable<HttpResponse<ExamPart[]>>{
         console.log('getExamPartsForStudent...')
         var url = `${this.examDetailUrl}/${courseId}/${cardNumber}`;

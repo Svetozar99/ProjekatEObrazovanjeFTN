@@ -32,6 +32,7 @@ const routes: Routes = [
   { path: 'add-user', component: ViewUserComponent, canActivate: [RoleGuard] },
   { path: 'exams', component: ExamsComponent, canActivate: [RoleGuard] },
   { path: 'exam-detail/student/:examId', component: ExamDetailComponent, canActivate: [RoleGuard] },
+  { path: 'teacher-exam-parts/:teacherId', component: ExamDetailComponent, canActivate: [RoleGuard] },
   { path: 'course-instance/exam-parts/:courseId', component: ExamDetailComponent, canActivate: [RoleGuard] },
   { path: 'account', component: AccountComponent, canActivate: [RoleGuard] },
   { path: 'users', component: UsersComponent, canActivate: [RoleGuard] },

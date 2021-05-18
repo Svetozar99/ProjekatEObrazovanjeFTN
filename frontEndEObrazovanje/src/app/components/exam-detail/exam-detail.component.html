@@ -1,6 +1,6 @@
 <div class="main">
     <h1 *ngIf="role === 'ROLE_STUDENT'" class="ml-5">Exam detail</h1>
-    <h1 *ngIf="role === 'ROLE_ADMINISTRATOR'" class="ml-5">Exam parts</h1>
+    <h1 *ngIf="role === 'ROLE_ADMINISTRATOR' || role==='ROLE_TEACHER'" class="ml-5">Exam parts</h1>
     <div *ngIf="role === 'ROLE_STUDENT'" class="row mx-auto w-75 mt-5">
         <div class="ml-5">
             <b>Course title:</b> <input type="text" readonly class="form-control ml-2" [(ngModel)]="exam.enrollmentDTO.courseInstanceDTO.courseSpecificationDTO.title">

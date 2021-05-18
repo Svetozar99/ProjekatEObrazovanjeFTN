@@ -78,6 +78,10 @@ export class ExamDetailComponent implements OnInit {
         this.examDetails = res.body == null ? this.examDetails:res.body;
       }
       );
+    }else if(this.route.snapshot.params['teacherId']){
+      this.examDetailService.getExamPartsForTeacher().subscribe(res =>{
+        this.examDetails = res.body == null ? this.examDetails:res.body;
+      });
     }
   }
 
