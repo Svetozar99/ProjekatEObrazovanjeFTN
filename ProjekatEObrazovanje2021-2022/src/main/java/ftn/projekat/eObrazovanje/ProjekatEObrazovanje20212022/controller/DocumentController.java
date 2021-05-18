@@ -115,6 +115,7 @@ public class DocumentController {
 	@PostMapping()
 	@PreAuthorize("hasAnyRole('ROLE_STUDENT')")
 	public ResponseEntity<DocumentDTO> saveMyDocument(Principal principal, @RequestBody DocumentDTO dto){
+		System.out.println("pozvala se fja");
 		String name = principal.getName(); //get logged in username
 		Student st = studServ.findByUser(name);
 		

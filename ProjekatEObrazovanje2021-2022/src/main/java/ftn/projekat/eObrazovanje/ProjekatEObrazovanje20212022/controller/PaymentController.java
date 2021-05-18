@@ -77,9 +77,9 @@ public class PaymentController {
 	
 	@PostMapping
 	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
-	public ResponseEntity<PaymentDTO> savePayment(@RequestBody PaymentDTO dto){
+	public ResponseEntity<PaymentDTO> savePayment(@RequestBody PaymentDTO dto, Principal principal){
 		
-		Account account = accountS.findById(dto.getAccountDTO().getId());
+		Account account = accountS.findByUsername(principal.getName()).get(0);
 		Payment p = new Payment();
 		p.setAccount(account);
 		p.setAmount(dto.getAmount());
