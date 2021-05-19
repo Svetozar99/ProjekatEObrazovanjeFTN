@@ -2,6 +2,9 @@ package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.CourseInstance;
@@ -15,9 +18,9 @@ public class CourseInstanceService implements CourseInstanceI {
 	CourseInstanceRepository cir;
 	
 	@Override
-	public List<CourseInstance> getAll() {
+	public Page<CourseInstance> getAll(Pageable page) {
 		// TODO Auto-generated method stub
-		return cir.findAll();
+		return cir.findAll(page);
 	}
 
 	@Override
@@ -39,9 +42,20 @@ public class CourseInstanceService implements CourseInstanceI {
 	}
 
 	@Override
-	public List<CourseInstance> findByTeacher(String username) {
+	public Page<CourseInstance> findByTeacher(String username,Pageable page) {
+		return cir.findByTeacher(username,page);
+	}
+
+	@Override
+	public Long countAll() {
 		// TODO Auto-generated method stub
-		return cir.findByTeacher(username);
+		return cir.count();
+	}
+
+	@Override
+	public Long countForTeacher(String username) {
+		// TODO Auto-generated method stub
+		return cir.countForTeacher(username);
 	}
 
 }
