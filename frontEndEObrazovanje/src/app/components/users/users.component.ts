@@ -13,13 +13,24 @@ import { AppComponent } from 'src/app/app.component';
 export class UsersComponent implements OnInit {
 
   users: User[] | null = [];
-
+  numberPages:number[] = [];
+  numberPage:number = 0;
   subscription: Subscription;
 
   constructor(private userService: UserService, private router: Router) { 
     this.subscription = userService.RegenerateData$.subscribe(() => 
       this.getUsers()
     );
+    this.userService.getNumberPageUsers().subscribe(res =>{
+      const num = res.body == null ? 0:res.body;
+      var i = 1;
+      for (let index = 0; index < num; index++) {
+        this.numberPages.push(i);
+        i++;
+        
+      }
+      console.log(this.numberPages)
+    })
   }
 
   ngOnInit(): void {
@@ -27,7 +38,7 @@ export class UsersComponent implements OnInit {
   }
 
   getUsers(){
-    this.userService.getUsers().subscribe(
+    this.userService.getUsers(this.numberPage).subscribe(
       response => {
         // console.log(response)
         this.users = response.body
@@ -43,6 +54,36 @@ export class UsersComponent implements OnInit {
 
   goToViewUser(user: User): void {
     this.router.navigate(['/view-user', user.id]);
+  }
+
+  increaseNumberPage(){
+    console.log(this.numberPage)
+    if(this.numberPage < this.numberPages.length-1){
+      this.numberPage=this.numberPage+1;
+    }
+    console.log(this.numberPage)
+    this.getUsers();
+  }
+
+  reduceNumberPage(){
+    if(this.numberPage>=1){
+      this.numberPage=this.numberPage-1;
+    }
+    console.log(this.numberPage)
+    this.getUsers();
+  }
+
+  setNumberPage(numberPage:number){
+    this.numberPage = numberPage-1;
+    this.getUsers();
+    console.log(this.numberPage)
+  }
+
+  isActive(num:number):boolean{
+    if(this.numberPage===num){
+      return true;
+    }
+    return false;
   }
 
 }

@@ -29,8 +29,14 @@ export class UserService {
         this.RegenerateData.next();
     }
 
-    getUsers(): Observable<HttpResponse<User[]>> {
-        return this.http.get<User[]>(this.usersUrl, {observe: 'response'});
+    getUsers(numberPage:number): Observable<HttpResponse<User[]>> {
+        const url = `${this.usersUrl}?sort=firstName,asc&page=${numberPage}&size=5`
+        return this.http.get<User[]>(url, {observe: 'response'});
+    }
+
+    getNumberPageUsers(): Observable<HttpResponse<number>> {
+        const url = `api/number-users`
+        return this.http.get<number>(url, {observe: 'response'});
     }
 
     getTeachers(): Observable<HttpResponse<Teacher[]>> {
