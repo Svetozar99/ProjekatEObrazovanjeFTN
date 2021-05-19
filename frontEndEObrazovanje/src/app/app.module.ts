@@ -93,7 +93,7 @@ import { TeachersComponent } from './components/teachers/teachers.component';
     HttpClientModule,
     CommonModule
   ],
-  providers: [TeacherComponent,TeachingService,DocumentTypeService,ExamPartStatusService, ExamPartTypeService, CoursesService, UserService, ExamsService, DocumentsService,StudentDetailComponent, TeachingsService,AccountService, PaymentService, StudentService, ExamPartService,
+  providers: [TeachingService,DocumentTypeService,ExamPartStatusService, ExamPartTypeService, CoursesService, UserService, ExamsService, DocumentsService,StudentDetailComponent, TeachingsService,AccountService, PaymentService, StudentService, ExamPartService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,

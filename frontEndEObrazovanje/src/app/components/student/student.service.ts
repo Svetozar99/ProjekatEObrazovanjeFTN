@@ -17,8 +17,9 @@ export class StudentService {
         this.RegenerateData.next();
     }
 
-    getStudents(): Observable<HttpResponse<Student[]>>{
-        return this.http.get<Student[]>(this.studentsUrl, {observe:'response'});
+    getStudents(numberPage:number): Observable<HttpResponse<Student[]>>{
+        const url = `${this.studentsUrl}?asc&page=${numberPage}&size=5`
+        return this.http.get<Student[]>(url, {observe:'response'});
     }
 
     deleteStudent(stId: number): Observable<HttpResponse<any>>{

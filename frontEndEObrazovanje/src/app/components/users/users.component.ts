@@ -21,7 +21,7 @@ export class UsersComponent implements OnInit {
     this.subscription = userService.RegenerateData$.subscribe(() => 
       this.getUsers()
     );
-    this.userService.getNumberPageUsers().subscribe(res =>{
+    this.userService.getNumberPage('users').subscribe(res =>{
       const num = res.body == null ? 0:res.body;
       var i = 1;
       for (let index = 0; index < num; index++) {
@@ -29,7 +29,6 @@ export class UsersComponent implements OnInit {
         i++;
         
       }
-      console.log(this.numberPages)
     })
   }
 
@@ -57,11 +56,9 @@ export class UsersComponent implements OnInit {
   }
 
   increaseNumberPage(){
-    console.log(this.numberPage)
     if(this.numberPage < this.numberPages.length-1){
       this.numberPage=this.numberPage+1;
     }
-    console.log(this.numberPage)
     this.getUsers();
   }
 
@@ -69,14 +66,12 @@ export class UsersComponent implements OnInit {
     if(this.numberPage>=1){
       this.numberPage=this.numberPage-1;
     }
-    console.log(this.numberPage)
     this.getUsers();
   }
 
   setNumberPage(numberPage:number){
     this.numberPage = numberPage-1;
     this.getUsers();
-    console.log(this.numberPage)
   }
 
   isActive(num:number):boolean{

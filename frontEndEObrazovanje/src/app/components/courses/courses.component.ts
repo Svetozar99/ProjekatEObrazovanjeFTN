@@ -28,6 +28,9 @@ export class CoursesComponent implements OnInit {
     }
   })
 
+  numberPages:number[] = [];
+  numberPage:number = 0;
+
   coursesIntances: CourseInstance[] | null = [];
 
   subscription: Subscription;
@@ -36,9 +39,7 @@ export class CoursesComponent implements OnInit {
     private courseService: CoursesService,
     private router: Router,
     private route: ActivatedRoute,
-    private userService: UserService,
-    private teacherC:TeacherComponent) { 
-    console.log("Teacher: "+this.teacher.userDTO.firstName)
+    private userService: UserService) { 
     this.subscription = courseService.RegenerateData$.subscribe(() => 
       this.getCoursesInstances()
     );
@@ -81,6 +82,32 @@ export class CoursesComponent implements OnInit {
     var d = new Date(date);
     d.setHours(d.getHours()-1);
     return d;
+  }
+
+  increaseNumberPage(){
+    if(this.numberPage < this.numberPages.length-1){
+      this.numberPage=this.numberPage+1;
+    }
+    this.getCoursesInstances();
+  }
+
+  reduceNumberPage(){
+    if(this.numberPage>=1){
+      this.numberPage=this.numberPage-1;
+    }
+    this.getCoursesInstances();
+  }
+
+  setNumberPage(numberPage:number){
+    this.numberPage = numberPage-1;
+    this.getCoursesInstances();
+  }
+
+  isActive(num:number):boolean{
+    if(this.numberPage===num){
+      return true;
+    }
+    return false;
   }
 
 }

@@ -34,8 +34,13 @@ export class UserService {
         return this.http.get<User[]>(url, {observe: 'response'});
     }
 
-    getNumberPageUsers(): Observable<HttpResponse<number>> {
-        const url = `api/number-users`
+    getNumberPage(page:string): Observable<HttpResponse<number>> {
+        var url = ``
+        if(page==='users'){
+            url = `api/number-users`
+        }else if(page==='students'){
+            url = `api/student/number-students`
+        }
         return this.http.get<number>(url, {observe: 'response'});
     }
 
