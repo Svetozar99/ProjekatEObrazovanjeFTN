@@ -128,6 +128,12 @@ public class DocumentController {
 	public ResponseEntity<Void> deleteDocument(@PathVariable("id") Long id){
 		Document document = documentS.findById(id);
 		if(document != null) {
+			File file = new File(document.getUrl()); 
+		    if (file.delete()) { 
+		      System.out.println("Deleted the file: " + file.getName());
+		    } else {
+		      System.out.println("Failed to delete the file.");
+		    } 
 			documentS.delete(id);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}

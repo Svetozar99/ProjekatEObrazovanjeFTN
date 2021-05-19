@@ -64,13 +64,11 @@ public class DocumentService implements DocumentServiceInterface {
 	public String saveUploadedFile(MultipartFile file) throws IOException {
     	String retVal = null;
     	System.out.println("Name: "+file.getName());
-        if (! file.isEmpty()) {
-            byte[] bytes = file.getBytes();
-            File f = new File(DOCUMENTS_DIR_PATH);
-            Path path = Paths.get(f.getAbsolutePath() + File.separator + file.getOriginalFilename());
-            Files.write(path, bytes);
-            retVal = path.toString();
-        }
+        byte[] bytes = file.getBytes();
+        File f = new File(DOCUMENTS_DIR_PATH);
+        Path path = Paths.get(f.getAbsolutePath() + File.separator + file.getOriginalFilename());
+        Files.write(path, bytes);
+        retVal = path.toString();
         return retVal;
     }
 	
