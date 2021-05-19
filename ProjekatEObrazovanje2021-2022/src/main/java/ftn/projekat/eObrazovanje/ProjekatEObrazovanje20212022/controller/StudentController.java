@@ -5,6 +5,8 @@ import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,8 +36,8 @@ public class StudentController {
 	private UserServiceI userService;
 	
 	@GetMapping
-	public ResponseEntity<List<StudentDTO>> getAllStudents(){
-		List<Student> students = studentService.findAll();
+	public ResponseEntity<List<StudentDTO>> getAllStudents(Pageable page){
+		Page<Student> students = studentService.findAll(page);
 		
 		List<StudentDTO> dtos = new ArrayList<StudentDTO>();
 		
@@ -45,7 +47,15 @@ public class StudentController {
 		return new ResponseEntity<List<StudentDTO>>(dtos, HttpStatus.OK);
 	}
 	
-	
+	@GetMapping(value = "/number-students")
+	public ResponseEntity<Long> getNumberPage(){
+		Long num = studentService.count()/5;
+		Long mod = studentService.count()%5;
+		if(mod>0) {
+			num ++;
+		}
+		return new ResponseEntity<Long>(num, HttpStatus.OK);
+	}
 	
 	@GetMapping(value = "course-instance/{id}")
 	public ResponseEntity<List<StudentDTO>> getStudentsByCourseInstance(@PathVariable("id") Long idCourseInstance){

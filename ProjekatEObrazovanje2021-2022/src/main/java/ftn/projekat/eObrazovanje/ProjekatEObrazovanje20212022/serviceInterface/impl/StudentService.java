@@ -3,6 +3,8 @@ package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Student;
@@ -16,8 +18,8 @@ public class StudentService implements StudentServiceI {
 	StudentRepository studentRepository;
 	
 	@Override
-	public List<Student> findAll() {
-		return studentRepository.findAll();
+	public Page<Student> findAll(Pageable page) {
+		return studentRepository.findAll(page);
 	}
 
 	@Override
@@ -55,6 +57,12 @@ public class StudentService implements StudentServiceI {
 	@Override
 	public List<Student> findOtherStudents(Long idCourseInstance) {
 		return studentRepository.findOtherStudents(idCourseInstance);
+	}
+
+	@Override
+	public Long count() {
+		// TODO Auto-generated method stub
+		return studentRepository.count();
 	}
 
 }
