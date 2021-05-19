@@ -62,6 +62,11 @@ export class UserService {
         return this.http.get<User>(url, {observe: 'response'});
     }
 
+    getTeacher(id: number): Observable<HttpResponse<Teacher>> {
+        const url = `${this.teacherUrl}/${id}`;
+        return this.http.get<Teacher>(url, {observe: 'response'});
+    }
+
     getStudent(id: number): Observable<HttpResponse<Student>> {
         const url = `${this.studentURL}/${id}`;
         return this.http.get<Student>(url, {observe: 'response'});

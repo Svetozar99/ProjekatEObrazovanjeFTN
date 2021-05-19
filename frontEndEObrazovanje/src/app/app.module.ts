@@ -50,6 +50,7 @@ import { StudentDetailComponent } from './components/student-detail/student-deta
 import { DocumentsStudentComponent } from './components/documents-student/documents-student.component';
 import { TeacherNavbarComponent } from './components/navbar/teacher-navbar/teacher-navbar.component';
 import { TeachingService } from './services/teaching.service';
+import { TeachersComponent } from './components/teachers/teachers.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { TeachingService } from './services/teaching.service';
     StudentDetailComponent,
     DocumentsStudentComponent,
     TeacherNavbarComponent,
+    TeachersComponent,
   ],
   imports: [
     BrowserModule,
@@ -91,7 +93,7 @@ import { TeachingService } from './services/teaching.service';
     HttpClientModule,
     CommonModule
   ],
-  providers: [TeachingService,DocumentTypeService,ExamPartStatusService, ExamPartTypeService, CoursesService, UserService, ExamsService, DocumentsService,StudentDetailComponent, TeachingsService,AccountService, PaymentService, StudentService, ExamPartService,
+  providers: [TeacherComponent,TeachingService,DocumentTypeService,ExamPartStatusService, ExamPartTypeService, CoursesService, UserService, ExamsService, DocumentsService,StudentDetailComponent, TeachingsService,AccountService, PaymentService, StudentService, ExamPartService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,

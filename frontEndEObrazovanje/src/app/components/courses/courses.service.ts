@@ -27,9 +27,12 @@ export class CoursesService {
       this.RegenerateData.next();
   }
 
-  getCoursesInstances():Observable<HttpResponse<CourseInstance[]>> {
+  getCoursesInstances(username:String):Observable<HttpResponse<CourseInstance[]>> {
     var url = '';
-    if(this.authS.getRole()==='ROLE_ADMINISTRATOR'){
+    console.log("Username: "+username)
+    if(username!==''){
+      url = `${this.coursesInstanceUrl}/teacher/${username}`
+    }else if(this.authS.getRole()==='ROLE_ADMINISTRATOR'){
       url = this.coursesInstanceUrl;
     }else if(this.authS.getRole()==='ROLE_TEACHER'){
       url = `${this.coursesInstanceUrl}/teacher`

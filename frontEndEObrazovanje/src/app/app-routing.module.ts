@@ -17,6 +17,7 @@ import { StudentDetailComponent } from './components/student-detail/student-deta
 import { StudentExamDetailComponent } from './components/student-exam-detail/student-exam-detail.component';
 import { StudentComponent } from './components/student/student.component';
 import { TeacherComponent } from './components/teacher/teacher.component';
+import { TeachersComponent } from './components/teachers/teachers.component';
 import { TeachingsComponent } from './components/teachings/teachings.component';
 import { UsersComponent } from './components/users/users.component';
 import { ViewCourseInstanceComponent } from './components/view-course-instance/view-course-instance.component';
@@ -41,7 +42,6 @@ const routes: Routes = [
   { path: 'document', component: DocumentComponent, canActivate: [RoleGuard] },
   { path: 'document/:id', component: DocumentComponent, canActivate: [RoleGuard] },
   { path: 'teachings', component: TeachingsComponent, canActivate: [RoleGuard] },
-  { path: 'teacher', component: TeacherComponent, canActivate: [RoleGuard] },
   { path: 'course-instance/:id', component: CourseInstanceComponent, canActivate: [RoleGuard] },
   { path: 'add-exam', component: AddExamComponent, canActivate: [RoleGuard] },
   { path: 'add-payment', component: AddPaymentComponent, canActivate: [RoleGuard] },
@@ -55,6 +55,8 @@ const routes: Routes = [
   { path: 'view-course-specification/:id', component: ViewCourseSpecificationComponent, canActivate: [RoleGuard] },
   { path: 'student-exam-detail/:courseId/:cardNumber', component: StudentExamDetailComponent, canActivate: [RoleGuard] },
   { path: 'student-detail/:id', component: StudentDetailComponent, canActivate: [RoleGuard] },
+  { path: 'teachers', component: TeachersComponent, canActivate: [RoleGuard] },
+  { path: 'teacher/:id', component: TeacherComponent, canActivate: [RoleGuard] },
   { path: '**', redirectTo: '' }
 ];
 

@@ -1,0 +1,23 @@
+<div class="main">
+    <h1 class="ml-5">Teachers</h1>
+    <table class="table mx-auto w-75 mt-5">
+        <thead>
+            <tr>
+                <th class="text-center">Firstname</th>
+                <th class="text-center">Lastname</th>
+                <th class="text-center">Username</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody >
+            <tr *ngFor="let t of teachers">
+                <td class="text-center">{{t.userDTO.firstName}}</td>
+                <td class="text-center">{{t.userDTO.lastName}}</td>
+                <td class="text-center"><button class="btn btn-link" (click)="goToTeacher(t)">{{t.userDTO.userName}}</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="ml-5" style="float: right; margin-right: 15%;">
+        <a class="btn btn-outline-primary mt-3 ml-5" routerLink="/add-user" role="button">Add</a>
+    </div>
+</div>
