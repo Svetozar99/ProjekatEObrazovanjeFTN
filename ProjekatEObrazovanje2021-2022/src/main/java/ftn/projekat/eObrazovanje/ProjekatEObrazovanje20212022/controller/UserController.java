@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +36,6 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.ChangePassDTO
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.JwtDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.LoginDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.RoleDTO;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.StudentDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.UserDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.exceptions.BadRequestException;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Account;
@@ -166,15 +167,29 @@ public class UserController {
 
 	
 	@GetMapping(value = "/users")
-	public ResponseEntity<List<UserDTO>> getAllStudents(){
-		List<User> users = userService.findAll();
+	public ResponseEntity<List<UserDTO>> getAllUsers(Pageable page){
+		System.out.println("\nPage sort: "+page.getSort());
+		System.out.println("Page number: "+page.getPageNumber());
+		System.out.println("Page size: "+page.getPageSize());
+		System.out.println("Page class: "+page.getClass());
+		Page<User> users = userService.findAll(page);
 		
 		List<UserDTO> dtos = new ArrayList<UserDTO>();
-		
+		System.out.println("Broj elemenata: "+users.getNumberOfElements()+"\n");
 		for (User u : users) {
 			dtos.add(new UserDTO(u));
 		}
 		return new ResponseEntity<List<UserDTO>>(dtos, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/number-users")
+	public ResponseEntity<Long> getNumberPage(){
+		Long num = userService.count()/5;
+		Long mod = userService.count()%5;
+		if(mod>0) {
+			num ++;
+		}
+		return new ResponseEntity<Long>(num, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "users/{id}")

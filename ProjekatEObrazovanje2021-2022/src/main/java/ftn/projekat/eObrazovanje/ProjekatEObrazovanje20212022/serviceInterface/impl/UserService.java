@@ -3,6 +3,8 @@ package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.User;
@@ -16,8 +18,8 @@ public class UserService implements UserServiceI {
 	UserRepository userRepository;
 	
 	@Override
-	public List<User> findAll() {
-		return userRepository.findAll();
+	public Page<User> findAll(Pageable page) {
+		return userRepository.findAll(page);
 	}
 
 	@Override
@@ -39,5 +41,10 @@ public class UserService implements UserServiceI {
 	public User findByUsername(String username) {
 		// TODO Auto-generated method stub
 		return userRepository.findOneByUsername(username);
+	}
+
+	@Override
+	public Long count() {
+		return userRepository.count();
 	}
 }
