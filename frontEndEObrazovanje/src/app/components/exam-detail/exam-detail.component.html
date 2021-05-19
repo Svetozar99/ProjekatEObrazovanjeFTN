@@ -30,7 +30,11 @@
         </thead>
         <tbody>
             <tr *ngFor="let e of examDetails; let i = index; let odd = odd;">
-                <td class="text-center" *ngIf="teacherExamPart">{{ e.examDTO.enrollmentDTO.courseInstanceDTO.courseSpecificationDTO.title }}</td>
+                <td class="text-center" *ngIf="teacherExamPart">
+                    <button class="btn btn-link" (click)="goToCourseInstance(e.examDTO.enrollmentDTO.courseInstanceDTO)">
+                        {{ e.examDTO.enrollmentDTO.courseInstanceDTO.courseSpecificationDTO.title }}
+                    </button>
+                </td>
                 <td class="text-center">{{ dateToString(e.date) | date:'medium'}}</td>
                 <td class="text-center">{{ e.location }}</td>
                 <td class="text-center">{{ e.points }}</td>

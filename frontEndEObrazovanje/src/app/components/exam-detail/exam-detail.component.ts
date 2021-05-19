@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
+import { CourseInstance } from 'src/app/model/courseInstance';
 import { Exam } from 'src/app/model/exam';
 import { ExamPart } from 'src/app/model/examPart';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -115,6 +116,10 @@ export class ExamDetailComponent implements OnInit {
   isChecked(id:number):string{
     var status = this.examDetails.filter(ed=>ed.id===id)[0].statusDTO.code;
     return status;
+  }
+
+  goToCourseInstance(courseInstance: CourseInstance): void {
+    this.router.navigate(['/course-instance', courseInstance.id]);
   }
 
   checkValue(examDetail:ExamPart){
