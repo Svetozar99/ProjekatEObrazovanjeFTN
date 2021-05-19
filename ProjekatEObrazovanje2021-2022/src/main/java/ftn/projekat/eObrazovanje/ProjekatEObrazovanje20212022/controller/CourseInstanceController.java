@@ -57,6 +57,18 @@ public class CourseInstanceController {
 		return new ResponseEntity<List<CourseInstanceDTO>>(cisdto, HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/teacher/{username}")
+	public ResponseEntity<List<CourseInstanceDTO>> getAllByTeacher(@PathVariable("username") String username){
+		List<CourseInstance> cis = ci.findByTeacher(username);
+		
+		List<CourseInstanceDTO> cisdto = new ArrayList<CourseInstanceDTO>();
+		
+		for(CourseInstance ci : cis) {
+			cisdto.add(new CourseInstanceDTO(ci));
+		}
+		return new ResponseEntity<List<CourseInstanceDTO>>(cisdto, HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<CourseInstanceDTO> getOne(@PathVariable("id") Long id){
 		CourseInstance cis = ci.findById(id);
