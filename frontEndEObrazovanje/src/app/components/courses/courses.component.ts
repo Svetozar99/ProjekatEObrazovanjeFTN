@@ -16,7 +16,7 @@ import { CoursesService } from './courses.service';
 })
 export class CoursesComponent implements OnInit {
 
-  @Input() teacher:Teacher = new Teacher({
+  teacher:Teacher = new Teacher({
     id:0,
     userDTO:{
       id:0,
@@ -30,6 +30,7 @@ export class CoursesComponent implements OnInit {
 
   numberPages:number[] = [];
   numberPage:number = 0;
+  btnAdd:boolean = true;
 
   coursesIntances: CourseInstance[] | null = [];
 
@@ -45,24 +46,38 @@ export class CoursesComponent implements OnInit {
     );
   }
 
+  getNumberPages(mode:string){
+    this.courseService.getNumberPage(mode,this.teacher.userDTO.userName).subscribe(res =>{
+      const num = res.body == null ? 0:res.body;
+      console.log("Num: "+num)
+      var i = 1;
+      for (let index = 0; index < num; index++) {
+        this.numberPages.push(i);
+        i++;
+      }
+    })
+  }
+
   ngOnInit(): void {
     if (this.route.snapshot.params['id']) {
+      this.btnAdd = false;
       this.route.params.pipe(switchMap((params: Params) => 
       this.userService.getTeacher(+params['id']))) // convert to number
     .subscribe(res => {
       this.teacher = res.body==null ? this.teacher:res.body;
+      this.getNumberPages('TEACHER');
       this.getCoursesInstances();
       }
     );
     }else{
+      this.getNumberPages('ADMIN');
       this.getCoursesInstances();
     }
   }
 
   getCoursesInstances(){
-    this.courseService.getCoursesInstances(this.teacher.userDTO.userName).subscribe(
+    this.courseService.getCoursesInstances(this.teacher.userDTO.userName,this.numberPage).subscribe(
       response => {
-        console.log(response.body)
         this.coursesIntances = response.body
       });
   }

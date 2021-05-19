@@ -43,4 +43,16 @@ export class AuthenticationService {
 		console.log(role)
 		return role;
 	}
+
+	getLoggedUser():string{
+		const item = localStorage.getItem('loggedUser');
+		if (!item) {
+			this.router.navigate(['login']);
+			return '';
+		}
+
+		const jwt: JwtHelperService = new JwtHelperService();
+		var	loggedUser = jwt.decodeToken(item);
+		return loggedUser;
+	}
 }

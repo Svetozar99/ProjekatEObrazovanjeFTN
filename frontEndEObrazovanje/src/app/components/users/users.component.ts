@@ -29,7 +29,7 @@ export class UsersComponent implements OnInit {
         i++;
         
       }
-    })
+    });
   }
 
   ngOnInit(): void {

@@ -27,17 +27,26 @@ export class CoursesService {
       this.RegenerateData.next();
   }
 
-  getCoursesInstances(username:String):Observable<HttpResponse<CourseInstance[]>> {
+  getCoursesInstances(username:String,numberPage:number):Observable<HttpResponse<CourseInstance[]>> {
     var url = '';
-    console.log("Username: "+username)
     if(username!==''){
-      url = `${this.coursesInstanceUrl}/teacher/${username}`
+      url = `${this.coursesInstanceUrl}/teacher/${username}?page=${numberPage}&size=5`;
     }else if(this.authS.getRole()==='ROLE_ADMINISTRATOR'){
-      url = this.coursesInstanceUrl;
+      url = `${this.coursesInstanceUrl}?page=${numberPage}&size=5`;
     }else if(this.authS.getRole()==='ROLE_TEACHER'){
-      url = `${this.coursesInstanceUrl}/teacher`
+      url = `${this.coursesInstanceUrl}/teacher?page=${numberPage}&size=5`;
     }
     return this.http.get<CourseInstance[]>(url, {observe: 'response'});
+  }
+
+  getNumberPage(mode:string,username:string): Observable<HttpResponse<number>> {
+    if(this.authS.getRole()==='ROLE_TEACHER'){
+      var user = this.authS.getLoggedUser();
+      username = JSON.stringify(user.sub).split('"')[1];
+      mode = 'TEACHER';
+    }
+    const url = `${this.coursesInstanceUrl}/number-course-instance?mode=${mode}&username=${username}`
+    return this.http.get<number>(url, {observe: 'response'});
   }
 
   getCoursesSpecifications():Observable<HttpResponse<CourseSpecification[]>> {
