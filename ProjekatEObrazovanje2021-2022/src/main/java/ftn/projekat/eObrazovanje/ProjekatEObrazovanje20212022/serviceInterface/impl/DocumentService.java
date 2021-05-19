@@ -66,27 +66,27 @@ public class DocumentService implements DocumentServiceInterface {
     	System.out.println("Name: "+file.getName());
         if (! file.isEmpty()) {
             byte[] bytes = file.getBytes();
-            
-            Path path = Paths.get(getResourceFilePath(DOCUMENTS_DIR_PATH).getAbsolutePath() + File.separator + file.getOriginalFilename());
+            File f = new File(DOCUMENTS_DIR_PATH);
+            Path path = Paths.get(f.getAbsolutePath() + File.separator + file.getOriginalFilename());
             Files.write(path, bytes);
             retVal = path.toString();
         }
         return retVal;
     }
 	
-	private File getResourceFilePath(String path) {
-		System.out.println("\n1");
-	    URL url = this.getClass().getClassLoader().getResource(path);
-	    System.out.println("\n2");
-	    File file = null;
-	    System.out.println("\n3");
-	    try {
-	    	System.out.println("\nUrl: "+url);
-	        file = new File(url.toURI());
-	    } catch (URISyntaxException e) {
-	        file = new File(url.getPath());
-	    }   
-	    return file;
-	}
+//	private File getResourceFilePath(String path) {
+//		System.out.println("\n1");
+//	    URL url = this.getClass().getClassLoader().getResource(path);
+//	    System.out.println("\n2");
+//	    File file = null;
+//	    System.out.println("\n3");
+//	    try {
+//	    	System.out.println("\nUrl: "+url);
+//	        file = new File(url.toURI());
+//	    } catch (URISyntaxException e) {
+//	        file = new File(url.getPath());
+//	    }   
+//	    return file;
+//	}
 
 }
