@@ -20,8 +20,9 @@ export class ExamDetailComponent implements OnInit {
   examDetails: ExamPart[] = [];
   mode: string = '';
   role?: string = undefined;
-  courseId:number = 0;
   teacherExamPart:boolean = false;
+  numberPages:number[] = [];
+  numberPage:number = 0;
 
   constructor(
       private examDetailService: ExamPartService,
@@ -66,6 +67,7 @@ export class ExamDetailComponent implements OnInit {
 
   ngOnInit() {
     if(this.route.snapshot.params['examId']){
+      this.mode = 'STUDENT_MY_EXAM_DETAIL';
       this.route.params.pipe(switchMap((params: Params) =>
       this.examService.getExam(+params['examId'])))
       .subscribe(res =>{
@@ -74,28 +76,31 @@ export class ExamDetailComponent implements OnInit {
       }
       );
     }else if(this.route.snapshot.params['courseId']){
+      this.mode = 'ADMIN'
       this.route.params.pipe(switchMap((params: Params) =>
-      this.examDetailService.getExamParts(+params['courseId'],this.role)))
+      this.examDetailService.getExamParts(+params['courseId'],this.mode,this.numberPage)))
       .subscribe(res =>{
         this.examDetails = res.body == null ? this.examDetails:res.body;
+        this.getNumberPages();
       }
       );
     }else if(this.route.snapshot.params['teacherId']){
       this.teacherExamPart = true;
-      this.examDetailService.getExamPartsForTeacher().subscribe(res =>{
-        this.examDetails = res.body == null ? this.examDetails:res.body;
-      });
+      this.mode = 'TEACHER_EXAM_DETAIL'
+      this.getExamParts(-1);
     }
+    console.log("Mode: "+this.mode)
   }
 
   getExamParts(courseId: number){
     // console.log('getExamParts...');
-    this.examDetailService.getExamParts(courseId,this.role).subscribe(
+    this.examDetailService.getExamParts(courseId,this.mode,this.numberPage).subscribe(
       response => {
         // console.log('Exam details: '+JSON.stringify(response.body));
         this.examDetails = response.body == null ? this.examDetails:response.body;
       }
-    );
+      );
+      this.getNumberPages();
   }
 
   dateToString(date:Date):Date{
@@ -113,6 +118,19 @@ export class ExamDetailComponent implements OnInit {
     this.router.navigate(['/add-exam-part', examPart.id]);
   }
 
+  getNumberPages(){
+    this.examDetailService.getNumberPage(this.mode).subscribe(res =>{
+      const num = res.body == null ? 0:res.body;
+      var i = 1;
+      console.log(num)
+      this.numberPages = [];
+      for (let index = 0; index < num; index++) {
+        this.numberPages.push(i);
+        i++;
+      }
+    })
+  }
+
   isChecked(id:number):string{
     var status = this.examDetails.filter(ed=>ed.id===id)[0].statusDTO.code;
     return status;
@@ -125,5 +143,31 @@ export class ExamDetailComponent implements OnInit {
   checkValue(examDetail:ExamPart){
     examDetail.statusDTO.code = examDetail.statusDTO.code === 'cr' ? 're':'cr';
     this.examDetailService.registeUnregisterExamPart(examDetail).subscribe();
+  }
+
+  increaseNumberPage(){
+    if(this.numberPage < this.numberPages.length-1){
+      this.numberPage=this.numberPage+1;
+      this.getExamParts(this.examDetailService.getCourseId())
+    }
+  }
+
+  reduceNumberPage(){
+    if(this.numberPage>=1){
+      this.numberPage=this.numberPage-1;
+      this.getExamParts(this.examDetailService.getCourseId())
+    }
+  }
+
+  setNumberPage(numberPage:number){
+    this.numberPage = numberPage-1;
+    this.getExamParts(this.examDetailService.getCourseId())
+  }
+
+  isActive(num:number):boolean{
+    if(this.numberPage===num){
+      return true;
+    }
+    return false;
   }
 }

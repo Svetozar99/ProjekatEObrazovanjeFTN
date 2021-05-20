@@ -50,7 +50,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let s of students">
-                    <td class="text-center"><button class="btn btn-link" (click)="goToStudentDetail(s.cardNumber)">{{s.cardNumber}}</button></td>
+                    <td class="text-center"><button class="btn btn-link" (click)="goToStudentDetail(s)">{{s.cardNumber}}</button></td>
                     <td class="text-center">{{s.userDTO.firstName}}</td>
                     <td class="text-center">{{s.userDTO.lastName}}</td>
                     <td class="text-center"><button type="button" class="btn btn-danger btn-sm" (click)="removeStudent(s)">X</button></td>

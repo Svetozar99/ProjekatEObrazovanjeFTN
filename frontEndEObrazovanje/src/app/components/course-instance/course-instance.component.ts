@@ -11,6 +11,7 @@ import { Teaching } from 'src/app/model/teaching';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { TeachingService } from 'src/app/services/teaching.service';
 import { CoursesService } from '../courses/courses.service';
+import { StudentService } from '../student/student.service';
 import { UserService } from '../users/users.service';
 
 @Component({
@@ -41,6 +42,7 @@ export class CourseInstanceComponent implements OnInit {
     private userService:UserService,
     private route: ActivatedRoute,
     private router: Router,
+    private studentS:StudentService,
     private authS:AuthenticationService,
     private teachingService:TeachingService) 
     {
@@ -189,10 +191,11 @@ export class CourseInstanceComponent implements OnInit {
     this.router.navigate(['course-instance/exam-parts/', this.courseInstance.id]);
   }
 
-  goToStudentDetail(cardNubmer:string):void{
-    console.log("CardNumber: "+cardNubmer);
+  goToStudentDetail(student:Student):void{
+    this.studentS.setStudent(student);
+    console.log("CardNumber: "+student.cardNumber);
     console.log("Course id: "+this.courseInstance.id)
-    this.router.navigate(['student-exam-detail/', this.courseInstance.id,cardNubmer]);
+    this.router.navigate(['student-exam-detail/', this.courseInstance.id,student.cardNumber]);
   }
 
 }

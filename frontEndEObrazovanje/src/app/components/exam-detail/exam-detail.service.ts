@@ -2,13 +2,15 @@ import { HttpClient, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { ExamPart } from "src/app/model/examPart";
+import { AuthenticationService } from "src/app/services/authentication.service";
+import { StudentService } from "../student/student.service";
 
 @Injectable()
 export class ExamPartService{
     private examDetailUrl = 'api/exam-part';
     private courseId:number = 0;
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient,private auths:AuthenticationService,private studentS:StudentService) { }
 
     private RegenerateData = new Subject<void>();
 
@@ -18,26 +20,43 @@ export class ExamPartService{
         this.RegenerateData.next();
     }
 
-    getExamParts(courseId: number,role:string|undefined): Observable<HttpResponse<ExamPart[]>>{
-        console.log("Get exam parts!"+role)
+    getExamParts(courseId: number,mode:string,numberPage:number): Observable<HttpResponse<ExamPart[]>>{
+        console.log("Get exam parts!")
         var url = ``;
         this.courseId = courseId;
-        if(role==='ROLE_ADMINISTRATOR' || role==='ROLE_TEACHER'){
-            url = `${this.examDetailUrl}/course-instance/${courseId}`;
-        }else if(role === 'ROLE_STUDENT'){
-            url = `${this.examDetailUrl}/student/${courseId}`;
+        if(mode==='TEACHER_EXAM_DETAIL'){
+            url = `${this.examDetailUrl}/teacher?page=${numberPage}&size=5`;
+        }
+        else if(this.auths.getRole()==='ROLE_ADMINISTRATOR' || this.auths.getRole()==='ROLE_TEACHER'){
+            url = `${this.examDetailUrl}/course-instance/${courseId}?page=${numberPage}&size=5`;
+        }else if(this.auths.getRole() === 'ROLE_STUDENT'){
+            url = `${this.examDetailUrl}/student/${courseId}?page=${numberPage}&size=5`;
         }
         return this.http.get<ExamPart[]>(url, {observe: 'response'});
     }
 
-    getExamPartsForTeacher(): Observable<HttpResponse<ExamPart[]>>{
-        var url = `${this.examDetailUrl}/teacher`;
-        return this.http.get<ExamPart[]>(url, {observe: 'response'});
-    }
+    getNumberPage(mode:string): Observable<HttpResponse<number>> {
+        console.log("\ngetNumberPage")
+        var username = 'undefined';
+        if(mode === 'STUDENT_EXAM_DETAIL'){
+            username = this.studentS.student.userDTO.userName;
+        }
+        else if(this.auths.getRole()==='ROLE_TEACHER' || this.auths.getRole()==='ROLE_STUDENT'){
+            var user = this.auths.getLoggedUser();
+            username = JSON.stringify(user.sub).split('"')[1];
+        }
+        return this.http.get<number>(`${this.examDetailUrl}/number-exam-part?mode=${mode}&username=${username}&courseId=${this.courseId}`, {observe: 'response'});
+      }
 
-    getExamPartsForStudent(courseId:number,cardNumber: string): Observable<HttpResponse<ExamPart[]>>{
+    // getExamPartsForTeacher(): Observable<HttpResponse<ExamPart[]>>{
+    //     var url = `${this.examDetailUrl}/teacher`;
+    //     return this.http.get<ExamPart[]>(url, {observe: 'response'});
+    // }
+
+    getExamPartsForStudent(courseId:number,cardNumber: string,numberPage:number): Observable<HttpResponse<ExamPart[]>>{
         console.log('getExamPartsForStudent...')
-        var url = `${this.examDetailUrl}/${courseId}/${cardNumber}`;
+        this.courseId = courseId;
+        var url = `${this.examDetailUrl}/${courseId}/${cardNumber}?sort=date,asc&page=${numberPage}&size=5`;
         return this.http.get<ExamPart[]>(url, {observe: 'response'});
     }
     

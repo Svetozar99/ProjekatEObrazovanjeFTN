@@ -14,6 +14,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ExamPartStatusService } from 'src/app/services/exam-part-status.service';
 import { ExamPartService } from '../exam-detail/exam-detail.service';
 import { ExamsService } from '../exams/exams.service';
+import { StudentService } from '../student/student.service';
 
 @Component({
   selector: 'app-student-exam-detail',
@@ -29,6 +30,8 @@ export class StudentExamDetailComponent implements OnInit {
   editGradle:boolean=false;
   examPartStatuss:ExamPartStatus [] = [];
   examPart:ExamPart;
+  numberPages:number[] = [];
+  numberPage:number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,7 +39,8 @@ export class StudentExamDetailComponent implements OnInit {
     private authenticationService:AuthenticationService,
     private examService:ExamsService,
     private examPartService:ExamPartService,
-    private examPartStatusService:ExamPartStatusService
+    private examPartStatusService:ExamPartStatusService,
+    private studentS:StudentService
     ) 
   {
     this.exam = {
@@ -156,13 +160,28 @@ export class StudentExamDetailComponent implements OnInit {
 
   getExamParts(){
     this.route.params.pipe(switchMap((params: Params) =>
-    this.examPartService.getExamPartsForStudent(+params['courseId'],params['cardNumber'])))
+    this.examPartService.getExamPartsForStudent(+params['courseId'],params['cardNumber'],this.numberPage)))
     .subscribe(res =>{
       this.examParts = res.body==null ? this.examParts:res.body;
       this.student = this.examParts[0].examDTO.enrollmentDTO.studentDTO;
       this.exam = this.examParts[0].examDTO;
+      console.log('Student: '+JSON.stringify(this.student))
+      this.studentS.setStudent(this.student);
+      this.getNumberPages();
     }
     );
+  }
+
+  getNumberPages(){
+    this.examPartService.getNumberPage('STUDENT_EXAM_DETAIL').subscribe(res =>{
+      const num = res.body == null ? 0:res.body;
+      var i = 1;
+      this.numberPages = [];
+      for (let index = 0; index < num; index++) {
+        this.numberPages.push(i);
+        i++;
+      }
+    })
   }
 
   goToExamPart(examPart: ExamPart): void {
@@ -252,6 +271,32 @@ export class StudentExamDetailComponent implements OnInit {
 
   isIn(id:number):boolean{
     if(id==this.examPart.id){
+      return true;
+    }
+    return false;
+  }
+
+  increaseNumberPage(){
+    if(this.numberPage < this.numberPages.length-1){
+      this.numberPage=this.numberPage+1;
+      this.getExamParts();
+    }
+  }
+
+  reduceNumberPage(){
+    if(this.numberPage>=1){
+      this.numberPage=this.numberPage-1;
+      this.getExamParts()
+    }
+  }
+
+  setNumberPage(numberPage:number){
+    this.numberPage = numberPage-1;
+    this.getExamParts()
+  }
+
+  isActive(num:number):boolean{
+    if(this.numberPage===num){
       return true;
     }
     return false;
