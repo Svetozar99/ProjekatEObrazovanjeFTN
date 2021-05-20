@@ -2,6 +2,8 @@ package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.ExamPartDTO;
@@ -23,13 +25,19 @@ public interface ExamPartServiceInterface {
 	
 	public List<ExamPart> findByCodeAndCardNum(String code, String cardNum);
 	
-	public List<ExamPart> findByCardNumAndCourse(String cardNum,Long id);
+	public Page<ExamPart> findByCardNumAndCourse(String cardNum,Long id,Pageable page);
+	
+	public Page<ExamPart> findByCourseInstance(Long courseId,Pageable page);
 	
 	public List<ExamPart> findByCourseInstance(Long courseId);
 	
 	public long maxId();
 	
-	List<ExamPart>  findByTeacher(String username);
+	public Page<ExamPart> findByTeacher(String username,Pageable page);
 	
-	public boolean isIn(ExamPart examPart,List<ExamPartDTO> dtos);
+//	public boolean isIn(ExamPart examPart,List<ExamPartDTO> dtos);
+	
+	public Long countByStudentAndCourse(String cardNum,Long id);
+	public Long countByCourseInstance(Long id);
+	public Long countByTeacher(String username);
 }

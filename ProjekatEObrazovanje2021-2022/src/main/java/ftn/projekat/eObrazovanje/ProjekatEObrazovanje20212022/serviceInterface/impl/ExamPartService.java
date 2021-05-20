@@ -1,8 +1,11 @@
 package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.ExamPartDTO;
@@ -12,7 +15,7 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.E
 
 @Service
 public class ExamPartService implements ExamPartServiceInterface {
-
+	
 	@Autowired
 	ExamPartRepository examPartRepository;
 	
@@ -58,11 +61,16 @@ public class ExamPartService implements ExamPartServiceInterface {
 	}
 
 	@Override
-	public List<ExamPart> findByCardNumAndCourse(String cardNum, Long id) {
+	public Page<ExamPart> findByCardNumAndCourse(String cardNum, Long id,Pageable page) {
 		// TODO Auto-generated method stub
-		return examPartRepository.findByExam_enrollment_student_cardNumberAndExam_enrollment_courseInstance_id(cardNum, id);
+		return examPartRepository.findByExam_enrollment_student_cardNumberAndExam_enrollment_courseInstance_id(cardNum, id,page);
 	}
 
+	@Override
+	public Page<ExamPart> findByCourseInstance(Long courseId,Pageable page) {
+		return examPartRepository.findByCourseInstance(courseId,page);
+	}
+	
 	@Override
 	public List<ExamPart> findByCourseInstance(Long courseId) {
 		return examPartRepository.findByExam_enrollment_courseInstance_id(courseId);
@@ -73,20 +81,40 @@ public class ExamPartService implements ExamPartServiceInterface {
 		return examPartRepository.maxId();
 	}
 	
+//	@Override
+//	public boolean isIn(ExamPart examPart,List<ExamPartDTO> dtos) {
+//		for (ExamPartDTO examPartDTO : dtos) {
+//			System.out.println(examPart.getCode()+" = "+examPartDTO.getCode());
+//			if(examPart.getCode().equals(examPartDTO.getCode())) {
+//				System.out.println(examPart.getCode()+" = "+examPartDTO.getCode());
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
+
 	@Override
-	public boolean isIn(ExamPart examPart,List<ExamPartDTO> dtos) {
-		for (ExamPartDTO examPartDTO : dtos) {
-			if(examPart.getCode().equals(examPartDTO.getCode())) {
-				return true;
-			}
-		}
-		return false;
+	public Page<ExamPart> findByTeacher(String username,Pageable page) {
+		// TODO Auto-generated method stub
+		return examPartRepository.findByTeacher(username,page);
 	}
 
 	@Override
-	public List<ExamPart> findByTeacher(String username) {
+	public Long countByStudentAndCourse(String cardNum, Long id) {
 		// TODO Auto-generated method stub
-		return examPartRepository.findByTeacher(username);
+		return examPartRepository.countByExam_enrollment_student_cardNumberAndExam_enrollment_courseInstance_id(cardNum, id);
+	}
+
+	@Override
+	public Long countByCourseInstance(Long id) {
+		// TODO Auto-generated method stub
+		return  examPartRepository.countByCourseInstance(id);
+	}
+
+	@Override
+	public Long countByTeacher(String username) {
+		// TODO Auto-generated method stub
+		return examPartRepository.countByTeacher(username);
 	}
 
 }
