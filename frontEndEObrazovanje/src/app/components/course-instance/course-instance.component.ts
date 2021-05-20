@@ -51,7 +51,7 @@ export class CourseInstanceComponent implements OnInit {
         endDate:new Date(),
         courseSpecificationDTO: new CourseSpecification({id:0,title:'',ects:0,code:''})
       });
-      this.courseService.getCoursesSpecifications().subscribe(res =>
+      this.courseService.getCoursesSpecifications(-1).subscribe(res =>
         {
           this.coursesSpecifications = res.body==null ? []:res.body;
         });

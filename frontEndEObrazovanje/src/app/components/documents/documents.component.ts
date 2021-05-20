@@ -58,11 +58,10 @@ export class DocumentsComponent implements OnInit {
   }
 
   getNumberPages(){
-    this.numberPages = [];
     this.documentsService.getNumberPage(this.student.userDTO.userName).subscribe(res =>{
       const num = res.body == null ? 0:res.body;
-      console.log("Num: "+num)
       var i = 1;
+      this.numberPages = [];
       for (let index = 0; index < num; index++) {
         this.numberPages.push(i);
         i++;

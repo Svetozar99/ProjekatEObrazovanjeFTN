@@ -28,10 +28,10 @@ export class TeachersComponent implements OnInit {
   }
 
   getNumberPages(){
-    this.numberPages = [];
     this.userService.getNumberPage('TEACHERS').subscribe(res =>{
       const num = res.body == null ? 0:res.body;
       var i = 1;
+      this.numberPages = [];
       for (let index = 0; index < num; index++) {
         this.numberPages.push(i);
         i++;

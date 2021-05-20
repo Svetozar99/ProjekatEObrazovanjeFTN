@@ -36,7 +36,7 @@ export class ViewCourseInstanceComponent implements OnInit {
     //       }
     //     );
     // }else{
-      this.courseService.getCoursesSpecifications().
+      this.courseService.getCoursesSpecifications(-1).
             subscribe(res =>{
               this.coursesSpecifications = [];
               this.coursesSpecifications = res.body==null ? []:res.body;

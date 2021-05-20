@@ -12,7 +12,7 @@ import { AppComponent } from 'src/app/app.component';
 })
 export class UsersComponent implements OnInit {
 
-  users: User[] | null = [];
+  users: User[] = [];
   numberPages:number[] = [];
   numberPage:number = 0;
   subscription: Subscription;
@@ -24,10 +24,10 @@ export class UsersComponent implements OnInit {
   }
 
   getNumberPages(){
-    this.numberPages = [];
     this.userService.getNumberPage('USERS').subscribe(res =>{
       const num = res.body == null ? 0:res.body;
       var i = 1;
+      this.numberPages = [];
       for (let index = 0; index < num; index++) {
         this.numberPages.push(i);
         i++;
@@ -44,7 +44,7 @@ export class UsersComponent implements OnInit {
     this.userService.getUsers(this.numberPage).subscribe(
       response => {
         // console.log(response)
-        this.users = response.body;
+        this.users = response.body == null? this.users:response.body;
       });
   }
 

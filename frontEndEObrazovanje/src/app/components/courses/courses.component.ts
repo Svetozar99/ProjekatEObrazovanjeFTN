@@ -50,10 +50,10 @@ export class CoursesComponent implements OnInit {
   }
 
   getNumberPages(mode:string){
-    this.numberPages = [];
     this.courseService.getNumberPage(mode,this.teacher.userDTO.userName).subscribe(res =>{
       const num = res.body == null ? 0:res.body;
       var i = 1;
+      this.numberPages = [];
       for (let index = 0; index < num; index++) {
         this.numberPages.push(i);
         i++;
@@ -76,7 +76,6 @@ export class CoursesComponent implements OnInit {
       this.mode = 'ADMIN';
       this.getCoursesInstances(this.mode);
     }
-    console.log("Mode: "+this.mode)
   }
 
   getCoursesInstances(mode:string){

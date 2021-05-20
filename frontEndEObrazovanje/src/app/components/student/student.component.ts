@@ -12,7 +12,7 @@ import { StudentService } from './student.service';
 })
 export class StudentComponent implements OnInit {
 
-  students: Student[] | null =[];
+  students: Student[] =[];
   numberPages:number[] = [];
   numberPage:number = 0;
   subscription: Subscription;
@@ -28,10 +28,10 @@ export class StudentComponent implements OnInit {
   }
 
   getNumberPage(){
-    this.numberPages = [];
     this.userService.getNumberPage('STUDENTS').subscribe(res =>{
       const num = res.body == null ? 0:res.body;
       var i = 1;
+      this.numberPages = [];
       for (let index = 0; index < num; index++) {
         this.numberPages.push(i);
         i++;
@@ -44,7 +44,7 @@ export class StudentComponent implements OnInit {
     this.getNumberPage();
     this.studentService.getStudents(this.numberPage).subscribe(
       response => {
-        this.students = response.body;
+        this.students = response.body == null ? this.students:response.body;
       }
     )
   }

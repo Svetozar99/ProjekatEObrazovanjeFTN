@@ -40,17 +40,24 @@ export class CoursesService {
   }
 
   getNumberPage(mode:string,username:string): Observable<HttpResponse<number>> {
+    var url = `${this.coursesInstanceUrl}/number-course-instance?mode=${mode}&username=${username}`
     if(this.authS.getRole()==='ROLE_TEACHER'){
       var user = this.authS.getLoggedUser();
       username = JSON.stringify(user.sub).split('"')[1];
       mode = 'TEACHER';
+    }else if(mode==="COURSE_SPECIFICATION"){
+      url = `${this.coursesSpecificationUrl}/number-course-specification`
     }
-    const url = `${this.coursesInstanceUrl}/number-course-instance?mode=${mode}&username=${username}`
+    console.log("Url: "+url)
     return this.http.get<number>(url, {observe: 'response'});
   }
 
-  getCoursesSpecifications():Observable<HttpResponse<CourseSpecification[]>> {
-    return this.http.get<CourseSpecification[]>(this.coursesSpecificationUrl, {observe: 'response'});
+  getCoursesSpecifications(numberPage:number):Observable<HttpResponse<CourseSpecification[]>> {
+    var url = `${this.coursesSpecificationUrl}?sort=title,asc&page=${numberPage}&size=5`;
+    if(numberPage==-1){
+      url = this.coursesSpecificationUrl;
+    }
+    return this.http.get<CourseSpecification[]>(url, {observe: 'response'});
   }
 
   getCourseInstance(id: number): Observable<HttpResponse<CourseInstance>> {

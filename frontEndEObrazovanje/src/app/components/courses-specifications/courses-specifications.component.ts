@@ -12,7 +12,8 @@ import { CoursesService } from '../courses/courses.service';
 export class CoursesSpecificationsComponent implements OnInit {
 
   coursesSpecifications: CourseSpecification[] | null = [];
-
+  numberPages:number[] = [];
+  numberPage:number = 0;
   subscription: Subscription;
 
   constructor(private courseService: CoursesService,private router: Router) {
@@ -26,11 +27,24 @@ export class CoursesSpecificationsComponent implements OnInit {
   }
 
   getCoursesSpecifications(){
-    this.courseService.getCoursesSpecifications().subscribe(
+    this.getNumberPages();
+    this.courseService.getCoursesSpecifications(this.numberPage).subscribe(
       response => {
         console.log(response.body)
         this.coursesSpecifications = response.body
       });
+  }
+
+  getNumberPages(){
+    this.courseService.getNumberPage('COURSE_SPECIFICATION','').subscribe(res =>{
+      const num = res.body == null ? 0:res.body;
+      var i = 1;
+      this.numberPages = [];
+      for (let index = 0; index < num; index++) {
+        this.numberPages.push(i);
+        i++;
+      }
+    })
   }
 
   deleteCourseSpecification(courseSpecification: CourseSpecification): void {
@@ -42,6 +56,32 @@ export class CoursesSpecificationsComponent implements OnInit {
 
   goToViewCourseSpecification(courseSpecification: CourseSpecification): void {
     this.router.navigate(['/view-course-specification', courseSpecification.id]);
+  }
+
+  increaseNumberPage(){
+    if(this.numberPage < this.numberPages.length-1){
+      this.numberPage=this.numberPage+1;
+      this.getCoursesSpecifications();
+    }
+  }
+
+  reduceNumberPage(){
+    if(this.numberPage>=1){
+      this.numberPage=this.numberPage-1;
+      this.getCoursesSpecifications();
+    }
+  }
+
+  setNumberPage(numberPage:number){
+    this.numberPage = numberPage-1;
+    this.getCoursesSpecifications();
+  }
+
+  isActive(num:number):boolean{
+    if(this.numberPage===num){
+      return true;
+    }
+    return false;
   }
 
 }
