@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,8 +35,8 @@ public class TeacherController {
 	private UserServiceI userService;
 	
 	@GetMapping
-	public ResponseEntity<List<TeacherDTO>> getAllTeachers(){
-		List<Teacher> teachers = teacherService.findAll();
+	public ResponseEntity<List<TeacherDTO>> getAllTeachers(Pageable page){
+		Page<Teacher> teachers = teacherService.findAll(page);
 		
 		List<TeacherDTO> teachersDTO = new ArrayList<TeacherDTO>();
 		

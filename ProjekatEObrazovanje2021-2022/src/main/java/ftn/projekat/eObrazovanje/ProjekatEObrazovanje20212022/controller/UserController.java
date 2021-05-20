@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -91,6 +92,9 @@ public class UserController {
 	
 	@Autowired
 	private UserRoleServiceInterface userRoleS;
+	
+	@Autowired
+	private StudentServiceI studentService;
 	
 	@SuppressWarnings("unused")
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -168,10 +172,7 @@ public class UserController {
 	
 	@GetMapping(value = "/users")
 	public ResponseEntity<List<UserDTO>> getAllUsers(Pageable page){
-		System.out.println("\nPage sort: "+page.getSort());
-		System.out.println("Page number: "+page.getPageNumber());
-		System.out.println("Page size: "+page.getPageSize());
-		System.out.println("Page class: "+page.getClass());
+		System.out.println("\ngetAllUsers");
 		Page<User> users = userService.findAll(page);
 		
 		List<UserDTO> dtos = new ArrayList<UserDTO>();
@@ -183,12 +184,29 @@ public class UserController {
 	}
 	
 	@GetMapping(value = "/number-users")
-	public ResponseEntity<Long> getNumberPage(){
-		Long num = userService.count()/5;
-		Long mod = userService.count()%5;
-		if(mod>0) {
-			num ++;
+	public ResponseEntity<Long> getNumberPage(@RequestParam String mode){
+		Long num = (long)0;
+		if(mode.equals("USERS")) {
+			num = userService.count()/5;
+			Long mod = userService.count()%5;
+			if(mod>0) {
+				num ++;
+			}
+		}else if(mode.equals("STUDENTS")) {
+			num = studentService.count()/5;
+			Long mod = studentService.count()%5;
+			if(mod>0) {
+				num ++;
+			}
 		}
+		else if(mode.equals("TEACHERS")) {
+			num = teachS.count()/5;
+			Long mod = teachS.count()%5;
+			if(mod>0) {
+				num ++;
+			}
+		}
+		
 		return new ResponseEntity<Long>(num, HttpStatus.OK);
 	}
 	

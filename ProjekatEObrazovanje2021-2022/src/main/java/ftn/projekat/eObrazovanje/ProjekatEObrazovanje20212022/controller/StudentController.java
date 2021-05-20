@@ -47,16 +47,6 @@ public class StudentController {
 		return new ResponseEntity<List<StudentDTO>>(dtos, HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/number-students")
-	public ResponseEntity<Long> getNumberPage(){
-		Long num = studentService.count()/5;
-		Long mod = studentService.count()%5;
-		if(mod>0) {
-			num ++;
-		}
-		return new ResponseEntity<Long>(num, HttpStatus.OK);
-	}
-	
 	@GetMapping(value = "course-instance/{id}")
 	public ResponseEntity<List<StudentDTO>> getStudentsByCourseInstance(@PathVariable("id") Long idCourseInstance){
 		System.out.println("usao u f-ju");
