@@ -11,6 +11,8 @@ import { UserService } from '../users/users.service';
 export class TeachersComponent implements OnInit {
 
   teachers:Teacher[] | null = [];
+  numberPages:number[] = [];
+  numberPage:number = 0;
 
   constructor(private userService: UserService, private router: Router) { }
 
@@ -19,13 +21,58 @@ export class TeachersComponent implements OnInit {
   }
 
   getTeachers(){
-    this.userService.getTeachers().subscribe(res=>{
+    this.getNumberPages();
+    this.userService.getTeachers(this.numberPage).subscribe(res=>{
       this.teachers = res.body;
     });
   }
 
+  getNumberPages(){
+    this.numberPages = [];
+    this.userService.getNumberPage('TEACHERS').subscribe(res =>{
+      const num = res.body == null ? 0:res.body;
+      var i = 1;
+      for (let index = 0; index < num; index++) {
+        this.numberPages.push(i);
+        i++;
+      }
+    })
+  }
+
   goToTeacher(teacher:Teacher){
     this.router.navigate(['/teacher', teacher.id]);
+  }
+
+  deleteTeacher(t: Teacher): void{
+    this.userService.deleteTeacher(t.id==undefined ? 0:t.id).subscribe(
+      () => this.getTeachers()
+    )
+  }
+
+  increaseNumberPage(){
+    if(this.numberPage < this.numberPages.length-1){
+      this.numberPage=this.numberPage+1;
+      this.getTeachers();
+    }
+  }
+
+  reduceNumberPage(){
+    if(this.numberPage>=1){
+      this.numberPage=this.numberPage-1;
+      this.getTeachers();
+    }
+  }
+
+  setNumberPage(numberPage:number){
+    this.numberPage = numberPage-1;
+    this.getTeachers();
+  }
+
+  isActive(num:number):boolean{
+    if(this.numberPage===num){
+      return true;
+    }
+    return false;
   }
 
 }

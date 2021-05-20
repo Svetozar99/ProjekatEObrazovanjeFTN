@@ -80,10 +80,10 @@ export class CoursesComponent implements OnInit {
   }
 
   getCoursesInstances(mode:string){
+    this.getNumberPages(mode);
     this.courseService.getCoursesInstances(this.teacher.userDTO.userName,this.numberPage).subscribe(
       response => {
         this.coursesIntances = response.body;
-        this.getNumberPages(mode);
       });
   }
 
@@ -107,15 +107,15 @@ export class CoursesComponent implements OnInit {
   increaseNumberPage(){
     if(this.numberPage < this.numberPages.length-1){
       this.numberPage=this.numberPage+1;
+      this.getCoursesInstances(this.mode);
     }
-    this.getCoursesInstances(this.mode);
   }
 
   reduceNumberPage(){
     if(this.numberPage>=1){
       this.numberPage=this.numberPage-1;
+      this.getCoursesInstances(this.mode);
     }
-    this.getCoursesInstances(this.mode);
   }
 
   setNumberPage(numberPage:number){

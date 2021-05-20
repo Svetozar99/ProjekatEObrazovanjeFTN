@@ -49,11 +49,11 @@ export class DocumentsComponent implements OnInit {
   }
 
   geStudentDocuments(){
+    this.getNumberPages();
     console.log("Get documents!");
     this.documentsService.getStudentDocuments(this.student.userDTO.userName,this.numberPage).subscribe(
       response => {
         this.documents = response.body;
-        this.getNumberPages()
       });
   }
 
@@ -93,15 +93,15 @@ export class DocumentsComponent implements OnInit {
   increaseNumberPage(){
     if(this.numberPage < this.numberPages.length-1){
       this.numberPage=this.numberPage+1;
+      this.geStudentDocuments();
     }
-    this.geStudentDocuments();
   }
 
   reduceNumberPage(){
     if(this.numberPage>=1){
       this.numberPage=this.numberPage-1;
+      this.geStudentDocuments();
     }
-    this.geStudentDocuments();
   }
 
   setNumberPage(numberPage:number){

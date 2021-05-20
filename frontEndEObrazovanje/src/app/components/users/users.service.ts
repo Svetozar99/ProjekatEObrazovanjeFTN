@@ -34,18 +34,17 @@ export class UserService {
         return this.http.get<User[]>(url, {observe: 'response'});
     }
 
-    getNumberPage(page:string): Observable<HttpResponse<number>> {
-        var url = ``
-        if(page==='users'){
-            url = `api/number-users`
-        }else if(page==='students'){
-            url = `api/student/number-students`
-        }
+    getNumberPage(mode:string): Observable<HttpResponse<number>> {
+        var url = `api/number-users?mode=${mode}`
         return this.http.get<number>(url, {observe: 'response'});
     }
 
-    getTeachers(): Observable<HttpResponse<Teacher[]>> {
-        return this.http.get<Teacher[]>(this.teacherUrl, {observe: 'response'});
+    getTeachers(numberPage:number): Observable<HttpResponse<Teacher[]>> {
+        var url = `${this.teacherUrl}?page=${numberPage}&size=5`;
+        if(numberPage==-1){
+            url = this.teacherUrl;
+        }
+        return this.http.get<Teacher[]>(url, {observe: 'response'});
     }
 
     getCourseInstanceStudents(courseInstance:CourseInstance): Observable<HttpResponse<Student[]>> {
@@ -104,6 +103,11 @@ export class UserService {
     deleteUser(userId: number): Observable<HttpResponse<any>> {
         const url = `${this.usersUrl}/${userId}`;
         return this.http.delete<any>(url, {observe: 'response'});
+    }
+
+    deleteTeacher(stId: number): Observable<HttpResponse<any>>{
+        const url = `${this.teacherUrl}/${stId}`;
+        return this.http.delete<any>(url, {observe:'response'});
     }
 
     changePass(changePass: ChangePass): Observable<HttpResponse<User>>{

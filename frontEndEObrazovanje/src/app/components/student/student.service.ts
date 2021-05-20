@@ -32,7 +32,7 @@ export class StudentService {
     }
 
     getStudents(numberPage:number): Observable<HttpResponse<Student[]>>{
-        const url = `${this.studentsUrl}?asc&page=${numberPage}&size=5`
+        const url = `${this.studentsUrl}?page=${numberPage}&size=5`
         return this.http.get<Student[]>(url, {observe:'response'});
     }
 

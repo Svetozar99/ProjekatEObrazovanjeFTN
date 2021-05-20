@@ -21,23 +21,27 @@ export class StudentComponent implements OnInit {
     this.subscription = studentService.RegenerateData$.subscribe(()=>
       this.getStudents()
     );
-    this.userService.getNumberPage('students').subscribe(res =>{
-      const num = res.body == null ? 0:res.body;
-      var i = 1;
-      for (let index = 0; index < num; index++) {
-        this.numberPages.push(i);
-        i++;
-        
-      }
-    })
   }
 
   ngOnInit(): void {
     this.getStudents();
   }
 
+  getNumberPage(){
+    this.numberPages = [];
+    this.userService.getNumberPage('STUDENTS').subscribe(res =>{
+      const num = res.body == null ? 0:res.body;
+      var i = 1;
+      for (let index = 0; index < num; index++) {
+        this.numberPages.push(i);
+        i++;
+      }
+    })
+  }
+
 
   getStudents(){
+    this.getNumberPage();
     this.studentService.getStudents(this.numberPage).subscribe(
       response => {
         this.students = response.body;
@@ -57,15 +61,15 @@ export class StudentComponent implements OnInit {
   increaseNumberPage(){
     if(this.numberPage < this.numberPages.length-1){
       this.numberPage=this.numberPage+1;
+      this.getStudents();
     }
-    this.getStudents();
   }
 
   reduceNumberPage(){
     if(this.numberPage>=1){
       this.numberPage=this.numberPage-1;
+      this.getStudents();
     }
-    this.getStudents();
   }
 
   setNumberPage(numberPage:number){

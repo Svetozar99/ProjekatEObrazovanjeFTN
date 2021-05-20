@@ -21,15 +21,18 @@ export class UsersComponent implements OnInit {
     this.subscription = userService.RegenerateData$.subscribe(() => 
       this.getUsers()
     );
-    this.userService.getNumberPage('users').subscribe(res =>{
+  }
+
+  getNumberPages(){
+    this.numberPages = [];
+    this.userService.getNumberPage('USERS').subscribe(res =>{
       const num = res.body == null ? 0:res.body;
       var i = 1;
       for (let index = 0; index < num; index++) {
         this.numberPages.push(i);
         i++;
-        
       }
-    });
+    })
   }
 
   ngOnInit(): void {
@@ -37,10 +40,11 @@ export class UsersComponent implements OnInit {
   }
 
   getUsers(){
+    this.getNumberPages();
     this.userService.getUsers(this.numberPage).subscribe(
       response => {
         // console.log(response)
-        this.users = response.body
+        this.users = response.body;
       });
   }
 
@@ -58,15 +62,15 @@ export class UsersComponent implements OnInit {
   increaseNumberPage(){
     if(this.numberPage < this.numberPages.length-1){
       this.numberPage=this.numberPage+1;
+      this.getUsers();
     }
-    this.getUsers();
   }
 
   reduceNumberPage(){
     if(this.numberPage>=1){
       this.numberPage=this.numberPage-1;
+      this.getUsers();
     }
-    this.getUsers();
   }
 
   setNumberPage(numberPage:number){

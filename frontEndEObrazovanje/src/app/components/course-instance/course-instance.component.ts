@@ -55,7 +55,7 @@ export class CourseInstanceComponent implements OnInit {
         {
           this.coursesSpecifications = res.body==null ? []:res.body;
         });
-      this.userService.getTeachers().subscribe(res =>
+      this.userService.getTeachers(-1).subscribe(res =>
         {
           this.teachers = res.body==null ? []:res.body;
         });
