@@ -16,6 +16,26 @@
             </tr>
         </tbody>
     </table>
+    <nav class="d-inline-block text-center w-100">
+        <ul class="pagination d-inline-block">
+          <li class="page-item d-inline-block">
+            <button class="page-link" (click)="reduceNumberPage()">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Previous</span>
+            </button>
+          </li>
+          <div class="d-inline-block" *ngFor="let i of numberPages;">
+            <li *ngIf="numberPage===(i-1)" class="page-item d-inline-block active"><button class="page-link" (click)="setNumberPage(i)">{{i}}</button></li>
+            <li *ngIf="!(numberPage===(i-1))" class="page-item d-inline-block"><button class="page-link" (click)="setNumberPage(i)">{{i}}</button></li>
+          </div>
+          <li class="page-item d-inline-block">
+            <button class="page-link" (click)="increaseNumberPage()">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
     <div style="float: right; margin-right: 15%;">
         <a class="btn btn-outline-primary mt-3 ml-5" routerLink="/document" role="button">Add</a>
     </div>

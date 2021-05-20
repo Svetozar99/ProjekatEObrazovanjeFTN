@@ -5,12 +5,14 @@ import { Observable, Subject } from "rxjs";
 import { Document } from "src/app/model/document";
 import { Url } from "src/app/model/url";
 import { AuthenticationService } from "src/app/services/authentication.service";
+import { StudentDetailComponent } from "../student-detail/student-detail.component";
+import { StudentService } from "../student/student.service";
 
 @Injectable()
 export class DocumentsService {
     private documentUrl = 'api/document';
 
-    constructor(private http: HttpClient, private auths: AuthenticationService){
+    constructor(private http: HttpClient, private auths: AuthenticationService,private studentS:StudentService){
         
     }
 
@@ -22,15 +24,24 @@ export class DocumentsService {
         this.RegenerateData.next();
     }
 
-    getStudentDocuments(username:string): Observable<HttpResponse<Document[]>>{
+    getStudentDocuments(username:string,numberPage:number): Observable<HttpResponse<Document[]>>{
         var url = '';
         if(this.auths.getRole() === 'ROLE_ADMINISTRATOR'){
-            url = `${this.documentUrl}/for-student/${username}`;
+            url = `${this.documentUrl}/for-student/${username}?sort=title,asc&page=${numberPage}&size=5`;
         }else if(this.auths.getRole() === 'ROLE_STUDENT'){
-            url = this.documentUrl;
+            url = `${this.documentUrl}?sort=title,asc&page=${numberPage}&size=5`;
         }
         return this.http.get<Document[]>(url, {observe: 'response'});
     }
+
+    getNumberPage(username:string): Observable<HttpResponse<number>> {
+        if(this.auths.getRole() === "ROLE_STUDENT"){
+            var user = this.auths.getLoggedUser();
+            username = JSON.stringify(user.sub).split('"')[1];
+        }
+        const url = `${this.documentUrl}/number-documents?username=${username}`
+        return this.http.get<number>(url, {observe: 'response'});
+      }
 
     getDocument(id: number): Observable<HttpResponse<Document>>{
         const url = `${this.documentUrl}/${id}`;
@@ -39,7 +50,7 @@ export class DocumentsService {
 
     addFile(formData: FormData): Observable<HttpResponse<Url>> {
         console.log("Saljem fajl!")
-        const url = `${this.documentUrl}/add-file`
+        const url = `${this.documentUrl}/add-file`;
         return this.http.post<Url>(url, formData, {observe: 'response'});
     }
 
@@ -53,8 +64,12 @@ export class DocumentsService {
     }
 
     addDocument(document: Document): Observable<HttpResponse<Document>> {
-        console.log("Saljem fajl!")
-        const url = `${this.documentUrl}`
+        console.log("Cuvam dokument!")
+        var username = 'undefined';
+        if(this.auths.getRole() === 'ROLE_ADMINISTRATOR'){
+            username = this.studentS.student.userDTO.userName;
+        }
+        const url = `${this.documentUrl}?username=${username}`
         return this.http.post<Document>(url, document, {observe: 'response'});
     }
 

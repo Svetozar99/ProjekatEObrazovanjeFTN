@@ -18,6 +18,8 @@ export class DocumentsComponent implements OnInit {
 
   user: User = { id:0, firstName:"", lastName:"", userName:"",password:"", roles:[]};
   documents : Document[] | null = [];
+  numberPages:number[] = [];
+  numberPage:number = 0;
 
   subscription: Subscription;
 
@@ -43,19 +45,29 @@ export class DocumentsComponent implements OnInit {
   }
 
   ngOnInit():void { 
-        this.documentsService.getStudentDocuments(this.student.userDTO.userName)
-        .subscribe(res => {
-          console.log(JSON.stringify(res.body));
-          this.documents = res.body;
-        });
+        this.geStudentDocuments();
   }
 
   geStudentDocuments(){
     console.log("Get documents!");
-    this.documentsService.getStudentDocuments(this.student.userDTO.userName).subscribe(
+    this.documentsService.getStudentDocuments(this.student.userDTO.userName,this.numberPage).subscribe(
       response => {
         this.documents = response.body;
+        this.getNumberPages()
       });
+  }
+
+  getNumberPages(){
+    this.numberPages = [];
+    this.documentsService.getNumberPage(this.student.userDTO.userName).subscribe(res =>{
+      const num = res.body == null ? 0:res.body;
+      console.log("Num: "+num)
+      var i = 1;
+      for (let index = 0; index < num; index++) {
+        this.numberPages.push(i);
+        i++;
+      }
+    })
   }
 
   deleteDocument(document: Document): void {
@@ -76,5 +88,31 @@ export class DocumentsComponent implements OnInit {
 
   goToViewDocument(doc: Document): void{
     this.router.navigate(['/document', doc.id]);
+  }
+
+  increaseNumberPage(){
+    if(this.numberPage < this.numberPages.length-1){
+      this.numberPage=this.numberPage+1;
+    }
+    this.geStudentDocuments();
+  }
+
+  reduceNumberPage(){
+    if(this.numberPage>=1){
+      this.numberPage=this.numberPage-1;
+    }
+    this.geStudentDocuments();
+  }
+
+  setNumberPage(numberPage:number){
+    this.numberPage = numberPage-1;
+    this.geStudentDocuments();
+  }
+
+  isActive(num:number):boolean{
+    if(this.numberPage===num){
+      return true;
+    }
+    return false;
   }
 }

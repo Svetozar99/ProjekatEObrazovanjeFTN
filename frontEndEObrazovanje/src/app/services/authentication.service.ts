@@ -40,7 +40,6 @@ export class AuthenticationService {
 
 		const jwt: JwtHelperService = new JwtHelperService();
 		var	role = jwt.decodeToken(item).roles[0].authority;
-		console.log(role)
 		return role;
 	}
 

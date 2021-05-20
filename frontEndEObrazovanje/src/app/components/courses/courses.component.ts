@@ -28,10 +28,11 @@ export class CoursesComponent implements OnInit {
     }
   })
 
+  role = '';
   numberPages:number[] = [];
   numberPage:number = 0;
   btnAdd:boolean = true;
-
+  mode = '';
   coursesIntances: CourseInstance[] | null = [];
 
   subscription: Subscription;
@@ -40,16 +41,18 @@ export class CoursesComponent implements OnInit {
     private courseService: CoursesService,
     private router: Router,
     private route: ActivatedRoute,
+    private authS:AuthenticationService,
     private userService: UserService) { 
     this.subscription = courseService.RegenerateData$.subscribe(() => 
-      this.getCoursesInstances()
+      this.getCoursesInstances(this.mode)
     );
+    this.role = authS.getRole()
   }
 
   getNumberPages(mode:string){
+    this.numberPages = [];
     this.courseService.getNumberPage(mode,this.teacher.userDTO.userName).subscribe(res =>{
       const num = res.body == null ? 0:res.body;
-      console.log("Num: "+num)
       var i = 1;
       for (let index = 0; index < num; index++) {
         this.numberPages.push(i);
@@ -64,28 +67,30 @@ export class CoursesComponent implements OnInit {
       this.route.params.pipe(switchMap((params: Params) => 
       this.userService.getTeacher(+params['id']))) // convert to number
     .subscribe(res => {
+      this.mode = 'TEACHER';
       this.teacher = res.body==null ? this.teacher:res.body;
-      this.getNumberPages('TEACHER');
-      this.getCoursesInstances();
+      this.getCoursesInstances(this.mode);
       }
     );
     }else{
-      this.getNumberPages('ADMIN');
-      this.getCoursesInstances();
+      this.mode = 'ADMIN';
+      this.getCoursesInstances(this.mode);
     }
+    console.log("Mode: "+this.mode)
   }
 
-  getCoursesInstances(){
+  getCoursesInstances(mode:string){
     this.courseService.getCoursesInstances(this.teacher.userDTO.userName,this.numberPage).subscribe(
       response => {
-        this.coursesIntances = response.body
+        this.coursesIntances = response.body;
+        this.getNumberPages(mode);
       });
   }
 
   deleteCourseInstance(courseInstance: CourseInstance): void {
     console.log("Brisem: "+JSON.stringify(courseInstance));
     this.courseService.deleteCourseInstance(courseInstance.id==undefined ? 0:courseInstance.id).subscribe(
-      () => this.getCoursesInstances()
+      () => this.getCoursesInstances(this.mode)
     );
   }
 
@@ -103,19 +108,19 @@ export class CoursesComponent implements OnInit {
     if(this.numberPage < this.numberPages.length-1){
       this.numberPage=this.numberPage+1;
     }
-    this.getCoursesInstances();
+    this.getCoursesInstances(this.mode);
   }
 
   reduceNumberPage(){
     if(this.numberPage>=1){
       this.numberPage=this.numberPage-1;
     }
-    this.getCoursesInstances();
+    this.getCoursesInstances(this.mode);
   }
 
   setNumberPage(numberPage:number){
     this.numberPage = numberPage-1;
-    this.getCoursesInstances();
+    this.getCoursesInstances(this.mode);
   }
 
   isActive(num:number):boolean{

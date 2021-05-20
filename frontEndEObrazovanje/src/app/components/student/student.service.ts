@@ -6,8 +6,22 @@ import { Student } from "src/app/model/student";
 @Injectable()
 export class StudentService {
     private studentsUrl = 'api/student';
+    student:Student;
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {
+        this.student = new Student({
+            id:0,
+            cardNumber: '',
+            userDTO:{
+              id:0,
+              firstName:'',
+              lastName:'',
+              userName:'',
+              password:'',
+              roles:[]
+            }
+          })
+     }
 
     private RegenerateData = new Subject<void>();
 
@@ -25,5 +39,9 @@ export class StudentService {
     deleteStudent(stId: number): Observable<HttpResponse<any>>{
         const url = `${this.studentsUrl}/${stId}`;
         return this.http.delete<any>(url, {observe:'response'});
+    }
+
+    setStudent(student:Student){
+        this.student = student;
     }
 }

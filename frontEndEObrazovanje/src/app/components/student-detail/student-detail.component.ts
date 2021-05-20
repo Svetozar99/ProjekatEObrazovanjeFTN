@@ -30,7 +30,7 @@ export class StudentDetailComponent implements OnInit {
   //   name:''
   // })
 
-  constructor(private userService: UserService, private route: ActivatedRoute,private router: Router) { 
+  constructor(private studentS: StudentService,private userService: UserService, private route: ActivatedRoute,private router: Router) { 
     // this.role = auths.getRole();
     this.student = new Student({
       id:0,
@@ -52,6 +52,7 @@ export class StudentDetailComponent implements OnInit {
           this.userService.getStudent(+params['id']))) // convert to number
         .subscribe(res => {
           this.student = res.body==null ? this.student:res.body;
+          this.studentS.setStudent(this.student);
           }
         );
     }
