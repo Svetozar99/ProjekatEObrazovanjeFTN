@@ -48,7 +48,9 @@ public class CourseInstanceController {
 			}
 		}else if(mode.equals("TEACHER")) {
 			num = ci.countForTeacher(username)/5;
-			Long mod = ci.countAll()%5;
+			System.out.println("\nNum: "+num);
+			Long mod = ci.countForTeacher(username)%5;
+			System.out.println("\nMod: "+mod);
 			if(mod>0) {
 				num ++;
 			}

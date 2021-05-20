@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -55,9 +57,9 @@ public class DocumentService implements DocumentServiceInterface {
 	}
 
 	@Override
-	public List<Document> findByUsername(String username) {
+	public Page<Document> findByUsername(String username,Pageable page) {
 		// TODO Auto-generated method stub
-		return documentRepository.findByStudent_user_username(username);
+		return documentRepository.findByStudent_user_username(username,page);
 	}
 	
 	@Override
@@ -71,20 +73,10 @@ public class DocumentService implements DocumentServiceInterface {
         retVal = path.toString();
         return retVal;
     }
-	
-//	private File getResourceFilePath(String path) {
-//		System.out.println("\n1");
-//	    URL url = this.getClass().getClassLoader().getResource(path);
-//	    System.out.println("\n2");
-//	    File file = null;
-//	    System.out.println("\n3");
-//	    try {
-//	    	System.out.println("\nUrl: "+url);
-//	        file = new File(url.toURI());
-//	    } catch (URISyntaxException e) {
-//	        file = new File(url.getPath());
-//	    }   
-//	    return file;
-//	}
 
+	@Override
+	public Long countForStudent(String username) {
+		// TODO Auto-generated method stub
+		return documentRepository.countByStudent_user_username(username);
+	}
 }

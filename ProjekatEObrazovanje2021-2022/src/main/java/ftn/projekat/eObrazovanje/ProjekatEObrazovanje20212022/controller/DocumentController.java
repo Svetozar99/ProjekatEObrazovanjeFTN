@@ -11,6 +11,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -66,12 +68,23 @@ public class DocumentController {
 	@Autowired
 	private StudentServiceI studServ;
 	
+	@GetMapping(value = "/number-documents")
+	public ResponseEntity<Long> getNumberPage(@RequestParam String username){
+		System.out.println("\nPoziva se number-course-instance: ");
+		Long num = documentS.countForStudent(username)/5;
+		Long mod = documentS.countForStudent(username)%5;
+		if(mod>0) {
+			num ++;
+		}
+		return new ResponseEntity<Long>(num, HttpStatus.OK);
+	}
+	
 	@GetMapping
-//	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
-	public ResponseEntity<List<DocumentDTO>> getAllDocumentsByStudent(Principal principal){
-		List<Document> documents = documentS.findByUsername(principal.getName());
+	@PreAuthorize("hasAnyRole('ROLE_STUDENT')")
+	public ResponseEntity<List<DocumentDTO>> getAllDocumentsByStudent(Principal principal,Pageable page){
+		System.out.println("\ngetAllDocumentsByStudent");
 		
-		System.out.println("pozvalo seee!!");
+		Page<Document> documents = documentS.findByUsername(principal.getName(),page);
 		List<DocumentDTO> dtos = new ArrayList<DocumentDTO>();
 		
 		for (Document document : documents) {
@@ -81,11 +94,11 @@ public class DocumentController {
 	}
 	
 	@GetMapping(value = "/for-student/{username}")
-//	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
-	public ResponseEntity<List<DocumentDTO>> getAllDocumentsByStudent1(@PathVariable("username") String username){
-		List<Document> documents = documentS.findByUsername(username);
-		System.out.println(username + "ovo je usernem proslijedjeni");
+	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR')")
+	public ResponseEntity<List<DocumentDTO>> getAllDocumentsByStudent(@PathVariable("username") String username,Pageable page){
+		System.out.println("\ngetAllDocumentsByStudent");
 		
+		Page<Document> documents = documentS.findByUsername(username,page);
 		System.out.println("pozvalo seee ovo 1!!");
 		List<DocumentDTO> dtos = new ArrayList<DocumentDTO>();
 		
@@ -141,10 +154,13 @@ public class DocumentController {
 	}
 	
 	@PostMapping()
-	@PreAuthorize("hasAnyRole('ROLE_STUDENT')")
-	public ResponseEntity<DocumentDTO> saveMyDocument(Principal principal, @RequestBody DocumentDTO dto){
-		System.out.println("pozvala se fja");
-		String name = principal.getName(); //get logged in username
+	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_STUDENT')")
+	public ResponseEntity<DocumentDTO> saveMyDocument(Principal principal, @RequestBody DocumentDTO dto, @RequestParam String username){
+		System.out.println("\nsaveMyDocument");
+		String name = principal.getName();
+		if(!username.equals("undefined")) {
+			name = username;
+		}
 		Student st = studServ.findByUser(name);
 		
 		TypeDocument typeDocument = documentTypeS.typeDocByCode(dto.getTypeDocumentDTO().getCode());
@@ -159,7 +175,7 @@ public class DocumentController {
 	}
 	
 	@PostMapping("/add-file")
-	@PreAuthorize("hasAnyRole('ROLE_STUDENT')")
+	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_STUDENT')")
     public ResponseEntity<UrlDTO> multiUploadFileModel(@RequestParam("file") MultipartFile file) {
 		String url="";
 		if(file==null) {
