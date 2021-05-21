@@ -182,7 +182,7 @@ export class CourseInstanceComponent implements OnInit {
           subscribe(res =>{
             this.otherStudents = [];
             this.otherStudents = res.body==null ? []:res.body;
-            // console.log('Other students: '+JSON.stringify(this.students));
+            // console.log('Other students: '+JSON.stringify(this.otherStudents));
           });
       });
   }
