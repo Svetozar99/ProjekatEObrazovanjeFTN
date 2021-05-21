@@ -15,6 +15,8 @@ import { AccountService } from './account.service';
 export class AccountComponent implements OnInit {
 
   account: Account;
+  numberPages:number[] = [];
+  numberPage:number = 0;
 
   constructor(private accountService:AccountService, private paymentService:PaymentService, private route: ActivatedRoute,private router: Router) {
     this.account = new Account({
@@ -41,10 +43,7 @@ export class AccountComponent implements OnInit {
       this.accountService.getAccount(+params['id'])))
       .subscribe(res => {
         this.account = res.body==null ? this.account:res.body;
-        this.paymentService.getAccountPayments().subscribe( res => 
-          {
-            this.account.payments = res.body==null ? this.account.payments:res.body;
-          });
+        this.getPayments();
       })
   }
 
@@ -53,5 +52,51 @@ export class AccountComponent implements OnInit {
     d.setHours(d.getHours()-1);
     return d;
   }
+
+  getPayments(){
+    this.paymentService.getAccountPayments(this.numberPage).subscribe( res => 
+      {
+        this.account.payments = res.body==null ? this.account.payments:res.body;
+        this.getNumberPages();
+      });
+  }
+
+  getNumberPages(){
+    this.paymentService.getNumberPage().subscribe(res =>{
+      const num = res.body == null ? 0:res.body;
+      var i = 1;
+      console.log(num)
+      this.numberPages = [];
+      for (let index = 0; index < num; index++) {
+        this.numberPages.push(i);
+        i++;
+      }
+    })
+  }
   
+  increaseNumberPage(){
+    if(this.numberPage < this.numberPages.length-1){
+      this.numberPage=this.numberPage+1;
+      this.getPayments();
+    }
+  }
+
+  reduceNumberPage(){
+    if(this.numberPage>=1){
+      this.numberPage=this.numberPage-1;
+      this.getPayments();
+    }
+  }
+
+  setNumberPage(numberPage:number){
+    this.numberPage = numberPage-1;
+    this.getPayments();
+  }
+
+  isActive(num:number):boolean{
+    if(this.numberPage===num){
+      return true;
+    }
+    return false;
+  }
 }

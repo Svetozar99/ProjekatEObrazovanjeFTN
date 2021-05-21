@@ -13,24 +13,24 @@ export class PaymentComponent implements OnInit {
 
   payments: Payment[] | null = [];
 
-  subscription: Subscription;
+  // subscription: Subscription;
 
 
   constructor(private paymentService: PaymentService, private router: Router) {
-    this.subscription = paymentService.RegenerateData$.subscribe(() =>
-      this.getPayments()
-    );
+    // this.subscription = paymentService.RegenerateData$.subscribe(() =>
+    //   this.getPayments()
+    // );
   }
 
   ngOnInit(): void {
-    this.getPayments();
+    // this.getPayments();
   }
 
-  getPayments(){
-    this.paymentService.getAccountPayments().subscribe(
-      response => {
-        this.payments = response.body;
-      }
-    )
-  }
+  // getPayments(){
+  //   this.paymentService.getAccountPayments().subscribe(
+  //     response => {
+  //       this.payments = response.body;
+  //     }
+  //   )
+  // }
 }

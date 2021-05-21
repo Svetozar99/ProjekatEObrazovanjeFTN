@@ -25,12 +25,12 @@ export class ExamPartService{
         var url = ``;
         this.courseId = courseId;
         if(mode==='TEACHER_EXAM_DETAIL'){
-            url = `${this.examDetailUrl}/teacher?page=${numberPage}&size=5`;
+            url = `${this.examDetailUrl}/teacher?sort=date_exam_part,desc&page=${numberPage}&size=5`;
         }
         else if(this.auths.getRole()==='ROLE_ADMINISTRATOR' || this.auths.getRole()==='ROLE_TEACHER'){
-            url = `${this.examDetailUrl}/course-instance/${courseId}?page=${numberPage}&size=5`;
+            url = `${this.examDetailUrl}/course-instance/${courseId}?sort=date_exam_part,desc&page=${numberPage}&size=5`;
         }else if(this.auths.getRole() === 'ROLE_STUDENT'){
-            url = `${this.examDetailUrl}/student/${courseId}?page=${numberPage}&size=5`;
+            url = `${this.examDetailUrl}/student/${courseId}?sort=date,desc&page=${numberPage}&size=5`;
         }
         return this.http.get<ExamPart[]>(url, {observe: 'response'});
     }
