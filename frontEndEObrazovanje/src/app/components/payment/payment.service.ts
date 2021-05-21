@@ -30,6 +30,15 @@ export class PaymentService {
         return this.http.get<number>(`${this.paymentsUrl}/number-payments?username=${username}`, {observe: 'response'});
       }
 
+      getNumberPage2(username:string): Observable<HttpResponse<number>> {
+        if(this.authS.getRole() === "ROLE_STUDENT"){
+            var user = this.authS.getLoggedUser();
+            var username = JSON.stringify(user.sub).split('"')[1];
+        }
+        
+        return this.http.get<number>(`${this.paymentsUrl}/number-payments?username=${username}`, {observe: 'response'});
+      }
+
     addAccountPayment(payment: Payment): Observable<HttpResponse<Payment>>{
         return this.http.post<Payment>(this.paymentsUrl, payment, {observe:'response'});
     }

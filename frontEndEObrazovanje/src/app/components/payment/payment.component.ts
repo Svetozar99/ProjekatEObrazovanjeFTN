@@ -16,6 +16,8 @@ export class PaymentComponent implements OnInit {
 
   payments: Payment[] | null = [];
 
+  numberPages:number[] = [];
+  numberPage:number = 0;
   // subscription: Subscription;
 
   @Input() student:Student = new Student({
@@ -55,11 +57,50 @@ export class PaymentComponent implements OnInit {
   }
 
   getStudentPayments(){
+    this.getNumberPages();
     this.paymentService.getStudentPayments(this.student.userDTO.userName).subscribe(
       response => {
         this.payments = response.body;
       }
     )
+  }
+
+  getNumberPages(){
+    this.paymentService.getNumberPage2(this.student.userDTO.userName).subscribe(res =>{
+      const num = res.body == null ? 0:res.body;
+      var i = 1;
+      this.numberPages = [];
+      for (let index = 0; index < num; index++) {
+        this.numberPages.push(i);
+        i++;
+      }
+    })
+  }
+
+  increaseNumberPage(){
+    if(this.numberPage < this.numberPages.length-1){
+      this.numberPage=this.numberPage+1;
+      this.getStudentPayments();
+    }
+  }
+
+  setNumberPage(numberPage:number){
+    this.numberPage = numberPage-1;
+    this.getStudentPayments();
+  }
+
+  reduceNumberPage(){
+    if(this.numberPage>=1){
+      this.numberPage=this.numberPage-1;
+      this.getStudentPayments();
+    }
+  }
+
+  isActive(num:number):boolean{
+    if(this.numberPage===num){
+      return true;
+    }
+    return false;
   }
 
   dateToString(date:Date):Date{
