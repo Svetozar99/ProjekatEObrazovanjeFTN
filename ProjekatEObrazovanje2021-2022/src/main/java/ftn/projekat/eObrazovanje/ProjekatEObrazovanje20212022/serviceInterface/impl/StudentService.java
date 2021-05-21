@@ -50,8 +50,8 @@ public class StudentService implements StudentServiceI {
 	}
 
 	@Override
-	public List<Student> findByCourseInstance(Long idCourseInstance) {
-		return studentRepository.findByCourseInstance(idCourseInstance);
+	public Page<Student> findByCourseInstance(Long idCourseInstance,Pageable page) {
+		return studentRepository.findByCourseInstance(idCourseInstance,page);
 	}
 
 	@Override
@@ -63,6 +63,12 @@ public class StudentService implements StudentServiceI {
 	public Long count() {
 		// TODO Auto-generated method stub
 		return studentRepository.count();
+	}
+
+	@Override
+	public Long countByCourseInstance(Long idCourseInstance) {
+		// TODO Auto-generated method stub
+		return studentRepository.countByCourseInstance(idCourseInstance);
 	}
 
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.StudentDTO;
@@ -47,12 +48,23 @@ public class StudentController {
 		return new ResponseEntity<List<StudentDTO>>(dtos, HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/number-students")
+	public ResponseEntity<Long> getNumberPage(@RequestParam Long courseId){
+		Long num = studentService.countByCourseInstance(courseId)/5;
+		Long mod = studentService.countByCourseInstance(courseId)%5;
+		if(mod>0) {
+			num ++;
+		}
+		
+		return new ResponseEntity<Long>(num, HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "course-instance/{id}")
-	public ResponseEntity<List<StudentDTO>> getStudentsByCourseInstance(@PathVariable("id") Long idCourseInstance){
+	public ResponseEntity<List<StudentDTO>> getStudentsByCourseInstance(@PathVariable("id") Long idCourseInstance,Pageable page){
 		System.out.println("usao u f-ju");
 		
 		System.out.println(idCourseInstance + "idCourseInstance");
-		List<Student> students = studentService.findByCourseInstance(idCourseInstance);
+		Page<Student> students = studentService.findByCourseInstance(idCourseInstance,page);
 		
 		List<StudentDTO> dtos = new ArrayList<StudentDTO>();
 		
