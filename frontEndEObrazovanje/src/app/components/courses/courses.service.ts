@@ -35,6 +35,8 @@ export class CoursesService {
       url = `${this.coursesInstanceUrl}?sort=startDate,asc&page=${numberPage}&size=5`;
     }else if(this.authS.getRole()==='ROLE_TEACHER'){
       url = `${this.coursesInstanceUrl}/teacher?sort=start_date,asc&page=${numberPage}&size=5`;
+    }else if(this.authS.getRole()==='ROLE_STUDENT'){
+      url = `${this.coursesInstanceUrl}/student?sort=start_date,asc&page=${numberPage}&size=5`;
     }
     return this.http.get<CourseInstance[]>(url, {observe: 'response'});
   }

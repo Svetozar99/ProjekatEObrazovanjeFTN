@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { CourseInstance } from 'src/app/model/courseInstance';
 import { Student } from 'src/app/model/student';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { CoursesService } from '../courses/courses.service';
 import { StudentDetailComponent } from '../student-detail/student-detail.component';
 import { CourseInstanceForStudentService } from './courses-for-student.service';
 
@@ -15,7 +16,9 @@ import { CourseInstanceForStudentService } from './courses-for-student.service';
 export class CoursesForStudentComponent implements OnInit {
 
   courseInstances: CourseInstance[] | null = [];
-
+  mode = '';
+  numberPages:number[] = [];
+  numberPage:number = 0;
   subscription: Subscription;
 
   @Input() student:Student = new Student({
@@ -31,27 +34,36 @@ export class CoursesForStudentComponent implements OnInit {
     }
   })
 
-  constructor(private coursesService: CourseInstanceForStudentService, private auths: AuthenticationService ,private router: Router,private studentDetail: StudentDetailComponent) { 
+  constructor(
+    private coursesService: CourseInstanceForStudentService,
+    // private courseService: CoursesService, 
+    private auths: AuthenticationService,
+    private router: Router,
+    private studentDetail: StudentDetailComponent) { 
     if(auths.getRole() === 'ROLE_ADMINISTRATOR'){
       this.student = studentDetail.student;
     }
     this.subscription = coursesService.RegenerateData$.subscribe(() =>
-      // this.getPayments()
-      this.getStudentCourses());
+      this.getCoursesInstances(this.mode));
+      // this.getStudentCourses());
   }
 
   ngOnInit(): void {
-    this.getStudentCourses();
+    this.mode = 'STUDENT';
+    
+    // this.getStudentCourses();
+    this.getCoursesInstances(this.mode);
   }
 
-  getStudentCourses(){
-    console.log('pogodjena ocekivana metoda');
-    this.coursesService.getStudentCourses(this.student.userDTO.userName).subscribe(
-      response => {
-        this.courseInstances = response.body;
-      }
-    )
-  }
+  // getStudentCourses(){
+  //   this.getNumberPages(this.mode);
+  //   console.log('pogodjena ocekivana metoda');
+  //   this.coursesService.getStudentCourses(this.student.userDTO.userName).subscribe(
+  //     response => {
+  //       this.courseInstances = response.body;
+  //     }
+  //   )
+  // }
 
   dateToString(date:Date):Date{
     var d = new Date(date);
@@ -61,5 +73,44 @@ export class CoursesForStudentComponent implements OnInit {
 
   goToCourseInstance(courseInstance: CourseInstance): void {
     this.router.navigate(['/course-instance', courseInstance.id]);
+  }
+
+  reduceNumberPage(){
+    if(this.numberPage>=1){
+      this.numberPage=this.numberPage-1;
+      this.getCoursesInstances(this.mode);
+    }
+  }
+
+  getCoursesInstances(mode:string){
+    this.getNumberPages(mode);
+    this.coursesService.getCoursesInstances(this.student.userDTO.userName,this.numberPage).subscribe(
+      response => {
+        this.courseInstances = response.body;
+      });
+  }
+
+  getNumberPages(mode:string){
+    this.coursesService.getNumberPage(mode,this.student.userDTO.userName,-1).subscribe(res =>{
+      const num = res.body == null ? 0:res.body;
+      var i = 1;
+      this.numberPages = [];
+      for (let index = 0; index < num; index++) {
+        this.numberPages.push(i);
+        i++;
+      }
+    })
+  }
+
+  setNumberPage(numberPage:number){
+    this.numberPage = numberPage-1;
+    this.getCoursesInstances(this.mode);
+  }
+
+  increaseNumberPage(){
+    if(this.numberPage < this.numberPages.length-1){
+      this.numberPage=this.numberPage+1;
+      this.getCoursesInstances(this.mode);
+    }
   }
 }
