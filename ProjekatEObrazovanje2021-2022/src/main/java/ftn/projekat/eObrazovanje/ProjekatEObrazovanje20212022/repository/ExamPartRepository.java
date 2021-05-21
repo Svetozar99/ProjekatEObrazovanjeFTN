@@ -31,7 +31,12 @@ public interface ExamPartRepository extends JpaRepository<ExamPart, Long> {
 			"				GROUP BY code", nativeQuery = true)
 	Page<ExamPart>  findByCourseInstance(@Param("courseId") Long courseId,Pageable page);
 	
-	List<ExamPart>  findByExam_enrollment_courseInstance_id(Long courseId);
+	@Query(value = "SELECT * FROM eobrazovanje.exam_parts " + 
+			"where exam_id in (SELECT id FROM eobrazovanje.exams" + 
+			"	where enrollment_id in (SELECT id FROM eobrazovanje.enrollments" + 
+			"		where course_instance_id = :courseId))" + 
+			"				GROUP BY code", nativeQuery = true)
+	List<ExamPart>  findByCourseInstance(Long courseId);
 	
 	@Query(value = "SELECT count(distinct code) FROM eobrazovanje.exam_parts " + 
 			"where exam_id in (SELECT id FROM eobrazovanje.exams" + 

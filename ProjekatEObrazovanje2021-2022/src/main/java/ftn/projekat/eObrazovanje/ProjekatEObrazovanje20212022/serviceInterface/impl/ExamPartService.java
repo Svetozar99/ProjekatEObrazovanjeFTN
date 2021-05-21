@@ -73,7 +73,7 @@ public class ExamPartService implements ExamPartServiceInterface {
 	
 	@Override
 	public List<ExamPart> findByCourseInstance(Long courseId) {
-		return examPartRepository.findByExam_enrollment_courseInstance_id(courseId);
+		return examPartRepository.findByCourseInstance(courseId);
 	}
 
 	@Override

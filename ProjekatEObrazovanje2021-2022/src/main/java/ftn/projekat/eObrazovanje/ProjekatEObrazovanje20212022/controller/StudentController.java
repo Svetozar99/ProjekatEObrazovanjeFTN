@@ -66,7 +66,7 @@ public class StudentController {
 	
 	@GetMapping(value = "course-instance/other-students/{id}")
 	public ResponseEntity<List<StudentDTO>> getOtherStudents(@PathVariable("id") Long idCourseInstance){
-		System.out.println("usao u f-ju");
+		System.out.println("\ngetOtherStudents");
 		
 		System.out.println(idCourseInstance + "idCourseInstance");
 		List<Student> students = studentService.findOtherStudents(idCourseInstance);

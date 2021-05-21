@@ -109,9 +109,7 @@ public class EnrollmentController {
 		
 		
 		for (ExamPart examPart : examParts) {
-			if(!examPartS.isIn(examPart, dtos)) {
 				dtos.add(new ExamPartDTO(examPart));
-			}
 		}
 		enr.setStudent(student);
 		enr.setCourseInstance(cii);

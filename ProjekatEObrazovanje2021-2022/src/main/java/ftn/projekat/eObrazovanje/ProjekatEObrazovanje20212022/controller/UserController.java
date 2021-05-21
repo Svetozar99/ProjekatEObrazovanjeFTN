@@ -278,7 +278,7 @@ public class UserController {
 	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
 	@Transactional
 	public ResponseEntity<UserDTO> updateStudent(@RequestBody UserDTO userDTO){
-		User user = userService.findById(userDTO.getId());
+		User user = userService.findByUsername(userDTO.getUserName());
 		System.out.println("\nFirst name: "+userDTO.getFirstName());
 		if(user == null) {
 			return new ResponseEntity<UserDTO>(HttpStatus.NOT_FOUND);
@@ -287,11 +287,33 @@ public class UserController {
 //		for (UserRole userRole : user.getUserRoles()) {
 //			userRoleS.deleteUserRole(userRole);
 //		}
+		for(UserRole r:user.getUserRoles()) {
+			if(r.getRole().getCode().equals("st")) {
+				Student s = studentS.findByUser(user.getUsername());
+				if(s!=null) {	
+					studentS.delete(s.getId());
+				}
+			}else if(r.getRole().getCode().equals("admin")) {
+				Administrator a = adminS.findByUser(user.getUsername());
+				if(a!=null) {
+					adminS.delete(a.getId());
+				}
+			}else if(r.getRole().getCode().equals("teach")) {
+				System.out.println("\nPukao0");
+				Teacher teacher = teachS.findByUsername(user.getUsername());
+				System.out.println("\nPukao1");
+				if(teacher!=null) {
+					teachS.delete(teacher.getId());
+				}
+			}
+		}
+		
 		userRoleS.deleteByUser(user.getId());
 		user.setFirstName(userDTO.getFirstName());
 		user.setLastName(userDTO.getLastName());
 		user.setPassword(userDTO.getPassword());
 		user.setUserRoles(userRoles);
+		System.out.println("\nPukao2");
 		for (RoleDTO roleDTO : userDTO.getRoles()) {
 			Role r = roleS.findByCode(roleDTO.getCode());
 			UserRole userRole = new UserRole(user,r);
