@@ -67,7 +67,7 @@ export class StudentDetailComponent implements OnInit {
       this.documentI = true;
     }else if(button === 'payments'){
       this.paymentsI = true;
-    }else if(button === 'cousres'){
+    }else if(button === 'courses'){
       this.courseI = true;
     }
   }

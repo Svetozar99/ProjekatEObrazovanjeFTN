@@ -1,0 +1,22 @@
+<div class="main">
+    <h1 class="ml-5">Courses</h1>
+    <table class="table mx-auto w-75 mt-5">
+        <thead>
+            <tr>
+                <th class="text-center">Title</th>
+                <th class="text-center">Start date</th>
+                <th class="text-center">End date</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody >
+            <tr *ngFor="let ci of courseInstances; let i = index; let odd = odd;">
+                <td class="text-center"><button class="btn btn-link" (click)="goToCourseInstance(ci)">{{ci.courseSpecificationDTO.title}}</button></td>
+                <!-- <td class="text-center">{{ ci.courseSpecificationDTO.title }}</td> -->
+
+                <td class="text-center">{{ dateToString(ci.startDate) | date:'mediumDate'}}</td>
+                <td class="text-center">{{ dateToString(ci.endDate) | date:'mediumDate'}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
