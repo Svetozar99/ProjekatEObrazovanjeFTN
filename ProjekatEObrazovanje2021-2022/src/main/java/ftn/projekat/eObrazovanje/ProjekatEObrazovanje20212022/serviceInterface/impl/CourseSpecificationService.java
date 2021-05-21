@@ -3,6 +3,8 @@ package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.CourseSpecification;
@@ -16,9 +18,9 @@ public class CourseSpecificationService implements CourseSpecificationI {
 	CourseSpecificationRepository csrepos;
 	
 	@Override
-	public List<CourseSpecification> findAll() {
+	public Page<CourseSpecification> findAll(Pageable page) {
 		// TODO Auto-generated method stub
-		return csrepos.findAll();
+		return csrepos.findAll(page);
 	}
 
 	@Override
@@ -37,6 +39,12 @@ public class CourseSpecificationService implements CourseSpecificationI {
 	public void delete(Long id) {
 		// TODO Auto-generated method stub
 		csrepos.deleteById(id);
+	}
+
+	@Override
+	public Long count() {
+		// TODO Auto-generated method stub
+		return csrepos.count();
 	}
 
 }

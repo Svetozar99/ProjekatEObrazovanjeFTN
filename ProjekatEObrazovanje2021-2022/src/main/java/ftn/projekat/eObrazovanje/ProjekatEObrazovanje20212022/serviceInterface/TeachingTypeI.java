@@ -13,4 +13,6 @@ public interface TeachingTypeI {
 	public TeachingType save(TeachingType teachingType);
 	
 	public void delete(Long id);
+	
+	public TeachingType findOneByCode(String code);
 }

@@ -88,7 +88,12 @@ public class TeachingController {
 	@PostMapping
 	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR')")
 	public ResponseEntity<TeachingDTO> save(@RequestBody TeachingDTO tdto){
-		TeachingType ttp = tti.findById(tdto.getTeachingTypeDTO().getId());
+		System.out.println("\nSave teaching");
+		Teaching teaching = tsi.findByCourseInstance(tdto.getCourseInstanceDTO().getId());
+		if(teaching!=null) {
+			tsi.delete(teaching.getId());
+		}
+		TeachingType ttp = tti.findOneByCode("lec");
 		Teacher teacher = ti.findById(tdto.getTeacherDTO().getId());
 		CourseInstance couins = ci.findById(tdto.getCourseInstanceDTO().getId());
 		

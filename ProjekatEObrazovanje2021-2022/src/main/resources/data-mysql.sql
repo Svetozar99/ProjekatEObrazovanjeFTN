@@ -33,12 +33,13 @@ INSERT INTO course_instance(id, start_date, end_date, course_specification_id) V
 INSERT INTO course_instance(id, start_date, end_date, course_specification_id) VALUES(2, '2020-02-10', '2021-07-07', 2);
 
 INSERT INTO teaching_type(id, name, code) VALUES(1, 'exercise', 'ex');
+INSERT INTO teaching_type(id, name, code) VALUES(2, 'lecture', 'lec');
 
 INSERT INTO enrollments(id, student_id, course_instance_id) VALUES(1, 1, 1);
 INSERT INTO enrollments(id, student_id, course_instance_id) VALUES(2, 2, 1);
 INSERT INTO enrollments(id, student_id, course_instance_id) VALUES(3, 1, 2);
 
-INSERT INTO teachings(id, teaching_type_id, teacher_id, course_instance_id) VALUES(1, 1, 1, 1);
+INSERT INTO teachings(id, teaching_type_id, teacher_id, course_instance_id) VALUES(1, 2, 1, 1);
 
 INSERT INTO type_document(id, name, code) VALUES(1,'Diploma','di');
 INSERT INTO type_document(id, name, code) VALUES(2,'Form','fo');
@@ -60,12 +61,12 @@ INSERT INTO exam_parts(id, date_exam_part, location, points,won_points,exam_id,e
 VALUES(1, '2021-03-21 13:15:00', 'Location1', 30,0, 1, 1, 2,'1-1');
 
 INSERT INTO exam_parts(id, date_exam_part, location, points,won_points,exam_id,exam_part_type_id,exam_part_status_id,code) 
-VALUES(4, '2021-03-30 13:15:00', 'Location2', 30,0, 1, 1, 2,'4-1');
-
-INSERT INTO exam_parts(id, date_exam_part, location, points,won_points,exam_id,exam_part_type_id,exam_part_status_id,code) 
-VALUES(2, '2021-03-21 13:15:00', 'Location1', 35,0, 2, 1, 2,'1-1');
+VALUES(2, '2021-03-21 13:15:00', 'Location1', 30,0, 2, 1, 2,'1-1');
 INSERT INTO exam_parts(id, date_exam_part, location, points, won_points,exam_id,exam_part_type_id,exam_part_status_id,code) 
-VALUES(3, '2021-03-21 13:17:00', 'Location2', 15,10, 4, 1, 3,'2-1');
+VALUES(3, '2021-03-21 13:17:00', 'Location2', 15,0, 4, 1, 3,'2-1');
 
 INSERT INTO payments(id, currency, amount, date_payment, urgently, note, account_id)
-VALUES (id, 'RSD', 3000, '2021-03-21', 0, 'Overa semestra', 1)
+VALUES (id, 'RSD', 3000, '2021-03-21', 0, 'Overa semestra', 1);
+
+INSERT INTO payments(id, currency, amount, date_payment, urgently, note, account_id)
+VALUES (id, 'RSD', 500, '2021-03-21', 0, 'Prijava ispita', 2)

@@ -15,4 +15,6 @@ public interface TeachingServiceI {
 	public void delete(Long id);
 	
 	public List<Teaching> findByUsername(String username);
+	
+	Teaching findByCourseInstance(Long courseId);
 }

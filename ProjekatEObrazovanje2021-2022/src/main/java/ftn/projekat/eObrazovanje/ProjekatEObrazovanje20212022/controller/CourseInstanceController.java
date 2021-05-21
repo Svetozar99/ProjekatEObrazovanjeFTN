@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.CourseInstanceDTO;
@@ -33,9 +36,31 @@ public class CourseInstanceController {
 	@Autowired
 	private CourseSpecificationI cs;
 	
+	@GetMapping(value = "/number-course-instance")
+	public ResponseEntity<Long> getNumberPage(@RequestParam String mode,@RequestParam String username){
+		System.out.println("\nPoziva se number-course-instance: ");
+		Long num = (long)0;
+		if(mode.equals("ADMIN")) {
+			num = ci.countAll()/5;
+			Long mod = ci.countAll()%5;
+			if(mod>0) {
+				num ++;
+			}
+		}else if(mode.equals("TEACHER")) {
+			num = ci.countForTeacher(username)/5;
+			System.out.println("\nNum: "+num);
+			Long mod = ci.countForTeacher(username)%5;
+			System.out.println("\nMod: "+mod);
+			if(mod>0) {
+				num ++;
+			}
+		}
+		return new ResponseEntity<Long>(num, HttpStatus.OK);
+	}
+	
 	@GetMapping
-	public ResponseEntity<List<CourseInstanceDTO>> getAll(){
-		List<CourseInstance> cis = ci.getAll();
+	public ResponseEntity<List<CourseInstanceDTO>> getAll(Pageable page){
+		Page<CourseInstance> cis = ci.getAll(page);
 		
 		List<CourseInstanceDTO> cisdto = new ArrayList<CourseInstanceDTO>();
 		
@@ -46,8 +71,20 @@ public class CourseInstanceController {
 	}
 	
 	@GetMapping(value = "/teacher")
-	public ResponseEntity<List<CourseInstanceDTO>> getAllByTeacher(Principal principal){
-		List<CourseInstance> cis = ci.findByTeacher(principal.getName());
+	public ResponseEntity<List<CourseInstanceDTO>> getAllByTeacher(Principal principal,Pageable page){
+		Page<CourseInstance> cis = ci.findByTeacher(principal.getName(),page);
+		
+		List<CourseInstanceDTO> cisdto = new ArrayList<CourseInstanceDTO>();
+		
+		for(CourseInstance ci : cis) {
+			cisdto.add(new CourseInstanceDTO(ci));
+		}
+		return new ResponseEntity<List<CourseInstanceDTO>>(cisdto, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/teacher/{username}")
+	public ResponseEntity<List<CourseInstanceDTO>> getAllByTeacher(@PathVariable("username") String username,Pageable page){
+		Page<CourseInstance> cis = ci.findByTeacher(username,page);
 		
 		List<CourseInstanceDTO> cisdto = new ArrayList<CourseInstanceDTO>();
 		

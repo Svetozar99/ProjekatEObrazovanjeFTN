@@ -43,4 +43,10 @@ public class TeachingService implements TeachingServiceI {
 		return tr.findByTeacher_user_username(username);
 	}
 
+	@Override
+	public Teaching findByCourseInstance(Long courseId) {
+		// TODO Auto-generated method stub
+		return tr.findByCourseInstance_id(courseId);
+	}
+
 }

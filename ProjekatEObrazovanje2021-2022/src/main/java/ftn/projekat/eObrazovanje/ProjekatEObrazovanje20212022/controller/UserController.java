@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -34,7 +37,6 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.ChangePassDTO
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.JwtDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.LoginDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.RoleDTO;
-import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.StudentDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.UserDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.exceptions.BadRequestException;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Account;
@@ -90,6 +92,9 @@ public class UserController {
 	
 	@Autowired
 	private UserRoleServiceInterface userRoleS;
+	
+	@Autowired
+	private StudentServiceI studentService;
 	
 	@SuppressWarnings("unused")
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -166,15 +171,43 @@ public class UserController {
 
 	
 	@GetMapping(value = "/users")
-	public ResponseEntity<List<UserDTO>> getAllStudents(){
-		List<User> users = userService.findAll();
+	public ResponseEntity<List<UserDTO>> getAllUsers(Pageable page){
+		System.out.println("\ngetAllUsers");
+		Page<User> users = userService.findAll(page);
 		
 		List<UserDTO> dtos = new ArrayList<UserDTO>();
-		
+		System.out.println("Broj elemenata: "+users.getNumberOfElements()+"\n");
 		for (User u : users) {
 			dtos.add(new UserDTO(u));
 		}
 		return new ResponseEntity<List<UserDTO>>(dtos, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/number-users")
+	public ResponseEntity<Long> getNumberPage(@RequestParam String mode){
+		Long num = (long)0;
+		if(mode.equals("USERS")) {
+			num = userService.count()/5;
+			Long mod = userService.count()%5;
+			if(mod>0) {
+				num ++;
+			}
+		}else if(mode.equals("STUDENTS")) {
+			num = studentService.count()/5;
+			Long mod = studentService.count()%5;
+			if(mod>0) {
+				num ++;
+			}
+		}
+		else if(mode.equals("TEACHERS")) {
+			num = teachS.count()/5;
+			Long mod = teachS.count()%5;
+			if(mod>0) {
+				num ++;
+			}
+		}
+		
+		return new ResponseEntity<Long>(num, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "users/{id}")
@@ -245,7 +278,7 @@ public class UserController {
 	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
 	@Transactional
 	public ResponseEntity<UserDTO> updateStudent(@RequestBody UserDTO userDTO){
-		User user = userService.findById(userDTO.getId());
+		User user = userService.findByUsername(userDTO.getUserName());
 		System.out.println("\nFirst name: "+userDTO.getFirstName());
 		if(user == null) {
 			return new ResponseEntity<UserDTO>(HttpStatus.NOT_FOUND);
@@ -254,11 +287,33 @@ public class UserController {
 //		for (UserRole userRole : user.getUserRoles()) {
 //			userRoleS.deleteUserRole(userRole);
 //		}
+		for(UserRole r:user.getUserRoles()) {
+			if(r.getRole().getCode().equals("st")) {
+				Student s = studentS.findByUser(user.getUsername());
+				if(s!=null) {	
+					studentS.delete(s.getId());
+				}
+			}else if(r.getRole().getCode().equals("admin")) {
+				Administrator a = adminS.findByUser(user.getUsername());
+				if(a!=null) {
+					adminS.delete(a.getId());
+				}
+			}else if(r.getRole().getCode().equals("teach")) {
+				System.out.println("\nPukao0");
+				Teacher teacher = teachS.findByUsername(user.getUsername());
+				System.out.println("\nPukao1");
+				if(teacher!=null) {
+					teachS.delete(teacher.getId());
+				}
+			}
+		}
+		
 		userRoleS.deleteByUser(user.getId());
 		user.setFirstName(userDTO.getFirstName());
 		user.setLastName(userDTO.getLastName());
 		user.setPassword(userDTO.getPassword());
 		user.setUserRoles(userRoles);
+		System.out.println("\nPukao2");
 		for (RoleDTO roleDTO : userDTO.getRoles()) {
 			Role r = roleS.findByCode(roleDTO.getCode());
 			UserRole userRole = new UserRole(user,r);

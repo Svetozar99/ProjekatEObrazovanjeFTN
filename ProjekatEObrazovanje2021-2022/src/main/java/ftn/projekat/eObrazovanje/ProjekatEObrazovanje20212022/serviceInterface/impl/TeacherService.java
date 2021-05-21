@@ -3,6 +3,8 @@ package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Teacher;
@@ -16,8 +18,8 @@ public class TeacherService implements TeacherServiceI {
 	TeacherRepository teacherRepos;
 	
 	@Override
-	public List<Teacher> findAll() {
-		return teacherRepos.findAll();
+	public Page<Teacher> findAll(Pageable page) {
+		return teacherRepos.findAll(page);
 	}
 
 	@Override
@@ -42,6 +44,18 @@ public class TeacherService implements TeacherServiceI {
 	public Teacher findByUsername(String username) {
 		// TODO Auto-generated method stub
 		return teacherRepos.findOneByUser_username(username);
+	}
+
+	@Override
+	public Teacher findByCourse(Long courseId) {
+		// TODO Auto-generated method stub
+		return teacherRepos.findByCourse(courseId);
+	}
+
+	@Override
+	public Long count() {
+		// TODO Auto-generated method stub
+		return teacherRepos.count();
 	}
 
 }

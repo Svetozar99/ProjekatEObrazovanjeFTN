@@ -2,11 +2,14 @@ package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Student;
 
 public interface StudentServiceI {
 	
-	public List<Student> findAll();
+	public Page<Student> findAll(Pageable page);
 	
 	public Student findById(Long id);
 	
@@ -18,7 +21,11 @@ public interface StudentServiceI {
 	
 	public Long maxId();
 	
-	List<Student> findByCourseInstance(Long idCourseInstance);
+	Page<Student> findByCourseInstance(Long idCourseInstance,Pageable page);
+	
+	Long countByCourseInstance(Long idCourseInstance);
 	
 	List<Student> findOtherStudents(Long idCourseInstance);
+	
+	public Long count();
 }

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -33,6 +36,7 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.E
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamPartTypeServiceInterface;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamServiceInterface;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.StudentServiceI;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.impl.UserService;
 
 @RestController
 @RequestMapping(value = "api/exam-part")
@@ -49,7 +53,6 @@ public class ExamPartController {
 	
 	@Autowired
 	private ExamPartStatusServiceInterface examPartStatusS;
-	
 
 	@Autowired
 	private EnrollmentServiceI enrollmentS;
@@ -60,52 +63,104 @@ public class ExamPartController {
 	@Autowired
 	private AccountServiceI accSevice;
 	
+	@GetMapping(value = "/number-exam-part")
+	public ResponseEntity<Long> getNumberPage(@RequestParam String mode,@RequestParam String username, @RequestParam Long courseId){
+		System.out.println("\nPoziva se number-course-instance: ");
+		Long num = (long)0;
+		System.out.println("Mode: "+mode);
+		System.out.println("Username: "+username);
+		System.out.println("Course id: "+courseId);
+		if(mode.equals("STUDENT_MY_EXAM_DETAIL")) {
+			Student s = studServ.findByUser(username);
+			num = examPartS.countByStudentAndCourse(s.getCardNumber(), courseId)/5;
+			Long mod = examPartS.countByStudentAndCourse(s.getCardNumber(), courseId)%5;
+			if(mod>0) {
+				num++;
+			}
+		}else if(mode.equals("STUDENT_EXAM_DETAIL")) {
+			Student s = studServ.findByUser(username);
+			num = examPartS.countByStudentAndCourse(s.getCardNumber(), courseId)/5;
+			Long mod = examPartS.countByStudentAndCourse(s.getCardNumber(), courseId)%5;
+			if(mod>0) {
+				num++;
+			}
+		}else if(mode.equals("ADMIN")) {
+			num = examPartS.countByCourseInstance(courseId)/5;
+			Long mod = examPartS.countByCourseInstance(courseId)%5;
+			if(mod>0) {
+				num++;
+			}
+		}else if(mode.equals("TEACHER_EXAM_DETAIL")) {
+			num = examPartS.countByTeacher(username)/5;
+			Long mod = examPartS.countByTeacher(username)%5;
+			if(mod>0) {
+				num++;
+			}
+		}
+		return new ResponseEntity<Long>(num, HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "/student/{courseId}")
 //	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
-	public ResponseEntity<List<ExamPartDTO>> getAllForCardNumber(@PathVariable("courseId") Long courseId,Principal principal){
+	public ResponseEntity<List<ExamPartDTO>> getAllForCardNumber(@PathVariable("courseId") Long courseId,Principal principal,Pageable page){
 		System.out.println("\nZa studenta");
 		String name = principal.getName(); //get logged in username
 		Student st = studServ.findByUser(name);
-		List<ExamPart> examParts = examPartS.findByCardNumAndCourse(st.getCardNumber(), courseId);
+		Page<ExamPart> examParts = examPartS.findByCardNumAndCourse(st.getCardNumber(), courseId,page);
 		
 		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
 		
 		for (ExamPart examPart : examParts) {
 			dtos.add(new ExamPartDTO(examPart));
 		}
-		System.out.println(examParts.size());
+		System.out.println(examParts.getNumberOfElements());
 		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{courseId}/{cardNumber}")
 //	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
-	public ResponseEntity<List<ExamPartDTO>> getAllForCardNumber(@PathVariable("courseId") Long courseId,@PathVariable("cardNumber") String cardNumber){
+	public ResponseEntity<List<ExamPartDTO>> getAllForCardNumber(@PathVariable("courseId") Long courseId,@PathVariable("cardNumber") String cardNumber,Pageable page){
 		System.out.println("\nZa odredjenog studenta");
-		List<ExamPart> examParts = examPartS.findByCardNumAndCourse(cardNumber, courseId);
+		Page<ExamPart> examParts = examPartS.findByCardNumAndCourse(cardNumber, courseId,page);
 		
 		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
 		
 		for (ExamPart examPart : examParts) {
 			dtos.add(new ExamPartDTO(examPart));
 		}
-		System.out.println(examParts.size());
+		System.out.println(examParts.getNumberOfElements());
 		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/course-instance/{courseId}")
 	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
-	public ResponseEntity<List<ExamPartDTO>> getAllForCourseInstance(@PathVariable("courseId") Long courseId){
+	public ResponseEntity<List<ExamPartDTO>> getAllForCourseInstance(@PathVariable("courseId") Long courseId,Pageable page){
 		System.out.println("\nGet all parts for ADMINISTRATOR");
-		List<ExamPart> examParts = examPartS.findByCourseInstance(courseId);
+		Page<ExamPart> examParts = examPartS.findByCourseInstance(courseId,page);
 		
 		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
 		
 		for (ExamPart examPart : examParts) {
-			if(!examPartS.isIn(examPart,dtos)) {
-				dtos.add(new ExamPartDTO(examPart));
-			}
+			dtos.add(new ExamPartDTO(examPart));
 		}
-		System.out.println(examParts.size());
+		System.out.println(examParts.getNumberOfElements());
+		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/teacher")
+	@PreAuthorize("hasAnyRole('ROLE_TEACHER')")
+	public ResponseEntity<List<ExamPartDTO>> getAllForTeacher(Principal principal,Pageable page){
+		System.out.println("\nGet all parts for TEACHER");
+		System.out.println("Page size: "+page.getPageSize());
+		System.out.println("Page number: "+page.getPageNumber());
+		Page<ExamPart> examParts = examPartS.findByTeacher(principal.getName(),page);
+		
+		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
+		
+		for (ExamPart examPart : examParts) {
+			dtos.add(new ExamPartDTO(examPart));
+		}
+		System.out.println(examParts.getNumberOfElements());
 		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
 	}
 	
