@@ -36,7 +36,7 @@ export class CoursesSpecificationsComponent implements OnInit {
   }
 
   getNumberPages(){
-    this.courseService.getNumberPage('COURSE_SPECIFICATION','').subscribe(res =>{
+    this.courseService.getNumberPage('COURSE_SPECIFICATION','',-1).subscribe(res =>{
       const num = res.body == null ? 0:res.body;
       var i = 1;
       this.numberPages = [];

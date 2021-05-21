@@ -47,8 +47,8 @@ export class UserService {
         return this.http.get<Teacher[]>(url, {observe: 'response'});
     }
 
-    getCourseInstanceStudents(courseInstance:CourseInstance): Observable<HttpResponse<Student[]>> {
-        const url = `${this.studentURL}/course-instance/${courseInstance.id}`
+    getCourseInstanceStudents(courseInstance:CourseInstance,numberPage:number): Observable<HttpResponse<Student[]>> {
+        const url = `${this.studentURL}/course-instance/${courseInstance.id}?page=${numberPage}&size=5`
         return this.http.get<Student[]>(url, {observe: 'response'});
     }
 

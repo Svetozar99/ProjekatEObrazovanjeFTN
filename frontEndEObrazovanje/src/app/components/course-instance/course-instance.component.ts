@@ -36,6 +36,8 @@ export class CourseInstanceComponent implements OnInit {
   teacherUsername:string = '';
   teacher:Teacher;
   role:string = '';
+  numberPages:number[] = [];
+  numberPage:number = 0;
 
   constructor(
     private courseService:CoursesService, 
@@ -101,7 +103,7 @@ export class CourseInstanceComponent implements OnInit {
         this.startDate = new Date(this.courseInstance.startDate).toISOString().substring(0, 10);
         this.endDate = new Date(this.courseInstance.endDate).toISOString().substring(0, 10);
         this.courseSpecificationCode = this.courseInstance.courseSpecificationDTO.code;
-        this.getStudents(this.courseInstance);
+        this.getStudents();
         this.getTeacher();
         }
       );
@@ -156,12 +158,15 @@ export class CourseInstanceComponent implements OnInit {
     // console.log("Student cardNubmer: "+this.studentCardNumber);
     this.enrollment.studentDTO = this.otherStudents.filter(s=>this.studentCardNumber===s.cardNumber)[0];
     this.enrollment.courseInstanceDTO = this.courseInstance;
-    this.courseService.addEnrollment(this.enrollment).subscribe(() => this.getStudents(this.courseInstance));
+    this.courseService.addEnrollment(this.enrollment).subscribe(() => {
+      this.getStudents(),
+      this.studentCardNumber = '';
+    });
   }
 
   removeStudent(student:Student){
     var enrollment = new Enrollment({id:0,studentDTO:student,courseInstanceDTO:this.courseInstance});
-    this.courseService.deleteEnrollment(enrollment).subscribe(()=>this.getStudents(this.courseInstance));
+    this.courseService.deleteEnrollment(enrollment).subscribe(()=>this.getStudents());
   }
 
   getTeacher(){
@@ -173,18 +178,31 @@ export class CourseInstanceComponent implements OnInit {
     })
   }
 
-  getStudents(courseInstance:CourseInstance){
-    this.userService.getCourseInstanceStudents(courseInstance).
+  getStudents(){
+    this.userService.getCourseInstanceStudents(this.courseInstance,this.numberPage).
       subscribe(res =>{
         this.students = [];
         this.students = res.body==null ? []:res.body;
-        this.userService.getCourseInstanceOtherStudents(courseInstance).
+        this.getNumberPages();
+        this.userService.getCourseInstanceOtherStudents(this.courseInstance).
           subscribe(res =>{
             this.otherStudents = [];
             this.otherStudents = res.body==null ? []:res.body;
             // console.log('Other students: '+JSON.stringify(this.otherStudents));
           });
       });
+  }
+
+  getNumberPages(){
+    this.courseService.getNumberPage('STUDENTS_COURSE','',this.courseInstance.id).subscribe(res =>{
+      const num = res.body == null ? 0:res.body;
+      var i = 1;
+      this.numberPages = [];
+      for (let index = 0; index < num; index++) {
+        this.numberPages.push(i);
+        i++;
+      }
+    })
   }
 
   gotToExamParts():void{
@@ -196,6 +214,32 @@ export class CourseInstanceComponent implements OnInit {
     console.log("CardNumber: "+student.cardNumber);
     console.log("Course id: "+this.courseInstance.id)
     this.router.navigate(['student-exam-detail/', this.courseInstance.id,student.cardNumber]);
+  }
+
+  increaseNumberPage(){
+    if(this.numberPage < this.numberPages.length-1){
+      this.numberPage=this.numberPage+1;
+      this.getStudents();
+    }
+  }
+
+  reduceNumberPage(){
+    if(this.numberPage>=1){
+      this.numberPage=this.numberPage-1;
+      this.getStudents()
+    }
+  }
+
+  setNumberPage(numberPage:number){
+    this.numberPage = numberPage-1;
+    this.getStudents()
+  }
+
+  isActive(num:number):boolean{
+    if(this.numberPage===num){
+      return true;
+    }
+    return false;
   }
 
 }

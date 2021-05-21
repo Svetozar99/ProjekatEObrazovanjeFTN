@@ -50,7 +50,7 @@ export class CoursesComponent implements OnInit {
   }
 
   getNumberPages(mode:string){
-    this.courseService.getNumberPage(mode,this.teacher.userDTO.userName).subscribe(res =>{
+    this.courseService.getNumberPage(mode,this.teacher.userDTO.userName,-1).subscribe(res =>{
       const num = res.body == null ? 0:res.body;
       var i = 1;
       this.numberPages = [];
