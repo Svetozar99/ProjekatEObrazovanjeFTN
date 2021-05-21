@@ -20,10 +20,12 @@ public interface CourseInstanceI {
 	
 	public Page<CourseInstance> findByTeacher(String username,Pageable page);
 	
-	public List<CourseInstance> findByStudent(String username);
+	public Page<CourseInstance> findByStudent(String username,Pageable page);
 	
 	public Long countAll();
 	
 	public Long countForTeacher(String username);
+	
+	public Long countForStudent(String username);
 
 }

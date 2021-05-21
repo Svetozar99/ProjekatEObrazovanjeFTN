@@ -56,6 +56,14 @@ public class CourseInstanceController {
 			if(mod>0) {
 				num ++;
 			}
+		}else if(mode.equals("STUDENT")) {
+			num = ci.countForStudent(username)/5;
+			System.out.println("\nNum: "+num);
+			Long mod = ci.countForTeacher(username)%5;
+			System.out.println("\nMod: "+mod);
+			if(mod>0) {
+				num ++;
+			}
 		}
 		return new ResponseEntity<Long>(num, HttpStatus.OK);
 	}
@@ -73,8 +81,8 @@ public class CourseInstanceController {
 	}
 	
 	@GetMapping(value = "/all/for-student/{username}")
-	public ResponseEntity<List<CourseInstanceDTO>> getAllByStudent(@PathVariable("username") String username){
-		List<CourseInstance> cis = ci.findByStudent(username);
+	public ResponseEntity<List<CourseInstanceDTO>> getAllByStudent(@PathVariable("username") String username,Pageable page){
+		Page<CourseInstance> cis = ci.findByStudent(username, page);
 		
 		System.out.println("cis for student: " + cis);
 		

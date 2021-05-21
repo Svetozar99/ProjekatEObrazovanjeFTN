@@ -59,9 +59,15 @@ public class CourseInstanceService implements CourseInstanceI {
 	}
 
 	@Override
-	public List<CourseInstance> findByStudent(String username) {
+	public Page<CourseInstance> findByStudent(String username,Pageable page) {
 		// TODO Auto-generated method stub
-		return cir.findByStudent(username);
+		return cir.findByStudent(username,page);
+	}
+
+	@Override
+	public Long countForStudent(String username) {
+		// TODO Auto-generated method stub
+		return cir.countForStudent(username);
 	}
 
 }
