@@ -45,6 +45,20 @@ public class PaymentController {
 		return new ResponseEntity<List<PaymentDTO>>(dtos, HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/for-student/{username}")
+	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
+	public ResponseEntity<List<PaymentDTO>> getAllPaymentsByStudent(@PathVariable("username") String username){
+		List<Payment> payments = paymentS.findByUsername(username);
+		
+		List<PaymentDTO> dtos = new ArrayList<PaymentDTO>();
+		
+		for(Payment p : payments) {
+			dtos.add(new PaymentDTO(p));
+		}
+		
+		return new ResponseEntity<List<PaymentDTO>>(dtos, HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "/{id}")//IZMJENITII 
 	public ResponseEntity<PaymentDTO> getOnePayment(@PathVariable("id") Long id){
 		Payment p = paymentS.findById(id);
