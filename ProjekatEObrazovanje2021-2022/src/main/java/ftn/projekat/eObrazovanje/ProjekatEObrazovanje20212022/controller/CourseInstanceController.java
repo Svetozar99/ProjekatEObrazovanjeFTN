@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.CourseInstanceDTO;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.PaymentDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.CourseInstance;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.CourseSpecification;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Payment;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.CourseInstanceI;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.CourseSpecificationI;
 
@@ -61,6 +63,20 @@ public class CourseInstanceController {
 	@GetMapping
 	public ResponseEntity<List<CourseInstanceDTO>> getAll(Pageable page){
 		Page<CourseInstance> cis = ci.getAll(page);
+		
+		List<CourseInstanceDTO> cisdto = new ArrayList<CourseInstanceDTO>();
+		
+		for(CourseInstance ci : cis) {
+			cisdto.add(new CourseInstanceDTO(ci));
+		}
+		return new ResponseEntity<List<CourseInstanceDTO>>(cisdto, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/all/for-student/{username}")
+	public ResponseEntity<List<CourseInstanceDTO>> getAllByStudent(@PathVariable("username") String username){
+		List<CourseInstance> cis = ci.findByStudent(username);
+		
+		System.out.println("cis for student: " + cis);
 		
 		List<CourseInstanceDTO> cisdto = new ArrayList<CourseInstanceDTO>();
 		

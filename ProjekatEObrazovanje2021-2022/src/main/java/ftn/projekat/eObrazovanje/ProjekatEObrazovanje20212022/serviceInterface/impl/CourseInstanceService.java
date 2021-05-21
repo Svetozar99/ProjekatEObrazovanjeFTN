@@ -58,4 +58,10 @@ public class CourseInstanceService implements CourseInstanceI {
 		return cir.countForTeacher(username);
 	}
 
+	@Override
+	public List<CourseInstance> findByStudent(String username) {
+		// TODO Auto-generated method stub
+		return cir.findByStudent(username);
+	}
+
 }

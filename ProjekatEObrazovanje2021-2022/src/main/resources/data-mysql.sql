@@ -28,9 +28,11 @@ INSERT INTO ACCOUNTS(id, amount, student_id) VALUES(2, 500, 2);
 
 INSERT INTO course_specification(id, title, ects, code) VALUE(1, 'eObrazovanje', 7, 'eObr');
 INSERT INTO course_specification(id, title, ects, code) VALUE(2, 'eUprava', 6, 'eUpr');
+INSERT INTO course_specification(id, title, ects, code) VALUE(3, 'mreze', 6, 'mr');
 
 INSERT INTO course_instance(id, start_date, end_date, course_specification_id) VALUES(1, '2020-02-10', '2021-07-07', 1);
 INSERT INTO course_instance(id, start_date, end_date, course_specification_id) VALUES(2, '2020-02-10', '2021-07-07', 2);
+INSERT INTO course_instance(id, start_date, end_date, course_specification_id) VALUES(3, '2020-02-10', '2021-07-07', 3);
 
 INSERT INTO teaching_type(id, name, code) VALUES(1, 'exercise', 'ex');
 INSERT INTO teaching_type(id, name, code) VALUES(2, 'lecture', 'lec');
@@ -38,6 +40,7 @@ INSERT INTO teaching_type(id, name, code) VALUES(2, 'lecture', 'lec');
 INSERT INTO enrollments(id, student_id, course_instance_id) VALUES(1, 1, 1);
 INSERT INTO enrollments(id, student_id, course_instance_id) VALUES(2, 2, 1);
 INSERT INTO enrollments(id, student_id, course_instance_id) VALUES(3, 1, 2);
+INSERT INTO enrollments(id, student_id, course_instance_id) VALUES(4, 1, 3);
 
 INSERT INTO teachings(id, teaching_type_id, teacher_id, course_instance_id) VALUES(1, 2, 1, 1);
 
