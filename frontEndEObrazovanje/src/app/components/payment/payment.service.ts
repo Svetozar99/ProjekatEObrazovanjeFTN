@@ -33,4 +33,9 @@ export class PaymentService {
     addAccountPayment(payment: Payment): Observable<HttpResponse<Payment>>{
         return this.http.post<Payment>(this.paymentsUrl, payment, {observe:'response'});
     }
+
+    getStudentPayments(username:string): Observable<HttpResponse<Payment[]>>{
+        var url = `${this.paymentsUrl}/for-student/${username}`;
+        return this.http.get<Payment[]>(url, {observe: 'response'});
+    }
 }

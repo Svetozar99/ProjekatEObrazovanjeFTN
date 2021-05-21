@@ -5,6 +5,7 @@ import { AddExamPartComponent } from './components/add-exam-part/add-exam-part.c
 import { AddExamComponent } from './components/add-exam/add-exam.component';
 import { AddPaymentComponent } from './components/add-payment/add-payment.component';
 import { CourseInstanceComponent } from './components/course-instance/course-instance.component';
+import { CoursesForStudentComponent } from './components/courses-for-student/courses-for-student.component';
 import { CoursesSpecificationsComponent } from './components/courses-specifications/courses-specifications.component';
 import { CoursesComponent } from './components/courses/courses.component';
 import { DocumentComponent } from './components/document/document.component';
@@ -57,6 +58,8 @@ const routes: Routes = [
   { path: 'student-detail/:id', component: StudentDetailComponent, canActivate: [RoleGuard] },
   { path: 'teachers', component: TeachersComponent, canActivate: [RoleGuard] },
   { path: 'teacher/:id', component: TeacherComponent, canActivate: [RoleGuard] },
+  { path: 'courses-for-student', component: CoursesForStudentComponent, canActivate: [RoleGuard] },
+
   { path: '**', redirectTo: '' }
 ];
 

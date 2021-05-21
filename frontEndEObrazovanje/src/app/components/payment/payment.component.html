@@ -1,1 +1,27 @@
-<p>payment works!</p>
+<div class="main">
+    <h4 class="text-center mt-2">List of payments</h4>
+    <table class="table mx-auto w-75 mt-2">
+        <thead>
+            <tr>
+                <th class="text-center">Date</th>
+                <th class="text-center">Amount</th>
+                <th class="text-center">Note</th>
+                <th class="text-center">Currency</th>
+                <th class="text-center">Urgently</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let p of payments;">
+                <td class="text-center">{{ dateToString(p.date) | date:'mediumDate' }}</td>
+                <td class="text-center">{{ p.amount }}</td>
+                <td class="text-center">{{ p.note }}</td>
+                <td class="text-center">{{ p.currency }}</td>
+                <td class="text-center"><input type="checkbox" *ngIf="!p.urgently" disabled="disabled"><input type="checkbox" *ngIf="p.urgently" checked disabled="disabled"></td>
+            </tr>
+        </tbody>
+        
+    </table> 
+    <div class="ml-5" style="float: right; margin-right: 15%;">
+        <button routerLink="/add-payment" type="button" class="btn btn-outline-primary mt-3 ml-5">Add</button>
+    </div>
+</div>
