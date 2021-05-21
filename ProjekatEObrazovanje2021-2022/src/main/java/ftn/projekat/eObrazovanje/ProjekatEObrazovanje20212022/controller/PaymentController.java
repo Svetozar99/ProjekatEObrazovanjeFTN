@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.PaymentDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Account;
@@ -33,8 +36,8 @@ public class PaymentController {
 	
 	@GetMapping
 	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
-	public ResponseEntity<List<PaymentDTO>> getAllPaymentsByStudent(Principal principal){
-		List<Payment> payments = paymentS.findByUsername(principal.getName());
+	public ResponseEntity<List<PaymentDTO>> getAllPaymentsByStudent(Principal principal,Pageable page){
+		Page<Payment> payments = paymentS.findByUsername(principal.getName(),page);
 		
 		List<PaymentDTO> dtos = new ArrayList<PaymentDTO>();
 		
@@ -43,6 +46,17 @@ public class PaymentController {
 		}
 		
 		return new ResponseEntity<List<PaymentDTO>>(dtos, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/number-payments")
+	public ResponseEntity<Long> getNumberPage(@RequestParam String username){
+		Long num = paymentS.countByUsername(username)/5;
+		Long mod = paymentS.countByUsername(username)%5;
+		if(mod>0) {
+			num ++;
+		}
+		
+		return new ResponseEntity<Long>(num, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{id}")//IZMJENITII 

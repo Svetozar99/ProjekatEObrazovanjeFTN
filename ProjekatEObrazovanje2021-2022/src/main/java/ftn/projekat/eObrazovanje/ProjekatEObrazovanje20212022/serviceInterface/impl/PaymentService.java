@@ -3,6 +3,8 @@ package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Payment;
@@ -39,9 +41,15 @@ public class PaymentService implements PaymentServiceInterface {
 	}
 
 	@Override
-	public List<Payment> findByUsername(String username) {
+	public Page<Payment> findByUsername(String username,Pageable page) {
 		// TODO Auto-generated method stub
-		return repository.findByAccount_student_user_username(username);
+		return repository.findByAccount_student_user_username(username,page);
+	}
+
+	@Override
+	public Long countByUsername(String username) {
+		// TODO Auto-generated method stub
+		return repository.countByAccount_student_user_username(username);
 	}
 
 }
