@@ -26,5 +26,12 @@ public interface CourseInstanceRepository extends JpaRepository<CourseInstance, 
 			"														where user_id in (SELECT id FROM eobrazovanje.users\r\n" + 
 			"															where username LIKE :userName)))", nativeQuery = true)
 	Long countForTeacher(@Param("userName") String username);
+	
+	@Query(value = "SELECT * FROM eobrazovanje.course_instance\r\n" + 
+			"	where id in (SELECT course_instance_id FROM eobrazovanje.enrollments\r\n" + 
+			"					where student_id in (SELECT id FROM eobrazovanje.students\r\n" + 
+			"											where user_id in (SELECT id FROM eobrazovanje.users\r\n" + 
+			"												where username LIKE :userName)))", nativeQuery = true)
+	List<CourseInstance> findByStudent(@Param("userName") String username);
 
 }
