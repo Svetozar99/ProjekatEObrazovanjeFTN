@@ -53,6 +53,7 @@ export class CoursesForStudentComponent implements OnInit {
     
     // this.getStudentCourses();
     this.getCoursesInstances(this.mode);
+    console.log('aaaaaaaaa');
   }
 
   // getStudentCourses(){

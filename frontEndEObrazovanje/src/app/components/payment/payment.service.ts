@@ -43,8 +43,8 @@ export class PaymentService {
         return this.http.post<Payment>(this.paymentsUrl, payment, {observe:'response'});
     }
 
-    getStudentPayments(username:string): Observable<HttpResponse<Payment[]>>{
-        var url = `${this.paymentsUrl}/for-student/${username}`;
+    getStudentPayments(username:string, numberPage:number): Observable<HttpResponse<Payment[]>>{
+        var url = `${this.paymentsUrl}/for-student/${username}?sort=datePayment,desc&page=${numberPage}&size=5`;
         return this.http.get<Payment[]>(url, {observe: 'response'});
     }
 }
