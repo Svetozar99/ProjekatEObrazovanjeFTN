@@ -150,7 +150,7 @@ export class StudentExamDetailComponent implements OnInit {
   dateToString(date:Date):Date{
     // console.log('Date: '+date);
     var d = new Date(date);
-    d.setHours(d.getHours()-1);
+    d.setHours(d.getHours()-2);
     // console.log(JSON.stringify(d.getHours()))
     // var dateString = new Date(date).toISOString();
     // var pos=dateString.indexOf('T');
@@ -183,6 +183,7 @@ export class StudentExamDetailComponent implements OnInit {
       }
     })
   }
+  
 
   goToExamPart(examPart: ExamPart): void {
     this.router.navigate(['/add-exam-part', examPart.id]);
