@@ -263,20 +263,6 @@ public class ExamPartController {
 		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 	}
 	
-	@DeleteMapping(value = "/{id}/course")
-	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR')")
-	public ResponseEntity<Void> deleteExamParts(@PathVariable("id") Long id){
-		ExamPart examPart = examPartS.findById(id);
-		List<ExamPart> examParts = examPartS.findByCode(examPart.getCode());
-		if(examParts.size() != 0) {
-			for (ExamPart examPart2 : examParts) {
-				examPartS.delete(examPart2.getId());
-			}
-			return new ResponseEntity<Void>(HttpStatus.OK);
-		}
-		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-	}
-	
 	@GetMapping(value = "/my-exam-parts/{code}")
 	@PreAuthorize("hasAnyRole('ROLE_STUDENT')")
 	public ResponseEntity<List<ExamPartDTO>> passedExamParts(Principal principal, @PathVariable("code") String code) {
