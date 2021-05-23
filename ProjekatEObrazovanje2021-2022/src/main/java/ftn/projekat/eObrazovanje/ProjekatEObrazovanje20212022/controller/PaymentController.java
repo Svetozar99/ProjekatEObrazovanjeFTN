@@ -50,6 +50,7 @@ public class PaymentController {
 	
 	@GetMapping(value = "/number-payments")
 	public ResponseEntity<Long> getNumberPage(@RequestParam String username){
+		System.out.println("ispisiiii");
 		Long num = paymentS.countByUsername(username)/5;
 		Long mod = paymentS.countByUsername(username)%5;
 		if(mod>0) {
