@@ -26,6 +26,7 @@ export class CourseInstanceForStudentService {
 
     getCoursesInstances(username:String,numberPage:number):Observable<HttpResponse<CourseInstance[]>> {
         var url = '';
+        console.log(username + " usernameeeee");
         if(username!==''){
           url = `${this.courseInstancesForStudent}/all/for-student/${username}?sort=start_date,asc&page=${numberPage}&size=5`;
         }else if(this.authS.getRole()==='ROLE_ADMINISTRATOR'){

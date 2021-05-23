@@ -58,7 +58,7 @@ export class PaymentComponent implements OnInit {
 
   getStudentPayments(){
     this.getNumberPages();
-    this.paymentService.getStudentPayments(this.student.userDTO.userName).subscribe(
+    this.paymentService.getStudentPayments(this.student.userDTO.userName, this.numberPage).subscribe(
       response => {
         this.payments = response.body;
       }
