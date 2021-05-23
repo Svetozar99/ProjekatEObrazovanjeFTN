@@ -21,6 +21,8 @@ public interface ExamPartServiceInterface {
 	
 	public void delete(Long id);
 	
+	public void deleteByCode(String code);
+	
 	public List<ExamPart> examPartPassedForStudent(String cardNumber);
 	
 	public List<ExamPart> findByCodeAndCardNum(String code, String cardNum);

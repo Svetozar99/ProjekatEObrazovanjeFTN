@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.ExamPartDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.ExamPart;
@@ -14,6 +15,7 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.repository.ExamPar
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.ExamPartServiceInterface;
 
 @Service
+@Transactional
 public class ExamPartService implements ExamPartServiceInterface {
 	
 	@Autowired
@@ -115,6 +117,12 @@ public class ExamPartService implements ExamPartServiceInterface {
 	public Long countByTeacher(String username) {
 		// TODO Auto-generated method stub
 		return examPartRepository.countByTeacher(username);
+	}
+
+	@Override
+	public void deleteByCode(String code) {
+		// TODO Auto-generated method stub
+		examPartRepository.deleteByCode(code);
 	}
 
 }

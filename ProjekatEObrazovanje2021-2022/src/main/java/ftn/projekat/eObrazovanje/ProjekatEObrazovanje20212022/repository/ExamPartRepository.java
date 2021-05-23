@@ -65,4 +65,6 @@ public interface ExamPartRepository extends JpaRepository<ExamPart, Long> {
 			"																where user_id = (SELECT id FROM eobrazovanje.users\r\n" + 
 			"																					where username LIKE :username)))))",nativeQuery = true)
 	Long countByTeacher(@Param("username") String username);
+	
+	void deleteByCode(String code);
 }

@@ -202,17 +202,24 @@ public class ExamPartController {
 	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<List<ExamPartDTO>> updateExamPart(@RequestBody ExamPartDTO dto){
 		System.out.println("\nAzuriram examPart");
-		ExamPart examPart = examPartS.findById(dto.getId());
+		List<ExamPart> examParts = examPartS.findByCode(dto.getCode());
 		ExamPartStatus examPartStatus = examPartStatusS.expsByCode(dto.getStatusDTO().getCode());
+		ExamPartType type = examPartTypeS.findByCode(dto.getExamPartTypeDTO().getCode());
 		
 		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
-		if(examPart == null) {
+		if(examParts.size() == 0) {
 			return ResponseEntity.notFound().build();
 		}
-		examPart.setExamPartStatus(examPartStatus);
-		examPart.setWonPoints(dto.getWonPoints());
-		
-		examPart = examPartS.save(examPart);
+		for (ExamPart examPart : examParts) {
+			examPart.setDate(dto.getDate());
+			examPart.setLocation(dto.getLocation());
+			examPart.setPoints(dto.getPoints());
+			examPart.setExamPartStatus(examPartStatus);
+			examPart.setWonPoints(dto.getWonPoints());
+			examPart.setExamPartType(type);
+			
+			examPart = examPartS.save(examPart);	
+		}
 		
 		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
 	}
@@ -250,7 +257,21 @@ public class ExamPartController {
 	public ResponseEntity<Void> deleteExamPart(@PathVariable("id") Long id){
 		ExamPart examPart = examPartS.findById(id);
 		if(examPart != null) {
-			examPartS.delete(id);
+			examPartS.deleteByCode(examPart.getCode());
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}
+		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+	}
+	
+	@DeleteMapping(value = "/{id}/course")
+	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR')")
+	public ResponseEntity<Void> deleteExamParts(@PathVariable("id") Long id){
+		ExamPart examPart = examPartS.findById(id);
+		List<ExamPart> examParts = examPartS.findByCode(examPart.getCode());
+		if(examParts.size() != 0) {
+			for (ExamPart examPart2 : examParts) {
+				examPartS.delete(examPart2.getId());
+			}
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
