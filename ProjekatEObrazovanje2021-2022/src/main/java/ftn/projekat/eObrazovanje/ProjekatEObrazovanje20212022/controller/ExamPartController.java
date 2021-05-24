@@ -235,6 +235,9 @@ public class ExamPartController {
 		long maxId = examPartS.maxId()+1;
 		String code = dto.getExamDTO().getEnrollmentDTO().getCourseInstanceDTO().getId()+"-"+maxId;
 		for (Exam exam : exams) {
+			if(exam.getGradle()>0) {
+				continue;
+			}
 			ExamPart examPart = new ExamPart();
 			examPart.setDate(dto.getDate());
 			examPart.setLocation(dto.getLocation());
