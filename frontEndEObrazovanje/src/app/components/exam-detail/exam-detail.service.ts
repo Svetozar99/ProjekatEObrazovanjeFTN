@@ -53,10 +53,15 @@ export class ExamPartService{
     //     return this.http.get<ExamPart[]>(url, {observe: 'response'});
     // }
 
+    deleteExamPart(examPartId: number): Observable<HttpResponse<any>> {
+        const url = `${this.examDetailUrl}/${examPartId}`;
+        return this.http.delete<any>(url, {observe: 'response'});
+    }
+
     getExamPartsForStudent(courseId:number,cardNumber: string,numberPage:number): Observable<HttpResponse<ExamPart[]>>{
         console.log('getExamPartsForStudent...')
         this.courseId = courseId;
-        var url = `${this.examDetailUrl}/${courseId}/${cardNumber}?sort=date,asc&page=${numberPage}&size=5`;
+        var url = `${this.examDetailUrl}/${courseId}/${cardNumber}?sort=date,desc&page=${numberPage}&size=5`;
         return this.http.get<ExamPart[]>(url, {observe: 'response'});
     }
     

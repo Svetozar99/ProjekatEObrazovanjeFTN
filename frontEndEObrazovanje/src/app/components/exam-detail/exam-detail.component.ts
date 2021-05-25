@@ -106,7 +106,7 @@ export class ExamDetailComponent implements OnInit {
   dateToString(date:Date):Date{
     // console.log('Date: '+date);
     var d = new Date(date);
-    d.setHours(d.getHours()-1);
+    d.setHours(d.getHours()-2);
     // console.log(JSON.stringify(d.getHours()))
     // var dateString = new Date(date).toISOString();
     // var pos=dateString.indexOf('T');
@@ -122,7 +122,7 @@ export class ExamDetailComponent implements OnInit {
     this.examDetailService.getNumberPage(this.mode).subscribe(res =>{
       const num = res.body == null ? 0:res.body;
       var i = 1;
-      console.log(num)
+      // console.log(num)
       this.numberPages = [];
       for (let index = 0; index < num; index++) {
         this.numberPages.push(i);
@@ -136,8 +136,33 @@ export class ExamDetailComponent implements OnInit {
     return status;
   }
 
+  isPossibleUnRegister(d:Date): boolean{
+    var date = new Date(d);
+    const dNow = Date.now();
+    var dateNow = new Date(dNow);
+    date.setHours(date.getHours()-48)
+    dateNow.setHours(dateNow.getHours()+2);
+    // console.log("Date: "+JSON.stringify(d.setHours(d.getHours()+48)))
+    var isPossibleRegister = false;
+    if(date>dateNow){
+      isPossibleRegister = true;
+      // return true;
+    }
+    console.log("------------------\nDate now: "+JSON.stringify(dateNow))
+    console.log('Date: '+JSON.stringify(date));
+    console.log("Is possible register: "+isPossibleRegister)
+    return isPossibleRegister;
+  }
+
   goToCourseInstance(courseInstance: CourseInstance): void {
     this.router.navigate(['/course-instance', courseInstance.id]);
+  }
+
+  deleteExamPart(examPart: ExamPart): void {
+    console.log("Brisem: "+JSON.stringify(examPart));
+    this.examDetailService.deleteExamPart(examPart.id).subscribe(
+      () => this.getExamParts(this.examDetailService.getCourseId())
+    );
   }
 
   checkValue(examDetail:ExamPart){
