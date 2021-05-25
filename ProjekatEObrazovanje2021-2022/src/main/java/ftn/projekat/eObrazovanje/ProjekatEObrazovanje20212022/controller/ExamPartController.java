@@ -232,7 +232,13 @@ public class ExamPartController {
 		ExamPartType examPartType = examPartTypeS.findByCode(dto.getExamPartTypeDTO().getCode());
 		ExamPartStatus examPartStatus = examPartStatusS.expsByCode("cr");
 		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
-		long maxId = examPartS.maxId()+1;
+		
+		long countRow = examPartS.countByCourseInstance(dto.getExamDTO().getEnrollmentDTO().getCourseInstanceDTO().getId());
+		long maxId = 1;
+		if(countRow != 0) {
+			maxId = examPartS.maxId()+1;
+		}
+		
 		String code = dto.getExamDTO().getEnrollmentDTO().getCourseInstanceDTO().getId()+"-"+maxId;
 		for (Exam exam : exams) {
 			if(exam.getGradle()>0) {
