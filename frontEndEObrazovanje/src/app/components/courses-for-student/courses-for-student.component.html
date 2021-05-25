@@ -16,6 +16,7 @@
 
                 <td class="text-center">{{ dateToString(ci.startDate) | date:'mediumDate'}}</td>
                 <td class="text-center">{{ dateToString(ci.endDate) | date:'mediumDate'}}</td>
+                <td><button type="button" class="btn" (click)="goToStudentDetail(ci)"><img src="../../../assets/img/icon_detail.png" alt=""></button></td>
             </tr>
         </tbody>
     </table>

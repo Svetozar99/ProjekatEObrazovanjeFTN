@@ -6,6 +6,7 @@ import { Student } from 'src/app/model/student';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { CoursesService } from '../courses/courses.service';
 import { StudentDetailComponent } from '../student-detail/student-detail.component';
+import { StudentService } from '../student/student.service';
 import { CourseInstanceForStudentService } from './courses-for-student.service';
 
 @Component({
@@ -36,6 +37,7 @@ export class CoursesForStudentComponent implements OnInit {
 
   constructor(
     private coursesService: CourseInstanceForStudentService,
+    private studentS:StudentService,
     // private courseService: CoursesService, 
     private auths: AuthenticationService,
     private router: Router,
@@ -53,7 +55,6 @@ export class CoursesForStudentComponent implements OnInit {
     
     // this.getStudentCourses();
     this.getCoursesInstances(this.mode);
-    console.log('aaaaaaaaa');
   }
 
   // getStudentCourses(){
@@ -74,6 +75,13 @@ export class CoursesForStudentComponent implements OnInit {
 
   goToCourseInstance(courseInstance: CourseInstance): void {
     this.router.navigate(['/course-instance', courseInstance.id]);
+  }
+
+  goToStudentDetail(courseInstance:CourseInstance):void{
+    this.studentS.setStudent(this.student);
+    // console.log("CardNumber: "+this.student.cardNumber);
+    // console.log("Course id: "+this.student.id)
+    this.router.navigate(['student-exam-detail/', courseInstance.id,this.student.cardNumber]);
   }
 
   reduceNumberPage(){

@@ -5,6 +5,7 @@ import { switchMap } from 'rxjs/operators';
 import { CourseInstance } from 'src/app/model/courseInstance';
 import { Teacher } from 'src/app/model/teacher';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { StudentService } from '../student/student.service';
 import { TeacherComponent } from '../teacher/teacher.component';
 import { UserService } from '../users/users.service';
 import { CoursesService } from './courses.service';

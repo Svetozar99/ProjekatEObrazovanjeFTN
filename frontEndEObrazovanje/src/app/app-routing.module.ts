@@ -46,6 +46,7 @@ const routes: Routes = [
   { path: 'course-instance/:id', component: CourseInstanceComponent, canActivate: [RoleGuard] },
   { path: 'add-exam', component: AddExamComponent, canActivate: [RoleGuard] },
   { path: 'add-payment', component: AddPaymentComponent, canActivate: [RoleGuard] },
+  { path: 'admin-add-payment/:studentUsername', component: AddPaymentComponent, canActivate: [RoleGuard] },
   { path: 'add-exam-part', component: AddExamPartComponent, canActivate: [RoleGuard] },
   { path: 'add-exam-part/:examPartId', component: AddExamPartComponent, canActivate: [RoleGuard] },
   { path: 'view-user/:id', component: ViewUserComponent, canActivate: [RoleGuard] },

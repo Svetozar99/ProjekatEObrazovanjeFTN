@@ -3,13 +3,14 @@ import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { Payment } from "src/app/model/payment";
 import { AuthenticationService } from "src/app/services/authentication.service";
+import { StudentService } from "../student/student.service";
 
 @Injectable()
 export class PaymentService {
     private paymentsUrl = 'api/payment';
     private accountUrl = 'api/account';
 
-    constructor(private http: HttpClient,private authS:AuthenticationService) { }
+    constructor(private http: HttpClient,private authS:AuthenticationService,private studentS:StudentService) { }
 
     private RegenerateData = new Subject<void>();
 
@@ -24,7 +25,7 @@ export class PaymentService {
     }
 
     getNumberPage(): Observable<HttpResponse<number>> {
-        console.log("\ngetNumberPage")
+        // console.log("\ngetNumberPage")
         var user = this.authS.getLoggedUser();
         var username = JSON.stringify(user.sub).split('"')[1];
         return this.http.get<number>(`${this.paymentsUrl}/number-payments?username=${username}`, {observe: 'response'});
@@ -39,8 +40,14 @@ export class PaymentService {
         return this.http.get<number>(`${this.paymentsUrl}/number-payments?username=${username}`, {observe: 'response'});
       }
 
-    addAccountPayment(payment: Payment): Observable<HttpResponse<Payment>>{
-        return this.http.post<Payment>(this.paymentsUrl, payment, {observe:'response'});
+    addAccountPayment(payment: Payment,username:string): Observable<HttpResponse<Payment>>{
+        var mode = "STUDENT";
+        if(this.authS.getRole()==="ROLE_ADMINISTRATOR"){
+            mode = "ADMIN";
+        }
+        const url = `${this.paymentsUrl}?mode=${mode}&username=${username}`
+        // console.log("Url: "+url)
+        return this.http.post<Payment>(url, payment, {observe:'response'});
     }
 
     getStudentPayments(username:string, numberPage:number): Observable<HttpResponse<Payment[]>>{
