@@ -73,4 +73,12 @@ public class UserDTO {
 	public void setRoles(List<RoleDTO> roles) {
 		this.roles = roles;
 	}
+	
+	public String roleToString() {
+		String roleString = "";
+		for (RoleDTO role : this.roles) {
+			roleString += role.getCode()+" ";
+		}
+		return roleString;
+	}
 }

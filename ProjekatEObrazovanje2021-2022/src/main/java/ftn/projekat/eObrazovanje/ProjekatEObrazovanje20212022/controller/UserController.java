@@ -290,19 +290,22 @@ public class UserController {
 		for(UserRole r:user.getUserRoles()) {
 			if(r.getRole().getCode().equals("st")) {
 				Student s = studentS.findByUser(user.getUsername());
-				if(s!=null) {	
+				System.out.println("\nroleToString "+userDTO.roleToString());
+				System.out.println("r.getRole().getCode() "+r.getRole().getCode());
+				System.out.println("Da li tacno? "+userDTO.roleToString().contains(r.getRole().getCode()));
+				if(s!=null && !userDTO.roleToString().contains(r.getRole().getCode())) {	
+					System.out.println("\nBrisem studenta");
 					studentS.delete(s.getId());
 				}
 			}else if(r.getRole().getCode().equals("admin")) {
 				Administrator a = adminS.findByUser(user.getUsername());
-				if(a!=null) {
+				if(a!=null && !userDTO.roleToString().contains(r.getRole().getCode())) {
 					adminS.delete(a.getId());
 				}
-			}else if(r.getRole().getCode().equals("teach")) {
-				System.out.println("\nPukao0");
-				Teacher teacher = teachS.findByUsername(user.getUsername());
-				System.out.println("\nPukao1");
-				if(teacher!=null) {
+			}else if(r.getRole().getCode().equals("teach") ) {
+				Teacher teacher = teachS.findByUsername(user.getUsername());;
+				if(teacher!=null && !userDTO.roleToString().contains(r.getRole().getCode())) {
+					System.out.println("\nBrisem teachera");
 					teachS.delete(teacher.getId());
 				}
 			}
@@ -311,7 +314,9 @@ public class UserController {
 		userRoleS.deleteByUser(user.getId());
 		user.setFirstName(userDTO.getFirstName());
 		user.setLastName(userDTO.getLastName());
-		user.setPassword(userDTO.getPassword());
+		if(!userDTO.getPassword().equals(user.getPassword())) {
+			user.setPassword(passwordEncoder.encode(userDTO.getPassword()));	
+		}
 		user.setUserRoles(userRoles);
 		System.out.println("\nPukao2");
 		for (RoleDTO roleDTO : userDTO.getRoles()) {
