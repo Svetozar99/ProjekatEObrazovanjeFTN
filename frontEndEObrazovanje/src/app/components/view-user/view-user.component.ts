@@ -16,7 +16,7 @@ export class ViewUserComponent implements OnInit {
   user: User;
   mode: string = '';
   roleCode: string = '';
-
+  password: string = '';
   unassignedRoles: Role[] = [];
 
   constructor(
@@ -63,6 +63,7 @@ export class ViewUserComponent implements OnInit {
   }
 
   private add(): void {
+    this.user.password = this.password;
     this.userService.addUser(this.user)
       .subscribe(res => {
         // this.userService.announceChange();
@@ -93,6 +94,9 @@ export class ViewUserComponent implements OnInit {
   }
 
   edit() {
+    if(this.password!==''){
+      this.user.password = this.password;
+    }
     console.log(JSON.stringify(this.user))
     this.userService.editUser(this.user)
       .subscribe(() => {
