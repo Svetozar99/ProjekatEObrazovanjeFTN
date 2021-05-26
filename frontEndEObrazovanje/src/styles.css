@@ -121,6 +121,10 @@
   background-color: rgb(85, 49, 49);
 }
 
+.layoutDark{
+  background-color: rgb(32, 19, 19);
+}
+
 body {
   margin: 0;
   font-family: var(--bs-font-sans-serif);

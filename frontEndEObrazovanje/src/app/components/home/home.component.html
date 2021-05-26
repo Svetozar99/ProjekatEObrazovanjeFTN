@@ -41,8 +41,8 @@
     <div class=" row">
       <div class=" col-md-8">
         <div class=" card">
-          <div class=" card-header"><h5 class=" title">My Profile</h5></div>
-          <div class=" card-body">
+          <div class=" card-header" style="background-color: rgba(39,41,61,255); color: white;"><h5 class=" title" >My Profile</h5></div>
+          <div class=" card-body" style="background-color: rgba(39,41,61,255); color: white;">
             <form>
               <div class=" row">
                 
@@ -50,6 +50,7 @@
                   <div class=" form-group">
                     <label> Frist name: </label>
                     <input
+                      style="background-color: rgba(39,41,61,255); color: white;"
                       *ngIf="editInstance!=true"
                       class=" form-control"
                       type="text"
@@ -58,6 +59,7 @@
                       [ngModelOptions]="{standalone: true}"
                     />
                     <input
+                    style="background-color: rgba(39,41,61,255); color: white;"
                     *ngIf="editInstance"
                       class=" form-control"
                       type="text"
@@ -70,6 +72,7 @@
                     <div class=" form-group">
                       <label> Last name: </label>
                       <input
+                      style="background-color: rgba(39,41,61,255); color: white;"
                         *ngIf="editInstance!=true"
                         class=" form-control"
                         type="text"
@@ -78,6 +81,7 @@
                         [ngModelOptions]="{standalone: true}"
                       />
                       <input
+                      style="background-color: rgba(39,41,61,255); color: white;"
                       *ngIf="editInstance"
                         class=" form-control"
                         type="text"
@@ -90,6 +94,7 @@
                   <div class=" form-group">
                     <label for="exampleInputEmail1"> Username: </label>
                     <input
+                      style="background-color: rgba(39,41,61,255); color: white;"
                       class=" form-control"
                       type="text"
                       readonly [(ngModel)]="user.userName"
@@ -103,6 +108,7 @@
                   <div class=" form-group">
                     <label> Old password </label>
                     <input
+                    style="background-color: rgba(39,41,61,255); color: white;"
                       class=" form-control"
                       type="password"
                       [(ngModel)]="changePass.oldPass"
@@ -114,6 +120,7 @@
                   <div class=" form-group">
                     <label> New password </label>
                     <input
+                    style="background-color: rgba(39,41,61,255); color: white;"
                       class=" form-control"
                       type="password"
                       [(ngModel)]="changePass.newPass"
@@ -127,6 +134,7 @@
                   <div class=" form-group">
                     <label> Repeate new password: </label>
                     <input
+                    style="background-color: rgba(39,41,61,255); color: white;"
                       class=" form-control"
                       type="password"
                       [(ngModel)]="repeatPass"
@@ -137,7 +145,7 @@
               </div>
             </form>
           </div>
-          <div class=" card-footer">
+          <div class=" card-footer" style="background-color: rgba(39,41,61,255); color: white;">
             <button type="button" class=" btn btn-fill btn-danger" *ngIf="!editInstance" (click)="edit()">Change information</button>
             <button type="button" class=" btn btn-fill btn-danger" *ngIf="editInstance" (click)="submit()">✓</button>
             <button type="button" class=" btn btn-fill btn-danger" *ngIf="editInstance" (click)="cancel()">X</button>
