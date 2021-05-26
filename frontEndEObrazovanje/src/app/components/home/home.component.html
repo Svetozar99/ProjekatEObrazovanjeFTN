@@ -1,4 +1,4 @@
-<div class="form-group text-center">
+<!-- <div class="form-group text-center">
     <div style="display: inline;">
         <img src="../../../assets/img/Sample_User_Icon.png" class="w-15 h-15 ml-5">
     </div>
@@ -34,4 +34,134 @@
         <button type="button" class="btn btn-outline-primary mt-3 ml-5" *ngIf="editInstance" (click)="submit()">✓</button>
         <button type="button" class="btn btn-outline-primary mt-3 ml-2" *ngIf="editInstance" (click)="cancel()">X</button>
     </div>
-</div>
+</div> -->
+
+<!-- -------------------------------------- -->
+<div class=" content">
+    <div class=" row">
+      <div class=" col-md-8">
+        <div class=" card">
+          <div class=" card-header"><h5 class=" title">My Profile</h5></div>
+          <div class=" card-body">
+            <form>
+              <div class=" row">
+                
+                <div class=" col-md-3 px-md-1">
+                  <div class=" form-group">
+                    <label> Frist name: </label>
+                    <input
+                      *ngIf="editInstance!=true"
+                      class=" form-control"
+                      type="text"
+                      readonly 
+                      [(ngModel)]="user.firstName"
+                      [ngModelOptions]="{standalone: true}"
+                    />
+                    <input
+                    *ngIf="editInstance"
+                      class=" form-control"
+                      type="text"
+                      [(ngModel)]="changePass.firstName"
+                      [ngModelOptions]="{standalone: true}"
+                    />
+                  </div>
+                </div>
+                <div class=" col-md-3 px-md-1">
+                    <div class=" form-group">
+                      <label> Last name: </label>
+                      <input
+                        *ngIf="editInstance!=true"
+                        class=" form-control"
+                        type="text"
+                        readonly 
+                        [(ngModel)]="user.lastName"
+                        [ngModelOptions]="{standalone: true}"
+                      />
+                      <input
+                      *ngIf="editInstance"
+                        class=" form-control"
+                        type="text"
+                        [(ngModel)]="changePass.lastName"
+                        [ngModelOptions]="{standalone: true}"
+                      />
+                    </div>
+                  </div>
+                <div class=" col-md-4 pl-md-1">
+                  <div class=" form-group">
+                    <label for="exampleInputEmail1"> Username: </label>
+                    <input
+                      class=" form-control"
+                      type="text"
+                      readonly [(ngModel)]="user.userName"
+                      [ngModelOptions]="{standalone: true}"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="editInstance" class=" row">
+                <div class=" col-md-6 pr-md-1">
+                  <div class=" form-group">
+                    <label> Old password </label>
+                    <input
+                      class=" form-control"
+                      type="password"
+                      [(ngModel)]="changePass.oldPass"
+                      [ngModelOptions]="{standalone: true}"
+                    />
+                  </div>
+                </div>
+                <div *ngIf="editInstance" class=" col-md-6 pl-md-1">
+                  <div class=" form-group">
+                    <label> New password </label>
+                    <input
+                      class=" form-control"
+                      type="password"
+                      [(ngModel)]="changePass.newPass"
+                      [ngModelOptions]="{standalone: true}"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="editInstance" class=" row">
+                <div class=" col-md-12">
+                  <div class=" form-group">
+                    <label> Repeate new password: </label>
+                    <input
+                      class=" form-control"
+                      type="password"
+                      [(ngModel)]="repeatPass"
+                      [ngModelOptions]="{standalone: true}"
+                    />
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class=" card-footer">
+            <button type="button" class=" btn btn-fill btn-danger" *ngIf="!editInstance" (click)="edit()">Change information</button>
+            <button type="button" class=" btn btn-fill btn-danger" *ngIf="editInstance" (click)="submit()">✓</button>
+            <button type="button" class=" btn btn-fill btn-danger" *ngIf="editInstance" (click)="cancel()">X</button>
+          </div>
+        </div>
+      </div>
+      <!-- <div class=" col-md-4">
+        <div class=" card card-user">
+          <div class=" card-body">
+            <p class=" card-text"></p>
+            <div class=" author">
+              <div class=" block block-one"></div>
+              <div class=" block block-two"></div>
+              <div class=" block block-three"></div>
+              <div class=" block block-four"></div>
+              <a href="javascript:void(0)">
+                <img alt="..." class="w-15 h-15 ml-5" src="../../../assets/img/Sample_User_Icon.png" />
+  
+            <h5 class=" title">Svetozar Brboric</h5>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+  

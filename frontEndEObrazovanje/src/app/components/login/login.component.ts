@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  login(): void {
+  loginn(): void {
     this.userService.login(this.loginData)
       .subscribe(res => {
         this.jwt=res.body==null ? {value:''}:res.body;

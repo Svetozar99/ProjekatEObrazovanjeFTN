@@ -117,6 +117,10 @@
   }
 }
 
+.loginBg{
+  background-color: rgb(85, 49, 49);
+}
+
 body {
   margin: 0;
   font-family: var(--bs-font-sans-serif);
