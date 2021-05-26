@@ -26,7 +26,7 @@ export class CourseInstanceForStudentService {
 
     getCoursesInstances(username:String,numberPage:number):Observable<HttpResponse<CourseInstance[]>> {
         var url = '';
-        console.log(username + " usernameeeee");
+        // console.log(username + " usernameeeee");
         if(username!==''){
           url = `${this.courseInstancesForStudent}/all/for-student/${username}?sort=start_date,asc&page=${numberPage}&size=5`;
         }else if(this.authS.getRole()==='ROLE_ADMINISTRATOR'){
@@ -55,7 +55,7 @@ export class CourseInstanceForStudentService {
             username = JSON.stringify(user.sub).split('"')[1];
             mode = 'STUDENT';
           }
-        console.log("Url: "+url)
+        // console.log("Url: "+url)
         return this.http.get<number>(url, {observe: 'response'});
       }
 }

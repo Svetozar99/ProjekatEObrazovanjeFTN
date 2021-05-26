@@ -42,6 +42,7 @@
         </ul>
       </nav>
     <div class="ml-5" style="float: right; margin-right: 15%;">
-        <button routerLink="/add-payment" type="button" class="btn btn-outline-primary mt-3 ml-5">Add</button>
+        <button *ngIf="role==='ROLE_STUDENT'" routerLink="/add-payment" type="button" class="btn btn-outline-primary mt-3 ml-5">Add</button>
+        <button *ngIf="role==='ROLE_ADMINISTRATOR'" (click)="goToAddPayment()" type="button" class="btn btn-outline-primary mt-3 ml-5">Add</button>
     </div>
 </div>

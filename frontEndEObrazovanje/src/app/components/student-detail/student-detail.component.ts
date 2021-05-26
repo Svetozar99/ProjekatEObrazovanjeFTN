@@ -53,6 +53,7 @@ export class StudentDetailComponent implements OnInit {
         .subscribe(res => {
           this.student = res.body==null ? this.student:res.body;
           this.studentS.setStudent(this.student);
+          this.courseI = true;
           }
         );
     }

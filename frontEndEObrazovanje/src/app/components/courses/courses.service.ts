@@ -52,7 +52,7 @@ export class CoursesService {
     }else if(mode==="COURSE_SPECIFICATION"){
       url = `${this.coursesSpecificationUrl}/number-course-specification`
     }
-    console.log("Url: "+url)
+    // console.log("Url: "+url)
     return this.http.get<number>(url, {observe: 'response'});
   }
 

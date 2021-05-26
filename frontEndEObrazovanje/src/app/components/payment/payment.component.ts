@@ -18,6 +18,7 @@ export class PaymentComponent implements OnInit {
 
   numberPages:number[] = [];
   numberPage:number = 0;
+  mode = "";
   // subscription: Subscription;
 
   @Input() student:Student = new Student({
@@ -32,12 +33,13 @@ export class PaymentComponent implements OnInit {
       roles:[]
     }
   })
-
+  role = '';
   subscription:Subscription;
   
   constructor(private paymentService: PaymentService, private auths: AuthenticationService ,private router: Router,private studentDetail: StudentDetailComponent) {
     if(auths.getRole() === 'ROLE_ADMINISTRATOR'){
       this.student = studentDetail.student;
+      this.role = 'ROLE_ADMINISTRATOR';
     }
     this.subscription = paymentService.RegenerateData$.subscribe(() =>
       // this.getPayments()
@@ -75,6 +77,10 @@ export class PaymentComponent implements OnInit {
         i++;
       }
     })
+  }
+
+  goToAddPayment():void{
+    this.router.navigate(['/admin-add-payment/', this.student.userDTO.userName]);
   }
 
   increaseNumberPage(){

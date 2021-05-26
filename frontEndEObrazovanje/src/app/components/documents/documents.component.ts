@@ -85,9 +85,9 @@ export class DocumentsComponent implements OnInit {
       })
   }
 
-  goToViewDocument(doc: Document): void{
-    this.router.navigate(['/document', doc.id]);
-  }
+  // goToViewDocument(doc: Document): void{
+  //   this.router.navigate(['/document', doc.id]);
+  // }
 
   increaseNumberPage(){
     if(this.numberPage < this.numberPages.length-1){

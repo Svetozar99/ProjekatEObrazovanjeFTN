@@ -1,11 +1,13 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 import { Account } from 'src/app/model/accounts';
 import { Payment } from 'src/app/model/payment';
 import { Student } from 'src/app/model/student';
 import { User } from 'src/app/model/user';
 import { PaymentService } from '../payment/payment.service';
+import { StudentDetailComponent } from '../student-detail/student-detail.component';
 
 @Component({
   selector: 'app-add-payment',
@@ -15,6 +17,7 @@ import { PaymentService } from '../payment/payment.service';
 export class AddPaymentComponent implements OnInit {
 
   payment: Payment;
+  username = '';
 
   constructor(
     private paymentService:PaymentService,
@@ -51,10 +54,13 @@ export class AddPaymentComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    if(this.route.snapshot.params['studentUsername']){
+      this.username = this.route.snapshot.params.studentUsername;
+    }
   }
 
   addPayment(){
-    this.paymentService.addAccountPayment(this.payment).subscribe(() => {this.goBack() });
+    this.paymentService.addAccountPayment(this.payment,this.username).subscribe(() => {this.goBack() });
   }
 
   goBack(): void {
