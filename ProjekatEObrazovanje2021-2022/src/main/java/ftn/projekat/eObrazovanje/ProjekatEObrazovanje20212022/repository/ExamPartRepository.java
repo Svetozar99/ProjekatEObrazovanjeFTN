@@ -16,7 +16,9 @@ public interface ExamPartRepository extends JpaRepository<ExamPart, Long> {
 	
 	List<ExamPart> findByCode(String code);
 	
-	List<ExamPart> findByCodeAndExamPartStatus_code(String code,String status);
+	Page<ExamPart> findByCodeAndExamPartStatus_code(String code,String status,Pageable page);
+	
+	Long countByCodeAndExamPartStatus_code(String code,String status);
 	
 	List<ExamPart> findOneByExam_enrollment_student_cardNumber(String cardNumber);
 	

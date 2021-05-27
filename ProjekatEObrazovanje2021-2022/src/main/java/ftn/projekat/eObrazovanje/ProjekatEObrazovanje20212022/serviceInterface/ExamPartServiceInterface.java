@@ -15,7 +15,7 @@ public interface ExamPartServiceInterface {
 	
 	public List<ExamPart> findByCode(String code);
 	
-	public List<ExamPart> findByCodeAndStatus(String code,String status);
+	public Page<ExamPart> findByCodeAndStatus(String code,String status,Pageable page);
 	
 	public ExamPart findById(Long id);
 	
@@ -44,4 +44,5 @@ public interface ExamPartServiceInterface {
 	public Long countByStudentAndCourse(String cardNum,Long id);
 	public Long countByCourseInstance(Long id);
 	public Long countByTeacher(String username);
+	public Long countByExamPart(String code,String status);
 }

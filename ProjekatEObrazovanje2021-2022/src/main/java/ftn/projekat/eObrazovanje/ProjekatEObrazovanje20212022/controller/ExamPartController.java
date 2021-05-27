@@ -65,7 +65,7 @@ public class ExamPartController {
 	private AccountServiceI accSevice;
 	
 	@GetMapping(value = "/number-exam-part")
-	public ResponseEntity<Long> getNumberPage(@RequestParam String mode,@RequestParam String username, @RequestParam Long courseId){
+	public ResponseEntity<Long> getNumberPage(@RequestParam String mode,@RequestParam String username, @RequestParam Long courseId,@RequestParam String code){
 		System.out.println("\nPoziva se number-course-instance: ");
 		Long num = (long)0;
 		System.out.println("Mode: "+mode);
@@ -94,6 +94,12 @@ public class ExamPartController {
 		}else if(mode.equals("TEACHER_EXAM_DETAIL")) {
 			num = examPartS.countByTeacher(username)/5;
 			Long mod = examPartS.countByTeacher(username)%5;
+			if(mod>0) {
+				num++;
+			}
+		}else if(mode.equals("EXAM_PART_DETAIL")) {
+			num = examPartS.countByExamPart(code,"re")/5;
+			Long mod = examPartS.countByExamPart(code,"re")%5;
 			if(mod>0) {
 				num++;
 			}
@@ -190,13 +196,10 @@ public class ExamPartController {
 	@GetMapping(value = "/registered-exam-parts/{code}")//izmjeniti ovo kad dodje vrijeme
 //	api/exam-part/registered-exam-parts/{code}
 //	api/exam-part/registered-exam-parts/1-1
-	public ResponseEntity<List<ExamPartDTO>> getRegisteredExamParts(@PathVariable("code") String code){
+	public ResponseEntity<List<ExamPartDTO>> getRegisteredExamParts(@PathVariable("code") String code,Pageable page){
 		System.out.println("\nFind by code");
-		List<ExamPart> examParts = examPartS.findByCodeAndStatus(code,"re");
+		Page<ExamPart> examParts = examPartS.findByCodeAndStatus(code,"re",page);
 		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
-		if(examParts.size() == 0) {
-			return new ResponseEntity<List<ExamPartDTO>>(HttpStatus.NOT_FOUND);
-		}
 		for (ExamPart examPart : examParts) {
 			dtos.add(new ExamPartDTO(examPart));
 		}
@@ -242,12 +245,14 @@ public class ExamPartController {
 			examPart.setDate(dto.getDate());
 			examPart.setLocation(dto.getLocation());
 			examPart.setPoints(dto.getPoints());
-			examPart.setExamPartStatus(examPartStatus);
-			examPart.setWonPoints(dto.getWonPoints());
 			examPart.setExamPartType(type);
 			
 			examPart = examPartS.save(examPart);	
 		}
+		ExamPart examPart = examPartS.findById(dto.getId());
+		examPart.setWonPoints(dto.getWonPoints());
+		examPart.setExamPartStatus(examPartStatus);
+		examPartS.save(examPart);
 		
 		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
 	}

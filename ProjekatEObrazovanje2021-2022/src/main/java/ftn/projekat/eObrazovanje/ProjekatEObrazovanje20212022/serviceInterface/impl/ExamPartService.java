@@ -126,9 +126,15 @@ public class ExamPartService implements ExamPartServiceInterface {
 	}
 
 	@Override
-	public List<ExamPart> findByCodeAndStatus(String code, String status) {
+	public Page<ExamPart> findByCodeAndStatus(String code, String status,Pageable page) {
 		// TODO Auto-generated method stub
-		return examPartRepository.findByCodeAndExamPartStatus_code(code, status);
+		return examPartRepository.findByCodeAndExamPartStatus_code(code, status,page);
+	}
+
+	@Override
+	public Long countByExamPart(String code, String status) {
+		// TODO Auto-generated method stub
+		return examPartRepository.countByCodeAndExamPartStatus_code(code, status);
 	}
 
 }
