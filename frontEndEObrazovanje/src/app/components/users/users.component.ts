@@ -78,11 +78,11 @@ export class UsersComponent implements OnInit {
     this.getUsers();
   }
 
-  isActive(num:number):boolean{
-    if(this.numberPage===num){
-      return true;
-    }
-    return false;
-  }
+  // isActive(num:number):boolean{
+  //   if(this.numberPage===num){
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
 }

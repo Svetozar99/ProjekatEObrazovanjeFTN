@@ -119,7 +119,7 @@ export class ExamDetailComponent implements OnInit {
   }
 
   getNumberPages(){
-    this.examDetailService.getNumberPage(this.mode).subscribe(res =>{
+    this.examDetailService.getNumberPage(this.mode,'null').subscribe(res =>{
       const num = res.body == null ? 0:res.body;
       var i = 1;
       // console.log(num)

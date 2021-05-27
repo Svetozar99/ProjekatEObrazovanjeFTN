@@ -173,7 +173,7 @@ export class StudentExamDetailComponent implements OnInit {
   }
 
   getNumberPages(){
-    this.examPartService.getNumberPage('STUDENT_EXAM_DETAIL').subscribe(res =>{
+    this.examPartService.getNumberPage('STUDENT_EXAM_DETAIL','null').subscribe(res =>{
       const num = res.body == null ? 0:res.body;
       var i = 1;
       this.numberPages = [];
@@ -296,10 +296,11 @@ export class StudentExamDetailComponent implements OnInit {
     this.getExamParts()
   }
 
-  isActive(num:number):boolean{
-    if(this.numberPage===num){
-      return true;
-    }
-    return false;
-  }
+  // isActive(num:number):boolean{
+  //   console.log("Poziva se is active?")
+  //   if(this.numberPage===num){
+  //     return true;
+  //   }
+  //   return false;
+  // }
 }

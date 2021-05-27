@@ -25,6 +25,8 @@ export class ExamPartDetailComponent implements OnInit {
   dateString = "";
   examPartStatuss:ExamPartStatus[] = [];
   edit:boolean = false;
+  numberPages:number[] = [];
+  numberPage:number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -102,13 +104,14 @@ export class ExamPartDetailComponent implements OnInit {
   }
 
   submit(){
-    var r:boolean=false;
+    // var r:boolean=false;
     // if(this.edit){
     //   r = confirm("Going to another page will lose the previously entered data. \nSave previously entered data?");
     // }
     this.examDetailService.evaluationExamParts(this.examParts)
-    .subscribe(res=>{
-      console.log(JSON.stringify(res.body));
+    .subscribe(()=>{
+      this.edit = false;
+      alert("--Points are posted--")
     });
   }
 
@@ -118,10 +121,57 @@ export class ExamPartDetailComponent implements OnInit {
     .subscribe(res =>{
       this.examPart = res.body==null ? this.examPart:res.body;
       this.dateString = new Date(this.examPart.date).toISOString().substring(0, 16);
-      this.examDetailService.getExamPartsByCode(this.examPart.code)
+      this.examDetailService.getExamPartsByCode(this.numberPage,this.examPart.code)
       .subscribe(res =>{
         this.examParts = res.body==null ? this.examParts:res.body;
+        this.getNumberPages();
       });
     });
+  }
+
+  getNumberPages(){
+    this.examDetailService.getNumberPage('EXAM_PART_DETAIL',this.examPart.code).subscribe(res =>{
+      const num = res.body == null ? 0:res.body;
+      var i = 1;
+      this.numberPages = [];
+      for (let index = 0; index < num; index++) {
+        this.numberPages.push(i);
+        i++;
+      }
+    })
+  }
+
+  increaseNumberPage(){
+    if(this.numberPage < this.numberPages.length-1 && this.isEdit()){
+      this.numberPage=this.numberPage+1;
+      this.getExamPart();
+    }
+  }
+
+  reduceNumberPage(){
+    if(this.numberPage>=1 && this.isEdit()){
+      this.numberPage=this.numberPage-1;
+      this.getExamPart()
+    }
+  }
+
+  isEdit():boolean{
+    var r:boolean=false;
+    if(this.edit){
+      r = confirm("Going to another page will lose the previously entered data!");
+    }else{
+      return true;
+    }
+    if(r){
+      this.edit = false;
+    }
+    return r;
+  }
+
+  setNumberPage(numberPage:number){
+    if(this.isEdit()){
+      this.numberPage = numberPage-1;
+      this.getExamPart()
+    }
   }
 }

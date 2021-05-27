@@ -35,7 +35,7 @@ export class ExamPartService{
         return this.http.get<ExamPart[]>(url, {observe: 'response'});
     }
 
-    getNumberPage(mode:string): Observable<HttpResponse<number>> {
+    getNumberPage(mode:string,code:string): Observable<HttpResponse<number>> {
         console.log("\ngetNumberPage")
         var username = 'undefined';
         if(mode === 'STUDENT_EXAM_DETAIL'){
@@ -45,7 +45,7 @@ export class ExamPartService{
             var user = this.auths.getLoggedUser();
             username = JSON.stringify(user.sub).split('"')[1];
         }
-        return this.http.get<number>(`${this.examDetailUrl}/number-exam-part?mode=${mode}&username=${username}&courseId=${this.courseId}`, {observe: 'response'});
+        return this.http.get<number>(`${this.examDetailUrl}/number-exam-part?mode=${mode}&username=${username}&courseId=${this.courseId}&code=${code}`, {observe: 'response'});
       }
 
     // getExamPartsForTeacher(): Observable<HttpResponse<ExamPart[]>>{
@@ -84,8 +84,8 @@ export class ExamPartService{
         return this.http.get<ExamPart>(url, {observe: 'response'});
     }
 
-    getExamPartsByCode(code: string): Observable<HttpResponse<ExamPart[]>> {
-        const url = `${this.examDetailUrl}/registered-exam-parts/${code}`;
+    getExamPartsByCode(numberPage:number,code: string): Observable<HttpResponse<ExamPart[]>> {
+        const url = `${this.examDetailUrl}/registered-exam-parts/${code}?page=${numberPage}&size=5`;
         return this.http.get<ExamPart[]>(url, {observe: 'response'});
     }
 
