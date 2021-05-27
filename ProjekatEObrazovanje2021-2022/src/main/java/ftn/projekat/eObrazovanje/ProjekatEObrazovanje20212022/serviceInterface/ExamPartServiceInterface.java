@@ -15,6 +15,8 @@ public interface ExamPartServiceInterface {
 	
 	public List<ExamPart> findByCode(String code);
 	
+	public List<ExamPart> findByCodeAndStatus(String code,String status);
+	
 	public ExamPart findById(Long id);
 	
 	public ExamPart save(ExamPart examPart);

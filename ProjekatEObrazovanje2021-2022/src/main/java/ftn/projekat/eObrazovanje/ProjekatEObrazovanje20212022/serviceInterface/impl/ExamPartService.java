@@ -125,4 +125,10 @@ public class ExamPartService implements ExamPartServiceInterface {
 		examPartRepository.deleteByCode(code);
 	}
 
+	@Override
+	public List<ExamPart> findByCodeAndStatus(String code, String status) {
+		// TODO Auto-generated method stub
+		return examPartRepository.findByCodeAndExamPartStatus_code(code, status);
+	}
+
 }

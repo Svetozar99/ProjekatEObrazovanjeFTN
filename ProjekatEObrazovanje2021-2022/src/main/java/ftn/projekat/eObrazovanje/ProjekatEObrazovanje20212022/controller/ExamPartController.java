@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.ExamDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.ExamPartDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Account;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Enrollment;
@@ -175,6 +176,33 @@ public class ExamPartController {
 				(examPart), HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "/by-code/{code}")//izmjeniti ovo kad dodje vrijeme
+	public ResponseEntity<ExamPartDTO> getOneExamPart(@PathVariable("code") String code){
+		System.out.println("\nFind by code");
+		List<ExamPart> examParts = examPartS.findByCode(code);
+		if(examParts.size() == 0) {
+			return new ResponseEntity<ExamPartDTO>(HttpStatus.NOT_FOUND);
+		}
+		ExamPart examPart = examParts.get(0);
+		return new ResponseEntity<ExamPartDTO>(new ExamPartDTO(examPart), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/registered-exam-parts/{code}")//izmjeniti ovo kad dodje vrijeme
+//	api/exam-part/registered-exam-parts/{code}
+//	api/exam-part/registered-exam-parts/1-1
+	public ResponseEntity<List<ExamPartDTO>> getRegisteredExamParts(@PathVariable("code") String code){
+		System.out.println("\nFind by code");
+		List<ExamPart> examParts = examPartS.findByCodeAndStatus(code,"re");
+		List<ExamPartDTO> dtos = new ArrayList<ExamPartDTO>();
+		if(examParts.size() == 0) {
+			return new ResponseEntity<List<ExamPartDTO>>(HttpStatus.NOT_FOUND);
+		}
+		for (ExamPart examPart : examParts) {
+			dtos.add(new ExamPartDTO(examPart));
+		}
+		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
+	}
+	
 	@PutMapping()
 	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
 	public ResponseEntity<List<ExamPartDTO>> updateExamParts(@RequestBody ExamPartDTO dto){
@@ -219,6 +247,21 @@ public class ExamPartController {
 			examPart.setExamPartType(type);
 			
 			examPart = examPartS.save(examPart);	
+		}
+		
+		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
+	}
+	
+	@PutMapping(value = "/evaluation-exam-parts")
+	@PreAuthorize("hasAnyRole('ROLE_TEACHER', 'ROLE_ADMINISTRATOR')")
+	public ResponseEntity<List<ExamPartDTO>> updateExamParts(@RequestBody List<ExamPartDTO> dtos){
+		System.out.println("\nEvoluation exam parts");
+		for (ExamPartDTO dto : dtos) {
+			ExamPart examPart = examPartS.findById(dto.getId());
+			ExamPartStatus examPartStatus = examPartStatusS.expsByCode(dto.getStatusDTO().getCode());
+			examPart.setWonPoints(dto.getWonPoints());
+			examPart.setExamPartStatus(examPartStatus);
+			examPartS.save(examPart);
 		}
 		
 		return new ResponseEntity<List<ExamPartDTO>>(dtos, HttpStatus.OK);
