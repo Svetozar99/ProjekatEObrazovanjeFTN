@@ -1,7 +1,7 @@
-<div class="main">
+<div class="main color_text">
     <h1 class="ml-5">Courses</h1>
     <table class="table mx-auto w-75 mt-5">
-        <thead>
+        <thead class="color_text">
             <tr>
                 <th class="text-center">Title</th>
                 <th class="text-center">Start date</th>
@@ -9,14 +9,14 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody >
+        <tbody class="color_text">
             <tr *ngFor="let ci of courseInstances; let i = index; let odd = odd;">
                 <td class="text-center"><button class="btn btn-link" (click)="goToCourseInstance(ci)">{{ci.courseSpecificationDTO.title}}</button></td>
                 <!-- <td class="text-center">{{ ci.courseSpecificationDTO.title }}</td> -->
 
                 <td class="text-center">{{ dateToString(ci.startDate) | date:'mediumDate'}}</td>
                 <td class="text-center">{{ dateToString(ci.endDate) | date:'mediumDate'}}</td>
-                <td><button type="button" class="btn" (click)="goToStudentDetail(ci)"><img src="../../../assets/img/icon_detail.png" alt=""></button></td>
+                <td><button type="button" class="btn" (click)="goToStudentDetail(ci)"><img style="background-color: white;" src="../../../assets/img/icon_detail.png" alt=""></button></td>
             </tr>
         </tbody>
     </table>

@@ -1,12 +1,12 @@
 <div class="main">
-    <div class="d-inline-block">
+    <div class="d-inline-block color_text">
         <h1 class="ml-3">{{student.userDTO.firstName}} {{student.userDTO.lastName}}</h1>
         <h3 class="ml-5">{{student.cardNumber}}</h3>
     </div>
     <div class="text-right d-inline-block">
-        <button class="btn mr-2 btn-outline-dark" (click)="click('documents')">Documents</button>
-        <button class="btn mr-2 btn-outline-dark" (click)="click('payments')">Payments</button>
-        <button class="btn mr-5 btn-outline-dark" (click)="click('courses')">Courses</button>
+        <button class="btn mr-2 btn-outline-light" (click)="click('documents')">Documents</button>
+        <button class="btn mr-2 btn-outline-light" (click)="click('payments')">Payments</button>
+        <button class="btn mr-5 btn-outline-light" (click)="click('courses')">Courses</button>
     </div>
     <div>
         <app-documents *ngIf="documentI"></app-documents>

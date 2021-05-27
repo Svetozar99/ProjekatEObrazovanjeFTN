@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -36,7 +37,12 @@ export class PaymentComponent implements OnInit {
   role = '';
   subscription:Subscription;
   
-  constructor(private paymentService: PaymentService, private auths: AuthenticationService ,private router: Router,private studentDetail: StudentDetailComponent) {
+  constructor(private paymentService: PaymentService, 
+              private auths: AuthenticationService,
+              private router: Router,
+              private studentDetail: StudentDetailComponent,
+              private location: Location
+              ) {
     if(auths.getRole() === 'ROLE_ADMINISTRATOR'){
       this.student = studentDetail.student;
       this.role = 'ROLE_ADMINISTRATOR';
@@ -79,6 +85,10 @@ export class PaymentComponent implements OnInit {
     })
   }
 
+  goToPayment(payment: Payment): void {
+    this.router.navigate(['/payment', payment.id]);
+  }
+
   goToAddPayment():void{
     this.router.navigate(['/admin-add-payment/', this.student.userDTO.userName]);
   }
@@ -113,5 +123,9 @@ export class PaymentComponent implements OnInit {
     var d = new Date(date);
     d.setHours(d.getHours()-1);
     return d;
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }

@@ -1,10 +1,11 @@
-<div class="form-group text-center">
+<div class="form-group text-center color_text">
     <div class="row mx-auto w-50">
         <h1 class="ml-3">Payment</h1>
     </div>
     <div class="mt-3 ml-4">
         <b>Date:</b>
-        <input type="date" class="form-control col-2 d-inline ml-2" [(ngModel)]="payment.date">
+        <input type="date" *ngIf="mode==='ADD'" class="form-control col-2 d-inline ml-2" [(ngModel)]="payment.date">
+        <input type="date" *ngIf="mode==='EDIT'" class="form-control col-2 d-inline ml-2" [(ngModel)]="date">
     </div>
     <div class="mt-2">
         <b>Amount:</b>
@@ -23,6 +24,8 @@
         <input type="checkbox" class="form-check-input mt-0 mr-5" [(ngModel)]="payment.urgently"> 
     </div>
     <div class="ml-5">
-        <button type="button" class="btn btn-outline-primary mt-3 ml-5" (click)="addPayment()">Pay</button>
+        <button *ngIf="mode==='ADD'" type="button" class="btn btn-outline-light mt-3 ml-5" (click)="addPayment()">Pay</button>
+        <button *ngIf="mode==='EDIT'" type="button" class="btn btn-outline-light mt-3 ml-5" (click)="editPayment()">Save</button>
+        <button *ngIf="mode==='EDIT'" type="button" class="btn btn-outline-light mt-3 ml-1" (click)="goBack()">Cancel</button>
     </div>
 </div>

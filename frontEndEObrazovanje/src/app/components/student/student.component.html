@@ -1,7 +1,7 @@
-<div class="main">
+<div class="main color_text">
     <h1 class="ml-5">Students</h1>
-    <table class="table mx-auto w-75 mt-5">
-        <thead>
+    <table class="table mx-auto w-75 mt-5 color_text">
+        <thead class="color_text">
             <tr>
                 <th class="text-center">Firstname</th>
                 <th class="text-center">Lastname</th>
@@ -9,7 +9,7 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody >
+        <tbody class="color_text">
             <tr *ngFor="let s of students; let i = index; let odd = odd;">
                 <td class="text-center">{{s.userDTO.firstName}}</td>
                 <td class="text-center">{{s.userDTO.lastName}}</td>

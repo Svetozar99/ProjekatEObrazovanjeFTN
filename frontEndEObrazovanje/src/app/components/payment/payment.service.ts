@@ -31,14 +31,19 @@ export class PaymentService {
         return this.http.get<number>(`${this.paymentsUrl}/number-payments?username=${username}`, {observe: 'response'});
       }
 
-      getNumberPage2(username:string): Observable<HttpResponse<number>> {
+    getNumberPage2(username:string): Observable<HttpResponse<number>> {
         if(this.authS.getRole() === "ROLE_STUDENT"){
             var user = this.authS.getLoggedUser();
             var username = JSON.stringify(user.sub).split('"')[1];
         }
-        
+    
         return this.http.get<number>(`${this.paymentsUrl}/number-payments?username=${username}`, {observe: 'response'});
-      }
+    }
+
+    getPayment(id: number): Observable<HttpResponse<Payment>> {
+        const url = `${this.paymentsUrl}/${id}`;
+        return this.http.get<Payment>(url, {observe: 'response'});
+    }
 
     addAccountPayment(payment: Payment,username:string): Observable<HttpResponse<Payment>>{
         var mode = "STUDENT";
@@ -48,6 +53,10 @@ export class PaymentService {
         const url = `${this.paymentsUrl}?mode=${mode}&username=${username}`
         // console.log("Url: "+url)
         return this.http.post<Payment>(url, payment, {observe:'response'});
+    }
+
+    editPayment(payment: Payment): Observable<HttpResponse<Payment>> {
+        return this.http.put<Payment>(this.paymentsUrl, payment, {observe: 'response'});
     }
 
     getStudentPayments(username:string, numberPage:number): Observable<HttpResponse<Payment[]>>{
