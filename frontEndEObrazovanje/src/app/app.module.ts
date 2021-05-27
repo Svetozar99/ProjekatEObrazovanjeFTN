@@ -53,6 +53,7 @@ import { TeachingService } from './services/teaching.service';
 import { TeachersComponent } from './components/teachers/teachers.component';
 import { CoursesForStudentComponent } from './components/courses-for-student/courses-for-student.component';
 import { CourseInstanceForStudentService } from './components/courses-for-student/courses-for-student.service';
+import { ExamPartDetailComponent } from './components/exam-part-detail/exam-part-detail.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { CourseInstanceForStudentService } from './components/courses-for-studen
     TeacherNavbarComponent,
     TeachersComponent,
     CoursesForStudentComponent,
+    ExamPartDetailComponent,
   ],
   imports: [
     BrowserModule,

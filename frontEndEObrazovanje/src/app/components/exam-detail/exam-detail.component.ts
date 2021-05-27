@@ -136,6 +136,11 @@ export class ExamDetailComponent implements OnInit {
     return status;
   }
 
+  goToExamPartDetail(examPart: ExamPart): void {
+    console.log("Exam part: "+examPart.code)
+    this.router.navigate(['/exam-part', examPart.code]);
+  }
+
   isPossibleUnRegister(d:Date): boolean{
     var date = new Date(d);
     const dNow = Date.now();

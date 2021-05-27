@@ -84,6 +84,21 @@ export class ExamPartService{
         return this.http.get<ExamPart>(url, {observe: 'response'});
     }
 
+    getExamPartsByCode(code: string): Observable<HttpResponse<ExamPart[]>> {
+        const url = `${this.examDetailUrl}/registered-exam-parts/${code}`;
+        return this.http.get<ExamPart[]>(url, {observe: 'response'});
+    }
+
+    getExamPartByCode(code: string): Observable<HttpResponse<ExamPart>> {
+        const url = `${this.examDetailUrl}/by-code/${code}`;
+        return this.http.get<ExamPart>(url, {observe: 'response'});
+    }
+
+    evaluationExamParts(examParts: ExamPart[]): Observable<HttpResponse<ExamPart[]>> {
+        const url = `${this.examDetailUrl}/evaluation-exam-parts`
+        return this.http.put<ExamPart[]>(url, examParts, {observe: 'response'});
+    }
+
     getCourseId(){
         return this.courseId;
     }

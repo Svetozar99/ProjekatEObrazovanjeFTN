@@ -1,11 +1,11 @@
-<div class="main">
+<div class="main color_text">
     <h1 class="ml-3">{{student.userDTO.firstName}} {{student.userDTO.lastName}}</h1>
     <h3 class="ml-5">{{student.cardNumber}}</h3>
     <div class="row mx-auto w-75 mt-5">
-        <div class="ml-5">
+        <div class="ml-5 col">
             <b>Course title:</b> <input type="text" readonly class="form-control ml-2" [(ngModel)]="exam.enrollmentDTO.courseInstanceDTO.courseSpecificationDTO.title">
         </div>
-        <div class="w-20 ml-5">
+        <div class="w-20 ml-5 col">
             <b class="d-block">Gradle:</b> 
             <input type="text" *ngIf="!editGradle" readonly class="form-control ml-2 col-3 text-center d-inline" [(ngModel)]="exam.gradle">
             <input type="text" *ngIf="editGradle" class="form-control ml-2 col-3 text-center d-inline" [(ngModel)]="exam.gradle">
@@ -15,15 +15,15 @@
                 <button type="button" class="btn-primary rounded mt-1 ml-1" *ngIf="editGradle" (click)="cancel()">X</button>
             </div>
         </div>
-        <div class="w-10 ml-5">
+        <div class="w-10 ml-5 col">
             <b>Points:</b> <input type="text" readonly class="form-control ml-2 col-7 text-center" [(ngModel)]="exam.points">
         </div>
-        <div class="w-10 ml-5">
+        <div class="w-10 ml-5 col">
             <b>ECTS:</b> <input type="text" readonly class="form-control ml-2 col-6 text-center" [(ngModel)]="exam.enrollmentDTO.courseInstanceDTO.courseSpecificationDTO.ects">
         </div>
     </div>
     <table class="table mx-auto w-90 mt-5">
-        <thead>
+        <thead class="color_text">
             <tr>
                 <th class="text-center">Date</th>
                 <th class="text-center">Location</th>
@@ -34,7 +34,7 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="color_text">
             <tr *ngFor="let e of examParts; let i = index; let odd = odd;">
                 <td class="text-center">{{ dateToString(e.date) | date:'medium'}}</td>
                 <td class="text-center">{{ e.location }}</td>
