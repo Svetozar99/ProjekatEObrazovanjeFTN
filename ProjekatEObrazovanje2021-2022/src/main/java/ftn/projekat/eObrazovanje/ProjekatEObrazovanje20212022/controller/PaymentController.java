@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -82,26 +83,28 @@ public class PaymentController {
 		return new ResponseEntity<PaymentDTO>(new PaymentDTO(p), HttpStatus.OK);
 	}
 	
-//	@PutMapping()
-//	public ResponseEntity<PaymentDTO> updatePayment(@RequestBody PaymentDTO dto){
-//		
-//		Account account = accountS.findById(dto.getAccountDTO().getId());
-//		Payment p = paymentS.findById(dto.getId());
-//		
-//		if(p == null) {
-//			return new ResponseEntity<PaymentDTO>(HttpStatus.NOT_FOUND);
-//		}
-//		p.setAccount(account);
-//		p.setAmount(dto.getAmount());
-//		p.setCurrency(dto.getCurrency());
-//		p.setDatePayment(dto.getDate());
-//		p.setNote(dto.getNote());
-//		p.setUrgently(dto.getUrgently());
-//		
-//		p = paymentS.save(p);
-//		
-//		return new ResponseEntity<PaymentDTO>(new PaymentDTO(p), HttpStatus.OK);
-//	}
+	@PutMapping()
+	public ResponseEntity<PaymentDTO> updatePayment(@RequestBody PaymentDTO dto){
+		
+		Account account = accountS.findById(dto.getAccountDTO().getId());
+		Payment p = paymentS.findById(dto.getId());
+		
+		if(p == null) {
+			return new ResponseEntity<PaymentDTO>(HttpStatus.NOT_FOUND);
+		}
+		account.setAmount(account.getAmount()-p.getAmount());
+		p.setAmount(dto.getAmount());
+		account.setAmount(account.getAmount()+p.getAmount());
+		p.setCurrency(dto.getCurrency());
+		p.setDatePayment(dto.getDate());
+		p.setNote(dto.getNote());
+		p.setUrgently(dto.getUrgently());
+		
+		accountS.save(account);
+		p = paymentS.save(p);
+		
+		return new ResponseEntity<PaymentDTO>(new PaymentDTO(p), HttpStatus.OK);
+	}
 	
 	@PostMapping
 	@PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMINISTRATOR')")
