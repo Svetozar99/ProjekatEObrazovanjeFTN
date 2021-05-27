@@ -47,9 +47,10 @@ INSERT INTO teachings(id, teaching_type_id, teacher_id, course_instance_id) VALU
 INSERT INTO type_document(id, name, code) VALUES(1,'Diploma','di');
 INSERT INTO type_document(id, name, code) VALUES(2,'Form','fo');
 
-INSERT INTO exams(id, points, gradle, enrollment_id) VALUES(4, 0, 0, 3);
 INSERT INTO exams(id, points, gradle, enrollment_id) VALUES(1, 0, 0, 1);
 INSERT INTO exams(id, points, gradle, enrollment_id) VALUES(2, 0, 0, 2);
+INSERT INTO exams(id, points, gradle, enrollment_id) VALUES(3, 0, 0, 3);
+INSERT INTO exams(id, points, gradle, enrollment_id) VALUES(4, 0, 0, 4);
 
 INSERT INTO exam_part_types(id,name,code) VALUES (1,'Colloquium','colloq');
 INSERT INTO exam_part_types(id,name,code) VALUES (2,'Oral exam','oral');
