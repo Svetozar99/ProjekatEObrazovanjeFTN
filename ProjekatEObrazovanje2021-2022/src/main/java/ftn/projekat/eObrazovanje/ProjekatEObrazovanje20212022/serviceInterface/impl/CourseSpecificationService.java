@@ -47,4 +47,10 @@ public class CourseSpecificationService implements CourseSpecificationI {
 		return csrepos.count();
 	}
 
+	@Override
+	public Page<CourseSpecification> findAll(String searchString, Pageable page) {
+		// TODO Auto-generated method stub
+		return csrepos.findAll(searchString, page);
+	}
+
 }

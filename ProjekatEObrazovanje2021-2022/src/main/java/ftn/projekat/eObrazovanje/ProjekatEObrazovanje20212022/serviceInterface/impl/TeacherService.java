@@ -58,4 +58,10 @@ public class TeacherService implements TeacherServiceI {
 		return teacherRepos.count();
 	}
 
+	@Override
+	public Page<Teacher> findAll(String searchString, Pageable page) {
+		// TODO Auto-generated method stub
+		return teacherRepos.findAll(searchString,page);
+	}
+
 }

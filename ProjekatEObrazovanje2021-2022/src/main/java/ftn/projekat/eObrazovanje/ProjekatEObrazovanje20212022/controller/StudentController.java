@@ -77,16 +77,14 @@ public class StudentController {
 	}
 	
 	@GetMapping(value = "course-instance/other-students/{id}")
-	public ResponseEntity<List<StudentDTO>> getOtherStudents(@PathVariable("id") Long idCourseInstance){
+	public ResponseEntity<List<StudentDTO>> getOtherStudents(@PathVariable("id") Long idCourseInstance,
+																@RequestParam String searchString,Pageable page){
 		System.out.println("\ngetOtherStudents");
-		
-		System.out.println(idCourseInstance + "idCourseInstance");
-		List<Student> students = studentService.findOtherStudents(idCourseInstance);
+		Page<Student> students = studentService.findOtherStudents(idCourseInstance,searchString,page);
 		
 		List<StudentDTO> dtos = new ArrayList<StudentDTO>();
 		
 		for (Student s : students) {
-			System.out.println("\nIndeks: "+s.getCardNumber());
 			dtos.add(new StudentDTO(s));
 		}
 		

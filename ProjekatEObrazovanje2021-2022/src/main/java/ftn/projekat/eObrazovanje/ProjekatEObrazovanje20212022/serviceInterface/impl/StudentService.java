@@ -55,8 +55,8 @@ public class StudentService implements StudentServiceI {
 	}
 
 	@Override
-	public List<Student> findOtherStudents(Long idCourseInstance) {
-		return studentRepository.findOtherStudents(idCourseInstance);
+	public Page<Student> findOtherStudents(Long idCourseInstance,String searchString,Pageable page) {
+		return studentRepository.findOtherStudents(idCourseInstance,searchString,page);
 	}
 
 	@Override

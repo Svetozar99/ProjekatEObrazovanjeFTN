@@ -25,7 +25,7 @@ public interface StudentServiceI {
 	
 	Long countByCourseInstance(Long idCourseInstance);
 	
-	List<Student> findOtherStudents(Long idCourseInstance);
+	Page<Student> findOtherStudents(Long idCourseInstance,String searchString,Pageable page);
 	
 	public Long count();
 }

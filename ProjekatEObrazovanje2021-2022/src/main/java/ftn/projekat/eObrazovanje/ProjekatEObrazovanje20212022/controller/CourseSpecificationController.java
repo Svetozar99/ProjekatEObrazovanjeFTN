@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.CourseSpecificationDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.CourseSpecification;
+import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.CourseSpecificationI;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.impl.CourseSpecificationService;
 
 @RestController
@@ -28,7 +29,7 @@ import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.i
 public class CourseSpecificationController {
 
 	@Autowired
-	private CourseSpecificationService coursSpecifServ;
+	private CourseSpecificationI coursSpecifServ;
 	
 	@GetMapping(value = "/number-course-specification")
 	public ResponseEntity<Long> getNumberPage(){
@@ -43,8 +44,8 @@ public class CourseSpecificationController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<CourseSpecificationDTO>> getAllCourseSpecifications(Pageable page){
-		Page<CourseSpecification> csspecs = coursSpecifServ.findAll(page);
+	public ResponseEntity<List<CourseSpecificationDTO>> getAllCourseSpecifications(@RequestParam String searchString,Pageable page){
+		Page<CourseSpecification> csspecs = coursSpecifServ.findAll(searchString,page);
 		
 		List<CourseSpecificationDTO> cspecsDTO = new ArrayList<CourseSpecificationDTO>();
 		

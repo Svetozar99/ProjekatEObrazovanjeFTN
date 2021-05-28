@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.TeacherDTO;
@@ -35,8 +36,9 @@ public class TeacherController {
 	private UserServiceI userService;
 	
 	@GetMapping
-	public ResponseEntity<List<TeacherDTO>> getAllTeachers(Pageable page){
-		Page<Teacher> teachers = teacherService.findAll(page);
+	public ResponseEntity<List<TeacherDTO>> getAllTeachers(@RequestParam String searchString, Pageable page){
+		System.out.println("\ngetAllTeachers");
+		Page<Teacher> teachers = teacherService.findAll(searchString,page);
 		
 		List<TeacherDTO> teachersDTO = new ArrayList<TeacherDTO>();
 		

@@ -11,6 +11,8 @@ public interface CourseSpecificationI {
 
 	public Page<CourseSpecification> findAll(Pageable page);
 	
+	public Page<CourseSpecification> findAll(String searchString,Pageable page);
+	
 	public CourseSpecification findById(Long id);
 	
 	public CourseSpecification save(CourseSpecification courseSpecification);

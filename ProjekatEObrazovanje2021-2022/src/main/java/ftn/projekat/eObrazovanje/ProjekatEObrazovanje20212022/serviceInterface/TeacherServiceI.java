@@ -11,6 +11,8 @@ public interface TeacherServiceI {
 
 	public Page<Teacher> findAll(Pageable page);
 	
+	public Page<Teacher> findAll(String searchString, Pageable page);
+	
 	public Teacher findById(Long id);
 	
 	public Teacher save(Teacher teacher);
