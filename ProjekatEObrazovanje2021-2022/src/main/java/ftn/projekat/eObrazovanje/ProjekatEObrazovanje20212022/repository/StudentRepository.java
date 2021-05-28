@@ -27,7 +27,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 	@Query(value = "SELECT * FROM eobrazovanje.students\r\n" + 
 		"				where id not in (SELECT student_id FROM eobrazovanje.enrollments\r\n" + 
 		"					where course_instance_id=:idCourseInstance) and (user_id in (SELECT id FROM eobrazovanje.users\r\n" + 
-		"						where first_name LIKE concat('%',:searchString,'%') or last_name LIKE concat('%',:searchString,'%')) or "
+		"						where concat(first_name,' ',last_name) LIKE concat('%',:searchString,'%') or concat(last_name,' ',first_name) LIKE concat('%',:searchString,'%')) or "
 		+ "								card_number LIKE concat('%',:searchString,'%'))", nativeQuery = true)
 	Page<Student> findOtherStudents(@Param("idCourseInstance") Long idCourseInstance,@Param("searchString") String searchString,Pageable page);
 	

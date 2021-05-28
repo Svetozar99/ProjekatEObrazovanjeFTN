@@ -22,7 +22,7 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
 	
 	@Query(value = "SELECT * FROM eobrazovanje.teachers\r\n" + 
 			"	where user_id in (SELECT id FROM eobrazovanje.users\r\n" + 
-			"			where first_name LIKE concat('%',:searchString,'%') or last_name LIKE concat('%',:searchString,'%') "
+			"			where concat(first_name,' ',last_name) LIKE concat('%',:searchString,'%') or concat(last_name,' ',first_name) LIKE concat('%',:searchString,'%') "
 			+ "or username LIKE concat('%',:searchString,'%'))", nativeQuery = true)
 	Page<Teacher> findAll(@Param("searchString") String searchString, Pageable page);
 }
