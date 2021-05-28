@@ -36,7 +36,7 @@ export class ViewCourseInstanceComponent implements OnInit {
     //       }
     //     );
     // }else{
-      this.courseService.getCoursesSpecifications(-1).
+      this.courseService.getCoursesSpecifications(-1,'').
             subscribe(res =>{
               this.coursesSpecifications = [];
               this.coursesSpecifications = res.body==null ? []:res.body;
@@ -49,12 +49,26 @@ export class ViewCourseInstanceComponent implements OnInit {
   }
 
   private add(): void {
-    this.courseInstance.courseSpecificationDTO = this.coursesSpecifications.filter(cs =>cs.code===this.courseSpecificationCode)[0];
-    console.log(JSON.stringify(this.courseInstance))
-    this.courseService.addCourseInstance(this.courseInstance)
-      .subscribe(res => {
-        // this.userService.announceChange();
-        this.goBack();
+    if(this.coursesSpecifications.filter(cs =>cs.code===this.courseSpecificationCode)[0] == undefined){
+      alert('--Select a course specification--')
+    }else{
+      this.courseInstance.courseSpecificationDTO = this.coursesSpecifications.filter(cs =>cs.code===this.courseSpecificationCode)[0];
+      console.log(JSON.stringify(this.courseInstance))
+      this.courseService.addCourseInstance(this.courseInstance)
+        .subscribe(res => {
+          // this.userService.announceChange();
+          this.goBack();
+        });
+    }
+  }
+
+  searchSpecification(event:Event){
+    const target= event.target as HTMLInputElement;
+    const searchString = target.value as string;
+    console.log(searchString)
+    this.courseService.getCoursesSpecifications(-1,searchString).subscribe(res =>
+      {
+        this.coursesSpecifications = res.body==null ? []:res.body;
       });
   }
 

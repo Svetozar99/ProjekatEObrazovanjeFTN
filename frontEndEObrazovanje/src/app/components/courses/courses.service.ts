@@ -56,10 +56,10 @@ export class CoursesService {
     return this.http.get<number>(url, {observe: 'response'});
   }
 
-  getCoursesSpecifications(numberPage:number):Observable<HttpResponse<CourseSpecification[]>> {
-    var url = `${this.coursesSpecificationUrl}?sort=title,asc&page=${numberPage}&size=5`;
+  getCoursesSpecifications(numberPage:number,searchString:string):Observable<HttpResponse<CourseSpecification[]>> {
+    var url = `${this.coursesSpecificationUrl}?searchString=${searchString}&sort=title,asc&page=${numberPage}&size=5`;
     if(numberPage==-1){
-      url = this.coursesSpecificationUrl;
+      url = `${this.coursesSpecificationUrl}?searchString=${searchString}&size=5`;
     }
     return this.http.get<CourseSpecification[]>(url, {observe: 'response'});
   }

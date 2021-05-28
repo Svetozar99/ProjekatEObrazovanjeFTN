@@ -48,7 +48,7 @@
                 <td>
                     <button *ngIf="role === 'ROLE_ADMINISTRATOR' || role === 'ROLE_TEACHER'" type="button" class="ml-1 btn-primary rounded align-top" (click)="goToExamPart(e)">🖉</button>
                     <button *ngIf="role === 'ROLE_ADMINISTRATOR' || role === 'ROLE_TEACHER'" type="button" class="ml-1 btn-danger rounded align-top" (click)="deleteExamPart(e)">X</button>
-                    <button type="button" class="btn rounded btn-light btn-sm ml-1" (click)="goToExamPartDetail(e)"><img style="background-color: white;" src="../../../assets/img/icon_detail.png" alt=""></button>
+                    <button *ngIf="role === 'ROLE_ADMINISTRATOR' || role === 'ROLE_TEACHER'" type="button" class="btn rounded btn-light btn-sm ml-1" (click)="goToExamPartDetail(e)"><img style="background-color: white;" src="../../../assets/img/icon_detail.png" alt=""></button>
                 </td>
             </tr>
         </tbody>

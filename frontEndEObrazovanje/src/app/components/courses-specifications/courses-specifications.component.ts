@@ -28,7 +28,7 @@ export class CoursesSpecificationsComponent implements OnInit {
 
   getCoursesSpecifications(){
     this.getNumberPages();
-    this.courseService.getCoursesSpecifications(this.numberPage).subscribe(
+    this.courseService.getCoursesSpecifications(this.numberPage,'').subscribe(
       response => {
         console.log(response.body)
         this.coursesSpecifications = response.body

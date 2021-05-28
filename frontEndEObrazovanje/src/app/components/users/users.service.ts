@@ -39,10 +39,10 @@ export class UserService {
         return this.http.get<number>(url, {observe: 'response'});
     }
 
-    getTeachers(numberPage:number): Observable<HttpResponse<Teacher[]>> {
-        var url = `${this.teacherUrl}?page=${numberPage}&size=5`;
+    getTeachers(numberPage:number,searchString:string): Observable<HttpResponse<Teacher[]>> {
+        var url = `${this.teacherUrl}?searchString=${searchString}&page=${numberPage}&size=5`;
         if(numberPage==-1){
-            url = this.teacherUrl;
+            url = `${this.teacherUrl}?searchString=${searchString}&size=5`;
         }
         return this.http.get<Teacher[]>(url, {observe: 'response'});
     }
@@ -52,14 +52,14 @@ export class UserService {
         return this.http.get<Student[]>(url, {observe: 'response'});
     }
 
-    getCourseInstanceTeacher(courseInstance:CourseInstance): Observable<HttpResponse<Teacher>> {
+    getCourseInstanceTeacher(courseInstance:CourseInstance,searchString:string): Observable<HttpResponse<Teacher>> {
         console.log("getCourseInstanceTeacher!")
         const url = `${this.teacherUrl}/course-instance/${courseInstance.id}`
         return this.http.get<Teacher>(url, {observe: 'response'});
     }
 
-    getCourseInstanceOtherStudents(courseInstance:CourseInstance): Observable<HttpResponse<Student[]>> {
-        const url = `${this.studentURL}/course-instance/other-students/${courseInstance.id}`
+    getCourseInstanceOtherStudents(courseInstance:CourseInstance,searchString:string): Observable<HttpResponse<Student[]>> {
+        const url = `${this.studentURL}/course-instance/other-students/${courseInstance.id}?searchString=${searchString}&size=5`
         return this.http.get<Student[]>(url, {observe: 'response'});
     }
 

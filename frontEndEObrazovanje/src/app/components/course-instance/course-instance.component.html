@@ -1,13 +1,13 @@
-<div class="form-group text-center">
+<div class="form-group text-center color_text">
     <div class="text-right">
         <button type="button" class="btn mr-5 btn-outline-dark" (click)="gotToExamParts()">Exam parts</button>
     </div>
     <h1 class="d-inline mr-5">Course instance</h1>
     <div class="mt-4">
-        <div *ngIf="coursesSpecifications.length > 0" class="col-2 d-inline mr-5">
+        <div class="col-2 d-inline mr-5">
             <b>Course:</b>
             <input *ngIf="editInstance!=true" class='form-control col-2 ml-2 mb-3 d-inline' readonly list="coursesSpecifications" [(ngModel)]="courseSpecificationCode"/>
-            <input *ngIf="editInstance" class='form-control col-2 ml-2 mb-3 d-inline' list="coursesSpecifications" [(ngModel)]="courseSpecificationCode"/>
+            <input *ngIf="editInstance" (keyup)="searchSpecification($event)" class='form-control col-2 ml-2 mb-3 d-inline' list="coursesSpecifications" [(ngModel)]="courseSpecificationCode"/>
             <button type="button" class="ml-1 btn-primary rounded" *ngIf="!editInstance" (click)="edit()">🖉</button>
             <button type="button" class="ml-1 btn-primary rounded" *ngIf="editInstance" (click)="submit()">✓</button>
             <button type="button" class="ml-1 btn-primary rounded" *ngIf="editInstance" (click)="cancel()">X</button>
@@ -29,7 +29,7 @@
     <div class="mt-3" *ngIf="role==='ROLE_ADMINISTRATOR'">
         <b>Teacher: </b>
         <input *ngIf="editTeacher!=true" class='form-control col-2 ml-2 mb-3 d-inline' readonly list="teachers" [(ngModel)]="teacherUsername"/>
-        <input *ngIf="editTeacher" class='form-control col-2 ml-2 mb-3 d-inline' list="teachers" [(ngModel)]="teacherUsername"/>
+        <input *ngIf="editTeacher" (keyup)="searchTeacher($event)" class='form-control col-2 ml-2 mb-3 d-inline' list="teachers" [(ngModel)]="teacherUsername"/>
         <button type="button" class="ml-1 btn-primary rounded" *ngIf="!editTeacher" (click)="teacherEdit()">🖉</button>
         <button type="button" class="ml-1 btn-primary rounded" *ngIf="editTeacher" (click)="teacherSubmit()">✓</button>
         <button type="button" class="ml-1 btn-primary rounded" *ngIf="editTeacher" (click)="teacherCancel()">X</button>
@@ -40,7 +40,7 @@
     <div class="main" style="padding-top: 7%;">
         <h4 class="ml-5">Students</h4>
         <table class="table mx-auto w-75">
-            <thead>
+            <thead class="color_text">
                 <tr>
                     <th class="text-center">Card number</th>
                     <th class="text-center">Firstname</th>
@@ -48,7 +48,7 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="color_text">
                 <tr *ngFor="let s of students">
                     <td class="text-center"><button class="btn btn-link" (click)="goToStudentDetail(s)">{{s.cardNumber}}</button></td>
                     <td class="text-center">{{s.userDTO.firstName}}</td>
@@ -77,8 +77,8 @@
               </li>
             </ul>
           </nav>
-          <div *ngIf="otherStudents.length > 0">
-                <input class='form-control col-2 ml-2 mb-3 d-inline' list="otherStudents" [(ngModel)]="studentCardNumber"/>
+          <div>
+                <input class='form-control col-2 ml-2 mb-3 d-inline' (keyup)="searchStudents($event)" list="otherStudents" [(ngModel)]="studentCardNumber"/>
                 <datalist id='otherStudents'>
                     <option *ngFor="let s of otherStudents" value="{{s.cardNumber}}">{{s.userDTO.firstName}} {{s.userDTO.lastName}}</option>
                 </datalist>

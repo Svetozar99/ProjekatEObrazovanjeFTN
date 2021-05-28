@@ -22,7 +22,7 @@ export class TeachersComponent implements OnInit {
 
   getTeachers(){
     this.getNumberPages();
-    this.userService.getTeachers(this.numberPage).subscribe(res=>{
+    this.userService.getTeachers(this.numberPage,'').subscribe(res=>{
       this.teachers = res.body;
     });
   }

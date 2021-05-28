@@ -3,9 +3,9 @@
     <div class="btn-group">
       <div class="mt-4 text-center">
         <div class="ml-5 mt-2">
-            <div *ngIf="coursesSpecifications.length > 0" class="ml-1">
+            <div class="ml-1">
                 <b>Course:</b>
-                <input class='form-control col-8 ml-2 mb-3 d-inline' list="coursesSpecifications" [(ngModel)]="courseSpecificationCode" className='form-control form-control-sm col-10'/>
+                <input class='form-control col-8 ml-2 mb-3 d-inline' (keyup)="searchSpecification($event)" list="coursesSpecifications" [(ngModel)]="courseSpecificationCode" className='form-control form-control-sm col-10'/>
                 <datalist id='coursesSpecifications'>
                     <option *ngFor="let cs of coursesSpecifications" value="{{cs.code}}">{{cs.title}}</option>
                 </datalist>

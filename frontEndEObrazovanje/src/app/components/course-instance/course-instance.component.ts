@@ -55,14 +55,14 @@ export class CourseInstanceComponent implements OnInit {
         endDate:new Date(),
         courseSpecificationDTO: new CourseSpecification({id:0,title:'',ects:0,code:''})
       });
-      this.courseService.getCoursesSpecifications(-1).subscribe(res =>
-        {
-          this.coursesSpecifications = res.body==null ? []:res.body;
-        });
-      this.userService.getTeachers(-1).subscribe(res =>
-        {
-          this.teachers = res.body==null ? []:res.body;
-        });
+      // this.courseService.getCoursesSpecifications(-1).subscribe(res =>
+      //   {
+      //     this.coursesSpecifications = res.body==null ? []:res.body;
+      //   });
+      // this.userService.getTeachers(-1).subscribe(res =>
+      //   {
+      //     this.teachers = res.body==null ? []:res.body;
+      //   });
       this.enrollment=new Enrollment(
         {
           id:0,
@@ -104,14 +104,14 @@ export class CourseInstanceComponent implements OnInit {
         this.endDate = new Date(this.courseInstance.endDate).toISOString().substring(0, 10);
         this.courseSpecificationCode = this.courseInstance.courseSpecificationDTO.code;
         this.getStudents();
-        this.getTeacher();
+        this.getTeacher('');
         }
       );
   }
 
   submit() {
-    if(this.courseSpecificationCode===''){
-      alert('--Choose a course specification--')
+    if(this.courseSpecificationCode==='' || this.coursesSpecifications.filter(cs=>cs.code===this.courseSpecificationCode)[0]==undefined){
+      alert('--Select a course specification--')
     }else{
       this.editInstance = false;
       this.courseInstance.courseSpecificationDTO=this.coursesSpecifications.filter(cs=>cs.code===this.courseSpecificationCode)[0];
@@ -122,14 +122,14 @@ export class CourseInstanceComponent implements OnInit {
   }
 
   teacherSubmit() {
-    if(this.teacherUsername===''){
-      alert('--Choose a teacher--')
+    if(this.teacherUsername==='' || this.teachers.filter(t=>t.userDTO.userName===this.teacherUsername)[0]==undefined){
+      alert('--Select a teacher--')
     }else{
       this.editTeacher = false;
       this.teacher=this.teachers.filter(t=>t.userDTO.userName===this.teacherUsername)[0];
       const teching:Teaching = new Teaching({id:0,teachingTypeDTO:{id:0,name:'',code:0},teacherDTO:this.teacher,courseInstanceDTO:this.courseInstance})
       this.teachingService.addTeaching(teching).subscribe(res=>{
-        console.log(JSON.stringify(res.body))
+        // console.log(JSON.stringify(res.body))
       })
     }
   }
@@ -156,12 +156,16 @@ export class CourseInstanceComponent implements OnInit {
 
   addStudent(){
     // console.log("Student cardNubmer: "+this.studentCardNumber);
-    this.enrollment.studentDTO = this.otherStudents.filter(s=>this.studentCardNumber===s.cardNumber)[0];
-    this.enrollment.courseInstanceDTO = this.courseInstance;
-    this.courseService.addEnrollment(this.enrollment).subscribe(() => {
-      this.getStudents(),
-      this.studentCardNumber = '';
-    });
+    if(this.otherStudents.filter(s=>this.studentCardNumber===s.cardNumber)[0]==undefined){
+      alert('--Select a student--')
+    }else{
+      this.enrollment.studentDTO = this.otherStudents.filter(s=>this.studentCardNumber===s.cardNumber)[0];
+      this.enrollment.courseInstanceDTO = this.courseInstance;
+      this.courseService.addEnrollment(this.enrollment).subscribe(() => {
+        this.getStudents(),
+        this.studentCardNumber = '';
+      });
+    }
   }
 
   removeStudent(student:Student){
@@ -169,10 +173,10 @@ export class CourseInstanceComponent implements OnInit {
     this.courseService.deleteEnrollment(enrollment).subscribe(()=>this.getStudents());
   }
 
-  getTeacher(){
-    console.log("Get teacher!")
-    this.userService.getCourseInstanceTeacher(this.courseInstance).subscribe(res =>{
-      console.log(JSON.stringify(res.body));
+  getTeacher(searchString:string){
+    // console.log("Get teacher!")
+    this.userService.getCourseInstanceTeacher(this.courseInstance,searchString).subscribe(res =>{
+      // console.log(JSON.stringify(res.body));
       this.teacher = res.body == null ? this.teacher:res.body;
       this.teacherUsername = this.teacher.userDTO.userName;
     })
@@ -184,12 +188,12 @@ export class CourseInstanceComponent implements OnInit {
         this.students = [];
         this.students = res.body==null ? []:res.body;
         this.getNumberPages();
-        this.userService.getCourseInstanceOtherStudents(this.courseInstance).
-          subscribe(res =>{
-            this.otherStudents = [];
-            this.otherStudents = res.body==null ? []:res.body;
-            // console.log('Other students: '+JSON.stringify(this.otherStudents));
-          });
+        // this.userService.getCourseInstanceOtherStudents(this.courseInstance,'').
+        //   subscribe(res =>{
+        //     this.otherStudents = [];
+        //     this.otherStudents = res.body==null ? []:res.body;
+        //     // console.log('Other students: '+JSON.stringify(this.otherStudents));
+        //   });
       });
   }
 
@@ -214,6 +218,39 @@ export class CourseInstanceComponent implements OnInit {
     console.log("CardNumber: "+student.cardNumber);
     console.log("Course id: "+this.courseInstance.id)
     this.router.navigate(['student-exam-detail/', this.courseInstance.id,student.cardNumber]);
+  }
+
+  searchStudents(event:Event){
+    const target= event.target as HTMLInputElement;
+    const searchString = target.value as string;
+    console.log(searchString)
+    this.userService.getCourseInstanceOtherStudents(this.courseInstance,searchString).
+    subscribe(res =>{
+      this.otherStudents = [];
+      this.otherStudents = res.body==null ? []:res.body;
+      // console.log('Other students: '+JSON.stringify(this.otherStudents));
+    });
+  }
+
+  searchTeacher(event:Event){
+    const target= event.target as HTMLInputElement;
+    const searchString = target.value as string;
+    console.log(searchString)
+    this.userService.getTeachers(-1,searchString)
+    .subscribe(res =>{
+        this.teachers = [];
+        this.teachers = res.body==null ? []:res.body;
+    });
+  }
+
+  searchSpecification(event:Event){
+    const target= event.target as HTMLInputElement;
+    const searchString = target.value as string;
+    console.log(searchString)
+    this.courseService.getCoursesSpecifications(-1,searchString).subscribe(res =>
+      {
+        this.coursesSpecifications = res.body==null ? []:res.body;
+      });
   }
 
   increaseNumberPage(){
