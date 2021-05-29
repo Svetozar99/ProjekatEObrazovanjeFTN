@@ -1,28 +1,51 @@
-<div class="form-group text-center">
-    <div class="row mx-auto w-50">
-        <h1 class="ml-3">Exam part</h1>
+<div class=" content text-center">
+    <div class=" row">
+      <div class=" col-md-8">
+        <div class=" card">
+          <div class=" card-header" style="background-color: rgba(39,41,61,255); color: white;"></div>
+          <div class=" card-body" style="background-color: rgba(39,41,61,255); color: white;">
+            
+            <h1>Exam part</h1>
+                <form class="text-center">
+                    <div class=" row ml-7">
+    
+                        <div class="col-md-4 px-md-1">
+                            <div class=" form-group">
+                                <b>Date:</b>
+                                <input *ngIf="this.mode === 'ADD'" type="datetime-local" class="form-control" [(ngModel)]="examPart.date" [ngModelOptions]="{standalone: true}">
+                                <input *ngIf="this.mode === 'EDIT'" type="datetime-local" class="form-control" [(ngModel)]="dateString" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                        <div class="col-md-4 px-md-1">
+                            <div class=" form-group">
+                                <b>Location:</b>
+                                <input type="text" class="form-control" [(ngModel)]="examPart.location" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                    </div>
+                        <div class="row ml-7">
+                            <div class="col-md-4 px-md-1">
+                                <div class=" form-group">
+                                <b>Points:</b>
+                                <input type="text" class="form-control" [(ngModel)]="examPart.points" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                        <div class="col-md-4 px-md-1">
+                            <div class="form-group">
+                                <b>Type:</b>
+                                <select class="form-control" [(ngModel)]="typeCode" [ngModelOptions]="{standalone: true}">
+                                    <option *ngFor="let type of examPartTypes" value="{{type.code}}">{{type.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    <div class="text-center">
+                        <button type="button" class=" btn btn-fill btn-danger" (click)="save()">✓</button>
+                        <button type="button" class=" btn btn-fill btn-danger" (click)="goBack()">X</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="mt-3 ml-4">
-        <b>Date:</b>
-        <input *ngIf="this.mode === 'ADD'" type="datetime-local" class="form-control col-3 d-inline ml-2" [(ngModel)]="examPart.date">
-        <input *ngIf="this.mode === 'EDIT'" type="datetime-local" class="form-control col-3 d-inline ml-2" [(ngModel)]="dateString">
-    </div>
-    <div class="mt-2">
-        <b>Location:</b>
-        <input type="text" class="form-control col-2 d-inline ml-2" [(ngModel)]="examPart.location">
-    </div>
-    <div class="mt-2 ml-3">
-        <b>Points:</b>
-        <input type="text" class="form-control col-2 d-inline ml-2" [(ngModel)]="examPart.points">
-    </div>
-    <div class="mt-2 ml-4">
-        <b>Type:</b>
-        <select class="form-control col-2 d-inline ml-2" [(ngModel)]="typeCode">
-            <option *ngFor="let type of examPartTypes" value="{{type.code}}">{{type.name}}</option>
-        </select>
-    </div>
-    <div class="ml-5">
-        <button type="button" class="btn btn-outline-success mt-3 ml-5" (click)='save()'>Save</button>
-        <button type="button" class="btn btn-outline-warning mt-3 ml-1" (click)='goBack()'>Cancel</button>
-    </div>
+</div>
+</div>
 </div>

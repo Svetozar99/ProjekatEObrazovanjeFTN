@@ -125,6 +125,15 @@
   background-color: rgb(85, 49, 49);
 }
 
+.ml-7{
+  margin-left: 10rem !important;
+}
+
+.black_text_color{
+  color: white;
+  background-color: rgba(30,30,47,255);
+}
+
 .layoutDark{
   background-color: rgb(32, 19, 19);
 }
