@@ -1,4 +1,4 @@
-<nav id="mainNavbar" class="navbar navbar-expand-sm navbar-dark bg-dark">
+<!-- <nav id="mainNavbar" class="navbar navbar-expand-sm navbar-dark bg-dark">
     <div class="container-fluid">
       <a routerLink="/home" class="navbar-brand">HOME</a>
       <button
@@ -17,7 +17,6 @@
         id="navbarSupportedContent"
         [ngClass]="{ collapse: collapsed, 'navbar-collapse': true }"
       >
-        <!-- right nav menus -->
         <ul class="navbar-nav ml-auto">
           <li routerLinkActive="active" class="nav-item">
             <a routerLink="/courses" class="nav-link"> Courses </a>
@@ -31,4 +30,24 @@
         </ul>
       </div>
     </div>
-  </nav>
+  </nav> -->
+  <div class="sidebar">
+    <div class="logo">
+      <a routerLink="/courses" class="simple-text logo-normal ml-2">
+        Home
+      </a>
+    </div>
+    <div class="sidebar-wrapper">
+      <ul class="nav">
+        <li routerLinkActive="active" class="nav-item">
+          <a routerLink="/courses" class="nav-link"> Courses </a>
+        </li>
+        <li routerLinkActive="active" class="nav-item">
+          <a routerLink="/teacher-exam-parts/0" class="nav-link"> Exam parts </a>
+        </li>
+        <li routerLinkActive="active" class="nav-item">
+          <a routerLink="/bs" class="nav-link" (click)="logout()"> Logout </a>
+        </li>
+      </ul>
+    </div>
+  </div>
