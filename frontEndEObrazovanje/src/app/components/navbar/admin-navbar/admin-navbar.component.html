@@ -43,7 +43,7 @@
       </div>
     </div>
   </nav> -->
-  <div class="sidebar proba">
+  <div class="sidebar">
     <div class="logo">
       <a href="https://www.creative-tim.com?ref=bda-sidebar-logo" class="simple-text logo-mini">
         <div class="logo-img">
@@ -65,15 +65,12 @@
         <li routerLinkActive="active" class="nav-item">
           <a routerLink="/teachers" class="nav-link"> Teachers </a>
         </li>
-        <li routerLinkActive="active" class="nav-item dropdown">
-          <div class="dropdown">
-            <button class="dropbtn bg-dark nav-link"> Courses </button>
-            <div class="dropdown-content">
-              <a routerLink="/courses">Instances</a>
-              <a href="courses-specifications">Specifications</a>
-            </div>
-          </div>
-       </li>
+        <li routerLinkActive="active" class="nav-item">
+          <a routerLink="/courses" class="nav-link">Courses instances</a>
+        </li>
+        <li routerLinkActive="active" class="nav-item">
+          <a routerLink="/courses-specifications" class="nav-link">Courses specifications</a>
+        </li>
         <li routerLinkActive="active" class="nav-item">
           <a routerLink="/bs" class="nav-link" (click)="logout()"> Logout </a>
       </li>

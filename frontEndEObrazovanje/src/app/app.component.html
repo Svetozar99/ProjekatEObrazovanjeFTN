@@ -1,8 +1,9 @@
-<div class="container">
+<div class="wrapper">
   <app-admin-navbar *ngIf="role === 'ROLE_ADMINISTRATOR'"></app-admin-navbar>
   <app-student-navbar *ngIf="role === 'ROLE_STUDENT'"></app-student-navbar>
   <app-teacher-navbar *ngIf="role === 'ROLE_TEACHER'"></app-teacher-navbar>
-  <div style="margin-top: 50px">
+  <!-- style="margin-top: 50px" -->
+  <div class="main-panel">
     <router-outlet (activate)="checkRole()"></router-outlet>
   </div>
 </div>
