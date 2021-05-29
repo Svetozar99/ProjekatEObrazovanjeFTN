@@ -20,7 +20,7 @@ export class DocumentsComponent implements OnInit {
   documents : Document[] | null = [];
   numberPages:number[] = [];
   numberPage:number = 0;
-
+  adminViewStudent = false;
   subscription: Subscription;
 
   @Input() student:Student = new Student({
@@ -39,6 +39,7 @@ export class DocumentsComponent implements OnInit {
   constructor(private documentsService:DocumentsService, private router: Router,private route: ActivatedRoute, private auths: AuthenticationService ,private studentDetail: StudentDetailComponent) { 
     if(auths.getRole() === 'ROLE_ADMINISTRATOR'){
       this.student = studentDetail.student;
+      this.adminViewStudent = true;
     }
     this.subscription = documentsService.RegenerateData$.subscribe(() =>
     this.geStudentDocuments());

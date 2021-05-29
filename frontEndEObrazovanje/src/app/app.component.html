@@ -5,6 +5,8 @@
   <!-- style="margin-top: 50px" -->
   <div class="main-panel">
     <app-navbar *ngIf="role === 'ROLE_ADMINISTRATOR' || role === 'ROLE_STUDENT' || role === 'ROLE_TEACHER'"></app-navbar>
-    <router-outlet (activate)="checkRole()"></router-outlet>
+    <div [ngClass]="{'content':role!=undefined}">
+      <router-outlet (activate)="checkRole()"></router-outlet>
+    </div>
   </div>
 </div>

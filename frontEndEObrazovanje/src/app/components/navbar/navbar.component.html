@@ -42,13 +42,13 @@
               href="javascript:void(0)"
               ngbDropdownToggle
             >
-              <div *ngIf="username!==''">
-                <div class="">
-                  <p>{{username}}</p>
-                </div>
-                <b class=" caret d-none d-lg-block d-xl-block ml-3"> </b>
-                <p class=" d-lg-none">Log out</p>
+            <div>
+              <div class="">
+                <p>{{username}}</p>
               </div>
+              <b class=" caret d-none d-lg-block d-xl-block ml-3"> </b>
+              <p class=" d-lg-none">Log out</p>
+            </div>
             </a>
             <ul class=" dropdown-navbar" ngbDropdownMenu>
               <li class=" nav-link">
@@ -58,9 +58,9 @@
               </li>
               <li class=" dropdown-divider"></li>
               <li class=" nav-link">
-                <a class=" nav-item" (click)="logout()" href="javascript:void(0)" ngbDropdownItem>
+                <button class=" nav-item" (click)="logout()" ngbDropdownItem>
                   Log out
-                </a>
+                </button>
               </li>
             </ul>
           </li>

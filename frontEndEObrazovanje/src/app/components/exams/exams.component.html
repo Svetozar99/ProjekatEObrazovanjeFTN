@@ -1,24 +1,28 @@
-<div class="main">
-    <h1 *ngIf="exams.length > 0" class="ml-5">Exams</h1>
-    <h3 *ngIf="exams.length == 0" class="ml-5">You have no exams!</h3>
-    <table class="table mx-auto w-75 mt-5" *ngIf="exams.length > 0">
-        <thead>
-            <tr>
-                <th class="text-center">Title</th>
-                <th class="text-center">Gradle</th>
-                <th class="text-center">Points</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let e of exams; let i = index; let odd = odd;">
-                <td class="text-center"><button class="btn btn-link" (click)="gotToViewExam(e)">{{ e.enrollmentDTO.courseInstanceDTO.courseSpecificationDTO.title }}</button></td>
-                <td class="text-center">{{ e.gradle }}</td>
-                <td class="text-center">{{ e.points }}</td>
-            </tr>
-        </tbody>
-        
-    </table> 
-    <!-- <div *ngIf="role !== 'ROLE_STUDENT'" class="ml-5" style="float: right; margin-right: 15%;">
-        <a class="btn btn-outline-primary mt-3 ml-5" routerLink="/add-exam" role="button">Add</a>
-    </div> -->
+<div class="content">
+    <div class="table_color">
+        <div class="main">
+            <h1 *ngIf="exams.length > 0" class="ml-5">Exams</h1>
+            <h3 *ngIf="exams.length == 0" class="ml-5">You have no exams!</h3>
+            <table class="table mx-auto w-75 mt-5" *ngIf="exams.length > 0">
+                <thead>
+                    <tr>
+                        <th class="text-center">Title</th>
+                        <th class="text-center">Gradle</th>
+                        <th class="text-center">Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let e of exams; let i = index; let odd = odd;">
+                        <td class="text-center"><button class="btn btn-link" (click)="gotToViewExam(e)">{{ e.enrollmentDTO.courseInstanceDTO.courseSpecificationDTO.title }}</button></td>
+                        <td class="text-center">{{ e.gradle }}</td>
+                        <td class="text-center">{{ e.points }}</td>
+                    </tr>
+                </tbody>
+                
+            </table> 
+            <!-- <div *ngIf="role !== 'ROLE_STUDENT'" class="ml-5" style="float: right; margin-right: 15%;">
+                <a class="btn btn-outline-primary mt-3 ml-5" routerLink="/add-exam" role="button">Add</a>
+            </div> -->
+        </div>
+    </div>
 </div>
