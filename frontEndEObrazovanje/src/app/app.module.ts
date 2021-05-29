@@ -28,8 +28,8 @@ import { ExamsService } from './components/exams/exams.service';
 import { DocumentsService } from './components/documents/documents.service';
 import { TeachingsService } from './components/teachings/teachings.service';
 import { TokenInterceptorService } from './services/token-interceptor.service';
-import { AdminNavbarComponent } from './components/navbar/admin-navbar/admin-navbar.component';
-import { StudentNavbarComponent } from './components/navbar/student-navbar/student-navbar.component';
+import { AdminSidebarComponent } from './components/sidebar/admin-sidebar/admin-sidebar.component';
+import { StudentSidebarComponent } from './components/sidebar/student-sidebar/student-sidebar.component';
 import { CoursesComponent } from './components/courses/courses.component';
 import { CoursesService } from './components/courses/courses.service';
 import { ViewCourseInstanceComponent } from './components/view-course-instance/view-course-instance.component';
@@ -48,12 +48,13 @@ import { StudentComponent } from './components/student/student.component';
 import { StudentService } from './components/student/student.service';
 import { StudentDetailComponent } from './components/student-detail/student-detail.component';
 import { DocumentsStudentComponent } from './components/documents-student/documents-student.component';
-import { TeacherNavbarComponent } from './components/navbar/teacher-navbar/teacher-navbar.component';
+import { TeacherSidebarComponent } from './components/sidebar/teacher-sidebar/teacher-sidebar.component';
 import { TeachingService } from './services/teaching.service';
 import { TeachersComponent } from './components/teachers/teachers.component';
 import { CoursesForStudentComponent } from './components/courses-for-student/courses-for-student.component';
 import { CourseInstanceForStudentService } from './components/courses-for-student/courses-for-student.service';
 import { ExamPartDetailComponent } from './components/exam-part-detail/exam-part-detail.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -74,8 +75,8 @@ import { ExamPartDetailComponent } from './components/exam-part-detail/exam-part
     AddPaymentComponent,
     AddExamPartComponent,
     ViewUserComponent,
-    AdminNavbarComponent,
-    StudentNavbarComponent,
+    AdminSidebarComponent,
+    StudentSidebarComponent,
     CoursesComponent,
     ViewCourseInstanceComponent,
     CoursesSpecificationsComponent,
@@ -85,10 +86,11 @@ import { ExamPartDetailComponent } from './components/exam-part-detail/exam-part
     StudentComponent,
     StudentDetailComponent,
     DocumentsStudentComponent,
-    TeacherNavbarComponent,
+    TeacherSidebarComponent,
     TeachersComponent,
     CoursesForStudentComponent,
     ExamPartDetailComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,

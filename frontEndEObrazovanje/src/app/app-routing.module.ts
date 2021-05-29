@@ -15,6 +15,7 @@ import { ExamPartDetailComponent } from './components/exam-part-detail/exam-part
 import { ExamsComponent } from './components/exams/exams.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 import { StudentDetailComponent } from './components/student-detail/student-detail.component';
 import { StudentExamDetailComponent } from './components/student-exam-detail/student-exam-detail.component';
 import { StudentComponent } from './components/student/student.component';

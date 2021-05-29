@@ -11,6 +11,7 @@ import { AuthenticationService } from './services/authentication.service';
 export class AppComponent {
 
   public role?: string = undefined;
+  public username = '';
 
   title = 'frontEndEObrazovanje';
   collapsed = true;
@@ -24,9 +25,12 @@ export class AppComponent {
       this.role = undefined;
 			return;
 		}
-
+    if(typeof(this.authenticationService.getLoggedUser().sub as unknown as string)==='string'){
+      this.username = this.authenticationService.getLoggedUser().sub as unknown as string;
+      console.log("Username: "+this.username)
+    }
     const jwt: JwtHelperService = new JwtHelperService();
 		this.role = jwt.decodeToken(item).roles[0].authority;
-    console.log(this.role)
+    // console.log(this.role)
 	}
 }

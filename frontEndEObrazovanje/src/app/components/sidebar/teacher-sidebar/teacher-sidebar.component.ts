@@ -5,10 +5,10 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-teacher-navbar',
-  templateUrl: './teacher-navbar.component.html',
-  styleUrls: ['./teacher-navbar.component.css']
+  templateUrl: './teacher-sidebar.component.html',
+  styleUrls: ['./teacher-sidebar.component.css']
 })
-export class TeacherNavbarComponent implements OnInit {
+export class TeacherSidebarComponent implements OnInit {
 
   @Input() collapsed:boolean;
 
@@ -21,22 +21,6 @@ export class TeacherNavbarComponent implements OnInit {
    }
 
   ngOnInit(): void {
-  }
-
-  logout(): void {
-    this.router.navigate(['login']);
-    localStorage.removeItem('loggedUser');
-    this.authenticationService.logout().subscribe(
-      result => {
-          console.log('Uspesni logout!');
-        // localStorage.removeItem('loggedUser');
-        // this.toastr.success(result);
-      },
-      error => {
-        console.log('Doslo je do greske!')
-        // this.toastr.error(error.error);
-      }
-    );
   }
 
 }

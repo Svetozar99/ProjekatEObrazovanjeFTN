@@ -6,10 +6,10 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-student-navbar',
-  templateUrl: './student-navbar.component.html',
-  styleUrls: ['./student-navbar.component.css']
+  templateUrl: './student-sidebar.component.html',
+  styleUrls: ['./student-sidebar.component.css']
 })
-export class StudentNavbarComponent implements OnInit {
+export class StudentSidebarComponent implements OnInit {
 
   @Input() collapsed:boolean;
 
@@ -20,22 +20,6 @@ export class StudentNavbarComponent implements OnInit {
       {
         this.collapsed = app.collapsed;
       }
-
-  logout(): void {
-    this.router.navigate(['login']);
-    localStorage.removeItem('loggedUser');
-    this.authenticationService.logout().subscribe(
-      result => {
-          console.log('Uspesni logout!');
-        // localStorage.removeItem('loggedUser');
-        // this.toastr.success(result);
-      },
-      error => {
-        console.log('Doslo je do greske!')
-        // this.toastr.error(error.error);
-      }
-    );
-  }
 
   ngOnInit(): void {
   }

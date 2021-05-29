@@ -5,11 +5,11 @@ import { AppComponent } from 'src/app/app.component';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
-  selector: 'app-admin-navbar',
-  templateUrl: './admin-navbar.component.html',
-  styleUrls: ['./admin-navbar.component.css']
+  selector: 'app-admin-sidebar',
+  templateUrl: './admin-sidebar.component.html',
+  styleUrls: ['./admin-sidebar.component.css']
 })
-export class AdminNavbarComponent implements OnInit {
+export class AdminSidebarComponent implements OnInit {
 
   @Input() collapsed:boolean;
 
@@ -20,19 +20,6 @@ export class AdminNavbarComponent implements OnInit {
           ) {
     this.collapsed = app.collapsed;
    }
-
-  logout(): void {
-    localStorage.removeItem('loggedUser');
-    this.authenticationService.logout().subscribe(
-			result => {
-				// this.toastr.success(result);
-				// this.router.navigate(['login']);
-			},
-			error => {
-				// this.toastr.error(error.error);
-			}
-		);
-  }
 
   ngOnInit(): void {
   }
