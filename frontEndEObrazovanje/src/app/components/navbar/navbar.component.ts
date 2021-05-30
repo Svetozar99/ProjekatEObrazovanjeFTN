@@ -197,7 +197,9 @@ export class NavbarComponent implements OnInit {
         // this.toastr.success(result);
       },
       error => {
-        console.log(JSON.stringify(error))
+        console.log(JSON.stringify(error));
+        localStorage.removeItem('loggedUser');
+        this.router.navigate(['/login']);
         // this.toastr.error(error.error);
       }
     );

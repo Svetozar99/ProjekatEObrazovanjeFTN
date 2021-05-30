@@ -28,7 +28,7 @@
                     <div class="form-group">
                         <b>Type:</b>
                         <select class="form-control" [(ngModel)]="typeCode" [ngModelOptions]="{standalone: true}">
-                            <option *ngFor="let type of examPartTypes" value="{{type.code}}">{{type.name}}</option>
+                            <option class="black_text_color" *ngFor="let type of examPartTypes" value="{{type.code}}">{{type.name}}</option>
                         </select>
                     </div>
                 </div>

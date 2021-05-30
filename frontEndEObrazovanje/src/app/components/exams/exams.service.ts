@@ -26,10 +26,10 @@ export class ExamsService{
     //     return this.http.get<Exam[]>(this.examsUrl, {observe:'response', headers:headers});
     // }
 
-    getExams(role:string): Observable<HttpResponse<Exam[]>> {
+    getExams(role:string,numberPage:number): Observable<HttpResponse<Exam[]>> {
         var url = '';
         if(role==='ROLE_STUDENT'){
-            url = this.examsUrl;
+            url = `${this.examsUrl}?page=${numberPage}&size=5`;
         }else if(role==='ROLE_ADMINISTRATOR'){
             url = `${this.examsUrl}/all-exams`;
         }
@@ -44,4 +44,10 @@ export class ExamsService{
     editExam(exam: Exam): Observable<HttpResponse<Exam>> {
         return this.http.put<Exam>(this.examsUrl, exam, {observe: 'response'});
     }
+
+    getNumberPage(): Observable<HttpResponse<number>> {
+        var url = `${this.examsUrl}/number-exams`
+        // console.log("Url: "+url)
+        return this.http.get<number>(url, {observe: 'response'});
+      }
 }

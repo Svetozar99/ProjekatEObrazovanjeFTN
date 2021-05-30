@@ -21,7 +21,8 @@ export class ExamsComponent implements OnInit {
 
   public role: string = '';
   subscription: Subscription;
-
+  numberPages:number[] = [];
+  numberPage:number = 0;
 
   constructor(private examService:ExamsService, private router: Router, private route: ActivatedRoute,private authenticationService: AuthenticationService) {
     this.role = this.authenticationService.getRole();
@@ -35,13 +36,45 @@ export class ExamsComponent implements OnInit {
   }
 
   getExams(){
-    this.examService.getExams(this.role).subscribe(
+    this.examService.getExams(this.role,this.numberPage).subscribe(
       response => {
         this.exams = response.body == null ? this.exams:response.body;
+        this.getNumberPages();
       });
+  }
+
+  getNumberPages(){
+    this.examService.getNumberPage().subscribe(res =>{
+      const num = res.body == null ? 0:res.body;
+      var i = 1;
+      this.numberPages = [];
+      for (let index = 0; index < num; index++) {
+        this.numberPages.push(i);
+        i++;
+      }
+    })
   }
 
   gotToViewExam(exam: Exam):void{
     this.router.navigate(['/exam-detail/student/', exam.id]);
+  }
+
+  increaseNumberPage(){
+    if(this.numberPage < this.numberPages.length-1){
+      this.numberPage=this.numberPage+1;
+      this.getExams();
+    }
+  }
+
+  reduceNumberPage(){
+    if(this.numberPage>=1){
+      this.numberPage=this.numberPage-1;
+      this.getExams();
+    }
+  }
+
+  setNumberPage(numberPage:number){
+    this.numberPage = numberPage-1;
+    this.getExams();
   }
 }
