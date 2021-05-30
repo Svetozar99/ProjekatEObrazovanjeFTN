@@ -42,13 +42,14 @@ export class CoursesService {
   }
 
   getNumberPage(mode:string,username:string,courseId:number): Observable<HttpResponse<number>> {
-    var url = `${this.coursesInstanceUrl}/number-course-instance?mode=${mode}&username=${username}`
+    var url = `${this.coursesInstanceUrl}/number-course-instance?mode=${mode}&username=${username}`;
     if(mode === 'STUDENTS_COURSE'){
       url = `api/student/number-students?courseId=${courseId}`
     }else if(this.authS.getRole()==='ROLE_TEACHER'){
       var user = this.authS.getLoggedUser();
       username = JSON.stringify(user.sub).split('"')[1];
       mode = 'TEACHER';
+      url = `${this.coursesInstanceUrl}/number-course-instance?mode=${mode}&username=${username}`;
     }else if(mode==="COURSE_SPECIFICATION"){
       url = `${this.coursesSpecificationUrl}/number-course-specification`
     }
