@@ -40,7 +40,7 @@ public class CourseInstanceController {
 	
 	@GetMapping(value = "/number-course-instance")
 	public ResponseEntity<Long> getNumberPage(@RequestParam String mode,@RequestParam String username){
-		System.out.println("\nPoziva se number-course-instance: ");
+		System.out.println("\nPoziva se number-course-instance: "+mode+" "+username);
 		Long num = (long)0;
 		if(mode.equals("ADMIN")) {
 			num = ci.countAll()/5;
