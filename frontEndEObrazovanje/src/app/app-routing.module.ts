@@ -44,6 +44,7 @@ const routes: Routes = [
   { path: 'documents', component: DocumentsComponent, canActivate: [RoleGuard] },
   { path: 'document', component: DocumentComponent, canActivate: [RoleGuard] },
   { path: 'document/:id', component: DocumentComponent, canActivate: [RoleGuard] },
+  { path: 'document/add-for/:username', component: DocumentComponent, canActivate: [RoleGuard] },
   { path: 'teachings', component: TeachingsComponent, canActivate: [RoleGuard] },
   { path: 'course-instance/:id', component: CourseInstanceComponent, canActivate: [RoleGuard] },
   { path: 'add-exam', component: AddExamComponent, canActivate: [RoleGuard] },

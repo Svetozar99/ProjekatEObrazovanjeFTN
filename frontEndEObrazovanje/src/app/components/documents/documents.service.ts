@@ -63,12 +63,8 @@ export class DocumentsService {
         })
     }
 
-    addDocument(document: Document): Observable<HttpResponse<Document>> {
+    addDocument(document: Document,username:string): Observable<HttpResponse<Document>> {
         console.log("Cuvam dokument!")
-        var username = 'undefined';
-        if(this.auths.getRole() === 'ROLE_ADMINISTRATOR'){
-            username = this.studentS.student.userDTO.userName;
-        }
         const url = `${this.documentUrl}?username=${username}`
         return this.http.post<Document>(url, document, {observe: 'response'});
     }

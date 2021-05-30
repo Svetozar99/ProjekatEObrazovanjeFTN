@@ -77,6 +77,10 @@ export class DocumentsComponent implements OnInit {
     );
   }
 
+  goToAddDocument(username:string){
+    this.router.navigate(['/document/add-for/', username]);
+  }
+
   downloadFile(document:Document): void {
     this.documentsService
       .downloadFile(document.url).subscribe(blob => {

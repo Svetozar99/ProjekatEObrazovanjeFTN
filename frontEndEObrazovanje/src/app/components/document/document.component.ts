@@ -80,7 +80,10 @@ export class DocumentComponent implements OnInit {
   }
 
   submitDocument(){
-    if (this.fileToUpload) {
+    if(this.document.typeDocumentDTO.code===''){
+      alert("--Select the document type--")
+    }
+    else if (this.fileToUpload) {
 
       const formData = new FormData();
 
@@ -90,9 +93,18 @@ export class DocumentComponent implements OnInit {
         const url:Url = res.body == null ? new Url({url:''}):res.body;
         this.document.url = url.url;
         console.log("Document: "+JSON.stringify(this.document))
-        this.documentsService.addDocument(this.document).subscribe(()=>{
-          this.goBack();
-        });
+        if (this.route.snapshot.params['username']) {
+          this.route.params.pipe(switchMap((params: Params) => 
+              this.documentsService.addDocument(this.document,params['username'])))
+            .subscribe(() => {
+              this.goBack();
+              }
+            );
+        }else{
+          this.documentsService.addDocument(this.document,'undefined').subscribe(()=>{
+            this.goBack();
+          });
+        }
       });
     }
   }

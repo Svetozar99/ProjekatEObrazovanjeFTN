@@ -41,7 +41,8 @@
           </ul>
         </nav>
       <div class="ml-5 text-right">
-          <a class="btn btn-outline-primary mt-3 ml-5" routerLink="/document" role="button">Add</a>
+          <a class="btn btn-outline-primary mt-3 ml-5" *ngIf="!adminViewStudent" routerLink="/document" role="button">Add</a>
+          <button class="btn btn-outline-primary mt-3 ml-5" (click)="goToAddDocument(student.userDTO.userName)" *ngIf="adminViewStudent">Add</button>
       </div>
   </div>
 </div>
