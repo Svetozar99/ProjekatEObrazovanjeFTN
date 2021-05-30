@@ -3,6 +3,8 @@ package ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.serviceInterface.
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Exam;
@@ -53,6 +55,18 @@ public class ExamService implements ExamServiceInterface {
 	@Override
 	public List<Exam> findByCourseInstance(Long courseId) {
 		return examRepository.findByEnrollment_courseInstance_id(courseId);
+	}
+
+	@Override
+	public Long countForStudent(String username) {
+		// TODO Auto-generated method stub
+		return examRepository.countByEnrollment_student_user_username(username);
+	}
+
+	@Override
+	public Page<Exam> examForStudent(String cardNum, Pageable page) {
+		// TODO Auto-generated method stub
+		return examRepository.findByEnrollment_student_cardNumber(cardNum, page);
 	}
 
 }

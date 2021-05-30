@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.dtos.ExamDTO;
 import ftn.projekat.eObrazovanje.ProjekatEObrazovanje20212022.model.Enrollment;
@@ -39,14 +42,14 @@ public class ExamController {
 	
 	@GetMapping()
 	@PreAuthorize("hasAnyRole('ROLE_STUDENT')")
-	public ResponseEntity<List<ExamDTO>> getAll(Principal principal){
+	public ResponseEntity<List<ExamDTO>> getAll(Principal principal,Pageable page){
 		String name = principal.getName();
 		
 		Student s = studServ.findByUser(name);
 		
 		System.out.println("card number is - " + s.getCardNumber());
 		
-		List<Exam> exams = examS.examPassedForStudent(s.getCardNumber());
+		Page<Exam> exams = examS.examForStudent(s.getCardNumber(),page);
 		
 		List<ExamDTO> dtos = new ArrayList<ExamDTO>();
 		
@@ -54,6 +57,17 @@ public class ExamController {
 			dtos.add(new ExamDTO(exam));
 		}
 		return new ResponseEntity<List<ExamDTO>>(dtos, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/number-exams")
+	public ResponseEntity<Long> getNumberPage(Principal principal){
+		System.out.println("\nPoziva se number-course-instance: ");
+		Long num = examS.countForStudent(principal.getName())/5;
+		Long mod = examS.countForStudent(principal.getName())%5;
+		if(mod>0) {
+			num ++;
+		}
+		return new ResponseEntity<Long>(num, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/all-exams")

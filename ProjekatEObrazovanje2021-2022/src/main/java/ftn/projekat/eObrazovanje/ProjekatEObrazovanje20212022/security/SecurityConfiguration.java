@@ -60,7 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
 			.authorizeRequests()
-				.antMatchers("/index.html", "/api/login").permitAll() //, "/api/register"
+				.antMatchers("/index.html", "/api/login", "/api/logOut").permitAll() //, "/api/register"
 //				.antMatchers(HttpMethod.POST, "/api/**")
 //					.hasAuthority("ROLE_ADMINISTRATOR") //only administrator can add and edit data
 				.anyRequest().authenticated();

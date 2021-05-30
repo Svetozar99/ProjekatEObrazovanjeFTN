@@ -373,6 +373,7 @@ public class UserController {
 	
 	@GetMapping(value = "/logOut", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> logoutUser() {
+		System.out.println("\nLog out!");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (!(auth instanceof AnonymousAuthenticationToken)){
