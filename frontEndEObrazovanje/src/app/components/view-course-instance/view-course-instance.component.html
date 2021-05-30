@@ -6,7 +6,7 @@
           <div class="col-md-3 px-md-1">
             <div class="form-group">
               <b>Course:</b>
-              <input class='form-control' (keyup)="searchSpecification($event)" list="coursesSpecifications" [(ngModel)]="courseSpecificationCode" className='form-control form-control-sm col-10'/>
+              <input class='form-control' (keyup)="searchSpecification($event)" list="coursesSpecifications" [(ngModel)]="courseSpecificationCode" [ngModelOptions]="{standalone: true}" className='form-control form-control-sm col-10'/>
               <datalist id='coursesSpecifications'>
                   <option *ngFor="let cs of coursesSpecifications" value="{{cs.code}}">{{cs.title}}</option>
               </datalist>
@@ -15,13 +15,13 @@
           <div class="col-md-3 px-md-1">
             <div class="form-group">
               <b>Start date:</b>
-              <input type="date" class="form-control" [(ngModel)]="courseInstance.startDate">
+              <input type="date" class="form-control" [(ngModel)]="courseInstance.startDate" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
           <div class="col-md-3 px-md-1">
             <div class="form-group">
               <b>End date:</b>
-              <input type="date" class="form-control" [(ngModel)]="courseInstance.endDate">
+              <input type="date" class="form-control" [(ngModel)]="courseInstance.endDate" [ngModelOptions]="{standalone: true}">
             </div>
           </div>
         </div>
