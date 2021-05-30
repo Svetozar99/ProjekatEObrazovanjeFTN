@@ -44,6 +44,7 @@ export class CourseInstanceComponent implements OnInit {
     private userService:UserService,
     private route: ActivatedRoute,
     private router: Router,
+    private location: Location,
     private studentS:StudentService,
     private authS:AuthenticationService,
     private teachingService:TeachingService) 
@@ -195,6 +196,11 @@ export class CourseInstanceComponent implements OnInit {
         //     // console.log('Other students: '+JSON.stringify(this.otherStudents));
         //   });
       });
+  }
+
+  goBack(): void {
+    console.log(this.location)
+    this.location.back();
   }
 
   getNumberPages(){
