@@ -1,6 +1,6 @@
 <div class="table_color">
     <div class="main color_text">
-        <h1 *ngIf="role === 'ROLE_STUDENT'" class="ml-5">Exam detail</h1>
+        <h1 *ngIf="role === 'ROLE_STUDENT'" class="ml-5 title">Exam detail</h1>
         <h1 *ngIf="role === 'ROLE_ADMINISTRATOR' || role==='ROLE_TEACHER'" class="ml-5">Exam parts</h1>
         <div *ngIf="role === 'ROLE_STUDENT'" class="row mx-auto w-75 mt-5">
             <div class="ml-5 col">
@@ -16,7 +16,7 @@
                 <b>ECTS:</b> <input type="text" readonly class="form-control ml-2 col-6 text-center" [(ngModel)]="exam.enrollmentDTO.courseInstanceDTO.courseSpecificationDTO.ects">
             </div>
         </div>
-        <table class="table mx-auto w-75 mt-5 color_text">
+        <table class="table mx-auto w-75 color_text">
             <thead class="color_text">
                 <tr>
                     <th class="text-center" *ngIf="teacherExamPart">Course</th>
