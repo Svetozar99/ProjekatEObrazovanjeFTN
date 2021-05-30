@@ -156,7 +156,7 @@ public class DocumentController {
 	@PostMapping()
 	@PreAuthorize("hasAnyRole('ROLE_ADMINISTRATOR', 'ROLE_STUDENT')")
 	public ResponseEntity<DocumentDTO> saveMyDocument(Principal principal, @RequestBody DocumentDTO dto, @RequestParam String username){
-		System.out.println("\nsaveMyDocument");
+		System.out.println("\nsaveMyDocument: "+username);
 		String name = principal.getName();
 		if(!username.equals("undefined")) {
 			name = username;
