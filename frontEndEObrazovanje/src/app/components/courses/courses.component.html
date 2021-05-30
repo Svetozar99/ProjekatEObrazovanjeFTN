@@ -1,7 +1,12 @@
-  <div class="table_color ">
-    <h1 class="ml-5 title">Courses</h1>
-    <table class="table mx-auto w-75 mt-5">
+  <div class="table_color " [ngClass]="{'pt-0 pb-0 pl-0 pr-0':teacher.id!=0}">
+    <h1 class="ml-5 title" *ngIf="teacher.id==0">Courses</h1>
+    <table class="table mx-auto w-75 ">
         <thead>
+            <tr>
+              <th colspan="4" class="text-center">
+                <h2>Courses</h2>
+              </th>
+            </tr>
             <tr>
                 <th class="text-center">Title</th>
                 <th class="text-center">Start date</th>
