@@ -74,13 +74,13 @@ export class RoleGuard implements CanActivate{
 		}else if(info.roles[0].authority.indexOf("ROLE_ADMINISTRATOR") === -1 && route.url.toString() === "view-user/:id"){
 			this.router.navigate(['/home']);
 			return false;
-		}else if(info.roles[0].authority.indexOf("ROLE_ADMINISTRATOR") === -1 && info.roles[0].authority.indexOf("ROLE_TEACHER") && route.url.toString() === "course-instance/exam-parts/:id"){
+		}else if(info.roles[0].authority.indexOf("ROLE_ADMINISTRATOR") === -1 && info.roles[0].authority.indexOf("ROLE_TEACHER") && info.roles[0].authority.indexOf("ROLE_STUDENT") && route.url.toString() === "course-instance/exam-parts/:id"){
 			this.router.navigate(['/home']);
 			return false;
 		}else if(info.roles[0].authority.indexOf("ROLE_TEACHER") === -1 && route.url.toString() === "teacher-exam-parts/:id"){
 			this.router.navigate(['/home']);
 			return false;
-		}else if(info.roles[0].authority.indexOf("ROLE_TEACHER") === -1 && route.url.toString() === "add-exam-part"){
+		}else if(info.roles[0].authority.indexOf("ROLE_TEACHER") === -1 && info.roles[0].authority.indexOf("ROLE_ADMINISTRATOR") === -1 && route.url.toString() === "add-exam-part"){
 			this.router.navigate(['/home']);
 			return false;
 		}else if(info.roles[0].authority.indexOf("ROLE_STUDENT") === -1 && route.url.toString() === "exams"){
