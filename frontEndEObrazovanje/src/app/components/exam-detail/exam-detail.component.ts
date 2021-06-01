@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
@@ -25,6 +26,7 @@ export class ExamDetailComponent implements OnInit {
   numberPage:number = 0;
 
   constructor(
+      private location: Location,
       private examDetailService: ExamPartService,
       private examService: ExamsService, 
       private route: ActivatedRoute,
@@ -129,6 +131,11 @@ export class ExamDetailComponent implements OnInit {
         i++;
       }
     })
+  }
+
+  goBack(): void {
+    console.log(this.location)
+    this.location.back();
   }
 
   isChecked(id:number):string{
