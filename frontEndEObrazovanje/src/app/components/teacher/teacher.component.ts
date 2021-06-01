@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
@@ -17,6 +18,7 @@ export class TeacherComponent implements OnInit {
   coursesInstances:CourseInstance[] | null = [];
 
   constructor(
+    private location: Location,
     private userService: UserService,
     private route: ActivatedRoute,
     private coursesService:CoursesService) {
@@ -43,4 +45,8 @@ export class TeacherComponent implements OnInit {
         );
   }
 
+  goBack(): void {
+    console.log(this.location)
+    this.location.back();
+  }
 }

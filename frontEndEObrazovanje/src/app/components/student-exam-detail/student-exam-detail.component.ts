@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
@@ -34,6 +35,7 @@ export class StudentExamDetailComponent implements OnInit {
   numberPage:number = 0;
 
   constructor(
+    private location: Location,
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService:AuthenticationService,
@@ -282,6 +284,11 @@ export class StudentExamDetailComponent implements OnInit {
       this.numberPage=this.numberPage+1;
       this.getExamParts();
     }
+  }
+
+  goBack(): void {
+    console.log(this.location)
+    this.location.back();
   }
 
   reduceNumberPage(){

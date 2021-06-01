@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -24,14 +25,16 @@ export class StudentDetailComponent implements OnInit {
   documents:Document[] = [];
   paymentsI:boolean=false;
   payments:Payment[] = [];
+  
   // role:Role=new Role({
   //   id:0,
   //   code:'',
   //   name:''
   // })
 
-  constructor(private studentS: StudentService,private userService: UserService, private route: ActivatedRoute,private router: Router) { 
+  constructor(private location: Location,private studentS: StudentService,private userService: UserService, private route: ActivatedRoute,private router: Router) { 
     // this.role = auths.getRole();
+    
     this.student = new Student({
       id:0,
       cardNumber: '',
@@ -71,5 +74,10 @@ export class StudentDetailComponent implements OnInit {
     }else if(button === 'courses'){
       this.courseI = true;
     }
+  }
+
+  goBack(): void {
+    console.log(this.location)
+    this.location.back();
   }
 }

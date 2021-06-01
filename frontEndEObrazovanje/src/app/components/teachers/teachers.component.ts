@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Teacher } from 'src/app/model/teacher';
@@ -14,7 +15,7 @@ export class TeachersComponent implements OnInit {
   numberPages:number[] = [];
   numberPage:number = 0;
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private location: Location, private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
     this.getTeachers();
@@ -75,4 +76,8 @@ export class TeachersComponent implements OnInit {
     return false;
   }
 
+  goBack(): void {
+    console.log(this.location)
+    this.location.back();
+  }
 }
